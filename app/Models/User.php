@@ -29,11 +29,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'site_id',
+        //'site_id',
         'depot_id',
-        'depots_site',
+        /* 'depots_site',
         'autoriser_autres_depots',
-        'sites_autorise',
+        'sites_autorise', */
     ];
 
     /**
@@ -55,9 +55,9 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'depots_site' => 'array',
+        /* 'depots_site' => 'array',
         'autoriser_autres_depots' => 'array',
-        'sites_autorise' => 'array',
+        'sites_autorise' => 'array', */
     ];
 
     /**
@@ -69,7 +69,7 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function site()
+    /* public function site()
     {
         return $this->belongsTo(Site::class);
     }
@@ -81,10 +81,10 @@ class User extends Authenticatable
     public function siteAutorise()
     {
         return $this->belongsTo(Site::class);
-    }
-    public function depot()
+    } */
+    /* public function depot()
     {
         return $this->belongsTo(Depot::class);
-    }
+    } */
 
 }

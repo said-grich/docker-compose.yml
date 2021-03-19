@@ -13,22 +13,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(ArticleSeeder::class);
+        /* $this->call(ArticleSeeder::class);
         $this->call(CaisseSeeder::class);
         $this->call(ClientSeeder::class);
         $this->call(CommercialSeeder::class);
         $this->call(CompteComptableSeeder::class);
-        $this->call(CompteSeeder::class);
-        $this->call(DepartementSeeder::class);
+        $this->call(CompteSeeder::class);*/
         $this->call(DepotSeeder::class);
         $this->call(FamilleSeeder::class);
+        $this->call(CategorieSeeder::class);
         $this->call(FournisseurSeeder::class);
         $this->call(LaratrustSeeder::class);
         $this->call(ModePaiementSeeder::class);
-        $this->call(SiteSeeder::class);
-        $this->call(SousFamilleSeeder::class);
-        $this->call(UniteSeeder::class);
-        $this->call(VentilationSeeder::class);
+        $this->call(ModePreparationSeeder::class);
+        $this->call(ProfilClientSeeder::class);
+        $this->call(PrepartionCuisineSeeder::class);
+        $this->call(PrepartionNettoyageSeeder::class);
+        $this->call(UniteAfficheeSeeder::class);
 
         // \App\Models\User::factory(10)->create();
     }

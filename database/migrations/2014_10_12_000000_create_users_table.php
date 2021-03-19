@@ -18,13 +18,6 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            //$table->string('site')->nullable();
-            $table->foreignId('site_id')->nullable();
-            $table->foreignId('depot_id');
-            $table->integer('ajouter_aut_sites_depots')->nullable();
-            $table->json('depots_site')->nullable();
-            $table->json('autoriser_autres_depots')->nullable();
-            $table->json('sites_autorise');
             $table->string('password');
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();

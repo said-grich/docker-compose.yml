@@ -15,16 +15,9 @@ class CreateDepotsTable extends Migration
     {
         Schema::create('depots', function (Blueprint $table) {
             $table->id();
-            $table->string('code');
-            $table->string('name');
-            $table->foreignId('site_id');
-            $table->string('adresse');
+            $table->string('nom');
             $table->string('ville');
-            $table->string('pays');
-            $table->string('mode_stockage');
-            $table->json('sites_locataires')->nullable();
-            //$table->integer('phone');
-            $table->integer('mobile')->nullable();
+            //$table->integer('region_id');
             $table->timestamps();
         });
     }

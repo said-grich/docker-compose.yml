@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFamilleTable extends Migration
+class CreateUniteAfficheesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateFamilleTable extends Migration
      */
     public function up()
     {
-        Schema::create('familles', function (Blueprint $table) {
+        Schema::create('unite_affichees', function (Blueprint $table) {
             $table->id();
-            $table->string('nom')->unique();
+            $table->string('nom');
             $table->timestamps();
         });
-
     }
 
     /**
@@ -28,6 +27,6 @@ class CreateFamilleTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('familles');
+        Schema::dropIfExists('unite_affichees');
     }
 }
