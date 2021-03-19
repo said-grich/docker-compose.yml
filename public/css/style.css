@@ -1,0 +1,189 @@
+/* Custom Style */
+
+/* Header - Bar */
+.header-fixed.subheader-fixed .header {
+    -webkit-box-shadow: 0 10px 30px 0 rgb(82 63 105 / 8%) !important;
+    box-shadow: 0 10px 30px 0 rgb(82 63 105 / 8%) !important;
+}
+@media (min-width: 992px){
+    .header-fixed.subheader-fixed.subheader-enabled .wrapper {
+        padding-top: 85px;
+    }
+}
+
+/* Aside - Bar */
+.brand {
+    background-color: #6366f1;
+}
+.aside {
+    background-color: #6366f1;
+}
+.aside-menu {
+    background-color: #6366F1;
+}
+.aside-menu .menu-nav > .menu-item > .menu-heading,
+.aside-menu .menu-nav > .menu-item > .menu-link {
+    height: 80px !important;
+    width: 140px !important;
+    right: -5px !important;
+    border-radius: 3rem 0 0 3rem !important;
+}
+.aside-menu .menu-nav > .menu-item.menu-item-active > .menu-heading,
+.aside-menu .menu-nav > .menu-item.menu-item-active > .menu-link {
+    background-color: #4F46E5;
+}
+.aside-menu .menu-nav > .menu-item.menu-item-active:before,
+.aside-menu .menu-nav > .menu-item.menu-item-active:after {
+    position: absolute;
+    right: 0;
+    content: "";
+    width: 4rem;
+    height: 4rem;
+    background-color: #6366f1;
+    border-radius: 100%;
+    z-index: 1;
+}
+.aside-menu .menu-nav > .menu-item.menu-item-active:before {
+    top: -4rem;
+}
+.aside-menu .menu-nav > .menu-item.menu-item-active:after {
+    bottom: -4rem;
+}
+.aside-menu .menu-nav > .menu-item.menu-item-active > .menu-link:before,
+.aside-menu .menu-nav > .menu-item.menu-item-active > .menu-link:after {
+    position: absolute;
+    right: 0;
+    content: "";
+    width: 3rem;
+    height: 3rem;
+    background-color: #4F46E5;
+}
+.aside-menu .menu-nav > .menu-item.menu-item-active > .menu-link:before {
+    top: -3rem;
+    border-radius: 3rem 3rem 0 3rem;
+}
+.aside-menu .menu-nav > .menu-item.menu-item-active > .menu-link:after {
+    bottom: -3rem;
+    border-radius: 3rem 0 3rem 3rem;
+}
+.aside-menu .menu-nav > .menu-item.menu-item-active > .menu-heading .menu-text,
+.aside-menu .menu-nav > .menu-item.menu-item-active > .menu-link .menu-text {
+    color: #e0e7ff;
+}
+.aside-menu .menu-nav > .menu-item > .menu-heading .menu-icon.svg-icon svg g [fill],
+.aside-menu .menu-nav > .menu-item > .menu-link .menu-icon.svg-icon svg g [fill] {
+    fill: #E0E7FF;
+}
+.aside-menu .menu-nav > .menu-item.menu-item-hover > .menu-heading .menu-icon.svg-icon svg g [fill],
+.aside-menu .menu-nav > .menu-item.menu-item-hover > .menu-link .menu-icon.svg-icon svg g [fill] {
+    fill: #312E81 !important;
+}
+@media (min-width: 992px){
+    .aside .aside-menu .menu-nav > .menu-item > .menu-link .menu-text {
+        font-size: 0.95rem;
+    }
+}
+.aside-menu .menu-nav > .menu-item > .menu-heading .menu-text,
+.aside-menu .menu-nav > .menu-item > .menu-link .menu-text {
+    color: #E0E7FF;
+    text-align: center;
+    z-index: 2;
+}
+.aside-menu .menu-nav > .menu-item.menu-item-hover > .menu-heading .menu-text,
+.aside-menu .menu-nav > .menu-item.menu-item-hover > .menu-link .menu-text {
+    color: #312E81 !important;
+}
+.aside-menu .menu-nav > .menu-item > .menu-heading .menu-arrow,
+.aside-menu .menu-nav > .menu-item > .menu-link .menu-arrow {
+    color: #e0e7ff;
+
+}
+.aside-menu .menu-nav > .menu-item.menu-item-hover > .menu-heading .menu-arrow,
+.aside-menu .menu-nav > .menu-item.menu-item-hover > .menu-link .menu-arrow {
+    color: #312E81 !important;
+}
+@media (min-width: 992px){
+    .aside-minimize:not(.aside-minimize-hover) .aside-menu .menu-nav .menu-item:not([data-menu-submenu-mode=accordion]).menu-item-hover > .menu-submenu .menu-subnav,
+    .aside-menu.aside-menu-dropdown .menu-nav .menu-item:not([data-menu-submenu-mode=accordion]).menu-item-hover > .menu-submenu .menu-subnav {
+        padding: 10px 0;
+    }
+}
+.aside-menu .menu-nav > .menu-item .menu-submenu .menu-subnav {
+    max-height: 300px;
+    overflow-y: overlay;
+}
+.aside-menu .menu-nav > .menu-item .menu-submenu .menu-item > .menu-heading i,
+.aside-menu .menu-nav > .menu-item .menu-submenu .menu-item > .menu-link i {
+    margin-top: .4rem;
+    margin-right: 1rem;
+    width: 2rem;
+    text-align: center;
+}
+
+/* Cards */
+.card {
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 10%), 0 10px 10px -5px rgb(0 0 0 / 4%) !important;
+    border-radius: 3rem;
+}
+.card-rounded {
+    border-radius: 0 0 3rem 3rem;
+}
+.card-header:first-child {
+    border-radius: 3rem 3rem 0 0;
+}
+.card-rounded-bottom .apexcharts-canvas svg {
+    border-bottom-left-radius: 3rem;
+    border-bottom-right-radius: 3rem;
+}
+
+/* Form - Inputs */
+input.form-control,
+textarea.form-control,
+select.form-control {
+    background-color: #f3f6f9;
+    transition: .2s ease all;
+    -moz-transition: .2s ease all;
+    -webkit-transition: .2s ease all;
+}
+input.form-control:focus,
+textarea.form-control:focus,
+select.form-control:focus {
+    background-color: #ffffff;
+    border: solid 1px #6366f1;
+}
+input.form-control ~ label,
+textarea.form-control ~ label,
+select.form-control ~ label {
+    position: absolute;
+    left: 1rem;
+    top: 10px;
+    color: #b5b5c3 !important;
+    z-index: 3;
+    transition: .2s ease all;
+    -moz-transition: .2s ease all;
+    -webkit-transition: .2s ease all;
+}
+.input-group-append input.form-control ~ label,
+.input-group-append select.form-control ~ label {
+    left: 1rem;
+}
+.input-group-prepend input.form-control ~ label,
+.input-group-prepend select.form-control ~ label {
+    left: 4.8rem;
+}
+input.form-control:focus ~ label,
+input.form-control:not(:placeholder-shown) ~ label,
+textarea.form-control:focus ~ label,
+textarea.form-control:not(:placeholder-shown) ~ label,
+select.form-control:focus ~ label,
+select.form-control:valid ~ label {
+    left: 0;
+    top: -20px;
+    color: #6366f1 !important;
+}
+
+/* Buttons */
+.btn.btn-primary:hover:not(.btn-text):not(:disabled):not(.disabled), .btn.btn-primary:focus:not(.btn-text), .btn.btn-primary.focus:not(.btn-text) {
+    background-color: #4F46E5;
+    border-color: #4F46E5;
+}
