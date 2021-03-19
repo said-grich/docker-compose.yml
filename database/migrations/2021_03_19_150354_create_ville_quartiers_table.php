@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSousCategoriesTable extends Migration
+class CreateVilleQuartiersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateSousCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('sous_categories', function (Blueprint $table) {
+        Schema::create('ville_quartiers', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
-            $table->unsignedBigInteger('categorie_id');
-            $table->foreign('categorie_id')->references('id')->on('categories');
+            $table->unsignedBigInteger('ville_zone_id');
+            $table->foreign('ville_zone_id')->references('id')->on('ville_zones');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateSousCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sous_categories');
+        Schema::dropIfExists('ville_quartiers');
     }
 }

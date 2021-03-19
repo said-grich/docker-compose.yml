@@ -17,29 +17,13 @@ class DepotSeeder extends Seeder
         Depot::create([
             'nom' => 'Marrakech',
             'ville' => 'Marrakech',
+            'region_id'=> 2,
         ]);
         Depot::create([
             'nom' => 'Casablance',
             'ville' => 'Casablanca',
+            'region_id'=> 1,
         ]);
-        /* Depot::create([
-            'code' => 'D00003',
-            'nom' => 'VOIEXPRESS',
-            'site_id'=> 3,
-            'adresse' => 'casa',
-            'ville' => 'Casablanca',
-            'pays' => 'Maroc',
-            'mode_stockage' => '',
-        ]);
-        Depot::create([
-            'code' => 'D00005',
-            'nom' => '	EFK',
-            'site_id'=> 3,
-            'adresse' => 'casa',
-            'ville' => 'Casablanca',
-            'pays' => 'Maroc',
-            'mode_stockage' => '',
-        ]); */
 
     }
 }

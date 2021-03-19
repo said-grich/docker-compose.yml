@@ -15,28 +15,13 @@ class ModePreparationSeeder extends Seeder
     public function run()
     {
         ModePreparation::create([
-            'nom' => 'Filet sans peau',
+            'nom' => 'Cuisine',
         ]);
 
         ModePreparation::create([
-            'nom' => 'Filet avec peau',
+            'nom' => 'Nettoyage',
         ]);
 
-        ModePreparation::create([
-            'nom' => 'Vidé / Avec écailles / Ouverture dos',
-        ]);
-
-        ModePreparation::create([
-            'nom' => 'Vidé/ Sans écailles / Ouverture ventre',
-        ]);
-
-        ModePreparation::create([
-            'nom' => 'Vidé / sans peau / lamelles',
-        ]);
-
-        ModePreparation::create([
-            'nom' => 'Vidé / sans peau / anneaux',
-        ]);
 
 
     }

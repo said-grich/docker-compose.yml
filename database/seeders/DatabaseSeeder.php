@@ -19,9 +19,11 @@ class DatabaseSeeder extends Seeder
         $this->call(CommercialSeeder::class);
         $this->call(CompteComptableSeeder::class);
         $this->call(CompteSeeder::class);*/
+        $this->call(RegionSeeder::class);
         $this->call(DepotSeeder::class);
         $this->call(FamilleSeeder::class);
         $this->call(CategorieSeeder::class);
+        $this->call(SousCategorieSeeder::class);
         $this->call(FournisseurSeeder::class);
         $this->call(LaratrustSeeder::class);
         $this->call(ModePaiementSeeder::class);

@@ -9,24 +9,8 @@ class Client extends Model
 {
     use HasFactory;
 
-    const STATUTS = [
-        'lead' => 'Lead',
-        'active'=> 'Active',
-        'non-active'=> 'Non Active'
-    ];
-
-    protected $fillable = [
-        'name',
-        'phone',
-        'ville',
-    ];
-
-    protected $casts = [
-        'tags' => 'array'
-    ];
-
-    public function client()
+    public function profil()
     {
-        return $this->hasMany(Devis::class);
+        return $this->belongsTo(ProfilClient::class);
     }
 }
