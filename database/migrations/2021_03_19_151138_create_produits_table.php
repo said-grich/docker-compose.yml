@@ -15,7 +15,7 @@ class CreateProduitsTable extends Migration
     {
         Schema::create('produits', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
+            $table->string('nom',100);
             $table->float('pas');
             $table->integer('code_comptable');
             $table->integer('code_analytique');
@@ -25,13 +25,15 @@ class CreateProduitsTable extends Migration
             $table->unsignedBigInteger('famille_id');
             $table->unsignedBigInteger('mode_vente_id');
             $table->unsignedBigInteger('unite_affichee_id');
+            //$table->unsignedBigInteger('preparation_type_id');
+
 
             $table->foreign('categorie_id')->references('id')->on('categories');
             $table->foreign('sous_categorie_id')->references('id')->on('sous_categories');
             $table->foreign('famille_id')->references('id')->on('familles');
             $table->foreign('mode_vente_id')->references('id')->on('mode_ventes');
             $table->foreign('unite_affichee_id')->references('id')->on('unite_affichees');
-            //$table->foreign('unite_affichee_id')->references('id')->on('unite_affichees');
+            //$table->foreign('preparation_type_id')->references('id')->on('preparation_types');
 
 
 

@@ -15,6 +15,7 @@ class CreateModeLivraisonsTable extends Migration
     {
         Schema::create('mode_livraisons', function (Blueprint $table) {
             $table->id();
+            $table->string('nom', 50);
             $table->timestamps();
         });
     }

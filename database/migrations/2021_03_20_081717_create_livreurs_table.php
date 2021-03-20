@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateVilleQuartiersTable extends Migration
+class CreateLivreursTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,15 @@ class CreateVilleQuartiersTable extends Migration
      */
     public function up()
     {
-        Schema::create('ville_quartiers', function (Blueprint $table) {
+        Schema::create('livreurs', function (Blueprint $table) {
             $table->id();
             $table->string('nom',80);
-            $table->unsignedBigInteger('ville_zone_id');
-            $table->foreign('ville_zone_id')->references('id')->on('ville_zones');
+            $table->string('cin');
+            $table->string('tel');
+            $table->string('type');
+            $table->boolean('active')->default(false);
+            $table->unsignedBigInteger('ville_id');
+            $table->foreign('ville_id')->references('id')->on('villes');
             $table->timestamps();
         });
     }
@@ -29,6 +33,6 @@ class CreateVilleQuartiersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ville_quartiers');
+        Schema::dropIfExists('livreurs');
     }
 }

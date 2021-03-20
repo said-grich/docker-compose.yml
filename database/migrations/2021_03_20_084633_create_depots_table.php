@@ -15,7 +15,7 @@ class CreateDepotsTable extends Migration
     {
         Schema::create('depots', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
+            $table->string('nom',80);
             $table->string('ville');
             $table->unsignedBigInteger('region_id');
             $table->foreign('region_id')->references('id')->on('regions');

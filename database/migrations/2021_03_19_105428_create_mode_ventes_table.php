@@ -15,7 +15,7 @@ class CreateModeVentesTable extends Migration
     {
         Schema::create('mode_ventes', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
+            $table->string('nom',50);
             $table->timestamps();
         });
     }

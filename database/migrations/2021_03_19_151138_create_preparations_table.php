@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTypesUtilisateursTable extends Migration
+class CreatePreparationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class CreateTypesUtilisateursTable extends Migration
      */
     public function up()
     {
-        Schema::create('types_utilisateurs', function (Blueprint $table) {
+        Schema::create('preparations', function (Blueprint $table) {
             $table->id();
+            $table->string('nom',80);
+            $table->unsignedBigInteger('mode_preparation_id');
+            $table->foreign('mode_preparation_id')->references('id')->on('mode_preparations');
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ class CreateTypesUtilisateursTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('types_utilisateurs');
+        Schema::dropIfExists('preparations');
     }
 }

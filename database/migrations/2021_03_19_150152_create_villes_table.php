@@ -15,7 +15,7 @@ class CreateVillesTable extends Migration
     {
         Schema::create('villes', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
+            $table->string('nom',80);
             $table->unsignedBigInteger('region_id');
             $table->foreign('region_id')->references('id')->on('regions');
             $table->timestamps();

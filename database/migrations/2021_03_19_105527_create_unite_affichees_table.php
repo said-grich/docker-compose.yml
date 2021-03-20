@@ -15,7 +15,7 @@ class CreateUniteAfficheesTable extends Migration
     {
         Schema::create('unite_affichees', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
+            $table->string('nom',10);
             $table->timestamps();
         });
     }

@@ -15,7 +15,7 @@ class CreateModePreparationsTable extends Migration
     {
         Schema::create('mode_preparations', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
+            $table->string('nom',80);
             $table->timestamps();
         });
     }
