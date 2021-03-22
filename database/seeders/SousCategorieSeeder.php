@@ -112,6 +112,11 @@ class SousCategorieSeeder extends Seeder
             'categorie_id' => 6 ,
         ]);
 
+        SousCategorie::create([
+            'nom' => 'Fish',
+            'categorie_id' => 6 ,
+        ]);
+
         ///// Poissons Epicerie
 
         SousCategorie::create([
@@ -119,10 +124,6 @@ class SousCategorieSeeder extends Seeder
             'categorie_id' => 7 ,
         ]);
 
-        SousCategorie::create([
-            'nom' => 'Fish',
-            'categorie_id' => 6 ,
-        ]);
 
     }
 }

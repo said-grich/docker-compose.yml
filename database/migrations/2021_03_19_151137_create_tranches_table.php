@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProduitTranchesTable extends Migration
+class CreateTranchesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateProduitTranchesTable extends Migration
      */
     public function up()
     {
-        Schema::create('produit_tranches', function (Blueprint $table) {
+        Schema::create('tranches', function (Blueprint $table) {
             $table->id();
-            //$table->unsignedBigInteger('tranche_id');
-            $table->foreignId('produit_id');
-            $table->foreignId('tranche_id');
+            $table->string('nom',80);
+            $table->string('type',80);
+            $table->float('min_poids')->nullable();
+            $table->float('max_poids')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateProduitTranchesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('produit_tranches');
+        Schema::dropIfExists('tranches');
     }
 }

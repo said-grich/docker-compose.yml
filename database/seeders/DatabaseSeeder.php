@@ -29,8 +29,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ModePaiementSeeder::class);
         $this->call(ModePreparationSeeder::class);
         $this->call(ProfilClientSeeder::class);
-        /* $this->call(PrepartionCuisineSeeder::class);
-        $this->call(PrepartionNettoyageSeeder::class); */
+        $this->call(PreparationSeeder::class);
+        //$this->call(PrepartionNettoyageSeeder::class);
         $this->call(UniteAfficheeSeeder::class);
 
         // \App\Models\User::factory(10)->create();

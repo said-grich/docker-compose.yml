@@ -20,7 +20,7 @@ class CreateProduitsTable extends Migration
             $table->integer('code_comptable');
             $table->integer('code_analytique');
 
-            $table->unsignedBigInteger('categorie_id');
+            //$table->unsignedBigInteger('categorie_id');
             $table->unsignedBigInteger('sous_categorie_id');
             $table->unsignedBigInteger('famille_id');
             $table->unsignedBigInteger('mode_vente_id');
@@ -28,7 +28,7 @@ class CreateProduitsTable extends Migration
             //$table->unsignedBigInteger('preparation_type_id');
 
 
-            $table->foreign('categorie_id')->references('id')->on('categories');
+            //$table->foreign('categorie_id')->references('id')->on('categories');
             $table->foreign('sous_categorie_id')->references('id')->on('sous_categories');
             $table->foreign('famille_id')->references('id')->on('familles');
             $table->foreign('mode_vente_id')->references('id')->on('mode_ventes');
