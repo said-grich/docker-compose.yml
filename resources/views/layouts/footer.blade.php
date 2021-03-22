@@ -7,7 +7,7 @@
         {{--begin::Copyright--}}
         <div class="text-dark order-2 order-md-1">
             <span class="text-muted font-weight-bold mr-2">2021©</span>
-            <a href="http://gcam.com/" target="_blank" class="text-dark-75 text-hover-primary">GCAM</a>
+            <a href="http://flouka.ma/" target="_blank" class="text-dark-75 text-hover-primary">Flouka.ma</a>
         </div>
         {{--end::Copyright--}}
 

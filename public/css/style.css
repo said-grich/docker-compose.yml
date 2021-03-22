@@ -13,13 +13,13 @@
 
 /* Aside - Bar */
 .brand {
-    background-color: #6366f1;
+    background-color: #0235bd;
 }
 .aside {
-    background-color: #6366f1;
+    background-color: #0046ce;
 }
 .aside-menu {
-    background-color: #6366F1;
+    background-color: #0046ce;
 }
 .aside-menu .menu-nav > .menu-item > .menu-heading,
 .aside-menu .menu-nav > .menu-item > .menu-link {
@@ -30,7 +30,7 @@
 }
 .aside-menu .menu-nav > .menu-item.menu-item-active > .menu-heading,
 .aside-menu .menu-nav > .menu-item.menu-item-active > .menu-link {
-    background-color: #4F46E5;
+    background-color: #0235bd;
 }
 .aside-menu .menu-nav > .menu-item.menu-item-active:before,
 .aside-menu .menu-nav > .menu-item.menu-item-active:after {
@@ -38,16 +38,19 @@
     right: 0;
     content: "";
     width: 4rem;
-    height: 4rem;
-    background-color: #6366f1;
-    border-radius: 100%;
+    height: 2rem;
+    background-color: #0046ce;
     z-index: 1;
 }
 .aside-menu .menu-nav > .menu-item.menu-item-active:before {
-    top: -4rem;
+    top: -2rem;
+    border-bottom-left-radius: 2rem;
+    border-bottom-right-radius: 2rem;
 }
 .aside-menu .menu-nav > .menu-item.menu-item-active:after {
-    bottom: -4rem;
+    bottom: -2rem;
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
 }
 .aside-menu .menu-nav > .menu-item.menu-item-active > .menu-link:before,
 .aside-menu .menu-nav > .menu-item.menu-item-active > .menu-link:after {
@@ -55,20 +58,20 @@
     right: 0;
     content: "";
     width: 3rem;
-    height: 3rem;
-    background-color: #4F46E5;
+    height: 2rem;
+    background-color: #0235bd;
 }
 .aside-menu .menu-nav > .menu-item.menu-item-active > .menu-link:before {
-    top: -3rem;
+    top: -2rem;
     border-radius: 3rem 3rem 0 3rem;
 }
 .aside-menu .menu-nav > .menu-item.menu-item-active > .menu-link:after {
-    bottom: -3rem;
+    bottom: -2rem;
     border-radius: 3rem 0 3rem 3rem;
 }
 .aside-menu .menu-nav > .menu-item.menu-item-active > .menu-heading .menu-text,
 .aside-menu .menu-nav > .menu-item.menu-item-active > .menu-link .menu-text {
-    color: #e0e7ff;
+    color: #E0E7FF;
 }
 .aside-menu .menu-nav > .menu-item > .menu-heading .menu-icon.svg-icon svg g [fill],
 .aside-menu .menu-nav > .menu-item > .menu-link .menu-icon.svg-icon svg g [fill] {
@@ -77,6 +80,10 @@
 .aside-menu .menu-nav > .menu-item.menu-item-hover > .menu-heading .menu-icon.svg-icon svg g [fill],
 .aside-menu .menu-nav > .menu-item.menu-item-hover > .menu-link .menu-icon.svg-icon svg g [fill] {
     fill: #312E81 !important;
+}
+.aside-menu .menu-nav > .menu-item.menu-item-active > .menu-heading .menu-icon.svg-icon svg g [fill],
+.aside-menu .menu-nav > .menu-item.menu-item-active > .menu-link .menu-icon.svg-icon svg g [fill] {
+    fill: #E0E7FF;
 }
 @media (min-width: 992px){
     .aside .aside-menu .menu-nav > .menu-item > .menu-link .menu-text {

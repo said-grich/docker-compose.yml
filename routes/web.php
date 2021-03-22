@@ -22,13 +22,13 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/create-fournisseur', \App\Http\Livewire\Paramétrage\CreateFournisseur::class)->name('create-fournisseur');
-Route::middleware(['auth:sanctum', 'verified'])->get('/create-famille', \App\Http\Livewire\Paramétrage\CreateFamille::class)->name('create-famille');
-Route::middleware(['auth:sanctum', 'verified'])->get('/create-sous-famille', \App\Http\Livewire\Paramétrage\CreateSousFamille::class)->name('create-sous-famille');
-Route::middleware(['auth:sanctum', 'verified'])->get('/create-article', \App\Http\Livewire\Paramétrage\CreateArticle::class)->name('create-article');
+Route::middleware(['auth:sanctum', 'verified'])->get('/create-fournisseur', \App\Http\Livewire\Parametrage\CreateFournisseur::class)->name('create-fournisseur');
+Route::middleware(['auth:sanctum', 'verified'])->get('/create-famille', \App\Http\Livewire\Parametrage\CreateFamille::class)->name('create-famille');
+Route::middleware(['auth:sanctum', 'verified'])->get('/create-sous-famille', \App\Http\Livewire\Parametrage\CreateSousFamille::class)->name('create-sous-famille');
+Route::middleware(['auth:sanctum', 'verified'])->get('/create-article', \App\Http\Livewire\Parametrage\CreateArticle::class)->name('create-article');
 Route::middleware(['auth:sanctum', 'verified'])->get('/create-departement', \App\Http\Livewire\CreateDepartement::class)->name('create-departement');
-Route::middleware(['auth:sanctum', 'verified'])->get('/create-depot', \App\Http\Livewire\Paramétrage\CreateDepot::class)->name('create-depot');
-Route::middleware(['auth:sanctum', 'verified'])->get('/create-site', \App\Http\Livewire\Paramétrage\CreateSite::class)->name('create-site');
+Route::middleware(['auth:sanctum', 'verified'])->get('/create-depot', \App\Http\Livewire\Parametrage\CreateDepot::class)->name('create-depot');
+Route::middleware(['auth:sanctum', 'verified'])->get('/create-site', \App\Http\Livewire\Parametrage\CreateSite::class)->name('create-site');
 Route::middleware(['auth:sanctum', 'verified'])->get('/stock', \App\Http\Livewire\Etat\Stock::class)->name('stock');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/create-demande-achat', \App\Http\Livewire\Achat\CreateDemandeAchat::class)->name('create-demande-achat');
@@ -43,8 +43,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/show-bon-commande', \App\
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/create-bon-achat', \App\Http\Livewire\Achat\CreateBonAchat::class)->name('create-bon-achat');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/create-client', \App\Http\Livewire\Paramétrage\CreateClient::class)->name('create-client');
-Route::middleware(['auth:sanctum', 'verified'])->get('/edit-client', \App\Http\Livewire\Paramétrage\EditClient::class)->name('edit-client');
+Route::middleware(['auth:sanctum', 'verified'])->get('/create-client', \App\Http\Livewire\Parametrage\CreateClient::class)->name('create-client');
+Route::middleware(['auth:sanctum', 'verified'])->get('/edit-client', \App\Http\Livewire\Parametrage\EditClient::class)->name('edit-client');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/create-devis', \App\Http\Livewire\Vente\CreateDevis::class)->name('create-devis');
 Route::middleware(['auth:sanctum', 'verified'])->get('/edit-devis', \App\Http\Livewire\Vente\EditDevis::class)->name('edit-devis');
@@ -58,45 +58,45 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/edit-bon-commande-vente',
 Route::middleware(['auth:sanctum', 'verified'])->get('/create-bon-livraison', \App\Http\Livewire\Vente\CreateBonLivraison::class)->name('create-bon-livraison');
 Route::middleware(['auth:sanctum', 'verified'])->get('/edit-bon-livraison', \App\Http\Livewire\Vente\EditBonLivraison::class)->name('edit-bon-livraison');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/create-commerciale', \App\Http\Livewire\Paramétrage\CreateCommerciale::class)->name('create-commerciale');
-Route::middleware(['auth:sanctum', 'verified'])->get('/create-unite', \App\Http\Livewire\Paramétrage\CreateUnite::class)->name('create-unite');
-Route::middleware(['auth:sanctum', 'verified'])->get('/create-compte', \App\Http\Livewire\Paramétrage\CreateCompte::class)->name('create-compte');
+Route::middleware(['auth:sanctum', 'verified'])->get('/create-commerciale', \App\Http\Livewire\Parametrage\CreateCommerciale::class)->name('create-commerciale');
+Route::middleware(['auth:sanctum', 'verified'])->get('/create-unite', \App\Http\Livewire\Parametrage\CreateUnite::class)->name('create-unite');
+Route::middleware(['auth:sanctum', 'verified'])->get('/create-compte', \App\Http\Livewire\Parametrage\CreateCompte::class)->name('create-compte');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/create-caisse', \App\Http\Livewire\Paramétrage\CreateCaisse::class)->name('create-caisse');
+Route::middleware(['auth:sanctum', 'verified'])->get('/create-caisse', \App\Http\Livewire\Parametrage\CreateCaisse::class)->name('create-caisse');
 
 
-Route::middleware(['role:admin'])->get('/create-roles', \App\Http\Livewire\ParamétrageUtilisateurs\CreateRoles::class)->name('create-roles');
+Route::middleware(['role:admin'])->get('/create-roles', \App\Http\Livewire\ParametrageUtilisateurs\CreateRoles::class)->name('create-roles');
 
-Route::middleware(['role:admin'])->get('/create-permissions', \App\Http\Livewire\ParamétrageUtilisateurs\CreatePermissions::class)->name('create-permissions');
+Route::middleware(['role:admin'])->get('/create-permissions', \App\Http\Livewire\ParametrageUtilisateurs\CreatePermissions::class)->name('create-permissions');
 
-Route::middleware(['role:admin'])->get('/edit-permission', \App\Http\Livewire\ParamétrageUtilisateurs\EditPermissions::class)->name('edit-permission');
+Route::middleware(['role:admin'])->get('/edit-permission', \App\Http\Livewire\ParametrageUtilisateurs\EditPermissions::class)->name('edit-permission');
 
-Route::middleware(['role:admin'])->get('/edit-role', \App\Http\Livewire\ParamétrageUtilisateurs\EditRoles::class)->name('edit-role');
+Route::middleware(['role:admin'])->get('/edit-role', \App\Http\Livewire\ParametrageUtilisateurs\EditRoles::class)->name('edit-role');
 
-Route::middleware(['role:admin'])->get('/create-users', \App\Http\Livewire\ParamétrageUtilisateurs\CreateUsers::class)->name('create-users');
-Route::middleware(['auth:sanctum', 'verified'])->get('/edit-user', \App\Http\Livewire\ParamétrageUtilisateurs\EditUser::class)->name('edit-user');
+Route::middleware(['role:admin'])->get('/create-users', \App\Http\Livewire\ParametrageUtilisateurs\CreateUsers::class)->name('create-users');
+Route::middleware(['auth:sanctum', 'verified'])->get('/edit-user', \App\Http\Livewire\ParametrageUtilisateurs\EditUser::class)->name('edit-user');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/transfert-bon-commande', \App\Http\Livewire\Achat\TransfertBonCommande::class)->name('transfert-bon-commande');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/create-mode-paiement', \App\Http\Livewire\Paramétrage\CreateModePaiement::class)->name('create-mode-paiement');
+Route::middleware(['auth:sanctum', 'verified'])->get('/create-mode-paiement', \App\Http\Livewire\Parametrage\CreateModePaiement::class)->name('create-mode-paiement');
 Route::middleware(['auth:sanctum', 'verified'])->get('/situation', \App\Http\Livewire\Situation::class)->name('situation');
 
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/edit-site', \App\Http\Livewire\Paramétrage\EditSite::class)->name('edit-site');
-Route::middleware(['auth:sanctum', 'verified'])->get('/edit-depot', \App\Http\Livewire\Paramétrage\EditDepot::class)->name('edit-depot');
-Route::middleware(['auth:sanctum', 'verified'])->get('/edit-famille', \App\Http\Livewire\Paramétrage\EditFamille::class)->name('edit-famille');
-Route::middleware(['auth:sanctum', 'verified'])->get('/edit-sous-famille', \App\Http\Livewire\Paramétrage\EditSousFamille::class)->name('edit-sous-famille');
-Route::middleware(['auth:sanctum', 'verified'])->get('/edit-unite', \App\Http\Livewire\Paramétrage\EditUnite::class)->name('edit-unite');
-Route::middleware(['auth:sanctum', 'verified'])->get('/edit-compte', \App\Http\Livewire\Paramétrage\EditCompte::class)->name('edit-compte');
-Route::middleware(['auth:sanctum', 'verified'])->get('/edit-caisse', \App\Http\Livewire\Paramétrage\EditCaisse::class)->name('edit-caisse');
-Route::middleware(['auth:sanctum', 'verified'])->get('/edit-mode-paiement', \App\Http\Livewire\Paramétrage\EditModePaiement::class)->name('edit-mode-paiement');
-Route::middleware(['auth:sanctum', 'verified'])->get('/edit-fournisseur', \App\Http\Livewire\Paramétrage\EditFournisseur::class)->name('edit-fournisseur');
-Route::middleware(['auth:sanctum', 'verified'])->get('/create-compte-comptable', \App\Http\Livewire\Paramétrage\CreateCompteComptable::class)->name('create-compte-comptable');
-Route::middleware(['auth:sanctum', 'verified'])->get('/edit-compte-comptable', \App\Http\Livewire\Paramétrage\EditCompteComptable::class)->name('edit-compte-comptable');
+Route::middleware(['auth:sanctum', 'verified'])->get('/edit-site', \App\Http\Livewire\Parametrage\EditSite::class)->name('edit-site');
+Route::middleware(['auth:sanctum', 'verified'])->get('/edit-depot', \App\Http\Livewire\Parametrage\EditDepot::class)->name('edit-depot');
+Route::middleware(['auth:sanctum', 'verified'])->get('/edit-famille', \App\Http\Livewire\Parametrage\EditFamille::class)->name('edit-famille');
+Route::middleware(['auth:sanctum', 'verified'])->get('/edit-sous-famille', \App\Http\Livewire\Parametrage\EditSousFamille::class)->name('edit-sous-famille');
+Route::middleware(['auth:sanctum', 'verified'])->get('/edit-unite', \App\Http\Livewire\Parametrage\EditUnite::class)->name('edit-unite');
+Route::middleware(['auth:sanctum', 'verified'])->get('/edit-compte', \App\Http\Livewire\Parametrage\EditCompte::class)->name('edit-compte');
+Route::middleware(['auth:sanctum', 'verified'])->get('/edit-caisse', \App\Http\Livewire\Parametrage\EditCaisse::class)->name('edit-caisse');
+Route::middleware(['auth:sanctum', 'verified'])->get('/edit-mode-paiement', \App\Http\Livewire\Parametrage\EditModePaiement::class)->name('edit-mode-paiement');
+Route::middleware(['auth:sanctum', 'verified'])->get('/edit-fournisseur', \App\Http\Livewire\Parametrage\EditFournisseur::class)->name('edit-fournisseur');
+Route::middleware(['auth:sanctum', 'verified'])->get('/create-compte-comptable', \App\Http\Livewire\Parametrage\CreateCompteComptable::class)->name('create-compte-comptable');
+Route::middleware(['auth:sanctum', 'verified'])->get('/edit-compte-comptable', \App\Http\Livewire\Parametrage\EditCompteComptable::class)->name('edit-compte-comptable');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/edit-article', \App\Http\Livewire\Paramétrage\EditArticle::class)->name('edit-article');
+Route::middleware(['auth:sanctum', 'verified'])->get('/edit-article', \App\Http\Livewire\Parametrage\EditArticle::class)->name('edit-article');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/edit-commerciale', \App\Http\Livewire\Paramétrage\EditCommerciale::class)->name('edit-commerciale');
+Route::middleware(['auth:sanctum', 'verified'])->get('/edit-commerciale', \App\Http\Livewire\Parametrage\EditCommerciale::class)->name('edit-commerciale');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/create-reglement-fournisseur', \App\Http\Livewire\Achat\CreateReglementFournisseur::class)->name('create-reglement-fournisseur');
 
@@ -113,8 +113,28 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/journal-banque', \App\Htt
 Route::middleware(['auth:sanctum', 'verified'])->get('/employes', \App\Http\Livewire\Employes::class)->name('employes');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/journal-achat', \App\Http\Livewire\JournalAchat::class)->name('journal-achat');
-Route::middleware(['auth:sanctum', 'verified'])->get('/create-production-parametre-fixe', \App\Http\Livewire\Paramétrage\CreateProductionParametreFixe::class)->name('create-production-parametre-fixe');
-Route::middleware(['auth:sanctum', 'verified'])->get('/create-production-opération', \App\Http\Livewire\Paramétrage\CreateProductionOpération::class)->name('create-production-opération');
-Route::middleware(['auth:sanctum', 'verified'])->get('/create-production-transformation', \App\Http\Livewire\Paramétrage\CreateProductionTransformation::class)->name('create-production-transformation');
-Route::middleware(['auth:sanctum', 'verified'])->get('/pro-show', \App\Http\Livewire\Paramétrage\ProShow::class)->name('pro-show');
+Route::middleware(['auth:sanctum', 'verified'])->get('/create-production-parametre-fixe', \App\Http\Livewire\Parametrage\CreateProductionParametreFixe::class)->name('create-production-parametre-fixe');
+Route::middleware(['auth:sanctum', 'verified'])->get('/create-production-opération', \App\Http\Livewire\Parametrage\CreateProductionOpération::class)->name('create-production-opération');
+Route::middleware(['auth:sanctum', 'verified'])->get('/create-production-transformation', \App\Http\Livewire\Parametrage\CreateProductionTransformation::class)->name('create-production-transformation');
+Route::middleware(['auth:sanctum', 'verified'])->get('/pro-show', \App\Http\Livewire\Parametrage\ProShow::class)->name('pro-show');
 
+
+
+
+
+
+
+
+
+
+
+
+// Routes Of Fluoka
+// Primary Routes
+Route::middleware(['auth:sanctum', 'verified'])->get('/produits', \App\Http\Livewire\Produits::class)->name('produits');
+Route::middleware(['auth:sanctum', 'verified'])->get('/stock', \App\Http\Livewire\Stock::class)->name('stock');
+Route::middleware(['auth:sanctum', 'verified'])->get('/commandes', \App\Http\Livewire\Commandes::class)->name('commandes');
+
+// Sub Routes Of Parametrage
+Route::middleware(['auth:sanctum', 'verified'])->get('/categories', \App\Http\Livewire\Parametrage\Categories::class)->name('categories');
+Route::middleware(['auth:sanctum', 'verified'])->get('/familles', \App\Http\Livewire\Parametrage\Familles::class)->name('familles');
