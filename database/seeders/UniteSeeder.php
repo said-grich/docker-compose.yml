@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\UniteAffichee;
+use App\Models\Unite;
 use Illuminate\Database\Seeder;
 
-class UniteAfficheeSeeder extends Seeder
+class UniteSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,41 +14,41 @@ class UniteAfficheeSeeder extends Seeder
      */
     public function run()
     {
-        UniteAffichee::create([
+        Unite::create([
             'nom' => 'Kg',
         ]);
-        UniteAffichee::create([
+        Unite::create([
             'nom' => 'Bloc',
         ]);
-        UniteAffichee::create([
+        Unite::create([
             'nom' => 'Barqt.',
         ]);
 
-        UniteAffichee::create([
+        Unite::create([
             'nom' => 'Pan.',
         ]);
-        UniteAffichee::create([
+        Unite::create([
             'nom' => 'Pavé',
         ]);
-        UniteAffichee::create([
+        Unite::create([
             'nom' => 'Pièce',
         ]);
-        UniteAffichee::create([
+        Unite::create([
             'nom' => 'Plat',
         ]);
-        UniteAffichee::create([
+        Unite::create([
             'nom' => 'Sachet.',
         ]);
-        UniteAffichee::create([
+        Unite::create([
             'nom' => 'Étui',
         ]);
-        UniteAffichee::create([
+        Unite::create([
             'nom' => 'Bande',
         ]);
-        UniteAffichee::create([
+        Unite::create([
             'nom' => 'Plaqt.',
         ]);
-        UniteAffichee::create([
+        Unite::create([
             'nom' => '6 Pièces',
         ]);
 

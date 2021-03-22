@@ -11,7 +11,7 @@ class ListeUnite extends Component
 {
     use WithPagination;
 
-    public $sortBy = 'name';
+    public $sortBy = 'nom';
     public $sortDirection = 'asc';
     public $perPage = 5;
     public $search = '';
@@ -20,7 +20,7 @@ class ListeUnite extends Component
     public function render()
     {
         $items = Unite::query()
-        ->where('name','ilike','%'.$this->search.'%')
+        ->where('nom','ilike','%'.$this->search.'%')
         ->orderBy($this->sortBy, $this->sortDirection)
         ->paginate($this->perPage);
 

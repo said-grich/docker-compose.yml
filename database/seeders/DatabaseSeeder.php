@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ProfilClientSeeder::class);
         $this->call(PreparationSeeder::class);
         //$this->call(PrepartionNettoyageSeeder::class);
-        $this->call(UniteAfficheeSeeder::class);
+        $this->call(UniteSeeder::class);
 
         // \App\Models\User::factory(10)->create();
     }

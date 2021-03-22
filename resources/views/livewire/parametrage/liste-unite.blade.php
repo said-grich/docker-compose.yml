@@ -17,7 +17,7 @@
                         <span></span>
                     </label>
                 </th>
-                <th class="pl-0" wire:click="sortBy('name')" style="cursor: pointer;">Nom @include('layouts.partials._sort-icon',['field'=>'name'])</th>
+                <th class="pl-0" wire:click="sortBy('nom')" style="cursor: pointer;">Nom @include('layouts.partials._sort-icon',['field'=>'nom'])</th>
                 <th class="pr-0 text-right" style="min-width: 160px">Actions</th>
             </tr>
         </thead>
@@ -31,7 +31,7 @@
                         </label>
                     </td>
                     <td class="pl-0">
-                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->name }}</a>
+                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->nom }}</a>
                     </td>
                     <td class="pr-0 text-right">
                         <a  href="{{ route('edit-unite', ['ida' => $item->id]) }}" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">
