@@ -59,7 +59,6 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/create-bon-livraison', \A
 Route::middleware(['auth:sanctum', 'verified'])->get('/edit-bon-livraison', \App\Http\Livewire\Vente\EditBonLivraison::class)->name('edit-bon-livraison');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/create-commerciale', \App\Http\Livewire\Parametrage\CreateCommerciale::class)->name('create-commerciale');
-Route::middleware(['auth:sanctum', 'verified'])->get('/create-unite', \App\Http\Livewire\Parametrage\CreateUnite::class)->name('create-unite');
 Route::middleware(['auth:sanctum', 'verified'])->get('/create-compte', \App\Http\Livewire\Parametrage\CreateCompte::class)->name('create-compte');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/create-caisse', \App\Http\Livewire\Parametrage\CreateCaisse::class)->name('create-caisse');
@@ -130,6 +129,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/pro-show', \App\Http\Live
 
 
 // Routes Of Fluoka
+
 // Primary Routes
 Route::middleware(['auth:sanctum', 'verified'])->get('/produits', \App\Http\Livewire\Produits::class)->name('produits');
 Route::middleware(['auth:sanctum', 'verified'])->get('/stock', \App\Http\Livewire\Stock::class)->name('stock');
@@ -138,3 +138,5 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/commandes', \App\Http\Liv
 // Sub Routes Of Parametrage
 Route::middleware(['auth:sanctum', 'verified'])->get('/categories', \App\Http\Livewire\Parametrage\Categories::class)->name('categories');
 Route::middleware(['auth:sanctum', 'verified'])->get('/familles', \App\Http\Livewire\Parametrage\Familles::class)->name('familles');
+Route::middleware(['auth:sanctum', 'verified'])->get('/unites', \App\Http\Livewire\Parametrage\Unites::class)->name('unites');
+Route::middleware(['auth:sanctum', 'verified'])->get('/preparations', \App\Http\Livewire\Parametrage\Preparations::class)->name('preparations');

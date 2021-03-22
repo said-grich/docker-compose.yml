@@ -365,7 +365,7 @@
                             <li class="menu-item" aria-haspopup="true">
                                 <a href="{{ route('categories') }}" class="menu-link">
                                     <i class="fa fa-sitemap"></i>
-                                    <span class="menu-text">{{ __('Categories') }}</span>
+                                    <span class="menu-text">{{ __('Catégories') }}</span>
                                 </a>
                             </li>
                             <li class="menu-item" aria-haspopup="true">
@@ -375,19 +375,19 @@
                                 </a>
                             </li>
                             <li class="menu-item" aria-haspopup="true">
-                                <a href="{{ route('create-unite') }}" class="menu-link">
+                                <a href="{{ route('unites') }}" class="menu-link">
                                     <i class="fa fa-vector-square"></i>
-                                    <span class="menu-text">{{ __('Unité') }}</span>
+                                    <span class="menu-text">{{ __('Unités') }}</span>
                                 </a>
                             </li>
                             <li class="menu-item" aria-haspopup="true">
-                                <a href="{{ route('create-unite') }}" class="menu-link">
+                                <a href="{{ route('preparations') }}" class="menu-link">
                                     <i class="fa fa-tools"></i>
                                     <span class="menu-text">{{ __('Preparations') }}</span>
                                 </a>
                             </li>
                             <li class="menu-item" aria-haspopup="true">
-                                <a href="{{ route('create-unite') }}" class="menu-link">
+                                <a href="{{ route('unites') }}" class="menu-link">
                                     <i class="fa fa-sliders-h"></i>
                                     <span class="menu-text">{{ __('Tranches') }}</span>
                                 </a>

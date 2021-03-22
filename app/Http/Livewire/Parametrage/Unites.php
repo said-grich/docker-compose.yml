@@ -6,13 +6,13 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Unite;
 use Livewire\Component;
 
-class CreateUnite extends Component
+class Unites extends Component
 {
 
-    public $name;
+    public $nom;
 
     protected $rules = [
-        'name' => 'required',
+        'nom' => 'required',
     ];
 
     public function createUnite()
@@ -20,16 +20,16 @@ class CreateUnite extends Component
         $this->validate();
 
         $item = new Unite();
-        $item->name = $this->name;
+        $item->nom = $this->nom;
         $item->save();
 
-        $this->reset(['name']);
+        $this->reset(['nom']);
 
         $this->emit('saved');
     }
 
     public function render()
     {
-        return view('livewire.Parametrage.create-unite');
+        return view('livewire.parametrage.unites');
     }
 }

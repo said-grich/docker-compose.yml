@@ -1,5 +1,5 @@
-@section('title', 'Création Unités')
-@section('header_title', 'Création Unités')
+@section('title', 'Unités')
+@section('header_title', 'Unités')
 
 <div class="d-flex flex-column-fluid">
     <!--begin::Container-->
@@ -15,15 +15,15 @@
                     </div>
                     <div class="card-body">
                         <!--Button trigger modal-->
-                        <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#staticBackdrop">
-                            <i class="flaticon-plus"></i> {{ __('Ajouter un nouveau unité') }}
+                        <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#unite">
+                            <i class="flaticon-plus"></i> {{ __('Ajouter Unité') }}
                         </button>
                         <!--Modal-->
-                        <div wire:ignore.self class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+                        <div wire:ignore.self class="modal fade" id="unite" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="unite" aria-hidden="true">
                             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">{{ __('Nouvelle Unité') }}</h5>
+                                        <h5 class="modal-title">{{ __('Nouvelle Unité') }}</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <i aria-hidden="true" class="ki ki-close"></i>
                                         </button>
@@ -33,34 +33,13 @@
                                             <div class="form-group">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-weight-hanging icon-lg"></i></span></div>
-                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="name"/>
+                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="nom"/>
                                                     <label>{{ __('Nom') }}</label>
                                                 </div>
-                                                @error('name')
+                                                @error('nom')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
-
-                                            {{-- <div class="form-group">
-                                                <div class="input-group input-group-prepend">
-                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-weight-hanging icon-lg"></i></span></div>
-                                                    <select class="form-control" id="exampleSelectd">
-                                                        <option></option>
-                                                        <option value="1">1</option>
-                                                        <option value="1">2</option>
-                                                        <option value="1">3</option>
-                                                        <option value="1">4</option>
-                                                        <option value="1">5</option>
-                                                    </select>
-                                                    <label>{{ __('Nom') }}</label>
-                                                </div>
-                                            </div> --}}
-                                            {{-- <div class="form-group">
-                                                <div class="input-group">
-                                                    <textarea class="form-control" placeholder=" "></textarea>
-                                                    <label>{{ __('Test') }}</label>
-                                                </div>
-                                            </div> --}}
                                         </form>
                                     </div>
                                     <div class="modal-footer">
@@ -71,7 +50,7 @@
                             </div>
                         </div>
                         <!--Table-->
-                        @livewire('paramétrage.liste-unite')
+                        @livewire('parametrage.liste-unite')
                     </div>
                 </div>
                 <!--end::Card-->
