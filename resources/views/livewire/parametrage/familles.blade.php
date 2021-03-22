@@ -14,6 +14,21 @@
                         <h3 class="card-title">{{ __('Liste Familles') }}</h3>
                     </div>
                     <div class="card-body">
+
+                        <!--begin::Flash message-->
+                        @if (session()->has('message'))
+                            <div class="alert alert-custom alert-light-success shadow fade show mb-5" role="alert">
+                                <div class="alert-icon"><i class="flaticon-interface-10"></i></div>
+                                <div class="alert-text">{{ session('message') }}</div>
+                                <div class="alert-close">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true"><i class="ki ki-close"></i></span>
+                                    </button>
+                                </div>
+                            </div>
+                        @endif
+                        <!--end::Flash message-->
+
                         <!--Button trigger modal-->
                         <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#famille">
                             <i class="flaticon-plus"></i> {{ __('Ajouter Famille') }}
@@ -51,7 +66,7 @@
                         </div>
                         <!--Table-->
                         <div class="mt-5">
-                            @livewire('parametrage.liste-unite')
+                            @livewire('parametrage.liste-famille')
                         </div>
                     </div>
                 </div>

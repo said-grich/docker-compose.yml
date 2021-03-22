@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class ModePreparation extends Model
 {
     use HasFactory;
+
+    public function preparations(){
+
+        return $this->hasMany(Preparation::class);
+
+    }
 }

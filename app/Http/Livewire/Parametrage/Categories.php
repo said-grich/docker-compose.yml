@@ -24,7 +24,7 @@ class Categories extends Component
 
     public function renderCategories()
     {
-        $this->list_categories = Categorie::all()->sortBy('name');
+        $this->list_categories = Categorie::all()->sortBy('nom');
     }
 
     /* public function mount(){
@@ -37,7 +37,6 @@ class Categories extends Component
 
         $item = new Categorie();
         $item->nom = $this->categorie_name;
-        //dd($item);
         $item->save();
 
         session()->flash('message', 'La catégorie "'.$this->categorie_name. '" a été créée ');

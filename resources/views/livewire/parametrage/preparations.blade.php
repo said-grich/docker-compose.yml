@@ -14,6 +14,21 @@
                         <h3 class="card-title">{{ __('Liste Préparations') }}</h3>
                     </div>
                     <div class="card-body">
+
+                        <!--begin::Flash message-->
+                        @if (session()->has('message'))
+                            <div class="alert alert-custom alert-light-success shadow fade show mb-5" role="alert">
+                                <div class="alert-icon"><i class="flaticon-interface-10"></i></div>
+                                <div class="alert-text">{{ session('message') }}</div>
+                                <div class="alert-close">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true"><i class="ki ki-close"></i></span>
+                                    </button>
+                                </div>
+                            </div>
+                        @endif
+                        <!--end::Flash message-->
+
                         <!--Button trigger modal-->
                         <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#mode-preparation">
                             <i class="flaticon-plus"></i> {{ __('Ajouter Mode Préparation') }}
@@ -26,7 +41,7 @@
                             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">{{ __('Nouveau Mode Preparation') }}</h5>
+                                        <h5 class="modal-title">{{ __('Nouveau Mode Préparation') }}</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <i aria-hidden="true" class="ki ki-close"></i>
                                         </button>
@@ -36,10 +51,10 @@
                                             <div class="form-group">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-tools icon-lg"></i></span></div>
-                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="nom"/>
+                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="mode_preparation_nom"/>
                                                     <label>{{ __('Nom') }}</label>
                                                 </div>
-                                                @error('nom')
+                                                @error('mode_preparation_nom')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
@@ -67,21 +82,24 @@
                                             <div class="form-group">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-tools icon-lg"></i></span></div>
-                                                    <select class="form-control">
-                                                        <option></option>
-                                                        <option value="1">1</option>
-                                                        <option value="1">2</option>
+                                                    <select class="form-control" wire:model="mode_preparation_id">
+
+                                                        <option>Sélectionner une mode préparation</option>
+                                                        @foreach ($list_mode_preparations as $mode)
+                                                            <option value="{{$mode->id}}">{{$mode->nom}}</option>
+                                                        @endforeach
+
                                                     </select>
-                                                    <label>{{ __('Mode Preparation') }}</label>
+                                                    <label>{{ __('Mode Préparation') }}</label>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-toolsicon-lg"></i></span></div>
-                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="nom"/>
+                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="preparation_nom"/>
                                                     <label>{{ __('Nom') }}</label>
                                                 </div>
-                                                @error('nom')
+                                                @error('preparation_nom')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
@@ -99,21 +117,21 @@
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" href="#mode-preparation-tab">
-                                        <span class="nav-text">Mode Preparation</span>
+                                        <span class="nav-text">Mode préparation</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" data-toggle="tab" href="#preparation-tab">
-                                        <span class="nav-text">Preparations</span>
+                                        <span class="nav-text">Préparations</span>
                                     </a>
                                 </li>
                             </ul>
                             <div class="tab-content mt-5">
                                 <div class="tab-pane fade active show" id="mode-preparation-tab" role="tabpanel">
-                                    @livewire('parametrage.liste-unite')
+                                    @livewire('parametrage.liste-mode-preparation')
                                 </div>
                                 <div class="tab-pane fade" id="preparation-tab" role="tabpanel">
-                                    @livewire('parametrage.liste-unite')
+                                    @livewire('parametrage.liste-preparation')
                                 </div>
                             </div>
                         </div>

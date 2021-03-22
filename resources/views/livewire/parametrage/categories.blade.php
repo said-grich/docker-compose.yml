@@ -14,7 +14,7 @@
                         <h3 class="card-title">{{ __('Liste Catégories') }}</h3>
                     </div>
                     <div class="card-body">
-
+                        <!--begin::Flash message-->
                         @if (session()->has('message'))
                             <div class="alert alert-custom alert-light-success shadow fade show mb-5" role="alert">
                                 <div class="alert-icon"><i class="flaticon-interface-10"></i></div>
@@ -26,6 +26,8 @@
                                 </div>
                             </div>
                         @endif
+                        <!--end::Flash message-->
+
 
                         <!--Button trigger modal-->
                         <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#categorie">
@@ -84,7 +86,7 @@
                                                     <select class="form-control" wire:model="categorie_id">
 
                                                         <option>Sélectionner une catégorie</option>
-                                                        @foreach ($this->list_categories as $categorie)
+                                                        @foreach ($list_categories as $categorie)
                                                             <option value="{{$categorie->id}}">{{$categorie->nom}}</option>
                                                         @endforeach
 

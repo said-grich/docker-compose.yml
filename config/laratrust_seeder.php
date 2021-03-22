@@ -24,7 +24,7 @@ return [
         'magasinier' => [
             'demande achat' => 'c,r,u',
         ],
-        'directeur_achats' => [
+        /* 'directeur_achats' => [
             'demande achat' => 'c,r,u,d,au',
             'bon commande' => 'r,u',
         ],
@@ -35,7 +35,7 @@ return [
         ],
         'compta' => [
             'factures' => 'r',
-        ],
+        ], */
     ],
 
     'permissions_map' => [
