@@ -137,6 +137,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/commandes', \App\Http\Liv
 
 // Sub Routes Of Parametrage
 Route::middleware(['auth:sanctum', 'verified'])->get('/categories', \App\Http\Livewire\Parametrage\Categories::class)->name('categories');
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/familles', \App\Http\Livewire\Parametrage\Familles::class)->name('familles');
 Route::middleware(['auth:sanctum', 'verified'])->get('/unites', \App\Http\Livewire\Parametrage\Unites::class)->name('unites');
+Route::middleware(['auth:sanctum', 'verified'])->get('/edit-categorie', \App\Http\Livewire\Parametrage\Categories::class)->name('edit-unite');
 Route::middleware(['auth:sanctum', 'verified'])->get('/preparations', \App\Http\Livewire\Parametrage\Preparations::class)->name('preparations');

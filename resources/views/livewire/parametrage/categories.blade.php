@@ -14,12 +14,25 @@
                         <h3 class="card-title">{{ __('Liste Catégories') }}</h3>
                     </div>
                     <div class="card-body">
+
+                        @if (session()->has('message'))
+                            <div class="alert alert-custom alert-light-success shadow fade show mb-5" role="alert">
+                                <div class="alert-icon"><i class="flaticon-interface-10"></i></div>
+                                <div class="alert-text">{{ session('message') }}</div>
+                                <div class="alert-close">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true"><i class="ki ki-close"></i></span>
+                                    </button>
+                                </div>
+                            </div>
+                        @endif
+
                         <!--Button trigger modal-->
                         <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#categorie">
-                            <i class="flaticon-plus"></i> {{ __('Ajouter Catégorie') }}
+                            <i class="flaticon-plus"></i> {{ __('Ajouter catégorie') }}
                         </button>
                         <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#sous-categorie">
-                            <i class="flaticon-plus"></i> {{ __('Ajouter Sous Catégorie') }}
+                            <i class="flaticon-plus"></i> {{ __('Ajouter sous catégorie') }}
                         </button>
                         <!--Modal-->
                         <div wire:ignore.self class="modal fade" id="categorie" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="categorie" aria-hidden="true">
@@ -36,10 +49,10 @@
                                             <div class="form-group">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sitemap icon-lg"></i></span></div>
-                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="nom"/>
+                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="categorie_name"/>
                                                     <label>{{ __('Nom') }}</label>
                                                 </div>
-                                                @error('nom')
+                                                @error('categorie_name')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
@@ -67,10 +80,14 @@
                                             <div class="form-group">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sitemap icon-lg"></i></span></div>
-                                                    <select class="form-control">
-                                                        <option></option>
-                                                        <option value="1">1</option>
-                                                        <option value="1">2</option>
+
+                                                    <select class="form-control" wire:model="categorie_id">
+
+                                                        <option>Sélectionner une catégorie</option>
+                                                        @foreach ($this->list_categories as $categorie)
+                                                            <option value="{{$categorie->id}}">{{$categorie->nom}}</option>
+                                                        @endforeach
+
                                                     </select>
                                                     <label>{{ __('Catégorie') }}</label>
                                                 </div>
@@ -78,10 +95,10 @@
                                             <div class="form-group">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sitemap icon-lg"></i></span></div>
-                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="nom"/>
+                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="sous_categorie_name"/>
                                                     <label>{{ __('Nom') }}</label>
                                                 </div>
-                                                @error('nom')
+                                                @error('sous_categorie_name')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
@@ -110,10 +127,10 @@
                             </ul>
                             <div class="tab-content mt-5">
                                 <div class="tab-pane fade active show" id="categorie-tab" role="tabpanel">
-                                    @livewire('parametrage.liste-unite')
+                                    @livewire('parametrage.liste-categorie')
                                 </div>
                                 <div class="tab-pane fade" id="sous-categorie-tab" role="tabpanel">
-                                    @livewire('parametrage.liste-unite')
+                                    @livewire('parametrage.liste-sous-categorie')
                                 </div>
                             </div>
                         </div>
