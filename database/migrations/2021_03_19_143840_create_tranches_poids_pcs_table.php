@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFamilleTable extends Migration
+class CreateTranchesPoidsPcsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateFamilleTable extends Migration
      */
     public function up()
     {
-        Schema::create('familles', function (Blueprint $table) {
+        Schema::create('tranches_poids_pcs', function (Blueprint $table) {
             $table->id();
-            $table->string('nom')->unique();
+            $table->float('min_poids');
+            $table->float('max_poids');
             $table->timestamps();
         });
-
     }
 
     /**
@@ -28,6 +28,6 @@ class CreateFamilleTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('familles');
+        Schema::dropIfExists('tranches_poids_pcs');
     }
 }

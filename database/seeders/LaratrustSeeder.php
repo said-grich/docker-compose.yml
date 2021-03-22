@@ -48,7 +48,7 @@ class LaratrustSeeder extends Seeder
 
                     $permissionValue = $mapPermission->get($perm);
                     $module_slug = Str::slug($module, '-');
-                    $departement = "";
+                    /* $departement = "";
 
                     switch ($module) {
                         case 'demande achat':
@@ -73,14 +73,14 @@ class LaratrustSeeder extends Seeder
                         default:
                             $departement = "";
                             break;
-                    }
+                    } */
 
 
                     $permissions[] = \App\Models\Permission::firstOrCreate([
                         'name' =>  $permissionValue. '-' . $module_slug,
                         'display_name' => ucfirst($permissionValue) . ' ' . ucfirst($module),
                         'description' => ucfirst($permissionValue) . ' ' . ucfirst($module),
-                        'departement' => $departement,
+                        /* 'departement' => $departement, */
                     ])->id;
 
                     $this->command->info('Creating Permission to '.$permissionValue.' for '. $module);
@@ -97,10 +97,10 @@ class LaratrustSeeder extends Seeder
                     'name' => ucwords(str_replace('_', ' ', $key)),
                     'email' => $key.'@mail.com',
                     'password' => bcrypt('password'),
-                    'site_id' =>1,
-                    'depot_id' =>1,
+                    /* 'site_id' =>1, */
+                    //'depot_id' =>1,
                     // 'depots_autorise' =>[1,2],
-                    'sites_autorise' =>[1,2],
+                    //'sites_autorise' =>[1,2],
                 ]);
                 $user->attachRole($role);
             }

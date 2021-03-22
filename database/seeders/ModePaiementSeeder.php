@@ -15,18 +15,15 @@ class ModePaiementSeeder extends Seeder
     public function run()
     {
         ModePaiement::create([
-            'name' => '	ESPÈCES',
-            'modalites_paiement' => '15jours',
+            'nom' => '	ESPÈCES',
         ]);
 
         ModePaiement::create([
-            'name' => '	CHÈQUE',
-            'modalites_paiement' => '20jours',
+            'nom' => '	CHÈQUE',
         ]);
 
         ModePaiement::create([
-            'name' => '	VIREMENT',
-            'modalites_paiement' => '30jours',
+            'nom' => '	VIREMENT',
         ]);
 
 

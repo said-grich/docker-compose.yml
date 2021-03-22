@@ -15,29 +15,51 @@ class FamilleSeeder extends Seeder
     public function run()
     {
         Famille::create([
-            'code' => 'F00001',
-            'famille' => 'PACK',
+            'nom' => 'Espadon',
         ]);
         Famille::create([
-            'code' => 'F00002',
-            'famille' => 'POISSONS CONGELE',
+            'nom' => 'Saumon',
         ]);
          Famille::create([
-            'code' => 'F00003',
-            'famille' => 'POISSONS FRAIS',
+            'nom' => 'Thon',
         ]);
         Famille::create([
-            'code' => 'F00004',
-            'famille' => 'FRITES',
+            'nom' => 'Courbine',
         ]);
         Famille::create([
-            'code' => 'F00005',
-            'famille' => 'EPICERIE',
+            'nom' => 'Seiche',
         ]);
 
         Famille::create([
-            'code' => 'F00006',
-            'famille' => 'SERVICE',
+            'nom' => 'Panier',
+        ]);
+
+        Famille::create([
+            'nom' => 'Moules',
+        ]);
+
+        Famille::create([
+            'nom' => 'Crevette',
+        ]);
+
+        Famille::create([
+            'nom' => 'Calamar',
+        ]);
+
+        Famille::create([
+            'nom' => 'Merlan',
+        ]);
+
+        Famille::create([
+            'nom' => 'Dorade',
+        ]);
+
+        Famille::create([
+            'nom' => 'Loup bar',
+        ]);
+
+        Famille::create([
+            'nom' => 'Langouste',
         ]);
     }
 }
