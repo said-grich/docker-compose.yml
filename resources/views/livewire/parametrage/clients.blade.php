@@ -31,10 +31,10 @@
 
                         <!--Button trigger modal-->
                         <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#client">
-                            <i class="flaticon-plus"></i> {{ __('Ajouter Client') }}
+                            <i class="flaticon-plus"></i> {{ __('Ajouter client') }}
                         </button>
                         <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#type-profile">
-                            <i class="flaticon-plus"></i> {{ __('Ajouter Type Profile') }}
+                            <i class="flaticon-plus"></i> {{ __('Ajouter profile client') }}
                         </button>
                         <!--Modal-->
                         <div wire:ignore.self class="modal fade" id="client" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="client" aria-hidden="true">
@@ -51,7 +51,7 @@
                                             <div class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user icon-lg"></i></span></div>
-                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="nom"/>
+                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="client_name"/>
                                                     <label>{{ __('Nom') }}</label>
                                                 </div>
                                                 @error('nom')
@@ -93,10 +93,10 @@
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-id-card-alt icon-lg"></i></span></div>
 
                                                     <select class="form-control selectpicker" wire:model.defer="profil_client">
-                                                        <option>{{ __('Type Profile') }}</option>
-                                                        <option value="n">Normale</option>
-                                                        <option value="f">Fidèle</option>
-                                                        <option value="p">Professionnelle</option>
+                                                        <option>{{ __('Choisir un profile') }}</option>
+                                                        @foreach ($list_profils as $item)
+                                                             <option value="{{$item->id}}">{{$item->nom}}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                                 @error('type-profile')
@@ -159,10 +159,10 @@
                             </ul>
                             <div class="tab-content mt-5">
                                 <div class="tab-pane fade active show" id="clients-tab" role="tabpanel">
-                                    {{-- @livewire('parametrage....') --}}
+                                    @livewire('parametrage.liste-clients')
                                 </div>
                                 <div class="tab-pane fade" id="profiles-tab" role="tabpanel">
-                                    {{-- @livewire('parametrage....') --}}
+                                    @livewire('parametrage.liste-profile-clients')
                                 </div>
                             </div>
                         </div>

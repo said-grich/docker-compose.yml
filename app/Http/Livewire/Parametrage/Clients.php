@@ -25,7 +25,7 @@ class Clients extends Component
 
     public function renderProfilesClients()
     {
-        $this->list_profils = ProfilClient::all()->sortBy('nom');
+        $this->list_profils = ProfilClient::all()->sortBy('id');
     }
 
 
@@ -38,7 +38,7 @@ class Clients extends Component
         $item->save();
 
         session()->flash('message', 'Catégorie "'.$this->profil_name. '" a été créée ');
-        $this->reset(['categorie_name']);
+        $this->reset(['profil_name']);
 
         $this->emit('saved');
     }
@@ -56,8 +56,8 @@ class Clients extends Component
         $item->save();
 
         $profil = ProfilClient::findOrFail($this->profil_client);
-        session()->flash('message', 'Client "' . $this->client_name . '" a été créée dans la catégorie ' . $profil->nom);
-        $this->reset(['sous_categorie_name','categorie_id']);
+        session()->flash('message', 'Client "' . $this->client_name . '" a été créée comme etant un client ' . $profil->nom);
+        $this->reset(['client_name','phone', 'email','profil_client']);
 
         $this->emit('saved');
     }
