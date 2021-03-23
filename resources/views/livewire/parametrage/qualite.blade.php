@@ -66,7 +66,7 @@
                         </div>
                         <!--Table-->
                         <div class="mt-5">
-                            {{-- @livewire('parametrage....') --}}
+                            @livewire('parametrage.liste-qualites')
                         </div>
                     </div>
                 </div>

@@ -78,7 +78,7 @@
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
-                                            <div class="form-group col-md-6">
+                                           {{--  <div class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-key icon-lg"></i></span></div>
                                                     <input type="text" class="form-control" placeholder=" " wire:model.defer="password"/>
@@ -87,12 +87,12 @@
                                                 @error('password')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
-                                            </div>
+                                            </div> --}}
                                             <div wire:ignore class="form-group col-md-12">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-id-card-alt icon-lg"></i></span></div>
 
-                                                    <select class="form-control selectpicker" wire:model.defer="type-profile">
+                                                    <select class="form-control selectpicker" wire:model.defer="profil_client">
                                                         <option>{{ __('Type Profile') }}</option>
                                                         <option value="n">Normale</option>
                                                         <option value="f">Fidèle</option>
@@ -117,20 +117,20 @@
                             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">{{ __('Nouveau Type Profile') }}</h5>
+                                        <h5 class="modal-title">{{ __('Nouveau Profile Client') }}</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <i aria-hidden="true" class="ki ki-close"></i>
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form id="type-profile-form" class="form" wire:submit.prevent="createTypeProfile">
+                                        <form id="type-profile-form" class="form" wire:submit.prevent="createProfileClient">
                                             <div class="form-group">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-id-card-alt icon-lg"></i></span></div>
-                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="nom"/>
+                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="profil_name"/>
                                                     <label>{{ __('Nom') }}</label>
                                                 </div>
-                                                @error('nom')
+                                                @error('profil_name')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
