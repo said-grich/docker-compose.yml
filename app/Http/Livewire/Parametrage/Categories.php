@@ -39,7 +39,7 @@ class Categories extends Component
         $item->nom = $this->categorie_name;
         $item->save();
 
-        session()->flash('message', 'La catégorie "'.$this->categorie_name. '" a été créée ');
+        session()->flash('message', 'Catégorie "'.$this->categorie_name. '" a été créée ');
         $this->reset(['categorie_name']);
 
         $this->emit('saved');
@@ -54,7 +54,8 @@ class Categories extends Component
         $item->categorie_id = $this->categorie_id;
         $item->save();
 
-        session()->flash('message', 'La sous catégorie "'.$this->sous_categorie_name. '" a été créée ');
+        $categorie = Categorie::findOrFail($this->categorie_id);
+        session()->flash('message', 'Sous catégorie "' . $this->sous_categorie_name . '" a été créée dans la catégorie ' . $categorie->nom);
         $this->reset(['sous_categorie_name','categorie_id']);
 
         $this->emit('saved');

@@ -23,6 +23,8 @@ class Unites extends Component
         $item->nom = $this->nom;
         $item->save();
 
+        session()->flash('message', 'Unité "' . $this->nom . '" a été créée ');
+
         $this->reset(['nom']);
 
         $this->emit('saved');
