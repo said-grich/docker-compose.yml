@@ -142,3 +142,5 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/familles', \App\Http\Live
 Route::middleware(['auth:sanctum', 'verified'])->get('/unites', \App\Http\Livewire\Parametrage\Unites::class)->name('unites');
 Route::middleware(['auth:sanctum', 'verified'])->get('/edit-categorie', \App\Http\Livewire\Parametrage\Categories::class)->name('edit-unite');
 Route::middleware(['auth:sanctum', 'verified'])->get('/preparations', \App\Http\Livewire\Parametrage\Preparations::class)->name('preparations');
+Route::middleware(['auth:sanctum', 'verified'])->get('/tranches', \App\Http\Livewire\Parametrage\Tranches::class)->name('tranches');
+
