@@ -232,7 +232,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">{{ __('Produits') }}</span>
+                        <span class="menu-text">{{ __('Gestion Des Achats') }}</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="menu-submenu">
@@ -240,7 +240,7 @@
                         <ul class="menu-subnav">
                             <li class="menu-item menu-item-parent" aria-haspopup="true">
                                 <span class="menu-link">
-                                    <span class="menu-text">{{ __('Produits') }}</span>
+                                    <span class="menu-text">{{ __('Gestion Des Achats') }}</span>
                                 </span>
                             </li>
                             <li class="menu-item" aria-haspopup="true">
@@ -264,7 +264,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">{{ __('Stock') }}</span>
+                        <span class="menu-text">{{ __('Logistique & Stock') }}</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="menu-submenu">
@@ -272,7 +272,7 @@
                         <ul class="menu-subnav">
                             <li class="menu-item menu-item-parent" aria-haspopup="true">
                                 <span class="menu-link">
-                                    <span class="menu-text">{{ __('Stock') }}</span>
+                                    <span class="menu-text">{{ __('Logistique & Stock') }}</span>
                                 </span>
                             </li>
                             <li class="menu-item" aria-haspopup="true">
@@ -295,7 +295,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">{{ __('Commandes') }}</span>
+                        <span class="menu-text">{{ __('Vente / CRM') }}</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="menu-submenu">
@@ -303,7 +303,7 @@
                         <ul class="menu-subnav">
                             <li class="menu-item menu-item-parent" aria-haspopup="true">
                                 <span class="menu-link">
-                                    <span class="menu-text">{{ __('Commandes') }}</span>
+                                    <span class="menu-text">{{ __('Vente / CRM') }}</span>
                                 </span>
                             </li>
                             <li class="menu-item" aria-haspopup="true">
@@ -326,7 +326,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">{{ __('Etats') }}</span>
+                        <span class="menu-text">{{ __('Statistiques') }}</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="menu-submenu">
@@ -351,7 +351,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">{{ __('Parametrage') }}</span>
+                        <span class="menu-text">{{ __('Paramétrage') }}</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="menu-submenu">
@@ -359,9 +359,10 @@
                         <ul class="menu-subnav">
                             <li class="menu-item menu-item-parent" aria-haspopup="true">
                                 <span class="menu-link">
-                                    <span class="menu-text">{{ __('Parametrage') }}</span>
+                                    <span class="menu-text">{{ __('Paramétrage') }}</span>
                                 </span>
                             </li>
+                            <div class="dropdown-label">{{ __('Paramétrage Produits :') }}</div>
                             <li class="menu-item" aria-haspopup="true">
                                 <a href="{{ route('categories') }}" class="menu-link">
                                     <i class="fa fa-sitemap"></i>
@@ -383,37 +384,59 @@
                             <li class="menu-item" aria-haspopup="true">
                                 <a href="{{ route('preparations') }}" class="menu-link">
                                     <i class="fa fa-tools"></i>
-                                    <span class="menu-text">{{ __('Preparations') }}</span>
+                                    <span class="menu-text">{{ __('Préparations') }}</span>
                                 </a>
                             </li>
                             <li class="menu-item" aria-haspopup="true">
-                                <a href="{{ route('unites') }}" class="menu-link">
+                                <a href="{{ route('tranches') }}" class="menu-link">
                                     <i class="fa fa-sliders-h"></i>
                                     <span class="menu-text">{{ __('Tranches') }}</span>
                                 </a>
                             </li>
                             <li class="menu-item" aria-haspopup="true">
-                                <a href="{{ route('create-depot') }}" class="menu-link">
-                                    <i class="fa fa-warehouse"></i>
-                                    <span class="menu-text">{{ __('Dépôt') }}</span>
+                                <a href="{{ route('qualite') }}" class="menu-link">
+                                    <i class="fa fa-award"></i>
+                                    <span class="menu-text">{{ __('Qualité') }}</span>
                                 </a>
                             </li>
                             <li class="menu-item" aria-haspopup="true">
-                                <a href="{{ route('create-mode-paiement') }}" class="menu-link">
-                                    <i class="fa fa-money-check-alt"></i>
-                                    <span class="menu-text">{{ __('Mode Paiement') }}</span>
-                                </a>
-                            </li>
-                            <li class="menu-item" aria-haspopup="true">
-                                <a href="{{ route('create-fournisseur') }}" class="menu-link">
+                                <a href="{{ route('fournisseurs') }}" class="menu-link">
                                     <i class="fa fa-user-tie"></i>
                                     <span class="menu-text">{{ __('Fournisseurs') }}</span>
                                 </a>
                             </li>
                             <li class="menu-item" aria-haspopup="true">
-                                <a href="{{ route('create-client') }}" class="menu-link">
+                                <a href="{{ route('clients') }}" class="menu-link">
                                     <i class="fa fa-user"></i>
                                     <span class="menu-text">{{ __('Clients') }}</span>
+                                </a>
+                            </li>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-label">{{ __('Paramétrage Stock :') }}</div>
+                            <li class="menu-item" aria-haspopup="true">
+                                <a href="{{ route('depots') }}" class="menu-link">
+                                    <i class="fa fa-warehouse"></i>
+                                    <span class="menu-text">{{ __('Dépôts') }}</span>
+                                </a>
+                            </li>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-label">{{ __('Paramétrage Commandes :') }}</div>
+                            <li class="menu-item" aria-haspopup="true">
+                                <a href="{{ route('modes-paiement') }}" class="menu-link">
+                                    <i class="fa fa-money-check-alt"></i>
+                                    <span class="menu-text">{{ __('Modes Paiement') }}</span>
+                                </a>
+                            </li>
+                            <li class="menu-item" aria-haspopup="true">
+                                <a href="{{ route('modes-livraison') }}" class="menu-link">
+                                    <i class="fa fa-pallet"></i>
+                                    <span class="menu-text">{{ __('Modes Livraison') }}</span>
+                                </a>
+                            </li>
+                            <li class="menu-item" aria-haspopup="true">
+                                <a href="{{ route('livreurs') }}" class="menu-link">
+                                    <i class="fa fa-shipping-fast"></i>
+                                    <span class="menu-text">{{ __('Livreurs') }}</span>
                                 </a>
                             </li>
                         </ul>
@@ -473,184 +496,3 @@
 
 </div>
 <!--end::Aside-->
-
-{{-- <nav class="nav-bar" x-data="{tabid:1,open:false,open2:false}">
-    <ul class="nav-items">
-        <li class="nav-item" @click="tabid=1">
-            <span :class="tabid==1?'text-indigo-500 bg-white active':'text-gray-700 bg-indigo-200'">
-                <i class="fa fa-home"></i> Dashboard
-            </span>
-        </li>
-        <li class="nav-item dropdown" @click="tabid=2">
-            <span :class="tabid==2 && open==!false?'text-indigo-500 bg-white active':'text-gray-700 bg-indigo-200'" @click="open=!open">
-                <i class="fa fa-cog"></i> {{ __('Parametrage') }}
-            </span>
-
-            <div class="dropdown-overlay" x-show="open" @click="open=false"></div>
-
-            <div class="dropdown-list" x-show="open" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                <div class="py-1">
-                    <a href="{{ route('create-site') }}" class="dropdown-item" role="menuitem">
-                        <i class="fa fa-building"></i> {{ __('Site') }}
-                    </a>
-                    <a href="{{ route('create-depot') }}" class="dropdown-item" role="menuitem">
-                        <i class="fa fa-warehouse"></i> {{ __('Dépôt') }}
-                    </a>
-                </div>
-                <div class="py-1">
-                    <a href="{{ route('create-famille') }}" class="dropdown-item" role="menuitem">
-                        <i class="fa fa-boxes"></i> {{ __('Familles') }}
-                    </a>
-                    <a href="{{ route('create-sous-famille') }}" class="dropdown-item" role="menuitem">
-                        <i class="fa fa-boxes"></i> {{ __('Sous-familles') }}
-                    </a>
-                    <a href="{{ route('create-unite') }}" class="dropdown-item" role="menuitem">
-                        <i class="fa fa-vector-square"></i> {{ __('Unité') }}
-                    </a>
-                    <a href="{{ route('create-article') }}" class="dropdown-item" role="menuitem">
-                        <i class="fa fa-box-open"></i> {{ __('Articles') }}
-                    </a>
-                </div>
-                <div class="py-1">
-                    <a href="{{ route('create-compte-comptable') }}" class="dropdown-item" role="menuitem">
-                        <i class="fa fa-calculator"></i> {{ __('Compte comptable') }}
-                    </a>
-                    <a href="{{ route('create-compte') }}" class="dropdown-item" role="menuitem">
-                        <i class="fa fa-university"></i> {{ __('Compte bancaire') }}
-                    </a>
-                    <a href="{{ route('create-caisse') }}" class="dropdown-item" role="menuitem">
-                        <i class="fas fa-cash-register"></i> {{ __('Caisse') }}
-                    </a>
-                    <a href="{{ route('create-mode-paiement') }}" class="dropdown-item" role="menuitem">
-                        <i class="fa fa-money-check-alt"></i> {{ __('Mode Paiement') }}
-                    </a>
-                </div>
-                <div class="py-1">
-                    <a href="{{ route('create-fournisseur') }}" class="dropdown-item" role="menuitem">
-                        <i class="fa fa-user-tie"></i> {{ __('Fournisseurs') }}
-                    </a>
-                    <a href="{{ route('create-client') }}" class="dropdown-item" role="menuitem">
-                        <i class="fa fa-user"></i> {{ __('Client') }}
-                    </a>
-                    <a href="{{ route('create-commerciale') }}" class="dropdown-item" role="menuitem">
-                        <i class="fa fa-coins"></i> {{ __('Commercial') }}
-                    </a>
-                </div>
-            </div>
-        </li>
-        <li class="nav-item dropdown" @click="tabid=3">
-            <span :class="tabid==3 && open2==!false?'text-indigo-500 bg-white active':'text-gray-700 bg-indigo-200'" @click="open2=!open">
-                <i class="fa fa-user-cog"></i> {{ __('Paramétrage Utilisateurs') }}
-            </span>
-
-            <div class="dropdown-overlay" x-show="open2" @click="open2=false"></div>
-
-            <div class="dropdown-list" x-show="open2" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                <div class="py-1">
-                    <a href="{{ route('create-roles') }}" class="dropdown-item" role="menuitem">
-                        <i class="fa fa-user-circle"></i> {{ __('Profils') }}
-                    </a>
-                    <a href="{{ route('create-permissions') }}" class="dropdown-item" role="menuitem">
-                        <i class="fa fa-shield-alt"></i> {{ __('Autorisations') }}
-                    </a>
-                    <a href="{{ route('create-users') }}" class="dropdown-item" role="menuitem">
-                        <i class="fa fa-users"></i> {{ __('Utilisateurs') }}
-                    </a>
-                </div>
-            </div>
-        </li>
-        <li class="nav-item" @click="tabid=4">
-            <span :class="tabid==3?'text-indigo-500 bg-white':'text-gray-700 bg-indigo-200'">
-                <i class="fa fa-cash-register"></i> Compta / Finance
-            </span>
-        </li>
-        <li class="nav-item" @click="tabid=5">
-            <span :class="tabid==4?'text-indigo-500 bg-white':'text-gray-700 bg-indigo-200'">
-                <i class="fa fa-shopping-bag"></i> Achat
-            </span>
-        </li>
-        <li class="nav-item" @click="tabid=6">
-            <span :class="tabid==5?'text-indigo-500 bg-white':'text-gray-700 bg-indigo-200'">
-                <i class="fa fa-chart-pie"></i> Etats
-            </span>
-        </li>
-        <li class="nav-item" @click="tabid=7">
-            <span :class="tabid==6?'text-indigo-500 bg-white':'text-gray-700 bg-indigo-200'">
-                <i class="fa fa-shopping-cart"></i> Vente
-            </span>
-        </li>
-
-    </ul>
-
-    <div class="tabs">
-        <div class="block" x-show="tabid==1">
-            <ul class="tab-list">
-                <li class="tab-item">
-                    <a href="#">
-                        <i class="fa fa-home"></i> Dashboard
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div class="block" x-show="tabid==2">
-        </div>
-        <div class="block" x-show="tabid==3">
-        </div>
-        <div class="block" x-show="tabid==4">
-            <ul class="tab-list">
-                <li class="tab-item">
-                    <a href="{{ route('create-charge') }}">
-                        <i class="fa fa-money-bill-wave"></i> {{ __('Charges') }}
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div class="block" x-show="tabid==5">
-            <ul class="tab-list">
-                <li class="tab-item">
-                    <a href="{{ route('create-demande-achat') }}">
-                        <i class="fa fa-file-invoice-dollar"></i> {{ __('Demande Achat') }}
-                    </a>
-                </li>
-                <li class="tab-item">
-                    <a href="{{ route('create-bon-commande') }}">
-                        <i class="fa fa-clipboard-list"></i> {{ __('Bon de commande') }}
-                    </a>
-                </li>
-                <li class="tab-item">
-                    <a href="{{ route('create-bon-achat') }}">
-                        <i class="fa fa-receipt"></i> {{ __('Bon réception') }}
-                    </a>
-                </li>
-                <li class="tab-item">
-                    <a href="{{ route('create-reglement-fournisseur') }}">
-                        <i class="fa fa-clipboard-check"></i> {{ __('Règlement') }}
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div class="block" x-show="tabid==6">
-            <ul class="tab-list">
-                <li class="tab-item">
-                    <a href="{{ route('stock') }}">
-                        <i class="fa fa-chart-line"></i> {{ __('Etat du stock') }}
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div class="block" x-show="tabid==7">
-            <ul class="tab-list">
-                <li class="tab-item">
-                    <a href="{{ route('create-devis') }}">
-                        <i class="fa fa-money-check"></i> {{ __('Devis') }}
-                    </a>
-                </li>
-                <li class="tab-item">
-                    <a href="{{ route('create-bon-livraison') }}">
-                        <i class="fa fa-truck-loading"></i> {{ __('Bon de livraison') }}
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav> --}}

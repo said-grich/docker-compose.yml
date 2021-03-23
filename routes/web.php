@@ -130,17 +130,27 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/pro-show', \App\Http\Live
 
 // Routes Of Fluoka
 
-// Primary Routes
+// Primary | Routes
 Route::middleware(['auth:sanctum', 'verified'])->get('/produits', \App\Http\Livewire\Produits::class)->name('produits');
 Route::middleware(['auth:sanctum', 'verified'])->get('/stock', \App\Http\Livewire\Stock::class)->name('stock');
 Route::middleware(['auth:sanctum', 'verified'])->get('/commandes', \App\Http\Livewire\Commandes::class)->name('commandes');
 
-// Sub Routes Of Parametrage
-Route::middleware(['auth:sanctum', 'verified'])->get('/categories', \App\Http\Livewire\Parametrage\Categories::class)->name('categories');
+// Paramétrage | Routes
 
+// Paramétrage Produits | Routes
+Route::middleware(['auth:sanctum', 'verified'])->get('/categories', \App\Http\Livewire\Parametrage\Categories::class)->name('categories');
 Route::middleware(['auth:sanctum', 'verified'])->get('/familles', \App\Http\Livewire\Parametrage\Familles::class)->name('familles');
 Route::middleware(['auth:sanctum', 'verified'])->get('/unites', \App\Http\Livewire\Parametrage\Unites::class)->name('unites');
-Route::middleware(['auth:sanctum', 'verified'])->get('/edit-categorie', \App\Http\Livewire\Parametrage\Categories::class)->name('edit-unite');
 Route::middleware(['auth:sanctum', 'verified'])->get('/preparations', \App\Http\Livewire\Parametrage\Preparations::class)->name('preparations');
 Route::middleware(['auth:sanctum', 'verified'])->get('/tranches', \App\Http\Livewire\Parametrage\Tranches::class)->name('tranches');
+Route::middleware(['auth:sanctum', 'verified'])->get('/qualite', \App\Http\Livewire\Parametrage\Qualite::class)->name('qualite');
+Route::middleware(['auth:sanctum', 'verified'])->get('/fournisseurs', \App\Http\Livewire\Parametrage\Fournisseurs::class)->name('fournisseurs');
+Route::middleware(['auth:sanctum', 'verified'])->get('/clients', \App\Http\Livewire\Parametrage\Clients::class)->name('clients');
 
+// Paramétrage Stock | Routes
+Route::middleware(['auth:sanctum', 'verified'])->get('/depots', \App\Http\Livewire\Parametrage\Depots::class)->name('depots');
+
+// Paramétrage Commandes | Routes
+Route::middleware(['auth:sanctum', 'verified'])->get('/modes-paiement', \App\Http\Livewire\Parametrage\ModesPaiement::class)->name('modes-paiement');
+Route::middleware(['auth:sanctum', 'verified'])->get('/modes-livraison', \App\Http\Livewire\Parametrage\ModesLivraison::class)->name('modes-livraison');
+Route::middleware(['auth:sanctum', 'verified'])->get('/livreurs', \App\Http\Livewire\Parametrage\Livreurs::class)->name('livreurs');
