@@ -64,10 +64,10 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!--Table-->
                         <div class="mt-5">
-                            {{-- @livewire('parametrage....') --}}
+                            @livewire('parametrage.liste-modes-paiement')
                         </div>
                     </div>
                 </div>

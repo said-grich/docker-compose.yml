@@ -80,9 +80,8 @@
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-people-carry icon-lg"></i></span></div>
                                                     <select class="form-control selectpicker" wire:model.defer="type">
                                                         <option>{{ __('Type') }}</option>
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
+                                                        <option value="interne">Interne</option>
+                                                        <option value="externe">Externe</option>
                                                     </select>
                                                 </div>
                                                 @error('type')
@@ -92,12 +91,11 @@
                                             <div class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-map-marker-alt icon-lg"></i></span></div>
-                                                    <select class="form-control selectpicker" wire:model.defer="ville">
+                                                    <select class="form-control selectpicker" wire:model.defer="ville_id">
                                                         <option>{{ __('Ville') }}</option>
-                                                        <option value="1">Marrakech</option>
-                                                        <option value="2">Casablanca</option>
-                                                        <option value="3">Mohammedia</option>
-                                                        <option value="4">Rabat</option>
+                                                        @foreach ($list_villes as $ville)
+                                                            <option value="{{$ville->id}}">{{$ville->nom}}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                                 @error('ville')
@@ -105,7 +103,16 @@
                                                 @enderror
                                             </div>
                                             <div class="form-group col-md-6 row">
-                                                <label class="col-3 col-form-label">Active :</label>
+                                                <label class="col-3 col-form-label">Active</label>
+                                                <div class="col-3">
+                                                <span class="switch switch-outline switch-icon switch-primary">
+                                                    <label>
+                                                    <input type="checkbox" checked="checked" wire:model.defer="isActive" name="isActive"/>
+                                                    <span></span>
+                                                    </label>
+                                                </span>
+
+                                                {{-- <label class="col-3 col-form-label">Active :</label>
                                                 <div class="col-9 col-form-label">
                                                     <div class="radio-inline">
                                                         <label class="radio radio-primary">
@@ -119,7 +126,7 @@
                                                             Non
                                                         </label>
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                         </form>
                                     </div>
@@ -130,7 +137,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!--Table-->
                         <div class="mt-5">
                             {{-- @livewire('parametrage....') --}}

@@ -3,15 +3,15 @@
 namespace App\Http\Livewire\Parametrage;
 
 use App\Models\ModePaiement;
-use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class ListeModePaiement extends Component
+class ListeModesPaiement extends Component
 {
+
     use WithPagination;
 
-    public $sortBy = 'name';
+    public $sortBy = 'nom';
     public $sortDirection = 'asc';
     public $perPage = 5;
     public $search = '';
@@ -19,17 +19,15 @@ class ListeModePaiement extends Component
 
     public function render()
     {
-        $modePaienment = ModePaiement::query()
-        ->where('name','ilike','%'.$this->search.'%')
+        $items = ModePaiement::query()
+        ->where('nom','ilike','%'.$this->search.'%')
         ->orderBy($this->sortBy, $this->sortDirection)
         ->paginate($this->perPage);
 
-        return view('livewire.Parametrage.liste-mode-paiement',[
-            'modePaienment'=> $modePaienment
+        return view('livewire.parametrage.liste-modes-paiement',[
+            'items'=> $items
         ]);
-        /*$modePaiement = ModePaiement::all();
-        $list = ModePaiement::all()->sortByDesc('created_at');
-        return view('livewire.Parametrage.liste-mode-paiement', ['list' => $list, 'modePaiement' => $modePaiement]);*/
+
     }
     public function sortBy($field)
     {
@@ -45,21 +43,18 @@ class ListeModePaiement extends Component
     public function deleteModePaiement($id)
     {
 
-        $modePaiement = ModePaiement::findOrFail($id);
-        DB::table("mode_paiements")->where('id', $id)->delete();
-        $modePaiement->delete();
+        $mode = ModePaiement::findOrFail($id);
+        $mode->delete();
 
-
-
-        return redirect()->to('/create-mode-paiement');
+        session()->flash('message', 'Le mode de paiement "'.$mode->nom.'" à été supprimé');
+        return redirect()->to('/modes-paiement');
 
     }
-
-
 
     public function saved()
     {
         $this->render();
     }
+
 
 }
