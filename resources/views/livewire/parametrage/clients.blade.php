@@ -176,3 +176,18 @@
     </div>
     <!--end::Container-->
 </div>
+
+@push('scripts')
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+    console.log('fff');
+window.addEventListener('swal:modal', event => {
+    swal({
+        title: event.detail.title,
+        text: event.detail.text,
+        icon: event.detail.type,
+
+    });
+})
+</script>
+@endpush

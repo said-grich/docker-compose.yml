@@ -37,7 +37,18 @@ class Clients extends Component
         $item->nom = $this->profil_name;
         $item->save();
 
-        session()->flash('message', 'Catégorie "'.$this->profil_name. '" a été créée ');
+
+
+        $this->dispatchBrowserEvent('swal:modal',
+            [
+                'title' => "success",
+                'title' => 'Profile "'.$this->profil_name. '" a été crée',
+                'text' => "",
+            ]);
+
+
+
+        session()->flash('message', 'Profile "'.$this->profil_name. '" a été crée ');
         $this->reset(['profil_name']);
 
         $this->emit('saved');
@@ -56,7 +67,7 @@ class Clients extends Component
         $item->save();
 
         $profil = ProfilClient::findOrFail($this->profil_client);
-        session()->flash('message', 'Client "' . $this->client_name . '" a été créée comme etant un client ' . $profil->nom);
+        session()->flash('message', 'Client "' . $this->client_name . '" a été crée comme étant un client ' . $profil->nom);
         $this->reset(['client_name','phone', 'email','profil_client']);
 
         $this->emit('saved');

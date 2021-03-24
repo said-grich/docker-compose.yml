@@ -21,6 +21,7 @@ class ListeProfileClients extends Component
 
         $items = ProfilClient::query()
         ->where('nom','ilike','%'.$this->search.'%')
+        ->withCount('clients')
         ->orderBy($this->sortBy, $this->sortDirection)
         ->paginate($this->perPage);
 

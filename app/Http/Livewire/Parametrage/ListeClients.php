@@ -18,6 +18,7 @@ class ListeClients extends Component
 
     public function render()
     {
+
         $items = Client::query()
         ->where('nom','ilike','%'.$this->search.'%')
         ->orderBy($this->sortBy, $this->sortDirection)

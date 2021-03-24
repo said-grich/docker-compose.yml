@@ -18,6 +18,7 @@
                     </label>
                 </th>
                 <th class="pl-0" wire:click="sortBy('nom')" style="cursor: pointer;">Nom @include('layouts.partials._sort-icon',['field'=>'nom'])</th>
+                <th class="pl-0" wire:click="sortBy('clients_count')" style="cursor: pointer;">Nombre clients @include('layouts.partials._sort-icon',['field'=>'clients_count'])</th>
                 <th class="pr-0 text-right" style="min-width: 160px">Actions</th>
             </tr>
         </thead>
@@ -32,6 +33,9 @@
                     </td>
                     <td class="pl-0">
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->nom }}</a>
+                    </td>
+                    <td class="pl-0">
+                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->clients_count }}</a>
                     </td>
                     <td class="pr-0 text-right">
                         <a  href="{{ route('edit-fournisseur', ['ida' => $item->id]) }}" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">
