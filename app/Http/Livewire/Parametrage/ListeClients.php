@@ -2,12 +2,11 @@
 
 namespace App\Http\Livewire\Parametrage;
 
-use App\Models\Famille;
-use Illuminate\Support\Facades\DB;
+use App\Models\Client;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class ListeFamille extends Component
+class ListeClients extends Component
 {
     use WithPagination;
 
@@ -19,17 +18,15 @@ class ListeFamille extends Component
 
     public function render()
     {
-        $famille = Famille::query()
+
+        $items = Client::query()
         ->where('nom','ilike','%'.$this->search.'%')
         ->orderBy($this->sortBy, $this->sortDirection)
         ->paginate($this->perPage);
 
-        return view('livewire.Parametrage.liste-famille',[
-            'famille'=> $famille
+        return view('livewire.parametrage.liste-clients',[
+            'items'=> $items
         ]);
-        /*$famille = Famille::all();
-        $list = Famille::all()->sortByDesc('created_at');
-        return view('livewire.Parametrage.liste-famille', [ 'list' => $list , 'famille' => $famille]);*/
     }
     public function sortBy($field)
     {
@@ -42,25 +39,22 @@ class ListeFamille extends Component
         return $this->sortBy = $field;
     }
 
-    public function deleteFamille($id)
+    public function deleteClient($id)
     {
 
-        $famille = Famille::findOrFail($id);
-        //DB::table("familles")->where('id', $id)->delete();
+        $client = Client::findOrFail($id);
+        //DB::table("fournisseurs")->where('id', $id)->delete();
 
-        $famille->delete();
-        session()->flash('message', 'Famille "'.$famille->nom.'" à été supprimée');
+        $client->delete();
+        session()->flash('message', 'Client "'.$client->nom.'" à été supprimé');
 
-        return redirect()->to('/familles');
+        //return redirect()->to('/familles');
 
     }
-
-
 
     public function saved()
     {
         $this->render();
     }
-
 
 }

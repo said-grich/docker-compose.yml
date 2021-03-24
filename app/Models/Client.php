@@ -11,6 +11,6 @@ class Client extends Model
 
     public function profil()
     {
-        return $this->belongsTo(ProfilClient::class);
+        return $this->belongsTo(ProfilClient::class, 'profil_client_id');
     }
 }

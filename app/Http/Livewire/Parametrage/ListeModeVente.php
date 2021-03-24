@@ -2,12 +2,11 @@
 
 namespace App\Http\Livewire\Parametrage;
 
-use App\Models\Famille;
-use Illuminate\Support\Facades\DB;
+use App\Models\ModeVente;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class ListeFamille extends Component
+class ListeModeVente extends Component
 {
     use WithPagination;
 
@@ -19,18 +18,16 @@ class ListeFamille extends Component
 
     public function render()
     {
-        $famille = Famille::query()
+        $items = ModeVente::query()
         ->where('nom','ilike','%'.$this->search.'%')
         ->orderBy($this->sortBy, $this->sortDirection)
         ->paginate($this->perPage);
 
-        return view('livewire.Parametrage.liste-famille',[
-            'famille'=> $famille
+        return view('livewire.Parametrage.liste-mode-vente',[
+            'items'=> $items
         ]);
-        /*$famille = Famille::all();
-        $list = Famille::all()->sortByDesc('created_at');
-        return view('livewire.Parametrage.liste-famille', [ 'list' => $list , 'famille' => $famille]);*/
     }
+
     public function sortBy($field)
     {
         if ($this->sortDirection == 'asc') {
@@ -42,24 +39,16 @@ class ListeFamille extends Component
         return $this->sortBy = $field;
     }
 
-    public function deleteFamille($id)
+    public function deleteModeVente($id)
     {
-
-        $famille = Famille::findOrFail($id);
-        //DB::table("familles")->where('id', $id)->delete();
-
-        $famille->delete();
-        session()->flash('message', 'Famille "'.$famille->nom.'" à été supprimée');
-
-        return redirect()->to('/familles');
-
+        $this->render();
+        $unite = ModeVente::findOrFail($id);
+        $unite->delete();
     }
-
-
 
     public function saved()
     {
-        $this->render();
+        return $this->render();
     }
 
 

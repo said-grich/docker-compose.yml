@@ -2,16 +2,15 @@
 
 namespace App\Http\Livewire\Parametrage;
 
-use App\Models\Fournisseur;
-use App\Models\BonAchat;
+use App\Models\ProfilClient;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class ListFournisseurs extends Component
+class ListeProfileClients extends Component
 {
     use WithPagination;
 
-    public $sortBy = 'name';
+    public $sortBy = 'nom';
     public $sortDirection = 'asc';
     public $perPage = 5;
     public $search = '';
@@ -19,17 +18,16 @@ class ListFournisseurs extends Component
 
     public function render()
     {
-        $fournisseur = Fournisseur::query()
-        ->where('name','ilike','%'.$this->search.'%')
+
+        $items = ProfilClient::query()
+        ->where('nom','ilike','%'.$this->search.'%')
+        ->withCount('clients')
         ->orderBy($this->sortBy, $this->sortDirection)
         ->paginate($this->perPage);
 
-        return view('livewire.Parametrage.list-fournisseurs',[
-            'fournisseur'=> $fournisseur
+        return view('livewire.parametrage.liste-profile-clients',[
+            'items'=> $items
         ]);
-        /*$situationFourniseur = BonAchat::where('fournisseur_id', '1')->get();
-        $list = Fournisseur::all()->sortByDesc('created_at');
-        return view('livewire.Parametrage.list-fournisseurs', [ 'list' => $list, 'situationFourniseur'=> $situationFourniseur ]);*/
     }
     public function sortBy($field)
     {
@@ -42,11 +40,22 @@ class ListFournisseurs extends Component
         return $this->sortBy = $field;
     }
 
+    public function deleteProfileClient($id)
+    {
+
+        $profile = ProfilClient::findOrFail($id);
+        //DB::table("fournisseurs")->where('id', $id)->delete();
+
+        $profile->delete();
+        session()->flash('message', 'Profile client "'. $profile->nom.'" à été supprimé');
+
+        //return redirect()->to('/familles');
+
+    }
+
     public function saved()
     {
         $this->render();
     }
-
-
 
 }

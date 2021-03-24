@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
         $this->call(LaratrustSeeder::class);
         $this->call(ModePaiementSeeder::class);
         $this->call(ModePreparationSeeder::class);
+        $this->call(ModeVenteSeeder::class);
         $this->call(ProfilClientSeeder::class);
         $this->call(PreparationSeeder::class);
         //$this->call(PrepartionNettoyageSeeder::class);

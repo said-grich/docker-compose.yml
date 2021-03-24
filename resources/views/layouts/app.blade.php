@@ -76,6 +76,7 @@
 		<!--end::Main-->
 
         @stack('modals')
+        @stack('scripts')
 
 		<!--[html-partial:include:{"file":"partials/_page-loader.html"}]/-->
 

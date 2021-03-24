@@ -17,7 +17,7 @@ class FournisseurSeeder extends Seeder
         Fournisseur::create([
             'nom' => 'AZUL FISH',
             'tel' => '06666666',
-            'ville' => 'CASABLANCA',
+            //'ville' => 'CASABLANCA',
             'contact' => '',
 
         ]);
@@ -25,7 +25,7 @@ class FournisseurSeeder extends Seeder
         Fournisseur::create([
             'nom' => 'Scandimar',
             'tel'=> '0523302044',
-            'ville' => 'Mohammedia',
+            //'ville' => 'Mohammedia',
             'contact' => '',
 
         ]);
@@ -33,7 +33,7 @@ class FournisseurSeeder extends Seeder
         Fournisseur::create([
             'nom' => 'STE wadii pescados',
             'tel' => '0661330512',
-            'ville' => 'Safi',
+            //'ville' => 'Safi',
             'contact' => '',
 
         ]);
@@ -41,7 +41,7 @@ class FournisseurSeeder extends Seeder
         Fournisseur::create([
             'nom' => 'Aabou abdellah',
             'tel' => '0662743055',
-            'ville' => 'LAAYOUNE',
+            //'ville' => 'LAAYOUNE',
             'contact' => '',
 
         ]);
@@ -49,7 +49,7 @@ class FournisseurSeeder extends Seeder
         /* Fournisseur::create([
             'nom' => 'MUSTAPHA MAOUHOUB',
             'tel' => '',
-            'ville' => 'CASABLANCA',
+            //'ville' => 'CASABLANCA',
             'contact' => '',
 
         ]); */

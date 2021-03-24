@@ -17,7 +17,7 @@ class CreateFournisseurTable extends Migration
             $table->id();
             $table->string('nom');
             $table->integer('tel');
-            $table->string('ville');
+            //$table->string('ville');
             $table->string('contact');
            /*  $table->string('adresse');
             $table->string('code_comptable')->nullable();
