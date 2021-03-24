@@ -35,7 +35,7 @@
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{$item->mode->nom}}</a>
                     </td> --}}
                     <td class="pr-0 text-right">
-                        <a  href="{{ route('edit-famille', ['ida' => $item->id]) }}" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">
+                        <a href="#" wire:click="edit({{$item->id}})" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#exampleModalSizeSm">
                             <span class="svg-icon svg-icon-md svg-icon-primary">
                                 {{--begin::Svg Icon--}}
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -67,4 +67,37 @@
             </tbody>
         </table>
         {{ $items->links('layouts.partials.custom-pagination') }}
+
+        <div wire:ignore.self class="modal fade" id="exampleModalSizeSm" tabindex="-1" role="dialog" aria-labelledby="exampleModalSizeSm" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{{ __('Modification mode livraison') }} <span class="label label-primary label-inline mr-2">{{$nom}}</span></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i aria-hidden="true" class="ki ki-close"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="edit-livreur-form" class="form row">
+                            <div class="form-group col-md-12">
+                                <div class="input-group input-group-prepend">
+                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tag icon-lg"></i></span></div>
+                                    <input type="hidden" class="form-control" placeholder=" " wire:model.defer="mode_livraison_id"/>
+                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="nom"/>
+                                    <label>{{ __('Nom') }}</label>
+                                </div>
+                                @error('nom')
+                                    <span class="form-text text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </form>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
+                            <button type="submit" wire:click="editModeLivraison" class="btn btn-primary font-weight-bold" form="edit-livreur-form" >{{ __('Enregistrer') }}</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
