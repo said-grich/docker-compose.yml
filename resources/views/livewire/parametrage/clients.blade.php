@@ -31,10 +31,10 @@
 
                         <!--Button trigger modal-->
                         <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#client">
-                            <i class="flaticon-plus"></i> {{ __('Ajouter client') }}
+                            <i class="flaticon-plus"></i> {{ __('Ajouter Client') }}
                         </button>
                         <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#type-profile">
-                            <i class="flaticon-plus"></i> {{ __('Ajouter profile client') }}
+                            <i class="flaticon-plus"></i> {{ __('Ajouter Profile Client') }}
                         </button>
                         <!--Modal-->
                         <div wire:ignore.self class="modal fade" id="client" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="client" aria-hidden="true">
