@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Livreur extends Model
 {
     use HasFactory;
+
+    public function ville()
+    {
+        return $this->belongsTo(Ville::class);
+    }
 }

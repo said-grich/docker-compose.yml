@@ -3,12 +3,27 @@
 namespace App\Http\Livewire\Parametrage;
 
 use App\Models\Livreur;
+use App\Models\Ville;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class ListeLivreurs extends Component
 {
     use WithPagination;
+
+    public $livreur_id;
+    public $nom;
+    public $cin;
+    public $phone;
+    public $type;
+    public $ville_id;
+    public $list_villes;
+    public $isActive = false;
+
+    public function mount(){
+        $this->list_villes = Ville::all()->sortBy('nom');
+    }
+
 
     public $sortBy = 'nom';
     public $sortDirection = 'asc';
@@ -39,11 +54,39 @@ class ListeLivreurs extends Component
         return $this->sortBy = $field;
     }
 
+    public function edit($id){
+
+        $item = Livreur::where('id',$id)->firstOrFail();
+        $this->livreur_id =$item->id;
+        $this->nom =$item->nom;
+        $this->cin =$item->cin;
+        $this->phone =$item->tel;
+        $this->type =$item->type;
+        $this->ville_id =$item->ville_id;
+        $this->isActive =$item->active;
+    }
+
+    public function editLivreur(){
+
+        Livreur::where('id', $this->livreur_id)
+            ->update([
+                'nom' => $this->nom,
+                'cin' => $this->cin,
+                'tel' => $this->phone,
+                'type' => $this->type,
+                'ville_id' => $this->ville_id,
+                'active' => $this->isActive,
+            ]);
+
+        session()->flash('message', 'Livreur "'.$this->nom.'" à été modifié');
+        //return redirect()->to('/livreurs');
+    }
+
     public function deleteLivreur($id)
     {
         $this->render();
-        $unite = Livreur::findOrFail($id);
-        $unite->delete();
+        $livreur = Livreur::findOrFail($id);
+        $livreur->delete();
     }
 
     public function saved()

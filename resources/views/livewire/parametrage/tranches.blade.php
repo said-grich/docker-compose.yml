@@ -82,17 +82,17 @@
                                             <div x-data="{ open: false }">
                                                 <div class="mt-4">
                                                     <div class="mt-2">
-                                                        @foreach ($list_modes_vente as $mode)
-                                                            <label class="inline-flex items-center">
-                                                                <input type="radio" class="form-radio" name="type" wire:model.defer="type" value="{{$mode->id}}" @click="open = {{$mode->id}}">
-                                                                <span class="ml-2">{{$mode->nom}}</span>
-                                                            </label>
-
-                                                        @endforeach
+                                                        <div class="radio-inline">
+                                                            @foreach ($list_modes_vente as $mode)
+                                                                <label class="radio radio-primary">
+                                                                    <input type="radio" wire:model.defer="type" value="{{$mode->id}}" @click="open = {{$mode->id}}"/>
+                                                                    <span></span>
+                                                                    {{$mode->nom}}
+                                                                </label>
+                                                            @endforeach
+                                                        </div>
                                                     </div>
                                                 </div>
-
-
                                                 <div x-show="open === 1">
                                                     <div class="form-group">
                                                         <div class="input-group input-group-prepend">
@@ -115,7 +115,7 @@
                                                         @enderror
                                                     </div>
                                                 </div>
-                                                <div x-show="open === 2">
+                                                <div x-show="open > 1">
                                                     <div class="form-group">
                                                         <div class="input-group input-group-prepend">
                                                             <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-boxes icon-lg"></i></span></div>

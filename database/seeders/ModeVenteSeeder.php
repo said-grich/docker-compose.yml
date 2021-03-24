@@ -19,7 +19,11 @@ class ModeVenteSeeder extends Seeder
         ]);
 
         ModeVente::create([
-            'nom' => 'Kg/pièce',
+            'nom' => 'Kg',
+        ]);
+
+        ModeVente::create([
+            'nom' => 'Pièce',
         ]);
 
 
