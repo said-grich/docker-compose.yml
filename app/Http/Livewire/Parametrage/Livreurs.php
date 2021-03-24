@@ -46,7 +46,7 @@ class Livreurs extends Component
 
 
         session()->flash('message', 'Livreur "' . $this->nom . '" a été crée');
-        $this->reset(['nom','cin','phone','ville_id','type']);
+        $this->reset(['nom','cin','phone','ville_id','type','isActive']);
 
         $this->emit('saved');
     }

@@ -75,7 +75,7 @@
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
-                                            <div class="form-group col-md-6">
+                                            <div wire:ignore class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-people-carry icon-lg"></i></span></div>
                                                     <select class="form-control selectpicker" wire:model.defer="type">
@@ -88,7 +88,7 @@
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
-                                            <div class="form-group col-md-6">
+                                            <div wire:ignore class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-map-marker-alt icon-lg"></i></span></div>
                                                     <select class="form-control selectpicker" wire:model.defer="ville_id">
@@ -105,28 +105,13 @@
                                             <div class="form-group col-md-6 row">
                                                 <label class="col-3 col-form-label">Active</label>
                                                 <div class="col-3">
-                                                <span class="switch switch-outline switch-icon switch-primary">
-                                                    <label>
-                                                    <input type="checkbox" checked="checked" wire:model.defer="isActive" name="isActive"/>
-                                                    <span></span>
-                                                    </label>
-                                                </span>
-
-                                                {{-- <label class="col-3 col-form-label">Active :</label>
-                                                <div class="col-9 col-form-label">
-                                                    <div class="radio-inline">
-                                                        <label class="radio radio-primary">
-                                                            <input type="radio" name="active" wire:model.defer="active" checked="checked"/>
-                                                            <span></span>
-                                                            Oui
+                                                    <span class="switch switch-outline switch-icon switch-primary">
+                                                        <label>
+                                                        <input type="checkbox" checked="checked" wire:model.defer="isActive" name="isActive"/>
+                                                        <span></span>
                                                         </label>
-                                                        <label class="radio radio-primary">
-                                                            <input type="radio" name="active" wire:model.defer="active"/>
-                                                            <span></span>
-                                                            Non
-                                                        </label>
-                                                    </div>
-                                                </div> --}}
+                                                    </span>
+                                                </div>
                                             </div>
                                         </form>
                                     </div>
@@ -140,7 +125,7 @@
 
                         <!--Table-->
                         <div class="mt-5">
-                            {{-- @livewire('parametrage....') --}}
+                            @livewire('parametrage.liste-livreurs')
                         </div>
                     </div>
                 </div>
