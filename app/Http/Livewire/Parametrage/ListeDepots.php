@@ -7,11 +7,12 @@ use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class ListeDepot extends Component
+class ListeDepots extends Component
 {
+
     use WithPagination;
 
-    public $sortBy = 'code';
+    public $sortBy = 'nom';
     public $sortDirection = 'asc';
     public $perPage = 5;
     public $search = '';
@@ -20,17 +21,14 @@ class ListeDepot extends Component
     public function render()
     {
 
-        $depots= Depot::query()
-        ->where('code','ilike','%'.$this->search.'%')
+        $items= Depot::query()
+        ->where('nom','ilike','%'.$this->search.'%')
         ->orderBy($this->sortBy, $this->sortDirection)
         ->paginate($this->perPage);
 
-        return view('livewire.Parametrage.liste-depot',[
-            'depots'=> $depots
+        return view('livewire.parametrage.liste-depots',[
+            'items'=> $items
         ]);
-        //$depot = Depot::all();
-        //$list = Depot::all()->sortByDesc('created_at');
-        //return view('livewire.Parametrage.liste-depot', ['list' => $list, 'depot' => $depot]);
     }
     public function sortBy($field)
     {
@@ -42,16 +40,14 @@ class ListeDepot extends Component
 
         return $this->sortBy = $field;
     }
+    
     public function deleteDepot($id)
     {
 
         $depot = Depot::findOrFail($id);
-        DB::table("depots")->where('id', $id)->delete();
         $depot->delete();
-
-
-
-        return redirect()->to('/create-depot');
+        session()->flash('message', 'Dépôt "'.$depot->nom.'" à été supprimé');
+        return redirect()->to('/depots');
 
     }
 
@@ -61,6 +57,5 @@ class ListeDepot extends Component
     {
         $this->render();
     }
-
 
 }

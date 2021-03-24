@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CompteComptableSeeder::class);
         $this->call(CompteSeeder::class);*/
         $this->call(RegionSeeder::class);
+        $this->call(VilleSeeder::class);
         $this->call(DepotSeeder::class);
         $this->call(FamilleSeeder::class);
         $this->call(CategorieSeeder::class);

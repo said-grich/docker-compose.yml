@@ -27,7 +27,6 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/create-famille', \App\Htt
 Route::middleware(['auth:sanctum', 'verified'])->get('/create-sous-famille', \App\Http\Livewire\Parametrage\CreateSousFamille::class)->name('create-sous-famille');
 Route::middleware(['auth:sanctum', 'verified'])->get('/create-article', \App\Http\Livewire\Parametrage\CreateArticle::class)->name('create-article');
 Route::middleware(['auth:sanctum', 'verified'])->get('/create-departement', \App\Http\Livewire\CreateDepartement::class)->name('create-departement');
-Route::middleware(['auth:sanctum', 'verified'])->get('/create-depot', \App\Http\Livewire\Parametrage\CreateDepot::class)->name('create-depot');
 Route::middleware(['auth:sanctum', 'verified'])->get('/create-site', \App\Http\Livewire\Parametrage\CreateSite::class)->name('create-site');
 Route::middleware(['auth:sanctum', 'verified'])->get('/stock', \App\Http\Livewire\Etat\Stock::class)->name('stock');
 

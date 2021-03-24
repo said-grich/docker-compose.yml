@@ -8,21 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Depot extends Model
 {
     use HasFactory;
+    protected $guarded = [];
 
-    protected $fillable = [
-
-        'sites_l',
-
-    ];
-    protected $casts = [
-
-        'sites_l' => 'array',
-        'sites_locataires' => 'array'
-
-    ];
-
-    public function site()
+    public function ville()
     {
-        return $this->belongsTo(Site::class);
+        return $this->belongsTo(Ville::class);
     }
 }

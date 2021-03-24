@@ -60,10 +60,9 @@
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-map-marker-alt icon-lg"></i></span></div>
                                                     <select class="form-control selectpicker" wire:model.defer="ville">
                                                         <option>{{ __('Ville') }}</option>
-                                                        <option value="1">Marrakech</option>
-                                                        <option value="2">Casablanca</option>
-                                                        <option value="3">Mohammedia</option>
-                                                        <option value="4">Rabat</option>
+                                                        @foreach ($list_villes as $ville)
+                                                            <option value="{{$ville->id}}">{{$ville->nom}}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                                 @error('ville')
@@ -81,7 +80,7 @@
                         </div>
                         <!--Table-->
                         <div class="mt-5">
-                            {{-- @livewire('parametrage....') --}}
+                            @livewire('parametrage.liste-depots')
                         </div>
                     </div>
                 </div>

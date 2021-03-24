@@ -16,9 +16,8 @@ class CreateDepotsTable extends Migration
         Schema::create('depots', function (Blueprint $table) {
             $table->id();
             $table->string('nom',80);
-            $table->string('ville');
-            $table->unsignedBigInteger('region_id');
-            $table->foreign('region_id')->references('id')->on('regions');
+            $table->unsignedBigInteger('ville_id');
+            $table->foreign('ville_id')->references('id')->on('villes');
             $table->timestamps();
         });
     }
