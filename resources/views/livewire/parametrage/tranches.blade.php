@@ -87,11 +87,9 @@
                                                                 <input type="radio" class="form-radio" name="type" wire:model.defer="type" value="{{$mode->id}}" @click="open = {{$mode->id}}">
                                                                 <span class="ml-2">{{$mode->nom}}</span>
                                                             </label>
-
                                                         @endforeach
                                                     </div>
                                                 </div>
-
 
                                                 <div x-show="open === 1">
                                                     <div class="form-group">
@@ -106,11 +104,11 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <div class="input-group input-group-prepend">
-                                                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-boxes icon-lg"></i></span></div>
-                                                            <input type="text" class="form-control" placeholder=" " wire:model.defer="maxPoids"/>
-                                                            <label>{{ __('Poids maximal') }}</label>
+                                                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sitemap icon-lg"></i></span></div>
+                                                            <input type="text" class="form-control" placeholder=" " wire:model.defer="sous_categorie_name"/>
+                                                            <label>{{ __('Nom') }}</label>
                                                         </div>
-                                                        @error('maxPoids')
+                                                        @error('sous_categorie_name')
                                                             <span class="form-text text-danger">{{ $message }}</span>
                                                         @enderror
                                                     </div>

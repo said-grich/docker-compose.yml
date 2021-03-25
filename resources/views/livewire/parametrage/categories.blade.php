@@ -82,25 +82,27 @@
                                             <div class="form-group">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sitemap icon-lg"></i></span></div>
+                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="sous_categorie_name"/>
+                                                    <label>{{ __('Nom') }}</label>
+                                                </div>
+                                                @error('sous_categorie_name')
+                                                    <span class="form-text text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                            <div wire:ignore class="form-group">
+                                                <div class="input-group input-group-prepend">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sitemap icon-lg"></i></span></div>
 
-                                                    <select class="form-control" wire:model="categorie_id">
+                                                    <select class="form-control selectpicker" wire:model="categorie_id">
 
-                                                        <option>Sélectionner une catégorie</option>
+                                                        <option>{{ __('Catégorie') }}</option>
                                                         @foreach ($list_categories as $categorie)
                                                             <option value="{{$categorie->id}}">{{$categorie->nom}}</option>
                                                         @endforeach
 
                                                     </select>
-                                                    <label>{{ __('Catégorie') }}</label>
                                                 </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="input-group input-group-prepend">
-                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sitemap icon-lg"></i></span></div>
-                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="sous_categorie_name"/>
-                                                    <label>{{ __('Nom') }}</label>
-                                                </div>
-                                                @error('sous_categorie_name')
+                                                @error('categorie_id')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
