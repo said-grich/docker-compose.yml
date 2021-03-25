@@ -19,6 +19,9 @@ class CreateLotsTable extends Migration
             $table->date('date_capture');
             $table->date('date_entree');
             $table->date('date_preemption');
+            $table->float('pas');
+            $table->boolean('active')->default(false);
+
 
             $table->unsignedBigInteger('fournisseur_id');
             $table->foreign('fournisseur_id')->references('id')->on('fournisseurs');

@@ -72,7 +72,7 @@
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-phone icon-lg"></i></span></div>
                                                     <input type="tel" class="form-control" placeholder=" " wire:model.defer="phone"/>
-                                                    <label>{{ __('Phone') }}</label>
+                                                    <label>{{ __('Téléphone') }}</label>
                                                 </div>
                                                 @error('phone')
                                                     <span class="form-text text-danger">{{ $message }}</span>
@@ -88,7 +88,7 @@
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div> --}}
-                                            <div wire:ignore class="form-group col-md-12">
+                                            <div wire:ignore class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-id-card-alt icon-lg"></i></span></div>
 

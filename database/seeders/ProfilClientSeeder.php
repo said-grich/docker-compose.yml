@@ -21,7 +21,7 @@ class ProfilClientSeeder extends Seeder
             'nom' => 'Fidèle',
         ]);
         ProfilClient::create([
-            'nom' => 'Pro',
+            'nom' => 'Business',
         ]);
 
     }

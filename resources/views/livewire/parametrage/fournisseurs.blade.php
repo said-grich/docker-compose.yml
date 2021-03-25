@@ -66,15 +66,116 @@
                                                 @enderror
                                             </div>
                                             <div class="form-group">
-                                                <div class="input-group input-group-prepend">
+                                                {{-- <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-address-book icon-lg"></i></span></div>
                                                     <input type="text" class="form-control" placeholder=" " wire:model.defer="contact"/>
                                                     <label>{{ __('Contact') }}</label>
                                                 </div>
                                                 @error('contact')
                                                     <span class="form-text text-danger">{{ $message }}</span>
-                                                @enderror
+                                                @enderror --}}
+
+                                                <div id="kt_repeater_3">
+                                                    <label>{{ __('Contact') }}</label>
+                                                    <div class="form-group row">
+                                                        <div data-repeater-list="" class="col">
+                                                            <div data-repeater-item class="form-group row">
+                                                                <div class="col">
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-prepend">
+                                                                            <span class="input-group-text">
+                                                                                <i class="la la-phone"></i>
+                                                                            </span>
+                                                                        </div>
+                                                                        <input type="text" class="form-control" wire:model="contact_phone.0" placeholder="Téléphone"/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-prepend">
+                                                                            <span class="input-group-text">
+                                                                                <i class="la la-envelope"></i>
+                                                                            </span>
+                                                                        </div>
+                                                                        <input type="text" class="form-control" wire:model="contact_email.0" placeholder="Email"/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-prepend">
+                                                                            <span class="input-group-text">
+                                                                                <i class="las la-user-tie"></i>
+                                                                            </span>
+                                                                        </div>
+                                                                        <input type="text" class="form-control" wire:model="contact_fonction.0" placeholder="Fonction"/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2">
+                                                                    <a href="javascript:;" data-repeater-delete="" class="btn font-weight-bold btn-danger btn-icon">
+                                                                        <i class="la la-remove"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        @foreach($inputs as $key => $value)
+                                                            <div data-repeater-list="">
+                                                                <div data-repeater-item class="form-group row">
+                                                                    <div class="col">
+                                                                        <div class="input-group">
+                                                                            <div class="input-group-prepend">
+                                                                                <span class="input-group-text">
+                                                                                    <i class="la la-phone"></i>
+                                                                                </span>
+                                                                            </div>
+                                                                            <input type="text" class="form-control" wire:model="contact_phone.{{$value}}" placeholder="Téléphone"/>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col">
+                                                                        <div class="input-group">
+                                                                            <div class="input-group-prepend">
+                                                                                <span class="input-group-text">
+                                                                                    <i class="la la-envelope"></i>
+                                                                                </span>
+                                                                            </div>
+                                                                            <input type="text" class="form-control" wire:model="contact_email.{{$value}}" placeholder="Email"/>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col">
+                                                                        <div class="input-group">
+                                                                            <div class="input-group-prepend">
+                                                                                <span class="input-group-text">
+                                                                                    <i class="las la-user-tie"></i>
+                                                                                </span>
+                                                                            </div>
+                                                                            <input type="text" class="form-control" wire:model="contact_fonction.{{$value}}" placeholder="Fonction"/>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-2">
+                                                                        <a href="javascript:;" data-repeater-delete="" class="btn font-weight-bold btn-danger btn-icon">
+                                                                            <i class="la la-remove"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-lg-3"></div>
+                                                        <div class="col">
+                                                            <button data-repeater-create="" class="btn font-weight-bold btn-primary" wire:click.prevent="add()">
+                                                                <i class="la la-plus"></i> Ajouter un contact
+                                                            </button>
+                                                            {{-- <div data-repeater-create="" class="btn font-weight-bold btn-primary">
+                                                                <i class="la la-plus"></i>
+                                                                Ajouter un contact
+                                                            </div> --}}
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
+
+
                                         </form>
                                     </div>
                                     <div class="modal-footer">
@@ -98,3 +199,44 @@
     </div>
     <!--end::Container-->
 </div>
+@push('scripts')
+    <script>
+        // Class definition
+        var KTFormRepeater = function() {
+
+        // Private functions
+        var demo3 = function() {
+            $('#kt_repeater_3').repeater({
+                initEmpty: false,
+
+                defaultValues: {
+                    'text-input': 'foo'
+                },
+
+                show: function() {
+                    $(this).slideDown();
+                },
+
+                hide: function(deleteElement) {
+                    if(confirm('Are you sure you want to delete this element?')) {
+                        $(this).slideUp(deleteElement);
+                    }
+                }
+            });
+        }
+
+        return {
+            // public functions
+            init: function() {
+                demo3();
+            }
+        };
+        }();
+
+        jQuery(document).ready(function() {
+        KTFormRepeater.init();
+        });
+
+
+    </script>
+@endpush
