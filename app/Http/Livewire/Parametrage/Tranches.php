@@ -45,40 +45,27 @@ class Tranches extends Component
         //$this->validate();
 
         $uniqueId = str_replace(".","",microtime(true)).rand(000,999);
-        /* $item = new TranchesPoidsPc();
-        $item->type = $this->type; */
-        //dd($this->type);
 
-        if($this->type == 2){
+        if($this->type == 1){
 
-            TranchesKgPc::create([
-                'nom' => $this->nom,
-                'uid' => "KP".$uniqueId,
-            ]);
-            session()->flash('message', 'Tranche "'.$this->nom. '" a été crée ');
-
-        }else{
             TranchesPoidsPc::create([
                 'nom' => $this->minPoids." - ".$this->maxPoids,
                 'min_poids' => $this->minPoids,
                 'max_poids' => $this->maxPoids,
                 'uid' => "PP".$uniqueId,
             ]);
-            session()->flash('message', 'Tranche "'.$this->minPoids." - ".$this->maxPoids. '" a été crée ');
 
-            /* $item = new TranchesPoidsPc();
-            //$item->nom = $this->minPoids." - ". $this->maxPoids;
-            $item->uid = "PP".$uniqueId;
-            $item->min_poids = $this->minPoids;
-            $item->max_poids = $this->maxPoids;
-            $item->save(); */
+
+
+        }else{
+            TranchesKgPc::create([
+                'nom' => $this->nom,
+                'uid' => "KP".$uniqueId,
+            ]);
+
         }
-        /* $this->type == 1 ? $item->nom = $this->nom && $item->uid = "PC-".$uniqueId:  $item->nom = $this->minPoids." - ". $this->maxPoids && $item->uid = "KGPC-".$uniqueId; */
-        //$item->id = $uniqueId.$item->nom;
-        /* $item->min_poids = $this->minPoids;
-        $item->max_poids = $this->maxPoids; */
-        ///$item->save();
-        //session()->flash('message', 'Tranche "'.$item->nom. '" a été crée ');
+        session()->flash('message', 'Tranche "'.$this->nom. '" a été crée ');
+
 
 
         $this->reset(['nom','minPoids','maxPoids']);
@@ -88,8 +75,6 @@ class Tranches extends Component
 
     public function render()
     {
-        /* $unique = str_replace(".","",microtime(true)).rand(000,999);
-        dd($unique); */
         $this->renderModeVente();
         return view('livewire.parametrage.tranches');
     }

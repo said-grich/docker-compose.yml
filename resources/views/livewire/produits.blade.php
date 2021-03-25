@@ -48,11 +48,11 @@
                                             <div wire:ignore class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sitemap icon-lg"></i></span></div>
-                                                    <select class="form-control selectpicker" wire:model.defer="sous-categorie">
+                                                    <select class="form-control selectpicker" wire:model.defer="sous_categorie">
                                                         <option>{{ __('Sous Categorie') }}</option>
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
+                                                        @foreach ($list_categories as $item)
+                                                            <option value="{{$item->id}}">{{$item->nom}}</option>
+                                                        @endforeach
                                                     </select>
                                                     <div class="input-group-append" data-toggle="modal" data-target="#sous-categorie"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Sous Categorie"><i class="fa fa-plus-circle"></i></button></div>
                                                 </div>
@@ -63,15 +63,15 @@
                                             <div wire:ignore class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-money-check-alt icon-lg"></i></span></div>
-                                                    <select class="form-control selectpicker" wire:model.defer="mode-vente">
+                                                    <select class="form-control " wire:model="mode_vente">
                                                         <option>{{ __('Mode Vente') }}</option>
-                                                        <option value="1">{{ __('Kg') }}</option>
-                                                        <option value="2">{{ __('Pièce') }}</option>
-                                                        <option value="3">{{ __('Poids Par Pièce') }}</option>
+                                                        @foreach ($list_modes_vente as $item)
+                                                            <option value="{{$item->id}}">{{$item->nom}}</option>
+                                                        @endforeach
                                                     </select>
                                                     <div class="input-group-append" data-toggle="modal" data-target="#mode-vente"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Mode Vente"><i class="fa fa-plus-circle"></i></button></div>
                                                 </div>
-                                                @error('mode-vente')
+                                                @error('mode_vente')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
@@ -80,6 +80,10 @@
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sliders-h icon-lg"></i></span></div>
                                                     <select class="form-control selectpicker" wire:model.defer="tranches">
                                                         <option>{{ __('Tranches') }}</option>
+                                                        @foreach ($list_tranches as $item)
+                                                            <option value="1">0.5 - 1.5 Kg</option>
+
+                                                        @endforeach
                                                         <option value="1">0.5 - 1.5 Kg</option>
                                                         <option value="2">2.0 - 3.5 Kg</option>
                                                         <option value="3">3.6 - 5 Kg</option>
@@ -393,7 +397,7 @@
 </div>
 
 <!--Modal-Préparation-->
-<div wire:ignore.self class="modal secondary fade" id="preparation" tabindex="-1" role="dialog" aria-labelledby="preparation" aria-hidden="true">
+<div wire:ignore.self class="modal secondary fade" id="preparation" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="preparation" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">

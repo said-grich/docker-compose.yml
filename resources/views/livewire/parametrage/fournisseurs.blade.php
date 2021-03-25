@@ -58,23 +58,14 @@
                                             <div class="form-group">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-phone icon-lg"></i></span></div>
-                                                    <input type="tel" class="form-control" placeholder=" " wire:model.defer="phone"/>
+                                                    <input type="tel" class="form-control" placeholder=" " wire:model.defer="tel"/>
                                                     <label>{{ __('Téléphone') }}</label>
                                                 </div>
-                                                @error('phone')
+                                                @error('tel')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                             <div class="form-group">
-                                                {{-- <div class="input-group input-group-prepend">
-                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-address-book icon-lg"></i></span></div>
-                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="contact"/>
-                                                    <label>{{ __('Contact') }}</label>
-                                                </div>
-                                                @error('contact')
-                                                    <span class="form-text text-danger">{{ $message }}</span>
-                                                @enderror --}}
-
                                                 <div id="kt_repeater_3">
                                                     <label>{{ __('Contact') }}</label>
                                                     <div class="form-group row">
@@ -107,7 +98,7 @@
                                                                                 <i class="la la-phone"></i>
                                                                             </span>
                                                                         </div>
-                                                                        <input type="text" class="form-control" wire:model="contact_phone.0" placeholder="Téléphone"/>
+                                                                        <input type="text" class="form-control" wire:model="contact_tel.0" placeholder="Téléphone"/>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col">
@@ -157,7 +148,7 @@
                                                                                     <i class="la la-phone"></i>
                                                                                 </span>
                                                                             </div>
-                                                                            <input type="text" class="form-control" wire:model="contact_phone.{{$value}}" placeholder="Téléphone"/>
+                                                                            <input type="text" class="form-control" wire:model="contact_tel.{{$value}}" placeholder="Téléphone"/>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col">
@@ -171,7 +162,7 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-2">
-                                                                        <a href="javascript:;" data-repeater-delete="" class="btn font-weight-bold btn-danger btn-icon">
+                                                                        <a href="javascript:;" wire:click="remove({{$value}})" data-repeater-delete="" class="btn font-weight-bold btn-danger btn-icon">
                                                                             <i class="la la-remove"></i>
                                                                         </a>
                                                                     </div>
@@ -238,6 +229,7 @@
                 },
 
                 hide: function(deleteElement) {
+                    console.log( $(this));
                     if(confirm('Are you sure you want to delete this element?')) {
                         $(this).slideUp(deleteElement);
                     }
