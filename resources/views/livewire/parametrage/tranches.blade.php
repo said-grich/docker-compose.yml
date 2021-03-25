@@ -80,19 +80,19 @@
                                     <div class="modal-body">
                                         <form id="tranches-form" class="form" wire:submit.prevent="createTranche">
                                             <div x-data="{ open: false }">
-                                                <div class="mt-4">
-                                                    <div class="mt-2">
+                                                <div class="mb-6">
+                                                    <div class="radio-inline">
                                                         @foreach ($list_modes_vente as $mode)
-                                                            <label class="inline-flex items-center">
-                                                                <input type="radio" class="form-radio" name="type" wire:model.defer="type" value="{{$mode->id}}" @click="open = {{$mode->id}}">
-                                                                <span class="ml-2">{{$mode->nom}}</span>
+                                                            <label class="radio radio-primary">
+                                                                <input type="radio" name="type" wire:model.defer="type" value="{{$mode->id}}" @click="open = {{$mode->id}}"/>
+                                                                <span></span>
+                                                                {{$mode->nom}}
                                                             </label>
                                                         @endforeach
                                                     </div>
                                                 </div>
-
-                                                <div x-show="open === 1">
-                                                    <div class="form-group">
+                                                <div class="row" x-show="open === 1">
+                                                    <div class="form-group col-md-6">
                                                         <div class="input-group input-group-prepend">
                                                             <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-boxes icon-lg"></i></span></div>
                                                             <input type="text" class="form-control" placeholder=" " wire:model.defer="minPoids"/>
@@ -102,7 +102,7 @@
                                                             <span class="form-text text-danger">{{ $message }}</span>
                                                         @enderror
                                                     </div>
-                                                    <div class="form-group">
+                                                    <div class="form-group col-md-6">
                                                         <div class="input-group input-group-prepend">
                                                             <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sitemap icon-lg"></i></span></div>
                                                             <input type="text" class="form-control" placeholder=" " wire:model.defer="sous_categorie_name"/>
@@ -113,7 +113,7 @@
                                                         @enderror
                                                     </div>
                                                 </div>
-                                                <div x-show="open === 2">
+                                                <div x-show="open > 1">
                                                     <div class="form-group">
                                                         <div class="input-group input-group-prepend">
                                                             <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-boxes icon-lg"></i></span></div>

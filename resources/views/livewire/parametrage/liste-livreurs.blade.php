@@ -1,7 +1,7 @@
 <div class="table-responsive">
     <div class="d-flex flex-row-reverse">
         <div class="input-icon">
-            <input wire:model.debounce.300ms="search" class="form-control" type="text" placeholder="Search...">
+            <input wire:model.debounce.300ms="search" class="form-control" type="text" placeholder="Recherche...">
             <span>
                 <i class="flaticon2-search-1 text-muted"></i>
             </span>
@@ -21,7 +21,7 @@
                 <th class="pl-0" wire:click="sortBy('tel')" style="cursor: pointer;">Téléphone @include('layouts.partials._sort-icon',['field'=>'tel'])</th>
                 <th class="pl-0" wire:click="sortBy('type')" style="cursor: pointer;">Type @include('layouts.partials._sort-icon',['field'=>'type'])</th>
                 <th class="pl-0" wire:click="sortBy('type')" style="cursor: pointer;">Ville @include('layouts.partials._sort-icon',['field'=>'type'])</th>
-                <th class="pl-0" wire:click="sortBy('active')" style="cursor: pointer;">Active @include('layouts.partials._sort-icon',['field'=>'active'])</th>
+                <th class="pl-0" wire:click="sortBy('active')" style="cursor: pointer;">Statut @include('layouts.partials._sort-icon',['field'=>'active'])</th>
                 <th class="pr-0 text-right" style="min-width: 160px">Actions</th>
             </tr>
         </thead>
@@ -46,16 +46,15 @@
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->type }}</a>
                     </td>
                     <td class="pl-0">
-                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->nom }}</a>
+                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->ville->nom }}</a>
                     </td>
                     <td class="pl-0">
-                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->active }}</a>
+                        <span class="label {{ $item->active == true ? 'label-primary' : 'label-danger' }} label-pill label-inline mr-2">{{ $item->active == true ? 'Activé' : 'Désactivé' }} </span>
+                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg"></a>
                     </td>
-                    {{-- <td class="pl-0">
-                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{$item->mode->nom}}</a>
-                    </td> --}}
+
                     <td class="pr-0 text-right">
-                        <a  href="{{ route('edit-famille', ['ida' => $item->id]) }}" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">
+                        <a href="#" wire:click="edit({{$item->id}})" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#exampleModalSizeSm">
                             <span class="svg-icon svg-icon-md svg-icon-primary">
                                 {{--begin::Svg Icon--}}
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -87,4 +86,95 @@
             </tbody>
         </table>
         {{ $items->links('layouts.partials.custom-pagination') }}
+
+        <div wire:ignore.self class="modal fade" id="exampleModalSizeSm" tabindex="-1" role="dialog" aria-labelledby="exampleModalSizeSm" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{{ __('Modification livreur') }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i aria-hidden="true" class="ki ki-close"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="edit-livreur-form" class="form row">
+                            <div class="form-group col-md-6">
+                                <div class="input-group input-group-prepend">
+                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tag icon-lg"></i></span></div>
+                                    <input type="hidden" class="form-control" placeholder=" " wire:model.defer="livreur_id"/>
+                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="nom"/>
+                                    <label>{{ __('Nom') }}</label>
+                                </div>
+                                @error('nom')
+                                    <span class="form-text text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="input-group input-group-prepend">
+                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-id-card icon-lg"></i></span></div>
+                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="cin"/>
+                                    <label>{{ __('CIN') }}</label>
+                                </div>
+                                @error('cin')
+                                    <span class="form-text text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="input-group input-group-prepend">
+                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-phone icon-lg"></i></span></div>
+                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="phone"/>
+                                    <label>{{ __('Téléphone') }}</label>
+                                </div>
+                                @error('phone')
+                                    <span class="form-text text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div wire:ignore class="form-group col-md-6">
+                                <div class="input-group input-group-prepend">
+                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-people-carry icon-lg"></i></span></div>
+                                    <select class="form-control" wire:model.defer="type">
+                                        <option>{{ __('Choisir un type') }}</option>
+                                        <option value="interne">Interne</option>
+                                        <option value="externe">Externe</option>
+                                    </select>
+                                </div>
+                                @error('type')
+                                    <span class="form-text text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div wire:ignore class="form-group col-md-6">
+                                <div class="input-group input-group-prepend">
+                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-map-marker-alt icon-lg"></i></span></div>
+                                    <select class="form-control " wire:model.defer="ville_id">
+                                        <option>{{ __('Choisir une ville') }}</option>
+                                        @foreach ($list_villes as $ville)
+                                            <option value="{{$ville->id}}">{{$ville->nom}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('ville')
+                                    <span class="form-text text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group col-md-6 row">
+                                <label class="col-3 col-form-label">Active</label>
+                                <div class="col-3">
+                                    <span class="switch switch-outline switch-icon switch-primary">
+                                        <label>
+                                        <input type="checkbox" checked="checked" wire:model.defer="isActive" name="isActive"/>
+                                        <span></span>
+                                        </label>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
+                            <button type="submit" wire:click="editLivreur" class="btn btn-primary font-weight-bold" form="edit-livreur-form" >{{ __('Enregistrer') }}</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>

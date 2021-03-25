@@ -19,6 +19,7 @@ class CreateLivreursTable extends Migration
             $table->string('cin');
             $table->string('tel');
             $table->string('type');
+            $table->string('solde')->nullable();
             $table->boolean('active')->default(false);
             $table->unsignedBigInteger('ville_id');
             $table->foreign('ville_id')->references('id')->on('villes');

@@ -11,11 +11,24 @@ class Fournisseurs extends Component
     public $phone;
     public $contact;
 
+    public $inputs = [];
+    public $i = 0;
+
+
+
     protected $rules = [
         'nom' => 'required|min:2',
         'phone' => 'required|min:2',
         'contact' => 'required|min:2',
     ];
+
+    public function add()
+    {
+        $this->i++;
+        array_push($this->inputs, $this->i);
+        //dd($this->inputs);
+
+    }
 
 
     public function createFournisseur()

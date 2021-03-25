@@ -12,6 +12,9 @@ class ListeModesLivraison extends Component
 
     use WithPagination;
 
+    public $mode_livraison_id;
+    public $nom;
+    
     public $sortBy = 'nom';
     public $sortDirection = 'asc';
     public $perPage = 5;
@@ -39,6 +42,24 @@ class ListeModesLivraison extends Component
         }
 
         return $this->sortBy = $field;
+    }
+
+    public function edit($id){
+
+        $item = ModeLivraison::where('id',$id)->firstOrFail();
+        $this->mode_livraison_id =$item->id;
+        $this->nom =$item->nom;
+    }
+
+    public function editModeLivraison(){
+
+        ModeLivraison::where('id', $this->mode_livraison_id)
+            ->update([
+                'nom' => $this->nom,
+            ]);
+
+        session()->flash('message', 'Mode de livraison "'.$this->nom.'" à été modifié');
+        return redirect()->to('/modes-livraison');
     }
 
     public function deleteModeLivraison($id)
