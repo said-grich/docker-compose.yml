@@ -15,11 +15,13 @@ class CreateFournisseurContactsTable extends Migration
     {
         Schema::create('fournisseur_contacts', function (Blueprint $table) {
             $table->id();
-            $table->string('tel');
+            $table->string('nom');
             $table->string('fonction');
+            $table->string('tel');
+            $table->string('email')->nullable();
 
-            /* $table->unsignedBigInteger('fournissuer_id');
-            $table->foreign('fournissuer_id')->references('id')->on('fournissuers'); */
+            $table->unsignedBigInteger('fournisseur_id');
+            $table->foreign('fournisseur_id')->references('id')->on('fournisseurs');
 
             $table->timestamps();
         });

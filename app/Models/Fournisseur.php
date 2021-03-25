@@ -15,9 +15,14 @@ class Fournisseur extends Model
         'phone',
     ];
 
-    public function modePaiement()
-    {
+    public function modePaiement(){
+
         return $this->belongsTo(ModePaiement::class, 'mode_paiement_id', 'id');
+    }
+
+    public function contacts(){
+
+        return $this->hasMany(FournisseurContact::class);
     }
 
 }

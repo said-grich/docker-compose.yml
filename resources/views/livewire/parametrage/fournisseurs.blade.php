@@ -84,6 +84,26 @@
                                                                     <div class="input-group">
                                                                         <div class="input-group-prepend">
                                                                             <span class="input-group-text">
+                                                                                <i class="las la-user-tie"></i>
+                                                                            </span>
+                                                                        </div>
+                                                                        <input type="text" class="form-control" wire:model="contact_nom.0" placeholder="Nom"/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-prepend">
+                                                                            <span class="input-group-text">
+                                                                                <i class="las la-user-tie"></i>
+                                                                            </span>
+                                                                        </div>
+                                                                        <input type="text" class="form-control" wire:model="contact_fonction.0" placeholder="Fonction"/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-prepend">
+                                                                            <span class="input-group-text">
                                                                                 <i class="la la-phone"></i>
                                                                             </span>
                                                                         </div>
@@ -100,16 +120,6 @@
                                                                         <input type="text" class="form-control" wire:model="contact_email.0" placeholder="Email"/>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col">
-                                                                    <div class="input-group">
-                                                                        <div class="input-group-prepend">
-                                                                            <span class="input-group-text">
-                                                                                <i class="las la-user-tie"></i>
-                                                                            </span>
-                                                                        </div>
-                                                                        <input type="text" class="form-control" wire:model="contact_fonction.0" placeholder="Fonction"/>
-                                                                    </div>
-                                                                </div>
                                                                 <div class="col-lg-2">
                                                                     <a href="javascript:;" data-repeater-delete="" class="btn font-weight-bold btn-danger btn-icon">
                                                                         <i class="la la-remove"></i>
@@ -120,6 +130,26 @@
                                                         @foreach($inputs as $key => $value)
                                                             <div data-repeater-list="">
                                                                 <div data-repeater-item class="form-group row">
+                                                                    <div class="col">
+                                                                        <div class="input-group">
+                                                                            <div class="input-group-prepend">
+                                                                                <span class="input-group-text">
+                                                                                    <i class="las la-user-tie"></i>
+                                                                                </span>
+                                                                            </div>
+                                                                            <input type="text" class="form-control" wire:model="contact_nom.{{$value}}" placeholder="Nom"/>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col">
+                                                                        <div class="input-group">
+                                                                            <div class="input-group-prepend">
+                                                                                <span class="input-group-text">
+                                                                                    <i class="las la-user-tie"></i>
+                                                                                </span>
+                                                                            </div>
+                                                                            <input type="text" class="form-control" wire:model="contact_fonction.{{$value}}" placeholder="Fonction"/>
+                                                                        </div>
+                                                                    </div>
                                                                     <div class="col">
                                                                         <div class="input-group">
                                                                             <div class="input-group-prepend">
@@ -138,16 +168,6 @@
                                                                                 </span>
                                                                             </div>
                                                                             <input type="text" class="form-control" wire:model="contact_email.{{$value}}" placeholder="Email"/>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col">
-                                                                        <div class="input-group">
-                                                                            <div class="input-group-prepend">
-                                                                                <span class="input-group-text">
-                                                                                    <i class="las la-user-tie"></i>
-                                                                                </span>
-                                                                            </div>
-                                                                            <input type="text" class="form-control" wire:model="contact_fonction.{{$value}}" placeholder="Fonction"/>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-2">

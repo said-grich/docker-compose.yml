@@ -25,6 +25,7 @@
         </thead>
         <tbody>
             @foreach ($fournisseur as $item)
+
             <tr @if($loop->even)class="bg-grey"@endif>
                     <td class="pl-0 py-6">
                         <label class="checkbox checkbox-lg checkbox-inline">
@@ -39,10 +40,48 @@
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->tel }}</a>
                     </td>
                     <td class="pl-0">
-                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->contact }}</a>
+                        <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#contacts">{{ __('Contacts') }}</button>
+                        <!--Modal-->
+                        <div wire:ignore.self class="modal fade" id="contacts" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="contacts" aria-hidden="true">
+                            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">{{ __('Contacts associés au fournisseur') }} <span class="label label-primary label-lg label-inline mr-2">{{ $item->nom }}</span> </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <i aria-hidden="true" class="ki ki-close"></i>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="table table-striped table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Nom</th>
+                                                    <th scope="col">Fonction</th>
+                                                    <th scope="col">Téléphone</th>
+                                                    <th scope="col">Email</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($item->contacts as $contact)
+                                                    <tr>
+                                                        <td>{{ $contact->nom}}</td>
+                                                        <td>{{ $contact->fonction}}</td>
+                                                        <td>{{ $contact->tel }}</td>
+                                                        <td>{{ $contact->email }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </td>
                     <td class="pr-0 text-right">
-                        <a  href="{{ route('edit-fournisseur', ['ida' => $item->id]) }}" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">
+                        <a  {{-- href="{{ route('edit-fournisseur', ['ida' => $item->id]) }}" --}} class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">
                             <span class="svg-icon svg-icon-md svg-icon-primary">
 
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">

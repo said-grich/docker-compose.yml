@@ -18,7 +18,7 @@ class FournisseurSeeder extends Seeder
             'nom' => 'AZUL FISH',
             'tel' => '06666666',
             //'ville' => 'CASABLANCA',
-            'contact' => '',
+            /* 'contact' => '', */
 
         ]);
 
@@ -26,7 +26,7 @@ class FournisseurSeeder extends Seeder
             'nom' => 'Scandimar',
             'tel'=> '0523302044',
             //'ville' => 'Mohammedia',
-            'contact' => '',
+            /* 'contact' => '', */
 
         ]);
 
@@ -34,7 +34,7 @@ class FournisseurSeeder extends Seeder
             'nom' => 'STE wadii pescados',
             'tel' => '0661330512',
             //'ville' => 'Safi',
-            'contact' => '',
+            /* 'contact' => '', */
 
         ]);
 
@@ -42,18 +42,14 @@ class FournisseurSeeder extends Seeder
             'nom' => 'Aabou abdellah',
             'tel' => '0662743055',
             //'ville' => 'LAAYOUNE',
-            'contact' => '',
+            /* 'contact' => '', */
 
         ]);
 
         /* Fournisseur::create([
             'nom' => 'MUSTAPHA MAOUHOUB',
             'tel' => '',
-            //'ville' => 'CASABLANCA',
-            'contact' => '',
-
         ]); */
-
 
     }
 }
