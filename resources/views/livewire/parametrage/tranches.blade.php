@@ -37,7 +37,7 @@
                             <i class="flaticon-plus"></i> {{ __('Ajouter tranche') }}
                         </button>
                         <!--Modal-->
-                        <div wire:ignore.self class="modal fade" id="mode_vente" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="mode_vente" aria-hidden="true">
+                        <div wire:ignore.self class="modal fade" id="mode-vente" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="mode-vente" aria-hidden="true">
                             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -50,7 +50,7 @@
                                         <form id="mode-vente-form" class="form" wire:submit.prevent="createModeVente">
                                             <div class="form-group">
                                                 <div class="input-group input-group-prepend">
-                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sitemap icon-lg"></i></span></div>
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-money-check-alt icon-lg"></i></span></div>
                                                     <input type="text" class="form-control" placeholder=" " wire:model.defer="mode_vente_name"/>
                                                     <label>{{ __('Nom') }}</label>
                                                 </div>
@@ -94,9 +94,9 @@
                                                 <div class="row" x-show="open === 1">
                                                     <div class="form-group col-md-6">
                                                         <div class="input-group input-group-prepend">
-                                                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-boxes icon-lg"></i></span></div>
+                                                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sliders-h icon-lg"></i></span></div>
                                                             <input type="text" class="form-control" placeholder=" " wire:model.defer="minPoids"/>
-                                                            <label>{{ __('Poids minimal') }}</label>
+                                                            <label>{{ __('Poids Minimal') }}</label>
                                                         </div>
                                                         @error('minPoids')
                                                             <span class="form-text text-danger">{{ $message }}</span>
@@ -104,11 +104,11 @@
                                                     </div>
                                                     <div class="form-group col-md-6">
                                                         <div class="input-group input-group-prepend">
-                                                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sitemap icon-lg"></i></span></div>
-                                                            <input type="text" class="form-control" placeholder=" " wire:model.defer="sous_categorie_name"/>
-                                                            <label>{{ __('Nom') }}</label>
+                                                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sliders-h icon-lg"></i></span></div>
+                                                            <input type="text" class="form-control" placeholder=" " wire:model.defer="maxPoids"/>
+                                                            <label>{{ __('Poids Maximal') }}</label>
                                                         </div>
-                                                        @error('sous_categorie_name')
+                                                        @error('maxPoids')
                                                             <span class="form-text text-danger">{{ $message }}</span>
                                                         @enderror
                                                     </div>
@@ -116,7 +116,7 @@
                                                 <div x-show="open > 1">
                                                     <div class="form-group">
                                                         <div class="input-group input-group-prepend">
-                                                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-boxes icon-lg"></i></span></div>
+                                                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-weight-hanging icon-lg"></i></span></div>
                                                             <input type="text" class="form-control" placeholder=" " wire:model.defer="nom"/>
                                                             <label>{{ __('Nom') }}</label>
                                                         </div>
@@ -124,7 +124,6 @@
                                                             <span class="form-text text-danger">{{ $message }}</span>
                                                         @enderror
                                                     </div>
-
                                                 </div>
                                             </div>
                                         </form>

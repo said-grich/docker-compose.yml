@@ -93,12 +93,10 @@
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-tools icon-lg"></i></span></div>
                                                     <select class="form-control selectpicker" wire:model="mode_preparation_id">
-
                                                         <option>{{ __('Mode Préparation') }}</option>
                                                         @foreach ($list_mode_preparations as $mode)
                                                             <option value="{{$mode->id}}">{{$mode->nom}}</option>
                                                         @endforeach
-
                                                     </select>
                                                 </div>
                                                 @error('mode_preparation_id')
