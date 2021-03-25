@@ -34,7 +34,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form id="produit-form" class="form row" wire:submit.prevent="createProduit">
+                                        <form id="produit-form" class="form row" wire:submit.prevent="createProduit" enctype="multipart/form-data">
                                             <div class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-box-open icon-lg"></i></span></div>
@@ -49,21 +49,21 @@
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sitemap icon-lg"></i></span></div>
                                                     <select class="form-control selectpicker" wire:model.defer="sous_categorie">
-                                                        <option>{{ __('Sous Categorie') }}</option>
+                                                        <option>{{ __('Choisir un sous catégorie') }}</option>
                                                         @foreach ($list_categories as $item)
                                                             <option value="{{$item->id}}">{{$item->nom}}</option>
                                                         @endforeach
                                                     </select>
                                                     <div class="input-group-append" data-toggle="modal" data-target="#sous-categorie"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Sous Categorie"><i class="fa fa-plus-circle"></i></button></div>
                                                 </div>
-                                                @error('sous-categorie')
+                                                @error('sous_categorie')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                             <div wire:ignore class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-money-check-alt icon-lg"></i></span></div>
-                                                    <select class="form-control " wire:model="mode_vente">
+                                                    <select class="form-control selectpicker" wire:model="mode_vente">
                                                         <option>{{ __('Mode Vente') }}</option>
                                                         @foreach ($list_modes_vente as $item)
                                                             <option value="{{$item->id}}">{{$item->nom}}</option>
@@ -75,18 +75,15 @@
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
-                                            <div wire:ignore class="form-group col-md-6">
+
+                                            <div class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sliders-h icon-lg"></i></span></div>
-                                                    <select class="form-control selectpicker" wire:model.defer="tranches">
-                                                        <option>{{ __('Tranches') }}</option>
-                                                        @foreach ($list_tranches as $item)
-                                                            <option value="1">0.5 - 1.5 Kg</option>
-
-                                                        @endforeach
-                                                        <option value="1">0.5 - 1.5 Kg</option>
-                                                        <option value="2">2.0 - 3.5 Kg</option>
-                                                        <option value="3">3.6 - 5 Kg</option>
+                                                    <select class="form-control" wire:model="tranches">
+                                                        <option>{{ __('Choisir une tranche') }}</option>
+                                                            @foreach ($list_tranches as $tranche)
+                                                                <option value="{{$tranche->id}}">{{$tranche->nom}}</option>
+                                                            @endforeach
                                                     </select>
                                                     <div class="input-group-append" data-toggle="modal" data-target="#tranches"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Tranche"><i class="fa fa-plus-circle"></i></button></div>
                                                 </div>
@@ -97,25 +94,26 @@
                                             <div wire:ignore class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-tools icon-lg"></i></span></div>
-                                                    <select class="form-control selectpicker" wire:model.defer="mode-preparation">
-                                                        <option>{{ __('Mode Préparation') }}</option>
-                                                        <option value="1">{{ __('Nettoyage') }}</option>
-                                                        <option value="2">{{ __('Cuisine') }}</option>
+                                                    <select class="form-control selectpicker" wire:model="mode_preparation">
+                                                        <option>{{ __('Choisir un mode de préparation') }}</option>
+                                                            @foreach ($list_modes_preparation as $mode)
+                                                                <option value="{{$mode->id}}">{{$mode->nom}}</option>
+                                                            @endforeach
                                                     </select>
                                                     <div class="input-group-append" data-toggle="modal" data-target="#mode-preparation"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Mode Préparation"><i class="fa fa-plus-circle"></i></button></div>
                                                 </div>
-                                                @error('mode-preparation')
+                                                @error('mode_preparation')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
-                                            <div wire:ignore class="form-group col-md-6">
+                                            <div  class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-tools icon-lg"></i></span></div>
-                                                    <select class="form-control selectpicker" wire:model.defer="preparations">
-                                                        <option>{{ __('Préparations') }}</option>
-                                                        <option value="1">Anneaux</option>
-                                                        <option value="2">Brochette</option>
-                                                        <option value="3">Darne</option>
+                                                    <select class="form-control " wire:model.defer="preparations">
+                                                        <option>{{ __('Choisir une préparation') }}</option>
+                                                        @foreach ($list_preparations as $item)
+                                                            <option value="{{$item->id}}">{{$item->nom}}</option>
+                                                        @endforeach
                                                     </select>
                                                     <div class="input-group-append" data-toggle="modal" data-target="#preparation"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Préparation"><i class="fa fa-plus-circle"></i></button></div>
                                                 </div>
@@ -126,22 +124,22 @@
                                             <div wire:ignore class="form-group col-md-12">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-weight-hanging icon-lg"></i></span></div>
-                                                    <select class="form-control selectpicker" wire:model.defer="unites">
-                                                        <option>{{ __('Unites') }}</option>
-                                                        <option value="1">Kg</option>
-                                                        <option value="2">Bande</option>
-                                                        <option value="3">Bloc</option>
+                                                    <select class="form-control selectpicker" wire:model.defer="unite">
+                                                        <option>{{ __('Choisir une unité') }}</option>
+                                                        @foreach ($list_unite as $item)
+                                                            <option value="{{$item->id}}">{{$item->nom}}</option>
+                                                        @endforeach
                                                     </select>
                                                     <div class="input-group-append" data-toggle="modal" data-target="#unite"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Unite"><i class="fa fa-plus-circle"></i></button></div>
                                                 </div>
-                                                @error('unites')
+                                                @error('unite')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calculator icon-lg"></i></span></div>
-                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="code-comptable"/>
+                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="code_comptable"/>
                                                     <label>{{ __('Code Comptable') }}</label>
                                                 </div>
                                                 @error('code-comptable')
@@ -151,7 +149,7 @@
                                             <div class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-chart-pie icon-lg"></i></span></div>
-                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="code-analytique"/>
+                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="code_analytique"/>
                                                     <label>{{ __('Code Analytique') }}</label>
                                                 </div>
                                                 @error('code-analytique')
@@ -162,7 +160,7 @@
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-image icon-lg"></i></span></div>
                                                     <div class="custom-file">
-                                                        <input type="file" class="custom-file-input" id="customFile"/>
+                                                        <input type="file" class="custom-file-input" id="customFile" wire:model.defer="photo_principale"/>
                                                         <label class="custom-file-label" for="customFile">Produit Photo Principal</label>
                                                     </div>
                                                 </div>
@@ -176,7 +174,19 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="form-group col-md-6 row">
+                                                <label class="col-8 col-form-label">{{ __('Activé / Désactivé le produit') }}</label>
+                                                <div class="col-4">
+                                                    <span class="switch switch-outline switch-icon switch-primary">
+                                                        <label>
+                                                        <input type="checkbox" checked="checked" wire:model.defer="active" name="active"/>
+                                                        <span></span>
+                                                        </label>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            {{-- <div class="form-group col-md-6 row">
                                                 <label class="col-4 col-form-label">{{ __('Active Produit :') }}</label>
                                                 <div class="col-8 col-form-label">
                                                     <div class="radio-inline">
@@ -192,7 +202,7 @@
                                                         </label>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </form>
                                     </div>
                                     <div class="modal-footer">

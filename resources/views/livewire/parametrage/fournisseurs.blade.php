@@ -229,10 +229,9 @@
                 },
 
                 hide: function(deleteElement) {
-                    console.log( $(this));
-                    if(confirm('Are you sure you want to delete this element?')) {
+
                         $(this).slideUp(deleteElement);
-                    }
+                    
                 }
             });
         }
