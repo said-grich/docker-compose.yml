@@ -245,7 +245,7 @@
                             </li>
                             <li class="menu-item" aria-haspopup="true">
                                 <a href="{{ route('produits') }}" class="menu-link">
-                                    <i class="fa fa-money-check"></i>
+                                    <i class="fa fa-box-open"></i>
                                     <span class="menu-text">{{ __('Produits') }}</span>
                                 </a>
                             </li>
@@ -277,7 +277,7 @@
                             </li>
                             <li class="menu-item" aria-haspopup="true">
                                 <a href="{{ route('stock') }}" class="menu-link">
-                                    <i class="fa fa-money-check"></i>
+                                    <i class="fa fa-boxes"></i>
                                     <span class="menu-text">{{ __('Stock') }}</span>
                                 </a>
                             </li>
@@ -308,7 +308,7 @@
                             </li>
                             <li class="menu-item" aria-haspopup="true">
                                 <a href="{{ route('commandes') }}" class="menu-link">
-                                    <i class="fa fa-id-card"></i>
+                                    <i class="fa fa-shopping-bag"></i>
                                     <span class="menu-text">{{ __('Commandes') }}</span>
                                 </a>
                             </li>
@@ -334,8 +334,14 @@
                         <ul class="menu-subnav">
                             <li class="menu-item menu-item-parent" aria-haspopup="true">
                                 <span class="menu-link">
-                                    <span class="menu-text">{{ __('Etats') }}</span>
+                                    <span class="menu-text">{{ __('Statistiques') }}</span>
                                 </span>
+                            </li>
+                            <li class="menu-item" aria-haspopup="true">
+                                <a href="#" class="menu-link">
+                                    <i class="fa fa-chart-line"></i>
+                                    <span class="menu-text">{{ __('Etats') }}</span>
+                                </a>
                             </li>
                         </ul>
                     </div>

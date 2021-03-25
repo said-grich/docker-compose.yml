@@ -72,7 +72,7 @@
                             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">{{ __('Nouvelle Preparation') }}</h5>
+                                        <h5 class="modal-title">{{ __('Nouvelle Préparation') }}</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <i aria-hidden="true" class="ki ki-close"></i>
                                         </button>
@@ -82,24 +82,24 @@
                                             <div class="form-group">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-tools icon-lg"></i></span></div>
-                                                    <select class="form-control" wire:model="mode_preparation_id">
-
-                                                        <option>Sélectionner une mode préparation</option>
-                                                        @foreach ($list_mode_preparations as $mode)
-                                                            <option value="{{$mode->id}}">{{$mode->nom}}</option>
-                                                        @endforeach
-
-                                                    </select>
-                                                    <label>{{ __('Mode Préparation') }}</label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="input-group input-group-prepend">
-                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-toolsicon-lg"></i></span></div>
                                                     <input type="text" class="form-control" placeholder=" " wire:model.defer="preparation_nom"/>
                                                     <label>{{ __('Nom') }}</label>
                                                 </div>
                                                 @error('preparation_nom')
+                                                    <span class="form-text text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                            <div wire:ignore class="form-group">
+                                                <div class="input-group input-group-prepend">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-tools icon-lg"></i></span></div>
+                                                    <select class="form-control selectpicker" wire:model="mode_preparation_id">
+                                                        <option>{{ __('Mode Préparation') }}</option>
+                                                        @foreach ($list_mode_preparations as $mode)
+                                                            <option value="{{$mode->id}}">{{$mode->nom}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                @error('mode_preparation_id')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
@@ -117,7 +117,7 @@
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" href="#mode-preparation-tab">
-                                        <span class="nav-text">Mode préparation</span>
+                                        <span class="nav-text">Mode Préparation</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">

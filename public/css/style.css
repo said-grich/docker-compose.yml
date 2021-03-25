@@ -207,3 +207,8 @@ select.form-control:valid ~ label {
     background-color: #0235bd;
     border-color: #0235bd;
 }
+
+/* Modals */
+.modal.secondary {
+    background: rgba(0, 0, 0, .2);
+}
