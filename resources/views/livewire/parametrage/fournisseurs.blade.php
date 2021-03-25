@@ -66,19 +66,10 @@
                                                 @enderror
                                             </div>
                                             <div class="form-group">
-                                                {{-- <div class="input-group input-group-prepend">
-                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-address-book icon-lg"></i></span></div>
-                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="contact"/>
+                                                <div id="repeater">
                                                     <label>{{ __('Contact') }}</label>
-                                                </div>
-                                                @error('contact')
-                                                    <span class="form-text text-danger">{{ $message }}</span>
-                                                @enderror --}}
-
-                                                <div id="kt_repeater_3">
-                                                    <label>{{ __('Contact') }}</label>
-                                                    <div class="form-group row">
-                                                        <div data-repeater-list="" class="col">
+                                                    <div class="form-group">
+                                                        <div data-repeater-list="">
                                                             <div data-repeater-item class="form-group row">
                                                                 <div class="col">
                                                                     <div class="input-group">
@@ -171,31 +162,23 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-2">
-                                                                        <a href="javascript:;" data-repeater-delete="" class="btn font-weight-bold btn-danger btn-icon">
+                                                                        <a wire:click="remove({{$value}})" href="javascript:;" data-repeater-delete="" class="btn font-weight-bold btn-danger btn-icon">
                                                                             <i class="la la-remove"></i>
                                                                         </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         @endforeach
-
                                                     </div>
                                                     <div class="form-group row">
-                                                        <div class="col-lg-3"></div>
                                                         <div class="col">
                                                             <button data-repeater-create="" class="btn font-weight-bold btn-primary" wire:click.prevent="add()">
                                                                 <i class="la la-plus"></i> Ajouter un contact
                                                             </button>
-                                                            {{-- <div data-repeater-create="" class="btn font-weight-bold btn-primary">
-                                                                <i class="la la-plus"></i>
-                                                                Ajouter un contact
-                                                            </div> --}}
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
-
                                         </form>
                                     </div>
                                     <div class="modal-footer">
@@ -222,41 +205,33 @@
 @push('scripts')
     <script>
         // Class definition
-        var KTFormRepeater = function() {
+        var KTFormRepeater = function(){
 
-        // Private functions
-        var demo3 = function() {
-            $('#kt_repeater_3').repeater({
-                initEmpty: false,
+            // Private functions
+            var demo = function() {
+                $('#repeater').repeater({
+                    initEmpty: false,
 
-                defaultValues: {
-                    'text-input': 'foo'
-                },
+                    defaultValues: {
+                        'text-input': 'foo'
+                    },
 
-                show: function() {
-                    $(this).slideDown();
-                },
-
-                hide: function(deleteElement) {
-                    if(confirm('Are you sure you want to delete this element?')) {
-                        $(this).slideUp(deleteElement);
-                    }
-                }
-            });
-        }
-
-        return {
-            // public functions
-            init: function() {
-                demo3();
+                    show: function() {
+                        $(this).slideDown();
+                    },
+                });
             }
-        };
+
+            return {
+                // public functions
+                init: function() {
+                    demo();
+                }
+            };
         }();
 
         jQuery(document).ready(function() {
         KTFormRepeater.init();
         });
-
-
     </script>
 @endpush

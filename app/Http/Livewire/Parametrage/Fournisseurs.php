@@ -33,10 +33,13 @@ class Fournisseurs extends Component
     {
         $this->i++;
         array_push($this->inputs, $this->i);
-        //dd($this->inputs);
-
     }
 
+    public function remove($i)
+    {
+        array_splice($this->inputs, $i-1,1);
+        $this->i--;
+    }
 
     public function createFournisseur()
     {
