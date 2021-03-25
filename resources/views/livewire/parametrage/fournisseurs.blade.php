@@ -205,33 +205,37 @@
 @push('scripts')
     <script>
         // Class definition
-        var KTFormRepeater = function(){
+        var KTFormRepeater = function() {
 
-            // Private functions
-            var demo = function() {
-                $('#repeater').repeater({
-                    initEmpty: false,
+        // Private functions
+        var demo = function() {
+            $('#repeater').repeater({
+                initEmpty: false,
 
-                    defaultValues: {
-                        'text-input': 'foo'
-                    },
+                defaultValues: {
+                    'text-input': 'foo'
+                },
 
-                    show: function() {
-                        $(this).slideDown();
-                    },
-                });
-            }
+                show: function() {
+                    $(this).slideDown();
+                },
 
-            return {
-                // public functions
-                init: function() {
-                    demo();
+                hide: function(deleteElement) {
+                    $(this).slideUp(deleteElement);
                 }
-            };
+            });
+        }
+
+        return {
+            // public functions
+            init: function() {
+                demo();
+            }
+        };
         }();
 
         jQuery(document).ready(function() {
-        KTFormRepeater.init();
+            KTFormRepeater.init();
         });
     </script>
 @endpush
