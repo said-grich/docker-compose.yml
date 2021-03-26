@@ -212,3 +212,6 @@ select.form-control:valid ~ label {
 .modal.secondary {
     background: rgba(0, 0, 0, .2);
 }
+.modal-xxl {
+    max-width: 1600px;
+}
