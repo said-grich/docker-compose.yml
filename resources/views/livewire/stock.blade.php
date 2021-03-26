@@ -51,9 +51,7 @@
                                             <div wire:ignore class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar-alt icon-lg"></i></span></div>
-                                                    {{-- <input type="text" class="form-control datepicker" placeholder=" " wire:model.defer="date_capture"/> --}}
-
-                                                    <input type="date" placeholder=" " wire:model.defer="date_capture"/>
+                                                    <input id="date_capture" type="text" class="form-control datepicker" placeholder=" " wire:model.defer="date_capture"/>
                                                     <label>{{ __('Date Capture') }}</label>
                                                 </div>
                                                 @error('date_capture')
@@ -63,8 +61,7 @@
                                             <div wire:ignore class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar-plus icon-lg"></i></span></div>
-                                                    <input type="date" placeholder=" " wire:model.defer="date_entree"/>
-                                                    {{-- <input type="text" class="form-control datepicker" placeholder=" " wire:model.defer="date_entree"/> --}}
+                                                    <input id="date_entree" type="text" class="form-control datepicker" placeholder=" " wire:model.defer="date_entree"/>
                                                     <label>{{ __('Date Entree') }}</label>
                                                 </div>
                                                 @error('date_entree')
@@ -74,9 +71,7 @@
                                             <div wire:ignore class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar-times icon-lg"></i></span></div>
-                                                    <input type="date" placeholder=" " wire:model.defer="date_preemption"/>
-
-                                                    {{-- <input type="text" class="form-control datepicker" placeholder=" " wire:model.defer="date_preemption"/> --}}
+                                                    <input id="date_preemption" type="text" class="form-control datepicker" placeholder=" " wire:model.defer="date_preemption"/>
                                                     <label>{{ __('Date Préemption') }}</label>
                                                 </div>
                                                 @error('date_preemption')
@@ -189,7 +184,7 @@
                                             <div class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sliders-h icon-lg"></i></span></div>
-                                                    <select class="form-control" wire:model="tranches" mulri>
+                                                    <select class="form-control selectpicker" wire:model="tranches" multiple>
                                                         <option>{{ __('Tranches') }}</option>
                                                         @foreach ($list_tranches as $key => $item)
                                                             <option value="{{$item[0]['uid']}}">{{$item[0]['nom']}}</option>
@@ -289,14 +284,14 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
-                                        <button type="submit" class="btn btn-primary font-weight-bold" form="produit-form">{{ __('Enregistrer') }}</button>
+                                        <button type="submit" class="btn btn-primary font-weight-bold" form="stock-form">{{ __('Enregistrer') }}</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <!--Table-->
                         <div class="mt-5">
-                            {{-- @livewire('parametrage....') --}}
+                            @livewire('parametrage.liste-lots')
                         </div>
                     </div>
                 </div>
@@ -565,3 +560,22 @@
         </div>
     </div>
 </div> --}}
+
+
+
+
+@push('scripts')
+
+    <script>
+        window.addEventListener('contentChanged', event => {
+            $('.selectpicker').selectpicker();
+        });
+    </script>
+
+    <script>
+        $('.datepicker').on('change', function (e) {
+            @this.set(e.target.id, e.target.value);
+        });
+    </script>
+
+@endpush

@@ -43,6 +43,10 @@ class Stock extends Component
     public $list_tranches = [];
     public $list_depots = [];
 
+    public function updated(){
+        $this->dispatchBrowserEvent('contentChanged');
+    }
+
     public function renderData()
     {
         $this->list_fournisseurs = Fournisseur::all()->sortBy('nom');
@@ -65,6 +69,11 @@ class Stock extends Component
 /*         dd($this->list_tranches);
  */
 
+
+    }
+
+    public function createStock(){
+        dd($this->tranches,$this->date_capture);
 
     }
 

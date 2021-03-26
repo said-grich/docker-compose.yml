@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Parametrage;
 
 use App\Models\Livreur;
+use App\Models\Lot;
 use App\Models\Ville;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -25,7 +26,7 @@ class ListeLots extends Component
     }
 
 
-    public $sortBy = 'nom';
+    public $sortBy = 'lot_num';
     public $sortDirection = 'asc';
     public $perPage = 5;
     public $search = '';
@@ -33,12 +34,12 @@ class ListeLots extends Component
 
     public function render()
     {
-        $items = Livreur::query()
-        ->where('nom','ilike','%'.$this->search.'%')
+        $items = Lot::query()
+        ->where('lot_num','ilike','%'.$this->search.'%')
         ->orderBy($this->sortBy, $this->sortDirection)
         ->paginate($this->perPage);
 
-        return view('livewire.Parametrage.liste-livreurs',[
+        return view('livewire.Parametrage.liste-lots',[
             'items'=> $items
         ]);
     }
