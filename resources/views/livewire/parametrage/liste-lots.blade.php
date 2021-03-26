@@ -255,6 +255,7 @@
                                         <th scope="col">Prix Vente Fidèle</th>
                                         <th scope="col">Prix Vente Business</th>
                                         <th scope="col">Numéro BR</th>
+                                        <th scope="col">Promo</th>
                                     </tr>
                                 </thead>
                                 <tbody>
