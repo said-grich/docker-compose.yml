@@ -45,6 +45,7 @@ class Stock extends Component
     public $list_tranches = [];
     public $list_depots = [];
 
+
     public function updated(){
         $this->dispatchBrowserEvent('contentChanged');
     }

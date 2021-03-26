@@ -32,6 +32,7 @@ class ListeLots extends Component
     public $list_lots = [];
     public $list_tranches = [];
     public $list_depots = [];
+    public $showNbrPiece = false;
 
 
     public $sortBy = 'lot_num';
@@ -78,7 +79,8 @@ class ListeLots extends Component
     public function getStock($id){
 
         $item = Lot::where('id',$id)->firstOrFail();
-        $this->lot_id =$item->id;
+/*         dd($item->produit->modeVente->id);
+ */        $this->lot_id =$item->id;
         $this->lot_num =$item->lot_num;
         $this->article =$item->produit->nom;
         $this->mode_vente =$item->produit->modeVente->nom;
@@ -93,6 +95,7 @@ class ListeLots extends Component
     public function edit($id){
 
         $item = Livreur::where('id',$id)->firstOrFail();
+        $this->showNbrPiece = true;
         $this->livreur_id =$item->id;
         $this->nom =$item->nom;
         $this->cin =$item->cin;
