@@ -16,11 +16,11 @@ class CreateProduitTranchesTable extends Migration
         Schema::create('produit_tranches', function (Blueprint $table) {
             $table->id();
             //$table->unsignedBigInteger('tranche_id');
-            $table->foreignId('produit_id');
-            $table->foreignId('tranche_id');
+            $table->unsignedBigInteger('produit_id');
+            $table->string('tranche_id');
 
             $table->foreign('produit_id')->references('id')->on('produits');
-            $table->foreign('tranche_id')->references('id')->on('tranches');
+            //$table->foreign('tranche_id')->references('id')->on('tranches');
             $table->timestamps();
         });
     }

@@ -161,7 +161,7 @@
                         </div>
                         <!--Modal-->
                         <div wire:ignore.self class="modal fade" id="stock" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="stock" aria-hidden="true">
-                            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                            <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title">{{ __('Nouveau Stock') }}</h5>
@@ -174,8 +174,12 @@
                                             <div class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-hashtag icon-lg"></i></span></div>
-                                                    <select class="form-control selectpicker" wire:model.defer="lot_id">
+                                                    <select class="form-control" wire:model="lot_id">
                                                         <option>{{ __('Lot') }}</option>
+                                                        @foreach ($list_lots as $item)
+                                                            <option value="{{$item->lot_num}}">{{$item->lot_num}} | {{$item->produit->nom}} | {{$item->produit->modeVente->nom}}</option>
+                                                        @endforeach
+
                                                     </select>
                                                 </div>
                                                 @error('lot_id')
@@ -185,8 +189,11 @@
                                             <div class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sliders-h icon-lg"></i></span></div>
-                                                    <select class="form-control selectpicker" wire:model.defer="tranches">
+                                                    <select class="form-control" wire:model="tranches" mulri>
                                                         <option>{{ __('Tranches') }}</option>
+                                                        @foreach ($list_tranches as $key => $item)
+                                                            <option value="{{$item[0]['uid']}}">{{$item[0]['nom']}}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                                 @error('tranches')
@@ -196,8 +203,11 @@
                                             <div class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-warehouse icon-lg"></i></span></div>
-                                                    <select class="form-control selectpicker" wire:model.defer="depot">
+                                                    <select class="form-control" wire:model.defer="depot">
                                                         <option>{{ __('Dépot') }}</option>
+                                                        @foreach ($list_depots as $item)
+                                                            <option value="{{$item->id}}">{{$item->nom}}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                                 @error('depot')
@@ -265,20 +275,14 @@
                                                 @enderror
                                             </div>
                                             <div class="form-group col-md-6 row">
-                                                <label class="col-4 col-form-label">{{ __('Active Stock :') }}</label>
-                                                <div class="col-8 col-form-label">
-                                                    <div class="radio-inline">
-                                                        <label class="radio radio-primary">
-                                                            <input type="radio" name="active" wire:model.defer="active" checked="checked"/>
-                                                            <span></span>
-                                                            {{ __('Oui') }}
+                                                <label class="col-8 col-form-label">{{ __('Activé') }}</label>
+                                                <div class="col-4">
+                                                    <span class="switch switch-outline switch-icon switch-primary">
+                                                        <label>
+                                                        <input type="checkbox" checked="checked" wire:model.defer="active_stock" name="active_stock"/>
+                                                        <span></span>
                                                         </label>
-                                                        <label class="radio radio-primary">
-                                                            <input type="radio" name="active" wire:model.defer="active"/>
-                                                            <span></span>
-                                                            {{ __('Non') }}
-                                                        </label>
-                                                    </div>
+                                                    </span>
                                                 </div>
                                             </div>
                                         </form>

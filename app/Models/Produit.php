@@ -19,6 +19,16 @@ class Produit extends Model
         return $this->hasMany(PreparationType::class);
     }
 
+    public function tranches(){
+
+        return $this->hasMany(ProduitTranche::class);
+    }
+
+    public function lots(){
+
+        return $this->hasMany(Lot::class);
+    }
+
     public function sousCategorie()
     {
         return $this->belongsTo(SousCategorie::class);

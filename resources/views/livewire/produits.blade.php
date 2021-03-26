@@ -94,10 +94,10 @@
                                             <div class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sliders-h icon-lg"></i></span></div>
-                                                    <select class="form-control" wire:model="tranches">
+                                                    <select class="form-control" wire:model="tranches" multiple>
                                                         <option>{{ __('Choisir une tranche') }}</option>
                                                             @foreach ($list_tranches as $tranche)
-                                                                <option value="{{$tranche->id}}">{{$tranche->nom}}</option>
+                                                                <option value="{{$tranche->uid}}">{{$tranche->nom}}</option>
                                                             @endforeach
                                                     </select>
                                                     <div class="input-group-append" data-toggle="modal" data-target="#tranches"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Tranche"><i class="fa fa-plus-circle"></i></button></div>

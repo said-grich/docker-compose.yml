@@ -9,6 +9,7 @@ use App\Models\ModeVente;
 use App\Models\Preparation;
 use App\Models\PreparationType;
 use App\Models\Produit;
+use App\Models\ProduitTranche;
 use App\Models\TranchesKgPc;
 use App\Models\TranchesPoidsPc;
 use App\Models\Unite;
@@ -70,14 +71,14 @@ class Produits extends Component
         $this->list_modes_vente = ModeVente::all()->sortBy('nom');
         $this->list_unite = Unite::all()->sortBy('nom');
         $this->list_familles = Famille::all()->sortBy('nom');
+       /*  $p = Produit::where('id',1)->first(); */
+        // dd($p->preparations->first()->preparation->nom);
 
     }
 
     public function createProduit()
     {
         //$this->validate();
-
-
 
         DB::transaction(function () {
 
@@ -109,6 +110,13 @@ class Produits extends Component
                 PreparationType::create([
                     'produit_id' => $item->id,
                     'preparation_id' => $this->preparations[$key],
+                ]);
+            }
+
+            foreach ($this->tranches as $key => $value) {
+                ProduitTranche::create([
+                    'produit_id' => $item->id,
+                    'tranche_id' => $this->tranches[$key],
                 ]);
             }
         });

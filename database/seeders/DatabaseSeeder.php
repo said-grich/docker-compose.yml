@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
         $this->call(FamilleSeeder::class);
         $this->call(CategorieSeeder::class);
         $this->call(SousCategorieSeeder::class);
+        $this->call(QualiteSeeder::class);
         //$this->call(FournisseurSeeder::class);
         $this->call(LaratrustSeeder::class);
         $this->call(ModePaiementSeeder::class);

@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class ProduitTranche extends Model
 {
     use HasFactory;
+    protected $guarded =[];
+
+    public function produit()
+    {
+        return $this->belongsTo(Produit::class);
+    }
 }
