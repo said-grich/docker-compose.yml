@@ -291,7 +291,26 @@
                         </div> --}}
                         <!--Table-->
                         <div class="mt-5">
-                            @livewire('parametrage.liste-lots')
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#encours-tab">
+                                        <span class="nav-text">Lots en cours</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#archive-tab">
+                                        <span class="nav-text">Lots archivés</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content mt-5">
+                                <div class="tab-pane fade active show" id="encours-tab" role="tabpanel">
+                                    @livewire('parametrage.liste-lots')
+                                </div>
+                                <div class="tab-pane fade" id="archive-tab" role="tabpanel">
+{{--                                     @livewire('parametrage.liste-sous-categorie')
+ --}}                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
