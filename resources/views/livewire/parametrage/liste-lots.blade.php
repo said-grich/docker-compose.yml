@@ -272,9 +272,10 @@
                                     @for ($i = 0; $i < $countInputs; $i++)
                                         <tr>
                                             <td>
-                                                @php
+                                                {{$nom_tranche[$i]}}
+                                                {{-- @php
                                                     dd($list_tranches[$i][0]->nom);
-                                                @endphp
+                                                @endphp --}}
                                             </td>
                                             <td>
                                                 <div class="input-group input-group-prepend">

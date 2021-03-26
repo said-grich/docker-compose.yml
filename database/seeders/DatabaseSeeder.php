@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CategorieSeeder::class);
         $this->call(SousCategorieSeeder::class);
         $this->call(QualiteSeeder::class);
-        //$this->call(FournisseurSeeder::class);
+        $this->call(FournisseurSeeder::class);
         $this->call(LaratrustSeeder::class);
         $this->call(ModePaiementSeeder::class);
         $this->call(ModePreparationSeeder::class);

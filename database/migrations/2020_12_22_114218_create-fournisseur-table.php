@@ -17,7 +17,6 @@ class CreateFournisseurTable extends Migration
             $table->id();
             $table->string('nom');
             $table->integer('tel');
-
             $table->timestamps();
         });
     }
