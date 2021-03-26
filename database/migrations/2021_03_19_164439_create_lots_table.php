@@ -15,10 +15,13 @@ class CreateLotsTable extends Migration
     {
         Schema::create('lots', function (Blueprint $table) {
             $table->id();
-            $table->string('lot_num',10);
-            $table->date('date_capture');
-            $table->date('date_entree');
-            $table->date('date_preemption');
+            $table->string('lot_num',10)->unique();
+            $table->string('date_capture');
+            $table->string('date_entree');
+            $table->string('date_preemption');
+            // $table->date('date_capture');
+            // $table->date('date_entree');
+            // $table->date('date_preemption');
             $table->float('pas');
             $table->boolean('active')->default(false);
 

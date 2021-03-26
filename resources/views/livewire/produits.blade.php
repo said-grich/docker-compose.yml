@@ -48,6 +48,21 @@
                                             <div wire:ignore class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sitemap icon-lg"></i></span></div>
+                                                    <select class="form-control selectpicker" wire:model.defer="famille">
+                                                        <option>{{ __('Choisir une famille') }}</option>
+                                                        @foreach ($list_familles as $item)
+                                                            <option value="{{$item->id}}">{{$item->nom}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <div class="input-group-append" data-toggle="modal" data-target="#sous-categorie"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter une famille"><i class="fa fa-plus-circle"></i></button></div>
+                                                </div>
+                                                @error('famille')
+                                                    <span class="form-text text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                            <div wire:ignore class="form-group col-md-6">
+                                                <div class="input-group input-group-prepend">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sitemap icon-lg"></i></span></div>
                                                     <select class="form-control selectpicker" wire:model.defer="sous_categorie">
                                                         <option>{{ __('Choisir un sous catégorie') }}</option>
                                                         @foreach ($list_categories as $item)
@@ -109,7 +124,7 @@
                                             <div  class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-tools icon-lg"></i></span></div>
-                                                    <select class="form-control " wire:model.defer="preparations">
+                                                    <select class="form-control " wire:model.defer="preparations" multiple>
                                                         <option>{{ __('Choisir une préparation') }}</option>
                                                         @foreach ($list_preparations as $item)
                                                             <option value="{{$item->id}}">{{$item->nom}}</option>
@@ -121,7 +136,7 @@
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
-                                            <div wire:ignore class="form-group col-md-12">
+                                            <div wire:ignore class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-weight-hanging icon-lg"></i></span></div>
                                                     <select class="form-control selectpicker" wire:model.defer="unite">
@@ -157,22 +172,28 @@
                                                 @enderror
                                             </div>
                                             <div class="form-group col-md-6">
+                                                <input type="file" wire:model.defer="photo_principale"/>
+
                                                 <div class="input-group input-group-prepend">
-                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-image icon-lg"></i></span></div>
+
+                                                    {{-- <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-image icon-lg"></i></span></div>
                                                     <div class="custom-file">
                                                         <input type="file" class="custom-file-input" id="customFile" wire:model.defer="photo_principale"/>
                                                         <label class="custom-file-label" for="customFile">Produit Photo Principal</label>
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
+                                                @error('photo') <span class="error">{{ $message }}</span> @enderror
+
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <div class="input-group input-group-prepend">
+                                                <input type="file" wire:model.defer="photos" multiple/>
+                                                {{-- <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-images icon-lg"></i></span></div>
                                                     <div class="custom-file">
-                                                        <input type="file" class="custom-file-input" id="customFile" multiple/>
+                                                        <input type="file" class="custom-file-input" id="customFile" *wire:model.defer="photos" multiple/>
                                                         <label class="custom-file-label" for="customFile">Produit Photos</label>
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                             </div>
 
                                             <div class="form-group col-md-6 row">
@@ -214,8 +235,9 @@
                         </div>
                         <!--Table-->
                         <div class="mt-5">
-                            {{-- @livewire('parametrage....') --}}
+                            @livewire('parametrage.liste-produits')
                         </div>
+
                     </div>
                 </div>
                 <!--end::Card-->

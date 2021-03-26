@@ -14,5 +14,10 @@ class Famille extends Model
         return $this->hasMany(Article::class);
     }
 
-    
+    public function produits()
+    {
+        return $this->hasMany(Produit::class);
+    }
+
+
 }

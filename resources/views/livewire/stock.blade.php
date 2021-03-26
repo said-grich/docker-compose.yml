@@ -41,17 +41,19 @@
                                             <div class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-hashtag icon-lg"></i></span></div>
-                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="numero"/>
+                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num"/>
                                                     <label>{{ __('Numéro') }}</label>
                                                 </div>
-                                                @error('numero')
+                                                @error('lot_num')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                             <div wire:ignore class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar-alt icon-lg"></i></span></div>
-                                                    <input type="text" class="form-control datepicker" placeholder=" " wire:model.defer="date_capture"/>
+                                                    {{-- <input type="text" class="form-control datepicker" placeholder=" " wire:model.defer="date_capture"/> --}}
+
+                                                    <input type="date" placeholder=" " wire:model.defer="date_capture"/>
                                                     <label>{{ __('Date Capture') }}</label>
                                                 </div>
                                                 @error('date_capture')
@@ -61,7 +63,8 @@
                                             <div wire:ignore class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar-plus icon-lg"></i></span></div>
-                                                    <input type="text" class="form-control datepicker" placeholder=" " wire:model.defer="date_entree"/>
+                                                    <input type="date" placeholder=" " wire:model.defer="date_entree"/>
+                                                    {{-- <input type="text" class="form-control datepicker" placeholder=" " wire:model.defer="date_entree"/> --}}
                                                     <label>{{ __('Date Entree') }}</label>
                                                 </div>
                                                 @error('date_entree')
@@ -71,18 +74,24 @@
                                             <div wire:ignore class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar-times icon-lg"></i></span></div>
-                                                    <input type="text" class="form-control datepicker" placeholder=" " wire:model.defer="date_expiration"/>
-                                                    <label>{{ __('Date Expiration') }}</label>
+                                                    <input type="date" placeholder=" " wire:model.defer="date_preemption"/>
+
+                                                    {{-- <input type="text" class="form-control datepicker" placeholder=" " wire:model.defer="date_preemption"/> --}}
+                                                    <label>{{ __('Date Préemption') }}</label>
                                                 </div>
-                                                @error('date_expiration')
+                                                @error('date_preemption')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                             <div wire:ignore class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
-                                                    <select class="form-control selectpicker" wire:model.defer="fournisseur">
+                                                    <select class="form-control selectpicker" wire:model="fournisseur">
                                                         <option>{{ __('Fournisseur') }}</option>
+                                                        @foreach ($list_fournisseurs as $item)
+                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                        @endforeach
+
                                                     </select>
                                                     <div class="input-group-append" data-toggle="modal" data-target="#fournisseur"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Fournisseur"><i class="fa fa-plus-circle"></i></button></div>
                                                 </div>
@@ -93,8 +102,11 @@
                                             <div wire:ignore class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-award icon-lg"></i></span></div>
-                                                    <select class="form-control selectpicker" wire:model.defer="qualite">
+                                                    <select class="form-control selectpicker" wire:model="qualite">
                                                         <option>{{ __('Qualite') }}</option>
+                                                        @foreach ($list_qualites as $item)
+                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                        @endforeach
                                                     </select>
                                                     <div class="input-group-append" data-toggle="modal" data-target="#qualite"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Qualite"><i class="fa fa-plus-circle"></i></button></div>
                                                 </div>
@@ -107,6 +119,9 @@
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-box-open icon-lg"></i></span></div>
                                                     <select class="form-control selectpicker" wire:model.defer="produit">
                                                         <option>{{ __('Produit') }}</option>
+                                                        @foreach ($list_produits as $item)
+                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                        @endforeach
                                                     </select>
                                                     <div class="input-group-append" data-toggle="modal" data-target="#produit"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Produit"><i class="fa fa-plus-circle"></i></button></div>
                                                 </div>
@@ -125,20 +140,14 @@
                                                 @enderror
                                             </div>
                                             <div class="form-group col-md-6 row">
-                                                <label class="col-4 col-form-label">{{ __('Active Lot :') }}</label>
-                                                <div class="col-8 col-form-label">
-                                                    <div class="radio-inline">
-                                                        <label class="radio radio-primary">
-                                                            <input type="radio" name="active" wire:model.defer="active" checked="checked"/>
-                                                            <span></span>
-                                                            {{ __('Oui') }}
+                                                <label class="col-8 col-form-label">{{ __('Activé / Désactivé le lot') }}</label>
+                                                <div class="col-4">
+                                                    <span class="switch switch-outline switch-icon switch-primary">
+                                                        <label>
+                                                        <input type="checkbox" checked="checked" wire:model.defer="active" name="active"/>
+                                                        <span></span>
                                                         </label>
-                                                        <label class="radio radio-primary">
-                                                            <input type="radio" name="active" wire:model.defer="active"/>
-                                                            <span></span>
-                                                            {{ __('Non') }}
-                                                        </label>
-                                                    </div>
+                                                    </span>
                                                 </div>
                                             </div>
                                         </form>

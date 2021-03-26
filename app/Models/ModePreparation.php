@@ -14,4 +14,9 @@ class ModePreparation extends Model
         return $this->hasMany(Preparation::class);
 
     }
+
+    public function produits()
+    {
+        return $this->hasMany(Produit::class);
+    }
 }

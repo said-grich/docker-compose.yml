@@ -13,4 +13,9 @@ class Preparation extends Model
     {
         return $this->belongsTo(ModePreparation::class);
     }
+
+    public function preparationType()
+    {
+        return $this->hasMany(PreparationType::class);
+    }
 }
