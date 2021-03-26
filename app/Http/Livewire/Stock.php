@@ -5,12 +5,14 @@ namespace App\Http\Livewire;
 use App\Models\Depot;
 use App\Models\Fournisseur;
 use App\Models\Lot;
+use App\Models\LotTranche;
 use App\Models\ModeVente;
 use App\Models\Produit;
 use App\Models\ProduitTranche;
 use App\Models\Qualite;
 use App\Models\TranchesKgPc;
 use App\Models\TranchesPoidsPc;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class Stock extends Component
@@ -57,6 +59,19 @@ class Stock extends Component
 
     }
 
+    public function updatedProduit($value){
+
+        $produit = Produit::where('id',$value)->first();
+        $produit_tranches = ProduitTranche::where('produit_id', $value)->get();
+
+        $mode_vente = $produit->modeVente->id;
+
+        foreach($produit_tranches as $key=>$value){
+            $this->list_tranches[$key] = $mode_vente == 1 ? TranchesPoidsPc::where('uid',$value->tranche_id)->get()->toArray() : TranchesKgPc::where('uid',$value->tranche_id)->get()->toArray();
+        }
+
+    }
+
     public function updatedLotId($value){
 
         $lot = Lot::where('lot_num',$value)->first();
@@ -66,9 +81,6 @@ class Stock extends Component
         foreach($produit_tranches as $key=>$value){
             $this->list_tranches[$key] = $mode_vente == 1 ? TranchesPoidsPc::where('uid',$value->tranche_id)->get()->toArray() : TranchesKgPc::where('uid',$value->tranche_id)->get()->toArray();
         }
-/*         dd($this->list_tranches);
- */
-
 
     }
 
@@ -80,19 +92,28 @@ class Stock extends Component
     public function createLot(){
 
         //$this->validate();
+        DB::transaction(function () {
 
-        $item = new Lot();
-        $item->lot_num = $this->lot_num;
-        $item->date_capture = $this->date_capture;
-        $item->date_entree = $this->date_entree;
-        $item->date_preemption = $this->date_preemption;
-        $item->pas = $this->pas;
-        $item->fournisseur_id = $this->fournisseur;
-        $item->qualite_id = $this->qualite;
-        $item->produit_id = $this->produit;
-        $item->active = $this->active;
+            $item = new Lot();
+            $item->lot_num = $this->lot_num;
+            $item->date_capture = $this->date_capture;
+            $item->date_entree = $this->date_entree;
+            $item->date_preemption = $this->date_preemption;
+            $item->pas = $this->pas;
+            $item->fournisseur_id = $this->fournisseur;
+            $item->qualite_id = $this->qualite;
+            $item->produit_id = $this->produit;
+            $item->active = $this->active;
 
-        $item->save();
+            $item->save();
+
+            foreach ($this->tranches as $key => $value) {
+                LotTranche::create([
+                    'lot_num' => $this->lot_num,
+                    'tranche_id' =>$this->tranches[$key],
+                ]);
+            }
+        });
 
         session()->flash('message', 'Lot numéro "' . $this->lot_num . '" a été crée');
         $this->reset(['lot_num','date_capture','date_entree','date_preemption','pas','fournisseur','qualite','produit','active']);
