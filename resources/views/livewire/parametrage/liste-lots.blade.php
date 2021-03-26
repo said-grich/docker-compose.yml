@@ -254,6 +254,7 @@
                                         <th scope="col">Prix Vente Normal</th>
                                         <th scope="col">Prix Vente Fidèle</th>
                                         <th scope="col">Prix Vente Business</th>
+                                        <th scope="col">Numéro BR</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -261,7 +262,7 @@
                                         <td></td>
                                         <td>
                                             <div class="input-group input-group-prepend">
-                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-balance-scale-left icon-lg"></i></span></div>
+                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-balance-scale-left"></i></span></div>
                                                 <input type="text" class="form-control" placeholder="{{ __('Quantité') }}" wire:model.defer="qte"/>
                                             </div>
                                             @error('qte')
@@ -270,7 +271,7 @@
                                         </td>
                                         <td>
                                             <div class="input-group input-group-prepend">
-                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-warehouse icon-lg"></i></span></div>
+                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-file-invoice-dollar"></i></span></div>
                                                 <input type="text" class="form-control" placeholder="{{ __('CR') }}" wire:model.defer="cr"/>
                                             </div>
                                             @error('cr')
@@ -279,7 +280,7 @@
                                         </td>
                                         <td>
                                             <div class="input-group input-group-prepend">
-                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-warehouse icon-lg"></i></span></div>
+                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-warehouse"></i></span></div>
                                                 <select class="form-control" wire:model.defer="depot">
                                                     <option>{{ __('Dépot') }}</option>
                                                     @foreach ($list_depots as $item)
@@ -293,7 +294,7 @@
                                         </td>
                                         <td>
                                             <div class="input-group input-group-prepend">
-                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-file-invoice-dollar icon-lg"></i></span></div>
+                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-money-check-alt"></i></span></div>
                                                 <input type="text" class="form-control" placeholder="{{ __('Prix Achat') }}" wire:model.defer="prix_achat"/>
                                             </div>
                                             @error('prix_achat')
@@ -302,7 +303,7 @@
                                         </td>
                                         <td>
                                             <div class="input-group input-group-prepend">
-                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-file-invoice-dollar icon-lg"></i></span></div>
+                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-money-bill-wave"></i></span></div>
                                                 <input type="text" class="form-control" placeholder="{{ __('Prix Vente Normal') }}" wire:model.defer="prix_vente_normal"/>
                                             </div>
                                             @error('prix_vente_normal')
@@ -311,7 +312,7 @@
                                         </td>
                                         <td>
                                             <div class="input-group input-group-prepend">
-                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-file-invoice-dollar icon-lg"></i></span></div>
+                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-money-bill-wave"></i></span></div>
                                                 <input type="text" class="form-control" placeholder="{{ __('Prix Vente Fidèle') }}" wire:model.defer="prix_vente_fidele"/>
                                             </div>
                                             @error('prix_vente_fidele')
@@ -320,10 +321,19 @@
                                         </td>
                                         <td>
                                             <div class="input-group input-group-prepend">
-                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-file-invoice-dollar icon-lg"></i></span></div>
+                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-money-bill-wave"></i></span></div>
                                                 <input type="text" class="form-control" placeholder="{{ __('Prix Vente Business') }}" wire:model.defer="prix_vente_business"/>
                                             </div>
                                             @error('prix_vente_business')
+                                                <span class="form-text text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </td>
+                                        <td>
+                                            <div class="input-group input-group-prepend">
+                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-clipboard-list"></i></span></div>
+                                                <input type="text" class="form-control" placeholder="{{ __('BR') }}" wire:model.defer="bon_reception"/>
+                                            </div>
+                                            @error('bon_reception')
                                                 <span class="form-text text-danger">{{ $message }}</span>
                                             @enderror
                                         </td>
