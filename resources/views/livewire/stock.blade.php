@@ -94,6 +94,7 @@
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
+
                                             <div wire:ignore class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-award icon-lg"></i></span></div>
@@ -112,7 +113,7 @@
                                             <div wire:ignore class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-box-open icon-lg"></i></span></div>
-                                                    <select class="form-control selectpicker" wire:model.defer="produit">
+                                                    <select class="form-control selectpicker" wire:model="produit">
                                                         <option>{{ __('Produit') }}</option>
                                                         @foreach ($list_produits as $item)
                                                             <option value="{{$item->id }}">{{$item->nom }}</option>
@@ -121,6 +122,20 @@
                                                     <div class="input-group-append" data-toggle="modal" data-target="#produit"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Produit"><i class="fa fa-plus-circle"></i></button></div>
                                                 </div>
                                                 @error('produit')
+                                                    <span class="form-text text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <div class="input-group input-group-prepend">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sliders-h icon-lg"></i></span></div>
+                                                    <select class="form-control selectpicker" wire:model="tranches" multiple>
+                                                        <option>{{ __('Choisir une tranche') }}</option>
+                                                        @foreach ($list_tranches as $key => $item)
+                                                            <option value="{{$item[0]['uid']}}">{{$item[0]['nom']}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                @error('tranches')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
