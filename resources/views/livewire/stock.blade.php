@@ -23,9 +23,9 @@
                         <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#lot">
                             <i class="flaticon-plus"></i> {{ __('Ajouter Lot') }}
                         </button>
-                        <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#stock">
+                       {{--  <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#stock">
                             <i class="flaticon-plus"></i> {{ __('Ajouter Stock') }}
-                        </button>
+                        </button> --}}
                         <!--Modal-->
                         <div wire:ignore.self class="modal fade" id="lot" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="lot" aria-hidden="true">
                             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
@@ -155,7 +155,7 @@
                             </div>
                         </div>
                         <!--Modal-->
-                        <div wire:ignore.self class="modal fade" id="stock" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="stock" aria-hidden="true">
+                        {{-- <div wire:ignore.self class="modal fade" id="stock" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="stock" aria-hidden="true">
                             <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -288,7 +288,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <!--Table-->
                         <div class="mt-5">
                             @livewire('parametrage.liste-lots')
