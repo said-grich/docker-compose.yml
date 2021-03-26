@@ -49,18 +49,12 @@
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->pas }}</a>
                     </td>
                     <td class="pl-0">
-                        <span class="label {{ $item->active == true ? 'label-primary' : 'label-danger' }} label-pill label-inline mr-2">{{ $item->active == true ? 'Activé' : 'Désactivé' }} </span>
-                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg"></a>
+                        <span class="label {{ $item->active == true ? 'label-success' : 'label-danger' }} label-pill label-inline mr-2">{{ $item->active == true ? 'Activé' : 'Désactivé' }} </span>
                     </td>
-
                     <td class="pr-0 text-right">
-
-                        <button wire:click="getStock({{$item->id}})" class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#stock">
-                            <i class="flaticon-plus"></i> {{ __('Ajouter Stock') }}
-                        </button>
-
-                        <a href="#" wire:click="edit({{$item->id}})" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#exampleModalSizeSm">
-                            <span class="svg-icon svg-icon-md svg-icon-primary">
+                        
+                        <a href="#" wire:click="edit({{$item->id}})" class="btn btn-icon btn-light btn-hover-warning btn-sm mx-3" data-toggle="modal" data-target="#exampleModalSizeSm">
+                            <span class="svg-icon svg-icon-md svg-icon-warning">
                                 {{--begin::Svg Icon--}}
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -72,8 +66,20 @@
                                 {{--end::Svg Icon--}}
                             </span>
                         </a>
-                        <a href="#" class="btn btn-icon btn-light btn-hover-primary btn-sm" wire:click="deleteLivreur('{{$item->id}}')">
-                            <span class="svg-icon svg-icon-md svg-icon-primary">
+                        <a href="#" wire:click="getStock({{$item->id}})" class="btn btn-icon btn-light btn-hover-success btn-sm mx-3" data-toggle="modal" data-target="#stock">
+                            <span class="svg-icon svg-icon-md svg-icon-success">
+                                {{--begin::Svg Icon--}}
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <rect fill="#000000" x="4" y="11" width="16" height="2" rx="1"/>
+                                        <rect fill="#000000" opacity="0.3" transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000) " x="4" y="11" width="16" height="2" rx="1"/>
+                                    </g>
+                                </svg>
+                                {{--end::Svg Icon--}}
+                            </span>
+                        </a>
+                        <a href="#" class="btn btn-icon btn-light btn-hover-danger btn-sm" wire:click="deleteLivreur('{{$item->id}}')">
+                            <span class="svg-icon svg-icon-md svg-icon-danger">
                                 {{--begin::Svg Icon--}}
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
