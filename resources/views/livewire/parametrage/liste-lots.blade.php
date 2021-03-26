@@ -188,7 +188,7 @@
 
         {{-- Edit Modal --}}
         <div wire:ignore.self class="modal fade" id="stock" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="stock" aria-hidden="true">
-            <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-xxl modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">{{ __('Nouveau Stock') }}</h5>
@@ -199,6 +199,7 @@
                     <div class="modal-body">
                         <form id="stock-form" class="form row" wire:submit.prevent="createStock">
                             <div class="form-group col-md-4">
+                                <label>{{ __('Lot') }}</label>
                                 <div class="input-group input-group-prepend">
                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-hashtag icon-lg"></i></span></div>
                                     <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num" disabled/>
@@ -209,20 +210,22 @@
                                 @enderror
                             </div>
                             <div class="form-group col-md-4">
+                                <label>{{ __('Produit') }}</label>
                                 <div class="input-group input-group-prepend">
-                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-hashtag icon-lg"></i></span></div>
+                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-box-open icon-lg"></i></span></div>
                                     <input type="text" class="form-control" placeholder=" " wire:model.defer="article" disabled/>
                                 </div>
-                                @error('lot_id')
+                                @error('article')
                                     <span class="form-text text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="form-group col-md-4">
+                                <label>{{ __('Mode Vente') }}</label>
                                 <div class="input-group input-group-prepend">
-                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-hashtag icon-lg"></i></span></div>
+                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sliders-h icon-lg"></i></span></div>
                                     <input type="text" class="form-control" placeholder=" " wire:model.defer="mode_vente" disabled/>
                                 </div>
-                                @error('lot_id')
+                                @error('mode_vente')
                                     <span class="form-text text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -240,91 +243,93 @@
                                     <span class="form-text text-danger">{{ $message }}</span>
                                 @enderror
                             </div> --}}
-                            <div class="form-group col-md-6">
-                                <div class="input-group input-group-prepend">
-                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-warehouse icon-lg"></i></span></div>
-                                    <select class="form-control" wire:model.defer="depot">
-                                        <option>{{ __('Dépot') }}</option>
-                                        @foreach ($list_depots as $item)
-                                            <option value="{{$item->id}}">{{$item->nom}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                @error('depot')
-                                    <span class="form-text text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="form-group col-md-6">
-                                <div class="input-group input-group-prepend">
-                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-file-invoice-dollar icon-lg"></i></span></div>
-                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="prix_achat"/>
-                                    <label>{{ __('Prix Achat') }}</label>
-                                </div>
-                                @error('prix_achat')
-                                    <span class="form-text text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="form-group col-md-6">
-                                <div class="input-group input-group-prepend">
-                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-balance-scale-left icon-lg"></i></span></div>
-                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="qte"/>
-                                    <label>{{ __('Quantité') }}</label>
-                                </div>
-                                @error('qte')
-                                    <span class="form-text text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="form-group col-md-6">
-                                <div class="input-group input-group-prepend">
-                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-warehouse icon-lg"></i></span></div>
-                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="cr"/>
-                                    <label>{{ __('CR') }}</label>
-                                </div>
-                                @error('cr')
-                                    <span class="form-text text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="form-group col-md-6">
-                                <div class="input-group input-group-prepend">
-                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-file-invoice-dollar icon-lg"></i></span></div>
-                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="prix_vente_normal"/>
-                                    <label>{{ __('Prix Vente Normal') }}</label>
-                                </div>
-                                @error('prix_vente_normal')
-                                    <span class="form-text text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="form-group col-md-6">
-                                <div class="input-group input-group-prepend">
-                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-file-invoice-dollar icon-lg"></i></span></div>
-                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="prix_vente_fidele"/>
-                                    <label>{{ __('Prix Vente Fidèle') }}</label>
-                                </div>
-                                @error('prix_vente_fidele')
-                                    <span class="form-text text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="form-group col-md-6">
-                                <div class="input-group input-group-prepend">
-                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-file-invoice-dollar icon-lg"></i></span></div>
-                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="prix_vente_business"/>
-                                    <label>{{ __('Prix Vente Business') }}</label>
-                                </div>
-                                @error('prix_vente_business')
-                                    <span class="form-text text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="form-group col-md-6 row">
-                                <label class="col-8 col-form-label">{{ __('Activé') }}</label>
-                                <div class="col-4">
-                                    <span class="switch switch-outline switch-icon switch-primary">
-                                        <label>
-                                        <input type="checkbox" checked="checked" wire:model.defer="active_stock" name="active_stock"/>
-                                        <span></span>
-                                        </label>
-                                    </span>
-                                </div>
-                            </div>
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Tranches</th>
+                                        <th scope="col">Quantité</th>
+                                        <th scope="col">CR</th>
+                                        <th scope="col">Dépot</th>
+                                        <th scope="col">Prix Achat</th>
+                                        <th scope="col">Prix Vente Normal</th>
+                                        <th scope="col">Prix Vente Fidèle</th>
+                                        <th scope="col">Prix Vente Business</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <div class="input-group input-group-prepend">
+                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-balance-scale-left icon-lg"></i></span></div>
+                                                <input type="text" class="form-control" placeholder="{{ __('Quantité') }}" wire:model.defer="qte"/>
+                                            </div>
+                                            @error('qte')
+                                                <span class="form-text text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </td>
+                                        <td>
+                                            <div class="input-group input-group-prepend">
+                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-warehouse icon-lg"></i></span></div>
+                                                <input type="text" class="form-control" placeholder="{{ __('CR') }}" wire:model.defer="cr"/>
+                                            </div>
+                                            @error('cr')
+                                                <span class="form-text text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </td>
+                                        <td>
+                                            <div class="input-group input-group-prepend">
+                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-warehouse icon-lg"></i></span></div>
+                                                <select class="form-control" wire:model.defer="depot">
+                                                    <option>{{ __('Dépot') }}</option>
+                                                    @foreach ($list_depots as $item)
+                                                        <option value="{{$item->id}}">{{$item->nom}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            @error('depot')
+                                                <span class="form-text text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </td>
+                                        <td>
+                                            <div class="input-group input-group-prepend">
+                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-file-invoice-dollar icon-lg"></i></span></div>
+                                                <input type="text" class="form-control" placeholder="{{ __('Prix Achat') }}" wire:model.defer="prix_achat"/>
+                                            </div>
+                                            @error('prix_achat')
+                                                <span class="form-text text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </td>
+                                        <td>
+                                            <div class="input-group input-group-prepend">
+                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-file-invoice-dollar icon-lg"></i></span></div>
+                                                <input type="text" class="form-control" placeholder="{{ __('Prix Vente Normal') }}" wire:model.defer="prix_vente_normal"/>
+                                            </div>
+                                            @error('prix_vente_normal')
+                                                <span class="form-text text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </td>
+                                        <td>
+                                            <div class="input-group input-group-prepend">
+                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-file-invoice-dollar icon-lg"></i></span></div>
+                                                <input type="text" class="form-control" placeholder="{{ __('Prix Vente Fidèle') }}" wire:model.defer="prix_vente_fidele"/>
+                                            </div>
+                                            @error('prix_vente_fidele')
+                                                <span class="form-text text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </td>
+                                        <td>
+                                            <div class="input-group input-group-prepend">
+                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-file-invoice-dollar icon-lg"></i></span></div>
+                                                <input type="text" class="form-control" placeholder="{{ __('Prix Vente Business') }}" wire:model.defer="prix_vente_business"/>
+                                            </div>
+                                            @error('prix_vente_business')
+                                                <span class="form-text text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </form>
                     </div>
                     <div class="modal-footer">
