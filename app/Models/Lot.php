@@ -13,4 +13,9 @@ class Lot extends Model
     {
         return $this->belongsTo(Produit::class);
     }
+
+    public function qualite()
+    {
+        return $this->belongsTo(Qualite::class);
+    }
 }

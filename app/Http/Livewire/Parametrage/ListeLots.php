@@ -79,14 +79,27 @@ class ListeLots extends Component
     public function render()
     {
         $this->renderData();
+        $lot_stock_kg_pc = array_unique(StockKgPc::pluck('lot_num')->toArray());
+        $lot_stock_poids_pc = array_unique(StockPoidsPc::pluck('lot_num')->toArray());
+        $archived_lots_ids = array_merge($lot_stock_kg_pc, $lot_stock_poids_pc);
+
+        $in_progress_lots_ids = array_unique(Lot::whereNotIn('lot_num', $archived_lots_ids)->pluck('lot_num')->toArray());
 
         $items = Lot::query()
+        ->whereNotIn('lot_num', $archived_lots_ids)
         ->where('lot_num','ilike','%'.$this->search.'%')
         ->orderBy($this->sortBy, $this->sortDirection)
         ->paginate($this->perPage);
 
+        $in_progress_lots = Lot::query()
+        ->whereNotIn('lot_num', $in_progress_lots_ids)
+        ->where('lot_num', 'ilike', '%' . $this->search . '%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
+
         return view('livewire.Parametrage.liste-lots',[
-            'items'=> $items
+            'items'=> $items,
+            'in_progress_lots' => $in_progress_lots
         ]);
     }
 
@@ -154,16 +167,13 @@ class ListeLots extends Component
         $this->active =$item->active; */
     }
 
-    public function createStock()
-    {
-/*         dd($this->mode_vente_id);
- */        foreach (array_reverse($this->qte) as $key => $value) {
+    public function createStock(){
+        foreach (array_reverse($this->qte) as $key => $value) {
 
                 if($this->mode_vente_id == 1){
 
                     $interval = [];
                     foreach($this->list_tranches as $k => $tranche){
-
 
                         if($this->poids[$key] <= $tranche[0]['min_poids'] && $this->poids[$key] < $tranche[0]['max_poids']){
                             $interval[$key] = $tranche[0];
@@ -205,8 +215,11 @@ class ListeLots extends Component
 
         }
 
-        /* session()->flash('message', 'Produit "' . $this->article . '" a été ajouté au stock');
-        $this->reset(['qte','prix_achat','cr','prix_vente_normal','prix_vente_fidele','prix_vente_business','bon_reception','lot_num','tranche_id','depot']); */
+        session()->flash('message', 'Produit "' . $this->article . '" a été ajouté au stock');
+        $this->reset(['qte', 'prix_achat', 'cr', 'prix_vente_normal', 'prix_vente_fidele', 'prix_vente_business', 'bon_reception', 'lot_num', 'tranche_id', 'depot','code','poids','article','mode_vente','nombre_piece']);
+        return redirect()->to('/stock');
+
+
     }
 
     public function edit($id){

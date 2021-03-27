@@ -17,9 +17,11 @@
                     </label>
                 </th>
                 <th class="pl-0" wire:click="sortBy('lot_num')" style="cursor: pointer;">Numéro @include('layouts.partials._sort-icon',['field'=>'lot_num'])</th>
+                <th class="pl-0" wire:click="sortBy('lot_num')" style="cursor: pointer;">Produit @include('layouts.partials._sort-icon',['field'=>'lot_num'])</th>
                 <th class="pl-0" wire:click="sortBy('date_capture')" style="cursor: pointer;">Date capture @include('layouts.partials._sort-icon',['field'=>'date_capture'])</th>
                 <th class="pl-0" wire:click="sortBy('date_entree')" style="cursor: pointer;">Date entrée @include('layouts.partials._sort-icon',['field'=>'date_entree'])</th>
                 <th class="pl-0" wire:click="sortBy('date_preemption')" style="cursor: pointer;">Date préemtion @include('layouts.partials._sort-icon',['field'=>'date_preemption'])</th>
+                <th class="pl-0" wire:click="sortBy('date_preemption')" style="cursor: pointer;">Qualité @include('layouts.partials._sort-icon',['field'=>'date_preemption'])</th>
                 <th class="pl-0" wire:click="sortBy('pas')" style="cursor: pointer;">Pas @include('layouts.partials._sort-icon',['field'=>'pas'])</th>
                 <th class="pl-0" wire:click="sortBy('active')" style="cursor: pointer;">Statut @include('layouts.partials._sort-icon',['field'=>'active'])</th>
                 <th class="pr-0 text-right" style="min-width: 160px">Actions</th>
@@ -37,6 +39,9 @@
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->lot_num }}</a>
                     </td>
                     <td class="pl-0">
+                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->produit->nom }}</a>
+                    </td>
+                    <td class="pl-0">
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->date_capture }}</a>
                     </td>
                     <td class="pl-0">
@@ -44,6 +49,9 @@
                     </td>
                     <td class="pl-0">
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->date_preemption }}</a>
+                    </td>
+                    <td class="pl-0">
+                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->qualite->nom }}</a>
                     </td>
                     <td class="pl-0">
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->pas }}</a>
