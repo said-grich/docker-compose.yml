@@ -256,7 +256,13 @@
                             <table class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Tranches</th>
+                                        @if ($mode_vente_id != 1)
+                                            <th scope="col">Tranches</th>
+                                        @endif
+                                        @if ($mode_vente_id == 1)
+                                            <th scope="col">Code</th>
+                                            <th scope="col">Poids</th>
+                                        @endif
                                         <th scope="col">Quantité</th>
                                         <th scope="col">CR</th>
                                         <th scope="col">Dépot</th>
@@ -271,12 +277,28 @@
                                 <tbody>
                                     @for ($i = 0; $i < $countInputs; $i++)
                                         <tr>
-                                            <td>
-                                                {{$nom_tranche[$i]}}
-                                                {{-- @php
-                                                    dd($list_tranches[$i][0]->nom);
-                                                @endphp --}}
-                                            </td>
+                                            @if ($mode_vente_id != 1)<td>{{$nom_tranche[$i]}}</td>@endif
+
+                                            @if ($mode_vente_id == 1)
+                                                <td>
+                                                    <div class="input-group input-group-prepend">
+                                                        <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-balance-scale-left"></i></span></div>
+                                                        <input type="text" class="form-control" placeholder="{{ __('Code') }}" wire:model.defer="code.{{$i}}"/>
+                                                    </div>
+                                                    @error('code')
+                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </td>
+                                                <td>
+                                                    <div class="input-group input-group-prepend">
+                                                        <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-balance-scale-left"></i></span></div>
+                                                        <input type="text" class="form-control" placeholder="{{ __('Poids') }}" wire:model.defer="poids.{{$i}}"/>
+                                                    </div>
+                                                    @error('poids')
+                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </td>
+                                            @endif
                                             <td>
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-balance-scale-left"></i></span></div>
