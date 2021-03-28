@@ -247,6 +247,16 @@
                                     <span class="form-text text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
+                            {{-- <div class="form-group col-md-4">
+                                <label>{{ __('Tranches associées') }}</label>
+                                    @if (!empty($list_tranches))
+                                        @foreach ($list_tranches as $key =>$item)
+                                        {{$item}}
+
+                                        <span class="label label-info label-inline mr-2"></span>
+                                        @endforeach
+                                    @endif
+                            </div> --}}
                             {{-- <div class="form-group col-md-6">
                                 <div class="input-group input-group-prepend">
                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sliders-h icon-lg"></i></span></div>

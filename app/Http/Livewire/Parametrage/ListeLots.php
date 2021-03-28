@@ -83,7 +83,7 @@ class ListeLots extends Component
         $lot_stock_poids_pc = array_unique(StockPoidsPc::pluck('lot_num')->toArray());
         $archived_lots_ids = array_merge($lot_stock_kg_pc, $lot_stock_poids_pc);
 
-        $in_progress_lots_ids = array_unique(Lot::whereNotIn('lot_num', $archived_lots_ids)->pluck('lot_num')->toArray());
+        // $in_progress_lots_ids = array_unique(Lot::whereNotIn('lot_num', $archived_lots_ids)->pluck('lot_num')->toArray());
 
         $items = Lot::query()
         ->whereNotIn('lot_num', $archived_lots_ids)
@@ -91,15 +91,15 @@ class ListeLots extends Component
         ->orderBy($this->sortBy, $this->sortDirection)
         ->paginate($this->perPage);
 
-        $in_progress_lots = Lot::query()
-        ->whereNotIn('lot_num', $in_progress_lots_ids)
-        ->where('lot_num', 'ilike', '%' . $this->search . '%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
+        // $in_progress_lots = Lot::query()
+        // ->whereNotIn('lot_num', $in_progress_lots_ids)
+        // ->where('lot_num', 'ilike', '%' . $this->search . '%')
+        // ->orderBy($this->sortBy, $this->sortDirection)
+        // ->paginate($this->perPage);
 
         return view('livewire.Parametrage.liste-lots',[
             'items'=> $items,
-            'in_progress_lots' => $in_progress_lots
+            // 'in_progress_lots' => $in_progress_lots
         ]);
     }
 
@@ -141,6 +141,9 @@ class ListeLots extends Component
             $this->nom_tranche[$key] = $this->list_tranches[$key][0]->nom;
 
         }
+        // dump($this->list_tranches);
+
+
 
 
         // foreach ($lot_tranches as $key => $value) {

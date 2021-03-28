@@ -336,7 +336,7 @@
                                     @livewire('parametrage.liste-lots-archive')
                                 </div>
                                 <div class="tab-pane fade" id="stock-poids-pc-tab" role="tabpanel">
-                                    {{-- @livewire('parametrage.liste-lots-archive') --}}
+                                    @livewire('parametrage.liste-stock-poids-pc')
                                 </div>
                                 <div class="tab-pane fade" id="stock-kg-pc-tab" role="tabpanel">
                                     {{-- @livewire('parametrage.liste-lots-archive') --}}
