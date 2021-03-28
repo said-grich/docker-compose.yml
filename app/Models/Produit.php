@@ -29,6 +29,11 @@ class Produit extends Model
         return $this->hasMany(Lot::class);
     }
 
+    public function photos()
+    {
+        return $this->hasMany(ProduitPhoto::class);
+    }
+
     public function sousCategorie()
     {
         return $this->belongsTo(SousCategorie::class);

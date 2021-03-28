@@ -181,6 +181,7 @@ class ListeLots extends Component
                 }
             }
         }
+        //dd($this->test);
         foreach (array_reverse($this->qte) as $key => $value) {
 
                 if($this->mode_vente_id == 1){

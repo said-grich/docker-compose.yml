@@ -9,6 +9,7 @@ use App\Models\ModeVente;
 use App\Models\Preparation;
 use App\Models\PreparationType;
 use App\Models\Produit;
+use App\Models\ProduitPhoto;
 use App\Models\ProduitTranche;
 use App\Models\TranchesKgPc;
 use App\Models\TranchesPoidsPc;
@@ -76,6 +77,25 @@ class Produits extends Component
 
     }
 
+    public function createTranche()
+    {
+        //$this->validate();
+        dd("here");
+
+        $item = new Preparation();
+        $item->nom = $this->preparation_nom;
+        $item->mode_preparation_id = $this->mode_preparation_id;
+
+        $item->save();
+
+        $mode = ModePreparation::findOrFail($this->mode_preparation_id);
+        session()->flash('message', 'La préparation "' . $this->preparation_nom . '" a été créée dans le mode ' . $mode->nom);
+
+        $this->reset(['preparation_nom', 'mode_preparation_id']);
+
+        $this->emit('saved');
+    }
+
     public function createProduit()
     {
         //$this->validate();
@@ -101,10 +121,16 @@ class Produits extends Component
             $item->code_comptable = $this->code_comptable;
             $item->code_analytique = $this->code_analytique;
             $item->photo_principale = $photo_principale;
-            $item->photos = json_encode($paths, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES| JSON_FORCE_OBJECT);
+            //$item->photos = json_encode($paths, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES| JSON_FORCE_OBJECT);
             $item->active = $this->active;
-
             $item->save();
+
+            foreach ($paths as $key => $value) {
+                ProduitPhoto::create([
+                    'produit_id' => $item->id,
+                    'photo' => $paths[$key],
+                ]);
+            }
 
             foreach ($this->preparations as $key => $value) {
                 PreparationType::create([
@@ -122,7 +148,7 @@ class Produits extends Component
         });
 
         session()->flash('message', 'Produit "'. $this->nom. '" a été crée ');
-        $this->reset(['nom', 'sous_categorie', 'mode_vente', 'mode_preparation', 'famille', 'unite', 'code_comptable', 'code_analytique', 'photos', 'photo_principale', 'active']);
+        $this->reset(['nom', 'sous_categorie', 'mode_vente', 'mode_preparation', 'famille', 'unite', 'code_comptable', 'code_analytique', 'photos', 'photo_principale', 'active', 'tranches', 'preparations']);
 
         $this->emit('saved');
     }

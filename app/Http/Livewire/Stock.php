@@ -90,9 +90,26 @@ class Stock extends Component
 
     }
 
+    protected $messages = [
+        'lot_num.required' => "Le numéro de lot ne peut pas être vide.",
+        'pas.required' => "Le pas ne peut pas être vide.",
+    ];
+
     public function createLot(){
 
         //$this->validate();
+
+        $this->validate([
+            'pas' => 'required',
+            'fournisseur' => 'required',
+            'produit' => 'required',
+            'lot_num' => 'required',
+            'date_capture' => 'required',
+            'date_entree' => 'required',
+            'date_preemption' => 'required',
+            'qualite' => 'required',
+        ]);
+
         DB::transaction(function () {
 
             $item = new Lot();

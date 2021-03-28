@@ -220,7 +220,6 @@
                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-hashtag icon-lg"></i></span></div>
                                     <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num" disabled/>
                                 </div>
-
                                 @error('lot_id')
                                     <span class="form-text text-danger">{{ $message }}</span>
                                 @enderror
@@ -255,6 +254,16 @@
                                     <span class="form-text text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
+                            {{-- <div class="form-group col-md-4">
+                                <label>{{ __('Tranches') }}</label>
+                                <div class="input-group input-group-prepend">
+                                    @if (!empty($lot_tranches))
+                                        @foreach ($lot_tranches as $key => $value)
+                                            <span class="label label-primary label-inline mr-2">{{ $lot_tranches[$key][0]->nom}}</span>
+                                        @endforeach
+                                    @endif
+                                </div>
+                            </div> --}}
                             {{-- <div class="form-group col-md-4">
                                 <label>{{ __('Tranches associées') }}</label>
                                     @if (!empty($list_tranches))

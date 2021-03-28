@@ -17,14 +17,14 @@
                         <span></span>
                     </label>
                 </th>
-                <th class="pl-0" wire:click="sortBy('contact')" style="cursor: pointer;">Photo @include('layouts.partials._sort-icon',['field'=>'contact'])</th>
+                <th class="pl-0" style="cursor: pointer;">Photo</th>
                 <th class="pl-0" wire:click="sortBy('nom')" style="cursor: pointer;">Nom @include('layouts.partials._sort-icon',['field'=>'nom'])</th>
-                <th class="pl-0" wire:click="sortBy('tel')" style="cursor: pointer;">Catégorie @include('layouts.partials._sort-icon',['field'=>'tel'])</th>
-                <th class="pl-0" wire:click="sortBy('contact')" style="cursor: pointer;">Sous catégorie @include('layouts.partials._sort-icon',['field'=>'contact'])</th>
-                <th class="pl-0" wire:click="sortBy('contact')" style="cursor: pointer;">Famille @include('layouts.partials._sort-icon',['field'=>'contact'])</th>
-                <th class="pl-0" wire:click="sortBy('contact')" style="cursor: pointer;">Mode de vente @include('layouts.partials._sort-icon',['field'=>'contact'])</th>
-                <th class="pl-0" wire:click="sortBy('contact')" style="cursor: pointer;">Mode de préparation @include('layouts.partials._sort-icon',['field'=>'contact'])</th>
-                <th class="pl-0" wire:click="sortBy('contact')" style="cursor: pointer;">Préparations @include('layouts.partials._sort-icon',['field'=>'contact'])</th>
+                <th class="pl-0" wire:click="sortBy('nom')" style="cursor: pointer;">Catégorie @include('layouts.partials._sort-icon',['field'=>'nom'])</th>
+                <th class="pl-0" wire:click="sortBy('nom')" style="cursor: pointer;">Sous catégorie @include('layouts.partials._sort-icon',['field'=>'nom'])</th>
+                <th class="pl-0" wire:click="sortBy('nom')" style="cursor: pointer;">Famille @include('layouts.partials._sort-icon',['field'=>'nom'])</th>
+                <th class="pl-0" wire:click="sortBy('nom')" style="cursor: pointer;">Mode de vente @include('layouts.partials._sort-icon',['field'=>'nom'])</th>
+                <th class="pl-0" style="cursor: pointer;">Mode de préparation</th>
+                <th class="pl-0" wire:click="sortBy('nom')" style="cursor: pointer;">Préparations @include('layouts.partials._sort-icon',['field'=>'nom'])</th>
 
 
                 <th class="pr-0 text-right" style="min-width: 160px">Actions</th>
@@ -64,44 +64,38 @@
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->modePreparation->nom }}</a>
                     </td>
                     <td class="pl-0">
-                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg"></a>
-                    </td>
-                    <td class="pl-0">
                         {{-- <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#preparations">{{ __('Préparations') }}</button> --}}
 
-                        <td class="px-6 py-4 whitespace-nowrap text-sm">
-
-                            <div x-data="{ 'isDialogOpen': false }" @keydown.escape="isDialogOpen = false">
-                                <button class="btn btn-primary font-weight-bold btn-pill" @click="isDialogOpen = true" data-toggle="modal" data-target="#preparations">{{ __('Préparations') }}</button>
-                                <div class="overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="isDialogOpen" :class="{ 'absolute inset-0 z-10 flex items-start justify-center': isDialogOpen }">
-                                    <div class="bg-white shadow-2xl m-auto" x-show="isDialogOpen" @click.away="isDialogOpen = false">
-                                        <div class="flex align-middle justify-between items-center border-b p-2 text-xl">
-                                            <h5 class="modal-title">{{ __('Préparations associés au produit') }} <span class="label label-primary label-lg label-inline mr-2">{{ $item->nom }}</span> </h5>
-                                            <button type="button" @click="isDialogOpen = false">✖</button>
-                                        </div>
-                                        <div class="p-2">
-                                            <table class="table table-striped table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Préparation</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($item->preparations as $key => $preparation)
+                        <div x-data="{ 'isDialogOpen': false }" @keydown.escape="isDialogOpen = false">
+                            <button class="btn btn-primary font-weight-bold btn-pill" @click="isDialogOpen = true">{{ __('Préparations') }}</button>
+                            <div class="overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="isDialogOpen" :class="{ 'absolute inset-0 z-10 flex items-start justify-center': isDialogOpen }">
+                                <div class="bg-white shadow-2xl m-auto w-7/12" x-show="isDialogOpen" @click.away="isDialogOpen = false">
+                                    <div class="flex align-middle justify-between items-center border-b p-2 text-xl">
+                                        <h5 class="modal-title">{{ __('Préparations associés au produit') }} <span class="label label-primary label-lg label-inline mr-2">{{ $item->nom }}</span> </h5>
+                                        <button type="button" @click="isDialogOpen = false">✖</button>
+                                    </div>
+                                    <div class="p-2">
+                                        <table class="table table-striped table-bordered">
+                                            <thead>
                                                 <tr>
-                                                    <td>{{$item->preparations[$key]->preparation->nom}}</td>
+                                                    <th scope="col">Préparation</th>
                                                 </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                        </div>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($item->preparations as $key => $preparation)
+                                                    <tr>
+                                                        <td>{{$item->preparations[$key]->preparation->nom}}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
+                            </div>
+                         </div>
 
-
-                        </td>
                         <!--Modal-->
-                        {{-- <div class="modal fade" id="preparations" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="preparations" aria-hidden="true">
+                        <div class="modal fade" id="preparations" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="preparations" aria-hidden="true">
                             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -131,7 +125,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> --}}
+                        </div>
                     </td>
                     <td class="pr-0 text-right">
                         <a  {{-- href="{{ route('edit-fournisseur', ['ida' => $item->id]) }}" --}} class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">
