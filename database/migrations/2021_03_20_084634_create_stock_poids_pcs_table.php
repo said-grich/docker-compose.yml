@@ -25,17 +25,17 @@ class CreateStockPoidsPcsTable extends Migration
             $table->double('prix_p');
             $table->string('br_num');
 
-            $table->unsignedBigInteger('lot_id');
-            $table->foreign('lot_id')->references('id')->on('lots');
+            $table->string('lot_num');
+            $table->foreign('lot_num')->references('lot_num')->on('lots');
 
-            $table->unsignedBigInteger('tranche_id');
-            $table->foreign('tranche_id')->references('id')->on('tranches');
-            //$table->foreign('tranche_id')->references('id')->on('tranches_poids_pcs');
+            $table->string('tranche_id');
+            //$table->foreign('tranche_id')->references('id')->on('tranches');
+            $table->foreign('tranche_id')->references('uid')->on('tranches_poids_pcs');
 
             $table->unsignedBigInteger('depot_id');
             $table->foreign('depot_id')->references('id')->on('depots');
 
-            $table->unsignedBigInteger('promo_id');
+            $table->unsignedBigInteger('promo_id')->nullable();;
             $table->foreign('promo_id')->references('id')->on('promos');
 
             $table->timestamps();

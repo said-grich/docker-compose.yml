@@ -9,6 +9,8 @@ use App\Models\Produit;
 use App\Models\Depot;
 use App\Models\LotTranche;
 use App\Models\Qualite;
+use App\Models\StockKgPc;
+use App\Models\StockPoidsPc;
 use App\Models\TranchesKgPc;
 use App\Models\TranchesPoidsPc;
 use Livewire\Component;
@@ -17,15 +19,18 @@ use Livewire\WithPagination;
 class ListeLots extends Component
 {
     use WithPagination;
+    public $tranche_id = [];
 
     public $lot_id;
     public $lot_num;
     public $article;
+    public $mode_vente_id;
     public $mode_vente;
     public $nombre_piece;
     public $nom_tranche = [];
-    public $ville_id;
-    public $list_villes;
+   // public $tranche_id = [];
+    public $code;
+    public $poids;
     public $isActive = false;
 
     public $list_fournisseurs = [];
@@ -38,6 +43,15 @@ class ListeLots extends Component
 
     public $countInputs;
     public $i = 0;
+
+    public $qte = [];
+    public $cr = [];
+    public $depot = [];
+    public $prix_achat = [];
+    public $prix_vente_normal = [];
+    public $prix_vente_fidele = [];
+    public $prix_vente_business = [];
+    public $bon_reception = [];
 
 
     public $sortBy = 'lot_num';
@@ -65,14 +79,27 @@ class ListeLots extends Component
     public function render()
     {
         $this->renderData();
+        $lot_stock_kg_pc = array_unique(StockKgPc::pluck('lot_num')->toArray());
+        $lot_stock_poids_pc = array_unique(StockPoidsPc::pluck('lot_num')->toArray());
+        $archived_lots_ids = array_merge($lot_stock_kg_pc, $lot_stock_poids_pc);
+
+        // $in_progress_lots_ids = array_unique(Lot::whereNotIn('lot_num', $archived_lots_ids)->pluck('lot_num')->toArray());
 
         $items = Lot::query()
+        ->whereNotIn('lot_num', $archived_lots_ids)
         ->where('lot_num','ilike','%'.$this->search.'%')
         ->orderBy($this->sortBy, $this->sortDirection)
         ->paginate($this->perPage);
 
+        // $in_progress_lots = Lot::query()
+        // ->whereNotIn('lot_num', $in_progress_lots_ids)
+        // ->where('lot_num', 'ilike', '%' . $this->search . '%')
+        // ->orderBy($this->sortBy, $this->sortDirection)
+        // ->paginate($this->perPage);
+
         return view('livewire.Parametrage.liste-lots',[
-            'items'=> $items
+            'items'=> $items,
+            // 'in_progress_lots' => $in_progress_lots
         ]);
     }
 
@@ -97,21 +124,40 @@ class ListeLots extends Component
         $lot_tranches = LotTranche::where('lot_num', $lot->lot_num)->get();
         //dd($lot,count($lot_tranches),$lot_tranches);
 
-        $lot->produit->modeVente->id != 1 ? $this->countInputs = count($lot_tranches) :  '';
+        $lot->produit->modeVente->id != 1 ? $this->countInputs = count($lot_tranches) :  $this->countInputs = 0;
 
         $this->lot_id =$lot->id;
         $this->lot_num =$lot->lot_num;
         $this->article =$lot->produit->nom;
+        $this->mode_vente_id =$lot->produit->modeVente->id;
         $this->mode_vente =$lot->produit->modeVente->nom;
 
-
+        $this->tranche_id = [];
 
         foreach ($lot_tranches as $key => $value) {
+            //$this->test[$key] = "eee";
+            $this->tranche_id[$key] = $value->tranche_id;
             $this->list_tranches[$key] = $mode_vente == 1 ? TranchesPoidsPc::where('uid',$value->tranche_id)->get() : TranchesKgPc::where('uid',$value->tranche_id)->get();
-            $this->nom_tranche[$key] =$lot->produit->modeVente->nom;
-
+            $this->nom_tranche[$key] = $this->list_tranches[$key][0]->nom;
 
         }
+        // dump($this->list_tranches);
+
+
+
+
+        // foreach ($lot_tranches as $key => $value) {
+        //     if ($mode_vente == 1) {
+        //         $this->list_tranches[$key] = TranchesPoidsPc::where('uid', $value->tranche_id)->get();
+        //         $this->countInputs = count($this->list_tranches);
+        //     } else {
+        //         $this->list_tranches[$key] =  TranchesKgPc::where('uid', $value->tranche_id)->get();
+        //         $this->countInputs = count($this->list_tranches);
+        //     }
+        //     //$this->list_tranches[$key] = $mode_vente == 1 ? $list_tranches[$key] = TranchesPoidsPc::where('uid',$value->tranche_id)->get() : $list_tranches[$key] = TranchesKgPc::where('uid',$value->tranche_id)->get();
+        //     $this->nom_tranche[$key] = $this->list_tranches[$key][0]->nom;
+        //     $this->tranche_uid[$key] = $this->list_tranches[$key][0]->uid;
+        // }
         /* foreach ($this->list_tranches as $key => $value) {
             dd($key,$value->get($key)->nom);
         } */
@@ -122,6 +168,61 @@ class ListeLots extends Component
         $this->date_preemption =$item->date_preemption;
         $this->pas =$item->pas;
         $this->active =$item->active; */
+    }
+
+    public function createStock(){
+        foreach (array_reverse($this->qte) as $key => $value) {
+
+                if($this->mode_vente_id == 1){
+
+                    $interval = [];
+                    foreach($this->list_tranches as $k => $tranche){
+
+                        if($this->poids[$key] <= $tranche[0]['min_poids'] && $this->poids[$key] < $tranche[0]['max_poids']){
+                            $interval[$key] = $tranche[0];
+                        }
+                    }
+
+                    $item = new StockPoidsPc();
+                    $item->code =  $this->code[$key];
+                    $item->poids =  $this->poids[$key];
+                    $item->qte =  $this->qte[$key];
+                    $item->prix_achat =  $this->prix_achat[$key];
+                    $item->cr =  $this->cr[$key];
+                    $item->prix_n =  $this->prix_vente_normal[$key];
+                    $item->prix_f =  $this->prix_vente_fidele[$key];
+                    $item->prix_p =  $this->prix_vente_business[$key];
+                    $item->br_num =  $this->bon_reception[$key];
+                    $item->lot_num  =  $this->lot_num;
+                    $item->tranche_id =  $interval[$key]['uid'];
+                    $item->depot_id =  $this->depot[$key];
+                    //$item->promo_id =  1;
+                    $item->save();
+
+
+                }else{
+                    $item = new StockKgPc();
+                    $item->qte =  $this->qte[$key];
+                    $item->prix_achat =  $this->prix_achat[$key];
+                    $item->cr =  $this->cr[$key];
+                    $item->prix_n =  $this->prix_vente_normal[$key];
+                    $item->prix_f =  $this->prix_vente_fidele[$key];
+                    $item->prix_p =  $this->prix_vente_business[$key];
+                    $item->br_num =  $this->bon_reception[$key];
+                    $item->lot_num  =  $this->lot_num;
+                    $item->tranche_id =  $this->tranche_id[$key];
+                    $item->depot_id =  $this->depot[$key];
+                    //$item->promo_id =  1;
+                    $item->save();
+                }
+
+        }
+
+        session()->flash('message', 'Produit "' . $this->article . '" a été ajouté au stock');
+        $this->reset(['qte', 'prix_achat', 'cr', 'prix_vente_normal', 'prix_vente_fidele', 'prix_vente_business', 'bon_reception', 'lot_num', 'tranche_id', 'depot','code','poids','article','mode_vente','nombre_piece']);
+        return redirect()->to('/stock');
+
+
     }
 
     public function edit($id){

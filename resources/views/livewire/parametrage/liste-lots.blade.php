@@ -17,9 +17,11 @@
                     </label>
                 </th>
                 <th class="pl-0" wire:click="sortBy('lot_num')" style="cursor: pointer;">Numéro @include('layouts.partials._sort-icon',['field'=>'lot_num'])</th>
+                <th class="pl-0" wire:click="sortBy('lot_num')" style="cursor: pointer;">Produit @include('layouts.partials._sort-icon',['field'=>'lot_num'])</th>
                 <th class="pl-0" wire:click="sortBy('date_capture')" style="cursor: pointer;">Date capture @include('layouts.partials._sort-icon',['field'=>'date_capture'])</th>
                 <th class="pl-0" wire:click="sortBy('date_entree')" style="cursor: pointer;">Date entrée @include('layouts.partials._sort-icon',['field'=>'date_entree'])</th>
                 <th class="pl-0" wire:click="sortBy('date_preemption')" style="cursor: pointer;">Date préemtion @include('layouts.partials._sort-icon',['field'=>'date_preemption'])</th>
+                <th class="pl-0" wire:click="sortBy('date_preemption')" style="cursor: pointer;">Qualité @include('layouts.partials._sort-icon',['field'=>'date_preemption'])</th>
                 <th class="pl-0" wire:click="sortBy('pas')" style="cursor: pointer;">Pas @include('layouts.partials._sort-icon',['field'=>'pas'])</th>
                 <th class="pl-0" wire:click="sortBy('active')" style="cursor: pointer;">Statut @include('layouts.partials._sort-icon',['field'=>'active'])</th>
                 <th class="pr-0 text-right" style="min-width: 160px">Actions</th>
@@ -37,6 +39,9 @@
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->lot_num }}</a>
                     </td>
                     <td class="pl-0">
+                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->produit->nom }}</a>
+                    </td>
+                    <td class="pl-0">
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->date_capture }}</a>
                     </td>
                     <td class="pl-0">
@@ -44,6 +49,9 @@
                     </td>
                     <td class="pl-0">
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->date_preemption }}</a>
+                    </td>
+                    <td class="pl-0">
+                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->qualite->nom }}</a>
                     </td>
                     <td class="pl-0">
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->pas }}</a>
@@ -245,6 +253,16 @@
                                     <span class="form-text text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
+                            {{-- <div class="form-group col-md-4">
+                                <label>{{ __('Tranches associées') }}</label>
+                                    @if (!empty($list_tranches))
+                                        @foreach ($list_tranches as $key =>$item)
+                                        {{$item}}
+
+                                        <span class="label label-info label-inline mr-2"></span>
+                                        @endforeach
+                                    @endif
+                            </div> --}}
                             {{-- <div class="form-group col-md-6">
                                 <div class="input-group input-group-prepend">
                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sliders-h icon-lg"></i></span></div>
@@ -262,7 +280,13 @@
                             <table class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Tranches</th>
+                                        @if ($mode_vente_id != 1)
+                                            <th scope="col">Tranches</th>
+                                        @endif
+                                        @if ($mode_vente_id == 1)
+                                            <th scope="col">Code</th>
+                                            <th scope="col">Poids</th>
+                                        @endif
                                         <th scope="col">Quantité</th>
                                         <th scope="col">CR</th>
                                         <th scope="col">Dépot</th>
@@ -277,11 +301,28 @@
                                 <tbody>
                                     @for ($i = 0; $i < $countInputs; $i++)
                                         <tr>
-                                            <td>
-                                                @php
-                                                    dd($list_tranches[$i][0]->nom);
-                                                @endphp
-                                            </td>
+                                            @if ($mode_vente_id != 1)<td>{{$nom_tranche[$i]}}</td>@endif
+
+                                            @if ($mode_vente_id == 1)
+                                                <td>
+                                                    <div class="input-group input-group-prepend">
+                                                        <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-balance-scale-left"></i></span></div>
+                                                        <input type="text" class="form-control" placeholder="{{ __('Code') }}" wire:model.defer="code.{{$i}}"/>
+                                                    </div>
+                                                    @error('code')
+                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </td>
+                                                <td>
+                                                    <div class="input-group input-group-prepend">
+                                                        <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-balance-scale-left"></i></span></div>
+                                                        <input type="text" class="form-control" placeholder="{{ __('Poids') }}" wire:model.defer="poids.{{$i}}"/>
+                                                    </div>
+                                                    @error('poids')
+                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </td>
+                                            @endif
                                             <td>
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-balance-scale-left"></i></span></div>

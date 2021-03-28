@@ -10,4 +10,9 @@ class TranchesPoidsPc extends Model
     use HasFactory;
     protected $guarded = [];
 
+    public function stock()
+    {
+        return $this->hasMany(StockPoidsPc::class, 'tranche_id', 'uid');
+    }
+
 }

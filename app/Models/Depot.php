@@ -14,4 +14,10 @@ class Depot extends Model
     {
         return $this->belongsTo(Ville::class);
     }
+
+    public function stockPoidPC()
+    {
+        return $this->hasMany(StockPoidsPc::class);
+    }
+
 }

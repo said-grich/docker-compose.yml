@@ -317,14 +317,30 @@
                                         <span class="nav-text">Lots archivés</span>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#stock-poids-pc-tab">
+                                        <span class="nav-text">Stock poids par piéce</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#stock-kg-pc-tab">
+                                        <span class="nav-text">Stock Kg/Piéce</span>
+                                    </a>
+                                </li>
                             </ul>
                             <div class="tab-content mt-5">
                                 <div class="tab-pane fade active show" id="encours-tab" role="tabpanel">
                                     @livewire('parametrage.liste-lots')
                                 </div>
                                 <div class="tab-pane fade" id="archive-tab" role="tabpanel">
-{{--                                     @livewire('parametrage.liste-sous-categorie')
- --}}                                </div>
+                                    @livewire('parametrage.liste-lots-archive')
+                                </div>
+                                <div class="tab-pane fade" id="stock-poids-pc-tab" role="tabpanel">
+                                    @livewire('parametrage.liste-stock-poids-pc')
+                                </div>
+                                <div class="tab-pane fade" id="stock-kg-pc-tab" role="tabpanel">
+                                    {{-- @livewire('parametrage.liste-lots-archive') --}}
+                                </div>
                             </div>
                         </div>
                     </div>
