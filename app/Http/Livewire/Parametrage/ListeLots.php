@@ -28,6 +28,7 @@ class ListeLots extends Component
     public $mode_vente;
     public $nombre_piece;
     public $nom_tranche = [];
+    public $test = [];
    // public $tranche_id = [];
     public $code;
     public $poids;
@@ -171,17 +172,25 @@ class ListeLots extends Component
     }
 
     public function createStock(){
-        foreach (array_reverse($this->qte) as $key => $value) {
+        foreach (array_reverse($this->poids) as $key => $value) {
+
+            foreach ($this->list_tranches as $k => $tranche) {
+                if($value >= $tranche[0]['min_poids'] && $value < $tranche[0]['max_poids']){
+                    $this->test[$key] = $tranche[0]['uid'];
+                }
+            }
+        }
+        foreach (array_reverse($this->code) as $key => $value) {
 
                 if($this->mode_vente_id == 1){
 
-                    $interval = [];
-                    foreach($this->list_tranches as $k => $tranche){
+                    // $interval = [];
+                    // foreach($this->list_tranches as $k => $tranche){
 
-                        if($this->poids[$key] <= $tranche[0]['min_poids'] && $this->poids[$key] < $tranche[0]['max_poids']){
-                            $interval[$key] = $tranche[0];
-                        }
-                    }
+                    //     if($this->poids[$key] <= $tranche[0]['min_poids'] && $this->poids[$key] < $tranche[0]['max_poids']){
+                    //         $interval[$key] = $tranche[0];
+                    //     }
+                    // }
 
                     $item = new StockPoidsPc();
                     $item->code =  $this->code[$key];
@@ -194,7 +203,7 @@ class ListeLots extends Component
                     $item->prix_p =  $this->prix_vente_business[$key];
                     $item->br_num =  $this->bon_reception[$key];
                     $item->lot_num  =  $this->lot_num;
-                    $item->tranche_id =  $interval[$key]['uid'];
+                    $item->tranche_id =  $this->test[$key];
                     $item->depot_id =  $this->depot[$key];
                     //$item->promo_id =  1;
                     $item->save();
