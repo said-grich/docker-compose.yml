@@ -24,5 +24,10 @@ class Lot extends Model
         return $this->hasMany(StockPoidsPc::class, 'lot_num', 'lot_num');
     }
 
+    public function stockKgPc()
+    {
+        return $this->hasMany(StockKgPc::class, 'lot_num', 'lot_num');
+    }
+
 
 }

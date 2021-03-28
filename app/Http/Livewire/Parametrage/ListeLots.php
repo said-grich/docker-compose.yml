@@ -172,15 +172,16 @@ class ListeLots extends Component
     }
 
     public function createStock(){
-        foreach (array_reverse($this->poids) as $key => $value) {
-
-            foreach ($this->list_tranches as $k => $tranche) {
-                if($value >= $tranche[0]['min_poids'] && $value < $tranche[0]['max_poids']){
-                    $this->test[$key] = $tranche[0]['uid'];
+        if ($this->mode_vente_id == 1) {
+            foreach (array_reverse($this->poids) as $key => $value) {
+                foreach ($this->list_tranches as $k => $tranche) {
+                    if($value >= $tranche[0]['min_poids'] && $value < $tranche[0]['max_poids']){
+                        $this->test[$key] = $tranche[0]['uid'];
+                    }
                 }
             }
         }
-        foreach (array_reverse($this->code) as $key => $value) {
+        foreach (array_reverse($this->qte) as $key => $value) {
 
                 if($this->mode_vente_id == 1){
 

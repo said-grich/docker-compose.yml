@@ -339,7 +339,7 @@
                                     @livewire('parametrage.liste-stock-poids-pc')
                                 </div>
                                 <div class="tab-pane fade" id="stock-kg-pc-tab" role="tabpanel">
-                                    {{-- @livewire('parametrage.liste-lots-archive') --}}
+                                    @livewire('parametrage.liste-stock-kg-pc')
                                 </div>
                             </div>
                         </div>

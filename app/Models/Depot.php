@@ -20,4 +20,9 @@ class Depot extends Model
         return $this->hasMany(StockPoidsPc::class);
     }
 
+    public function stockKgPC()
+    {
+        return $this->hasMany(StockKgPc::class);
+    }
+
 }
