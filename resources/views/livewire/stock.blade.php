@@ -51,7 +51,7 @@
                                             <div wire:ignore class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar-alt icon-lg"></i></span></div>
-                                                    <input id="date_capture" type="text" class="form-control datepicker" placeholder=" " wire:model.defer="date_capture"/>
+                                                    <input id="date_capture" type="text" class="form-control datepicker" placeholder=" " wire:model.defer="date_capture" autocomplete=off/>
                                                     <label>{{ __('Date Capture') }}</label>
                                                 </div>
                                                 @error('date_capture')
@@ -339,7 +339,7 @@
                                     @livewire('parametrage.liste-stock-poids-pc')
                                 </div>
                                 <div class="tab-pane fade" id="stock-kg-pc-tab" role="tabpanel">
-                                    {{-- @livewire('parametrage.liste-lots-archive') --}}
+                                    @livewire('parametrage.liste-stock-kg-pc')
                                 </div>
                             </div>
                         </div>
@@ -623,6 +623,9 @@
     </script>
 
     <script>
+        $('.datepicker').datepicker({
+                format: 'yyyy-mm-dd',
+            }).attr("autocomplete", "off");
         $('.datepicker').on('change', function (e) {
             @this.set(e.target.id, e.target.value);
         });

@@ -40,7 +40,11 @@
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->tel }}</a>
                     </td>
                     <td class="pl-0">
-                        <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#contacts">{{ __('Contacts') }}</button>
+                        @if (!($item->contacts)->isEmpty())
+                            <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#contacts">{{ __('Contacts') }}</button>
+
+                        @endif
+
                         <!--Modal-->
                         <div wire:ignore.self class="modal fade" id="contacts" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="contacts" aria-hidden="true">
                             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">

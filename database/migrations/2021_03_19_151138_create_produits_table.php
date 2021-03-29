@@ -19,7 +19,7 @@ class CreateProduitsTable extends Migration
             $table->integer('code_comptable');
             $table->integer('code_analytique');
             $table->string('photo_principale');
-            $table->json('photos');
+            //$table->json('photos');
             $table->boolean('active')->default(false);
 
             //$table->unsignedBigInteger('categorie_id');
