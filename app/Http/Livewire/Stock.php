@@ -50,6 +50,23 @@ class Stock extends Component
         $this->dispatchBrowserEvent('contentChanged');
     }
 
+    public function updatedFournisseur($value){
+        $uniqueNumLot =  random_int(100, 999);
+        $fournisseur = Fournisseur::where('id',$value)->first(['nom']);
+        $fournisseur_nom = substr($fournisseur->nom, 0, 3);
+        $this->lot_num = $fournisseur_nom.$uniqueNumLot;
+
+    }
+
+    public function updatedProduit($value){
+        dd($value);
+        $uniqueNumLot =  random_int(100, 999);
+        $fournisseur = Fournisseur::where('id',$value)->first(['nom']);
+        $fournisseur_nom = substr($fournisseur->nom, 0, 3);
+        $this->lot_num = $fournisseur_nom.$uniqueNumLot;
+
+    }
+
     public function renderData()
     {
         $this->list_fournisseurs = Fournisseur::all()->sortBy('nom');

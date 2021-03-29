@@ -41,7 +41,7 @@
                                             <div class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-hashtag icon-lg"></i></span></div>
-                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num"/>
+                                                    <input type="text" class="form-control bg-gray-300" placeholder=" " wire:model="lot_num" disabled/>
                                                     <label>{{ __('Numéro') }}</label>
                                                 </div>
                                                 @error('lot_num')
@@ -51,8 +51,8 @@
                                             <div wire:ignore class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar-alt icon-lg"></i></span></div>
-                                                    <input id="date_capture" type="text" class="form-control datepicker" placeholder=" " wire:model.defer="date_capture" autocomplete=off/>
-                                                    <label>{{ __('Date Capture') }}</label>
+                                                    <input id="date_capture" type="text" class="form-control datepicker" placeholder=" " wire:model.defer="date_capture" autocomplete="off"/>
+                                                    <label>{{ __('Date capture') }}</label>
                                                 </div>
                                                 @error('date_capture')
                                                     <span class="form-text text-danger">{{ $message }}</span>
@@ -61,8 +61,8 @@
                                             <div wire:ignore class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar-plus icon-lg"></i></span></div>
-                                                    <input id="date_entree" type="text" class="form-control datepicker" placeholder=" " wire:model.defer="date_entree"/>
-                                                    <label>{{ __('Date Entree') }}</label>
+                                                    <input id="date_entree" type="text" class="form-control datepicker" placeholder=" " wire:model.defer="date_entree" autocomplete="off"/>
+                                                    <label>{{ __("Date d'entrée") }}</label>
                                                 </div>
                                                 @error('date_entree')
                                                     <span class="form-text text-danger">{{ $message }}</span>
@@ -71,18 +71,18 @@
                                             <div wire:ignore class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar-times icon-lg"></i></span></div>
-                                                    <input id="date_preemption" type="text" class="form-control datepicker" placeholder=" " wire:model.defer="date_preemption"/>
+                                                    <input id="date_preemption" type="text" class="form-control datepicker" placeholder=" " wire:model.defer="date_preemption" autocomplete="off"/>
                                                     <label>{{ __('Date Préemption') }}</label>
                                                 </div>
                                                 @error('date_preemption')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
-                                            <div wire:ignore class="form-group col-md-6">
+                                            <div class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
                                                     <select class="form-control selectpicker" wire:model="fournisseur">
-                                                        <option>{{ __('Fournisseur') }}</option>
+                                                        <option>{{ __('Choisir un fournisseur') }}</option>
                                                         @foreach ($list_fournisseurs as $item)
                                                             <option value="{{$item->id }}">{{$item->nom }}</option>
                                                         @endforeach
@@ -99,7 +99,7 @@
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-award icon-lg"></i></span></div>
                                                     <select class="form-control selectpicker" wire:model="qualite">
-                                                        <option>{{ __('Qualite') }}</option>
+                                                        <option>{{ __('Choisir une qualite') }}</option>
                                                         @foreach ($list_qualites as $item)
                                                             <option value="{{$item->id }}">{{$item->nom }}</option>
                                                         @endforeach
@@ -114,7 +114,7 @@
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-box-open icon-lg"></i></span></div>
                                                     <select class="form-control selectpicker" wire:model="produit">
-                                                        <option>{{ __('Produit') }}</option>
+                                                        <option>{{ __('Choisir un produit') }}</option>
                                                         @foreach ($list_produits as $item)
                                                             <option value="{{$item->id }}">{{$item->nom }}</option>
                                                         @endforeach
@@ -144,6 +144,7 @@
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sliders-h icon-lg"></i></span></div>
                                                     <input type="text" class="form-control" placeholder=" " wire:model.defer="pas"/>
                                                     <label>{{ __('Pas') }}</label>
+                                                    <div class="input-group-append"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Produit">test</button></div>
                                                 </div>
                                                 @error('pas')
                                                     <span class="form-text text-danger">{{ $message }}</span>
@@ -623,9 +624,6 @@
     </script>
 
     <script>
-        $('.datepicker').datepicker({
-                format: 'yyyy-mm-dd',
-            }).attr("autocomplete", "off");
         $('.datepicker').on('change', function (e) {
             @this.set(e.target.id, e.target.value);
         });
