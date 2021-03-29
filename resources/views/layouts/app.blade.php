@@ -48,12 +48,12 @@
 			<!--begin::Page-->
 			<div class="d-flex flex-row flex-column-fluid page">
 
-				@livewire('layouts.aside-bar')
+				@include('layouts.aside-bar')
 
 				<!--begin::Wrapper-->
 				<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
 
-					@livewire('layouts.header')
+					@include('layouts.header')
 
 					<!--begin::Content-->
 					<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
@@ -64,7 +64,7 @@
 					</div>
 					<!--end::Content-->
 
-					@livewire('layouts.footer')
+					@include('layouts.footer')
 
 				</div>
 				<!--end::Wrapper-->
