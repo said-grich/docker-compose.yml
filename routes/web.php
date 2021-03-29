@@ -14,9 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('livewire.frontend.index');
+// });
+
+Route::get('/', \App\Http\Livewire\Frontend\Index::class)->name('index');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
