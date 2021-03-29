@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\BonReception;
+use App\Models\BonReceptionLigne;
 use App\Models\Depot;
 use App\Models\Fournisseur;
 use App\Models\Lot;
@@ -12,26 +14,27 @@ use App\Models\ProduitTranche;
 use App\Models\Qualite;
 use App\Models\TranchesKgPc;
 use App\Models\TranchesPoidsPc;
+use App\Models\Unite;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class Stock extends Component
 {
-    public $lot_num;
+    //public $lot_num;
     public $date_capture;
     public $date_entree;
     public $date_preemption;
-    public $pas;
     public $fournisseur;
+    /* public $pas;
     public $qualite;
-    public $produit;
+    public $produit; */
     public $active = false;
 
     public $lot_id;
     public $tranches = [];
     public $depot;
-    public $prix_achat;
-    public $qte;
+    /* public $prix_achat;
+    public $qte; */
     public $cr;
     public $prix_vente_normal;
     public $prix_vente_fidele;
@@ -44,6 +47,36 @@ class Stock extends Component
     public $list_lots = [];
     public $list_tranches = [];
     public $list_depots = [];
+    public $list_unites = [];
+
+    public $ref_br;
+    public $date;
+    public $pas = [];
+    public $qualite = [];
+    public $produit = [];
+    public $prix_achat = [];
+    public $qte = [];
+    public $nbr_pc = [];
+    public $lot_num = [];
+    public $unite = [];
+    public $mode_vente_produit = [];
+    public $bon_recption_details;
+
+
+    public $inputs = [];
+    public $i = 0;
+
+    public function add()
+    {
+        $this->i++;
+        array_push($this->inputs, $this->i);
+    }
+
+    public function remove($i)
+    {
+        array_splice($this->inputs, $i - 1, 1);
+        $this->i--;
+    }
 
 
     public function updated(){
@@ -56,14 +89,6 @@ class Stock extends Component
         $fournisseur_nom = substr($fournisseur->nom, 0, 3);
         $this->lot_num = $fournisseur_nom.$uniqueNumLot;
 
-    }
-
-    public function updatedProduit($value){
-        dd($value);
-        $uniqueNumLot =  random_int(100, 999);
-        $fournisseur = Fournisseur::where('id',$value)->first(['nom']);
-        $fournisseur_nom = substr($fournisseur->nom, 0, 3);
-        $this->lot_num = $fournisseur_nom.$uniqueNumLot;
 
     }
 
@@ -74,14 +99,16 @@ class Stock extends Component
         $this->list_produits = Produit::all()->sortBy('nom');
         $this->list_lots = Lot::all()->sortBy('not_num');
         $this->list_depots = Depot::all()->sortBy('nom');
+        $this->list_unites = Unite::whereIn('nom', array("Kg", "Pièce"))->get();
+
 
     }
 
-    public function updatedProduit($value){
+    public function updatedProduit($value,$index){
 
         $produit = Produit::where('id',$value)->first();
         $produit_tranches = ProduitTranche::where('produit_id', $value)->get();
-
+        $this->mode_vente_produit[$index] = $produit->modeVente->id;
         $mode_vente = $produit->modeVente->id;
 
         foreach($produit_tranches as $key=>$value){
@@ -102,15 +129,58 @@ class Stock extends Component
 
     }
 
+    protected $messages = [
+        'lot_num.required' => "Le numéro de lot ne peut pas être vide.",
+        'pas.required' => "Le pas ne peut pas être vide.",
+    ];
+
+    public function createLots(){
+        $this->validate([
+            'ref_br' => 'required',
+            'date_entree' => 'required',
+            //'nbr_pc' => 'exclude_if:mode_vente_produit,1|required',
+        ]);
+
+        DB::transaction(function () {
+
+            $item = new BonReception();
+            $item->ref = $this->ref_br;
+            $item->date = $this->date_entree;
+            $item->depot_id = $this->depot;
+            $item->fournisseur_id = $this->fournisseur;
+            $item->save();
+
+            foreach ($this->produit as $key => $value) {
+                $item = new Lot();
+                $item->produit_id = $this->produit[$key];
+                $item->lot_num = $this->lot_num[$key];
+                $item->date_entree = $this->date_entree;
+                $item->pas = $this->pas[$key];
+                $item->fournisseur_id = $this->fournisseur;
+                $item->qualite_id = $this->qualite[$key];
+                $item->active = true;
+                $item->save();
+
+                $item = new BonReceptionLigne();
+                $item->bon_reception_ref = $this->ref_br;
+                $item->produit_id = $this->produit[$key];
+                $item->qte =$this->qte[$key];
+                $item->prix_achat =$this->prix_achat[$key];
+                $item->montant = 10;
+                $item->save();
+                $this->bon_recption_details = $item;
+
+
+            }
+
+        });
+    }
+
     public function createStock(){
         dd($this->tranches,$this->date_capture);
 
     }
 
-    protected $messages = [
-        'lot_num.required' => "Le numéro de lot ne peut pas être vide.",
-        'pas.required' => "Le pas ne peut pas être vide.",
-    ];
 
     public function createLot(){
 

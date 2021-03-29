@@ -23,7 +23,9 @@ class CreateStockPoidsPcsTable extends Migration
             $table->double('prix_n');
             $table->double('prix_f');
             $table->double('prix_p');
+
             $table->string('br_num');
+            $table->foreign('br_num')->references('ref')->on('bon_receptions');
 
             $table->string('lot_num');
             $table->foreign('lot_num')->references('lot_num')->on('lots');

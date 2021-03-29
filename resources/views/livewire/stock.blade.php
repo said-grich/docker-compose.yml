@@ -23,12 +23,274 @@
                         <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#lot">
                             <i class="flaticon-plus"></i> {{ __('Ajouter Lot') }}
                         </button>
-                       {{--  <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#stock">
-                            <i class="flaticon-plus"></i> {{ __('Ajouter Stock') }}
-                        </button> --}}
-                        <!--Modal-->
                         <div wire:ignore.self class="modal fade" id="lot" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="lot" aria-hidden="true">
-                            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                            <div class="modal-dialog modal-xxl modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">{{ __('Nouveau Lot') }}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <i aria-hidden="true" class="ki ki-close"></i>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="lot-form" class="form row" wire:submit.prevent="createLots">
+                                            <div class="form-group col-md-3">
+                                                <label>{{ __('Réf. bon de réception') }}</label>
+                                                <div class="input-group input-group-prepend">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-hashtag icon-lg"></i></span></div>
+                                                    <input type="text" class="form-control" placeholder=" " wire:model="ref_br"/>
+{{--                                                     <label>{{ __('Réf.BR') }}</label>
+ --}}                                                </div>
+                                                @error('ref_br')
+                                                    <span class="form-text text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label>{{ __('Fournisseur') }}</label>
+                                                <div class="input-group input-group-prepend">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
+                                                    <select class="form-control" wire:model="fournisseur">
+                                                        <option>{{ __('Choisir un fournisseur') }}</option>
+                                                        @foreach ($list_fournisseurs as $item)
+                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                        @endforeach
+
+                                                    </select>
+                                                </div>
+                                                @error('fournisseur')
+                                                    <span class="form-text text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label>{{ __("Date d'entrée") }}</label>
+                                                <div class="input-group input-group-prepend">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar-plus icon-lg"></i></span></div>
+                                                    <input id="date_entree" type="text" class="form-control datepicker" placeholder=" " wire:model.defer="date_entree" autocomplete="off"/>
+                                                </div>
+                                                @error('date_entree')
+                                                    <span class="form-text text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label>{{ __("Dépôt") }}</label>
+                                                <div class="input-group input-group-prepend">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
+                                                    <select class="form-control" wire:model="depot">
+                                                        <option>{{ __('Choisir un dépôt') }}</option>
+                                                        @foreach ($list_depots as $item)
+                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                        @endforeach
+
+                                                    </select>
+                                                </div>
+                                                @error('depot')
+                                                    <span class="form-text text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+
+                                            <table class="table table-vertical-center" id="kt_advance_table_widget_4">
+                                                <thead>
+                                                    <tr class="text-left">
+                                                        <th class="pl-0">Article</th>
+                                                        <th class="pl-0">Quantité</th>
+                                                        <th class="pl-0">Nombre de pièces</th>
+                                                        <th class="pl-0">Prix Achat</th>
+                                                        <th class="pl-0">Unité</th>
+                                                        <th class="pl-0">Lot</th>
+                                                        <th class="pl-0">Qualité</th>
+                                                        <th class="pl-0">Pas</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                        <tr>
+                                                            <td class="pl-0">
+{{--                                                                 <input type="text" wire:model="mode_vente_produit.0">
+ --}}
+                                                                <select class="form-control" wire:model="produit.0">
+                                                                    <option>{{ __('Choisir un produit') }}</option>
+                                                                    @foreach ($list_produits as $item)
+                                                                        <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </td>
+                                                            <td class="pl-0">
+                                                                <input type="text" class="form-control" placeholder=" " wire:model="qte.0"/>
+                                                            </td>
+                                                            <td class="pl-0">
+                                                                <input type="text" class="form-control" placeholder=" " wire:model="nbr_pc.0"/>
+                                                                @error('nbr_pc')
+                                                                    <span class="form-text text-danger">{{ $message }}</span>
+                                                                @enderror
+                                                            </td>
+                                                            <td class="pl-0">
+                                                                <input type="text" class="form-control" placeholder=" " wire:model="prix_achat.0"/>
+                                                            </td>
+                                                            <td class="pl-0">
+                                                                <select class="form-control" wire:model="unite.0">
+                                                                    <option>{{ __('Choisir une unité') }}</option>
+                                                                    @foreach ($list_unites as $item)
+                                                                        <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </td>
+                                                            <td class="pl-0">
+                                                                <input type="text" class="form-control" placeholder=" " wire:model="lot_num.0"/>
+                                                            </td>
+                                                            <td class="pl-0">
+                                                                <select class="form-control" wire:model="qualite.0">
+                                                                    <option>{{ __('Choisir une qualite') }}</option>
+                                                                    @foreach ($list_qualites as $item)
+                                                                        <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </td>
+                                                            <td class="pl-0">
+                                                                <input type="text" class="form-control" placeholder=" " wire:model="pas.0"/>
+                                                            </td>
+                                                        </tr>
+                                                        @foreach($inputs as $key => $value)
+                                                        <tr>
+                                                            <td class="pl-0">
+{{--                                                                 <input type="text" wire:model="mode_vente_produit.{{$value}}">
+ --}}                                                                <select class="form-control" wire:model="produit.{{$value}}">
+                                                                    <option>{{ __('Choisir un produit') }}</option>
+                                                                    @foreach ($list_produits as $item)
+                                                                        <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </td>
+                                                            <td class="pl-0">
+                                                                <input type="text" class="form-control" placeholder=" " wire:model="qte.{{$value}}"/>
+                                                            </td>
+                                                            <td class="pl-0">
+                                                                <input type="text" class="form-control" placeholder=" " wire:model="nbr_pc.{{$value}}"/>
+                                                                @error('nbr_pc')
+                                                                    <span class="form-text text-danger">{{ $message }}</span>
+                                                                @enderror
+                                                            </td>
+
+                                                            <td class="pl-0">
+                                                                <input type="text" class="form-control" placeholder=" " wire:model="prix_achat.{{$value}}"/>
+                                                            </td>
+                                                            <td class="pl-0">
+                                                                <select class="form-control" wire:model="unite.{{$value}}">
+                                                                    <option>{{ __('Choisir une unité') }}</option>
+                                                                    @foreach ($list_unites as $item)
+                                                                        <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </td>
+                                                            <td class="pl-0">
+                                                                <input type="text" class="form-control" placeholder=" " wire:model="lot_num.{{$value}}"/>
+                                                            </td>
+                                                            <td class="pl-0">
+                                                                <select class="form-control" wire:model="qualite.{{$value}}">
+                                                                    <option>{{ __('Choisir une qualite') }}</option>
+                                                                    @foreach ($list_qualites as $item)
+                                                                        <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </td>
+                                                            <td class="pl-0">
+                                                                <input type="text" class="form-control" placeholder=" " wire:model="pas.{{$value}}"/>
+                                                            </td>
+                                                        </tr>
+                                                        @endforeach
+
+                                                        @if(!empty($bon_recption_details))
+                                                            @php
+                                                                dd($bon_recption_details);
+                                                            @endphp
+                                                        @endif
+                                                </tbody>
+                                            </table>
+
+
+                                            <div class="form-group row">
+                                                <div class="col">
+                                                    <button data-repeater-create="" class="btn font-weight-bold btn-primary" wire:click.prevent="add()">
+                                                        <i class="la la-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            {{--<div wire:ignore class="form-group col-md-6">
+                                                <div class="input-group input-group-prepend">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-award icon-lg"></i></span></div>
+                                                    <select class="form-control" wire:model="qualite">
+                                                        <option>{{ __('Choisir une qualite') }}</option>
+                                                        @foreach ($list_qualites as $item)
+                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <div class="input-group-append" data-toggle="modal" data-target="#qualite"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Qualite"><i class="fa fa-plus-circle"></i></button></div>
+                                                </div>
+                                                @error('qualite')
+                                                    <span class="form-text text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                            <div wire:ignore class="form-group col-md-6">
+                                                <div class="input-group input-group-prepend">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-box-open icon-lg"></i></span></div>
+                                                    <select class="form-control" wire:model="produit">
+                                                        <option>{{ __('Choisir un produit') }}</option>
+                                                        @foreach ($list_produits as $item)
+                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <div class="input-group-append" data-toggle="modal" data-target="#produit"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Produit"><i class="fa fa-plus-circle"></i></button></div>
+                                                </div>
+                                                @error('produit')
+                                                    <span class="form-text text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                             <div class="form-group col-md-6">
+                                                <div class="input-group input-group-prepend">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sliders-h icon-lg"></i></span></div>
+                                                    <select class="form-control" wire:model="tranches" multiple>
+                                                        <option>{{ __('Choisir une tranche') }}</option>
+                                                        @foreach ($list_tranches as $key => $item)
+                                                            <option value="{{$item[0]['uid']}}">{{$item[0]['nom']}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                @error('tranches')
+                                                    <span class="form-text text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <div class="input-group input-group-prepend">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sliders-h icon-lg"></i></span></div>
+                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="pas"/>
+                                                    <label>{{ __('Pas') }}</label>
+                                                </div>
+                                                @error('pas')
+                                                    <span class="form-text text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group col-md-6 row">
+                                                <label class="col-8 col-form-label">{{ __('Activé / Désactivé le lot') }}</label>
+                                                <div class="col-4">
+                                                    <span class="switch switch-outline switch-icon switch-primary">
+                                                        <label>
+                                                        <input type="checkbox" checked="checked" wire:model.defer="active" name="active"/>
+                                                        <span></span>
+                                                        </label>
+                                                    </span>
+                                                </div>
+                                            </div> --}}
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
+                                        <button type="submit" class="btn btn-primary font-weight-bold" form="lot-form">{{ __('Enregistrer') }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Modal old version lot-->
+                        {{-- <div wire:ignore.self class="modal fade" id="lot" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="lot" aria-hidden="true">
+                            <div class="modal-dialog modal-xxl modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title">{{ __('Nouveau Lot') }}</h5>
@@ -169,7 +431,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
+
+
                         <!--Modal-->
                         {{-- <div wire:ignore.self class="modal fade" id="stock" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="stock" aria-hidden="true">
                             <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
