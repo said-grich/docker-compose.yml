@@ -2,7 +2,20 @@ body, html {
 	/* background: #eceff4; */
 	background: #fff;
   font-family: 'Open Sans', sans-serif;
+  font-weight: lighter;
   overflow: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 1.2rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+p {
+  line-height: 1.2rem;
 }
 
 a, a:hover, a:focus {
@@ -368,6 +381,23 @@ input[type="search"]::-webkit-search-results-decoration {
   color: transparent;
   border: none !important;
   z-index: 3;
+}
+
+.cd-cart-trigger {
+  position: relative;
+  top: -10px;
+}
+
+.cd-cart-trigger i {
+  font-size: 1.4rem;
+  color: #0046ce;
+  -webkit-transition: ease-in-out 0.3s;
+  -moz-transition: ease-in-out 0.3s;
+  transition: all ease-in-out 0.3s;
+}
+
+.cd-cart-trigger i:hover {
+  color: #54a0ff;
 }
 
 .cd-search-trigger::before, .cd-search-trigger::after {
@@ -1287,7 +1317,7 @@ input[type="search"]::-webkit-search-results-decoration {
 .cd-main-content-gallery {
   position: relative;
   min-height: 100vh;
-  background: url(../img/pattern-light.png) fixed #e8eaf3;
+  background: fixed #e8eaf3;
 }
 .cd-main-content-gallery:after {
   content: "";
@@ -2171,7 +2201,7 @@ Product Customization
 }
 .cd-customization .add-to-cart {
   color: #ffffff !important;
-  background-color: #44279b;
+  background-color: #0046ce;
   border: none;
   text-align: center;
   font-size: .8rem;
@@ -2422,8 +2452,8 @@ main {
   font-size: 12px;
 }
 .checklist > .active {
-  border: 2px solid #44279b;
-  background: #44279b;
+  border: 2px solid #0046ce;
+  background: #0046ce;
   color: #fff;
 }
 
@@ -2458,7 +2488,7 @@ main {
   font-size: calc(var(--text-xs)*1.25);
 }
 .cd-cart__checkout {
-  background: #44279b;
+  background: #0046ce;
   -webkit-transition: all .2s ease !important;
   -moz-transition: all .2s ease !important;
   -o-transition: all .2s ease !important;
@@ -2533,13 +2563,13 @@ main {
    box-shadow: 0 0 0 2px #ffffff, 0 0 1.8rem #aaa;
 }
 .shop .product .ribbon.right-top {
-  background: #44279b;
+  background: #0046ce;
   z-index: 2;
 }
 .shop .product .ribbon.right-top:before,
 .shop .product .ribbon.right-top:after {
-  border-right-color: #44279b;
-  border-bottom-color: #44279b;
+  border-right-color: #0046ce;
+  border-bottom-color: #0046ce;
 }
 .shop .product .ribbon i {
   -webkit-transition: all .3s ease;
@@ -2746,7 +2776,7 @@ main {
   width: 100%;
   overflow: hidden;
   color: #ffffff !important;
-  background-color: #44279b;
+  background-color: #0046ce;
   border: none;
   text-align: center;
   font-size: 1rem;
@@ -2954,9 +2984,9 @@ main {
 .product .product-content .write-review .review-rating {
   padding: .4rem .8rem;
   border: 3px solid #ffc942;
-  background: #44279b;
+  background: #0046ce;
   border-radius: 2rem;
-  box-shadow: 0 0 0 4px #44279b;
+  box-shadow: 0 0 0 4px #0046ce;
 }
 
 /* Page About */
@@ -3013,7 +3043,7 @@ main {
 }
 .about .about-us .about-content {
   padding: 5rem 4rem;
-  background: #44279b;
+  background: #0046ce;
 }
 .about .about-us .about-content p {
   text-align: left;
@@ -3202,7 +3232,7 @@ main {
 	width: 5rem;
 	height: 5rem;
 	line-height: 5rem;
-	background: #44279b;
+	background: #0046ce;
 	color: #fff;
 	font-size: 2rem;
 	border-radius: 50%;
@@ -3222,7 +3252,7 @@ main {
 	transition: all .5s ease;
 }
 .features .item:hover h3 {
-	color: #44279b;
+	color: #0046ce;
 }
 .features .item .divider {
 	width: 3rem;
@@ -4132,6 +4162,21 @@ main {
 .footer .contact ul li a {
   color: #fff;
 }
+.footer .paiements {
+	padding: 0;
+  color: #fff;
+}
+.footer .paiements h4 {
+  padding: 1rem 0 0;
+}
+.footer .paiements ul {
+  background: #fff;
+  border-radius: 10rem;
+  padding: .5rem 1rem;
+}
+.footer .paiements ul li img {
+  width: 150%;
+}
 .footer .sub-footer {
 	padding: 1rem 0;
 	background: #0235bd;
@@ -4304,24 +4349,24 @@ main {
 }
 @-webkit-keyframes radar-fx {
 	0% {
-		box-shadow: 0px 0px 0px 0px hsla(255, 60%, 38%, .4), 0px 0px 0px 0px hsla(255, 60%, 38%, .4);
+		box-shadow: 0px 0px 0px 0px hsla(220, 100%, 40%, .4), 0px 0px 0px 0px hsla(220, 100%, 40%, .4);
 	}
 	50% {
-		box-shadow: 0px 0px 0px 10px hsla(255, 60%, 38%, .2), 0px 0px 0px 0px hsla(255, 60%, 38%, .4);
+		box-shadow: 0px 0px 0px 10px hsla(220, 100%, 40%, .2), 0px 0px 0px 0px hsla(220, 100%, 40%, .4);
 	}
 	100% {
-		box-shadow: 0px 0px 0px 20px hsla(255, 60%, 38%, 0), 0px 0px 0px 12px hsla(255, 60%, 38%, 0);
+		box-shadow: 0px 0px 0px 20px hsla(220, 100%, 40%, 0), 0px 0px 0px 12px hsla(220, 100%, 40%, 0);
 	}
 }
 @keyframes radar-fx {
 	0% {
-		box-shadow: 0px 0px 0px 0px hsla(255, 60%, 38%, .4), 0px 0px 0px 0px hsla(255, 60%, 38%, .4);
+		box-shadow: 0px 0px 0px 0px hsla(220, 100%, 40%, .4), 0px 0px 0px 0px hsla(220, 100%, 40%, .4);
 	}
 	50% {
-		box-shadow: 0px 0px 0px 10px hsla(255, 60%, 38%, .2), 0px 0px 0px 0px hsla(255, 60%, 38%, .4);
+		box-shadow: 0px 0px 0px 10px hsla(220, 100%, 40%, .2), 0px 0px 0px 0px hsla(220, 100%, 40%, .4);
 	}
 	100% {
-		box-shadow: 0px 0px 0px 20px hsla(255, 60%, 38%, 0), 0px 0px 0px 12px hsla(255, 60%, 38%, 0);
+		box-shadow: 0px 0px 0px 20px hsla(220, 100%, 40%, 0), 0px 0px 0px 12px hsla(220, 100%, 40%, 0);
 	}
 }
 @-webkit-keyframes radar-fx-2 {
@@ -4348,10 +4393,10 @@ main {
 }
 @keyframes hhh {
   0% {
-    box-shadow: 0 0 0 4px #44279b, 0 0 0 4px #44279b;
+    box-shadow: 0 0 0 4px #0046ce, 0 0 0 4px #0046ce;
   }
   100% {
-    box-shadow: 0 0 0 4px #44279b, 0 0 0 150px rgba(68, 39, 155, 0);
+    box-shadow: 0 0 0 4px #0046ce, 0 0 0 150px rgba(68, 39, 155, 0);
   }
 }
 @keyframes test {

@@ -93,7 +93,7 @@
 	<!-- Start Shop -->
 	<section class="shop">
 		<section class="cd-main-content-gallery no-fixed shop-content">
-			<div class="cd-tab-filter-wrapper">
+			{{-- <div class="cd-tab-filter-wrapper">
 				<div class="cd-tab-filter">
 					<ul class="cd-filters">
 						<li class="placeholder"> 
@@ -108,66 +108,25 @@
 						<li class="filter" data-filter=".old"><a href="#0" data-type="old">Old</a></li>
 					</ul> <!-- cd-filters -->
 				</div> <!-- cd-tab-filter -->
-			</div> <!-- cd-tab-filter-wrapper -->
+			</div> <!-- cd-tab-filter-wrapper --> --}}
 
 			<section class="container-fluid">
 			<section class="cd-gallery">
 				<ul class="products row">
-<?
-function products(){
-	global $connect;
-
-	$select_products=mysqli_query($connect,"SELECT * FROM products WHERE visible='1' ORDER BY id DESC");
-
-	if(mysqli_num_rows($select_products) > 0){
-		while($products=mysqli_fetch_object($select_products)){
-			$product_colors=[];
-			$select_pics=mysqli_query($connect,"SELECT * FROM products_pics WHERE product_id='$products->id'");
-			if(mysqli_num_rows($select_pics) > 0){
-				while($pics=mysqli_fetch_object($select_pics)){
-					$product_colors = $product_colors+["$pics->pic" => "$pics->color"];
-				}
-			}
-			if($products->discount != "0"){
-				$product_price=round($products->price-($products->price*$products->discount/100));
-			}else{
-				$product_price=round($products->price);
-			}
-?>
-					<li class="mix col-sm-6 col-md-4 col-lg-3 <? echo $products->status." ".$products->tags." ".str_replace(",", " ", $products->size)." ".implode(" ", $product_colors); ?>">
+					{{-- @foreach ($items as $item)
+					<li class="mix col-sm-6 col-md-4 col-lg-3">
 						<div class="cd-single-item product">
 							<a href="#">
 								<ul class="cd-slider-wrapper">
-									<? if($products->discount != "0"){ ?>
-									<div class="discount">Save <? echo round($products->discount); ?>%</div>
-									<? } ?>
+									<!-- <div class="discount">Promotion</div> -->
 									<div class="ribbon right-top">
 										<i class="fa fa-heart"></i>
 									</div>
-									<? foreach($product_colors as $pic => $color){ ?>
-										<li <? if(array_key_first($product_colors)===$pic){echo 'class="selected"';} ?>><a href="data/uploads/<? echo $pic; ?>" data-caption="Product &quot;<? echo $products->name; ?>&quot;<br/> Color <? echo $color; ?>." data-fancybox="images-<? echo $products->id; ?>"><img src="data/uploads/<? echo $pic; ?>" alt="Preview Image"></a></li>
-									<? } ?>
+									<a href="{{ asset(Storage::url($item->lot->produit->photo_principale)) }}" data-caption="Product" data-fancybox="{{ asset($item->lot->produit->id) }}"><img src="{{ asset(Storage::url($item->lot->produit->photo_principale)) }}" alt="Preview Image"></a>
 								</ul>
 							</a>
 							<div class="cd-customization">
-								<div class="color" data-type="select">
-									<ul>
-										<? foreach($product_colors as $pic => $color){ ?>
-											<li class="color-<? echo $color; if(array_key_first($product_colors)===$pic){echo " active";} ?>"><? echo $color; ?></li>
-										<? } ?>
-									</ul>
-								</div>
-								<div class="size" data-type="select">
-									<ul>
-										<?
-										$product_sizes=explode(",", $products->size);
-										for($i=0; $i < count($product_sizes); $i++){ 
-										?> 
-											<li class="<? echo $product_sizes[$i]; if($i === 0){echo " active";} ?>"><? echo $product_sizes[$i]; ?></li>
-										<? } ?>
-									</ul>
-								</div>
-								<a class="add-to-cart cd-add-to-cart js-cd-add-to-cart" data-id="<? echo $products->id; ?>" data-title="<? echo $products->name; ?>" data-price="<? echo $product_price; ?>" data-pic="data/uploads/<? echo array_key_first($product_colors); ?>" data-color="<? echo $product_colors[array_key_first($product_colors)]; ?>" data-size="<? echo $product_sizes[0]; ?>">
+								<a class="add-to-cart cd-add-to-cart js-cd-add-to-cart">
 									<em>Add to Cart</em>
 									<svg x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32">
 										<path stroke-dasharray="19.79 19.79" stroke-dashoffset="19.79" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9,17l3.9,3.9c0.1,0.1,0.2,0.1,0.3,0L23,11"/>
@@ -177,27 +136,136 @@ function products(){
 							<button class="cd-customization-trigger">Customize</button>
 						</div> <!-- .cd-single-item -->
 						<div class="cd-item-info product-info">
-							<a href="product.php?id=<? echo $products->id; ?>"><p class="title"><? echo $products->name; ?></p></a>
+							<a href="product.php?id={{ $item->lot->produit->id }}"><p class="title">{{ $item->lot->produit->nom }}</p></a>
 							<div class="price">
-								<span class="new-price"><? echo $product_price; ?> <span>DH</span></span>
-								<? if($products->discount != "0"){ ?>
-								<span class="old-price"><? echo round($products->price); ?> DH</span>
-								<? } ?>
+								<span class="new-price">{{ $item->prix }} <span>DH</span></span>
+								<!-- <span class="old-price"> DH</span> -->
 							</div>
 						</div> <!-- cd-item-info -->
 					</li>
-<?
-		}
-	}
-}
-products();
-?>
+					@endforeach --}}
+					<li class="mix col-sm-6 col-md-4 col-lg-3">
+						<div class="cd-single-item product">
+							<a href="#">
+								<ul class="cd-slider-wrapper">
+									{{-- <div class="discount">Promotion</div> --}}
+									<div class="ribbon right-top">
+										<i class="fa fa-heart"></i>
+									</div>
+									<a href="img/prodiuts/huitre/huitre-flouka3.jpg" data-caption="Product" data-fancybox="{{-- asset($item->lot->produit->id) --}}"><img src="img/prodiuts/huitre/huitre-flouka3.jpg" alt="Preview Image"></a>
+								</ul>
+							</a>
+							<div class="cd-customization">
+								<a class="add-to-cart cd-add-to-cart js-cd-add-to-cart">
+									<em>Add to Cart</em>
+									<svg x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32">
+										<path stroke-dasharray="19.79 19.79" stroke-dashoffset="19.79" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9,17l3.9,3.9c0.1,0.1,0.2,0.1,0.3,0L23,11"/>
+									</svg>
+								</a>
+							</div> <!-- .cd-customization -->
+							<button class="cd-customization-trigger">Customize</button>
+						</div> <!-- .cd-single-item -->
+						<div class="cd-item-info product-info">
+							<a href="product.php?id={{-- $item->lot->produit->id --}}"><p class="title">Huitre</p></a>
+							<div class="price">
+								<span class="new-price">150 <span>DH</span></span>
+								{{-- <span class="old-price"> DH</span> --}}
+							</div>
+						</div> <!-- cd-item-info -->
+					</li>
+					<li class="mix col-sm-6 col-md-4 col-lg-3">
+						<div class="cd-single-item product">
+							<a href="#">
+								<ul class="cd-slider-wrapper">
+									{{-- <div class="discount">Promotion</div> --}}
+									<div class="ribbon right-top">
+										<i class="fa fa-heart"></i>
+									</div>
+									<a href="img/prodiuts/dorade/dorade-flouka3.jpg" data-caption="Product" data-fancybox="{{-- asset($item->lot->produit->id) --}}"><img src="img/prodiuts/dorade/dorade-flouka3.jpg" alt="Preview Image"></a>
+								</ul>
+							</a>
+							<div class="cd-customization">
+								<a class="add-to-cart cd-add-to-cart js-cd-add-to-cart">
+									<em>Add to Cart</em>
+									<svg x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32">
+										<path stroke-dasharray="19.79 19.79" stroke-dashoffset="19.79" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9,17l3.9,3.9c0.1,0.1,0.2,0.1,0.3,0L23,11"/>
+									</svg>
+								</a>
+							</div> <!-- .cd-customization -->
+							<button class="cd-customization-trigger">Customize</button>
+						</div> <!-- .cd-single-item -->
+						<div class="cd-item-info product-info">
+							<a href="product.php?id={{-- $item->lot->produit->id --}}"><p class="title">Dorade</p></a>
+							<div class="price">
+								<span class="new-price">200 <span>DH</span></span>
+								{{-- <span class="old-price"> DH</span> --}}
+							</div>
+						</div> <!-- cd-item-info -->
+					</li>
+					<li class="mix col-sm-6 col-md-4 col-lg-3">
+						<div class="cd-single-item product">
+							<a href="#">
+								<ul class="cd-slider-wrapper">
+									{{-- <div class="discount">Promotion</div> --}}
+									<div class="ribbon right-top">
+										<i class="fa fa-heart"></i>
+									</div>
+									<a href="img/prodiuts/saumon/saumon-flouka1.jpg" data-caption="Product" data-fancybox="{{-- asset($item->lot->produit->id) --}}"><img src="img/prodiuts/saumon/saumon-flouka1.jpeg" alt="Preview Image"></a>
+								</ul>
+							</a>
+							<div class="cd-customization">
+								<a class="add-to-cart cd-add-to-cart js-cd-add-to-cart">
+									<em>Add to Cart</em>
+									<svg x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32">
+										<path stroke-dasharray="19.79 19.79" stroke-dashoffset="19.79" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9,17l3.9,3.9c0.1,0.1,0.2,0.1,0.3,0L23,11"/>
+									</svg>
+								</a>
+							</div> <!-- .cd-customization -->
+							<button class="cd-customization-trigger">Customize</button>
+						</div> <!-- .cd-single-item -->
+						<div class="cd-item-info product-info">
+							<a href="product.php?id={{-- $item->lot->produit->id --}}"><p class="title">Saumon</p></a>
+							<div class="price">
+								<span class="new-price">350 <span>DH</span></span>
+								{{-- <span class="old-price"> DH</span> --}}
+							</div>
+						</div> <!-- cd-item-info -->
+					</li>
+					<li class="mix col-sm-6 col-md-4 col-lg-3">
+						<div class="cd-single-item product">
+							<a href="#">
+								<ul class="cd-slider-wrapper">
+									{{-- <div class="discount">Promotion</div> --}}
+									<div class="ribbon right-top">
+										<i class="fa fa-heart"></i>
+									</div>
+									<a href="img/prodiuts/sole/sole-flouka5.jpg" data-caption="Product" data-fancybox="{{-- asset($item->lot->produit->id) --}}"><img src="img/prodiuts/sole/sole-flouka5.jpg" alt="Preview Image"></a>
+								</ul>
+							</a>
+							<div class="cd-customization">
+								<a class="add-to-cart cd-add-to-cart js-cd-add-to-cart">
+									<em>Add to Cart</em>
+									<svg x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32">
+										<path stroke-dasharray="19.79 19.79" stroke-dashoffset="19.79" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9,17l3.9,3.9c0.1,0.1,0.2,0.1,0.3,0L23,11"/>
+									</svg>
+								</a>
+							</div> <!-- .cd-customization -->
+							<button class="cd-customization-trigger">Customize</button>
+						</div> <!-- .cd-single-item -->
+						<div class="cd-item-info product-info">
+							<a href="product.php?id={{-- $item->lot->produit->id --}}"><p class="title">Sole</p></a>
+							<div class="price">
+								<span class="new-price">100 <span>DH</span></span>
+								{{-- <span class="old-price"> DH</span> --}}
+							</div>
+						</div> <!-- cd-item-info -->
+					</li>
 				</ul>
 				<div class="cd-fail-message">No results found</div>
 			</section> <!-- cd-gallery -->
 			</section>
 
-			<div class="cd-filter">
+			{{-- <div class="cd-filter">
 				<form>
 					<div class="cd-filter-block">
 						<h4>Search</h4>
@@ -309,7 +377,7 @@ products();
 				<a href="#0" class="cd-close">Close</a>
 			</div> <!-- cd-filter -->
 
-			<a href="#0" class="cd-filter-trigger">Filters</a>
+			<a href="#0" class="cd-filter-trigger">Filters</a> --}}
 		</section> <!-- cd-main-content -->
 	</section>
 	<!-- End Shop -->
