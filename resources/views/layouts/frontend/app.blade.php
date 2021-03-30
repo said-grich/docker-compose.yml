@@ -32,6 +32,7 @@
 	    <link rel="stylesheet" href="css/reset.css"/>
 	    <link rel="stylesheet" href="css/animate.css"/>
 	    <link rel="stylesheet" href="css/owl.carousel.css"/>
+		<link rel="stylesheet" href="css/main.css"/>
 	    <link rel="stylesheet" href="css/frontend.css"/>
 		<!--end::Global Theme Styles-->
 
@@ -46,50 +47,26 @@
         <!--begin::Main-->
 		@include('layouts.frontend.aside-bar')
 
-		<!--[html-partial:include:{"file":"partials/_header-mobile.html"}]/-->
-		<div class="d-flex flex-column flex-root">
+		<!--begin::Content-->
+		<div >
 
-			<!--begin::Page-->
-			<div class="d-flex flex-row flex-column-fluid page">
-
-				{{-- @include('layouts.frontend.aside-bar') --}}
-
-				<!--begin::Wrapper-->
-				<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
-
-					{{-- @include('layouts.backend.header') --}}
-
-					<!--begin::Content-->
-					<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-
-						<!--[html-partial:include:{"file":"partials/_subheader/subheader-v1.html"}]/-->
-                        {{ $slot }}
-
-					</div>
-					<!--end::Content-->
-
-					{{-- @include('layouts.backend.footer') --}}
-
-				</div>
-				<!--end::Wrapper-->
-
-			</div>
-			<!--end::Page-->
+			<!--[html-partial:include:{"file":"partials/_subheader/subheader-v1.html"}]/-->
+			{{ $slot }}
 
 		</div>
-		<!--end::Main-->
+		<!--end::Content-->
 
-		<!-- Start Footer -->
+		<!-- begin::Footer -->
 		<footer class="footer cd-main-content">
 			<div class="container">
 				<div class="row">
-					<div class="col-md-4">
+					<div class="col-md-3">
 						<div class="short-about">
 							<img src="assets/media/logos/logo-footer.png" alt="Logo" class="wow rollIn"/>
 							<p class="wow flipInY" data-wow-delay="200ms">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis.</p>
 						</div>
 					</div>
-					<div class="col-md-4">
+					<div class="col-md-3">
 						<div class="helpful-links">
 							<h4 class="wow rollIn">Helpful Links</h4>
 							<div class="row">
@@ -106,13 +83,44 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-4">
+					<div class="col-md-3">
 						<div class="contact">
 							<h4 class="wow rollIn">Contact</h4>
 							<ul>
 								<li class="wow fadeInUp" data-wow-delay="200ms"><i class="fa fa-map-marker-alt"></i>Marrakech - Morocco</li>
 								<li class="wow fadeInUp" data-wow-delay="300ms"><i class="fa fa-phone-alt"></i>+212 6 19 82 65 01</li>
 								<li class="wow fadeInUp" data-wow-delay="400ms"><i class="fa fa-envelope"></i><a href="mailto:contact@flouka.ma">contact@flouka.ma</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="paiements">
+							<h4 class="wow rollIn">Modes de Paiement</h4>
+							<ul class="row">
+								<li class="wow fadeInUp col-3" data-wow-delay="200ms">
+									<img src="img/paiements/cmi.png" alt="Cmi" class="wow rollIn"/>
+								</li>
+								<li class="wow fadeInUp col-3" data-wow-delay="200ms">
+									<img src="img/paiements/visa.png" alt="Visa" class="wow rollIn"/>
+								</li>
+								<li class="wow fadeInUp col-3" data-wow-delay="200ms">
+									<img src="img/paiements/mastercard.png" alt="MasterCard" class="wow rollIn"/>
+								</li>
+								<li class="wow fadeInUp col-3" data-wow-delay="200ms">
+									<img src="img/paiements/maestro.png" alt="Maestro" class="wow rollIn"/>
+								</li>
+							</ul>
+							<h4 class="wow rollIn">Paiement Sécurisé</h4>
+							<ul class="row">
+								<li class="wow fadeInUp col-3" data-wow-delay="200ms">
+									<img src="img/paiements/visa-sec.png" alt="Visa Sec" class="wow rollIn"/>
+								</li>
+								<li class="wow fadeInUp col-3" data-wow-delay="200ms">
+									<img src="img/paiements/mastercard-sec.png" alt="MasterCard Sec" class="wow rollIn"/>
+								</li>
+								<li class="wow fadeInUp col-3" data-wow-delay="200ms">
+									<img src="img/paiements/paiement-sec.png" alt="Paiement Sec" class="wow rollIn"/>
+								</li>
 							</ul>
 						</div>
 					</div>

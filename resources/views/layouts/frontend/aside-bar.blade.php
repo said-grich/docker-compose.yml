@@ -33,6 +33,7 @@
 
 	<ul class="cd-header-buttons">
 		<li><a class="cd-search-trigger" href="#cd-search"><span></span></a></li>
+		<li><a class="cd-cart-trigger" href="#cd-cart"><i class="fa fa-shopping-cart"></i></a></li>
 		<li><a class="cd-nav-trigger" href="#cd-primary-nav"><span></span></a></li>
 	</ul> <!-- cd-header-buttons -->
 	<div id="cd-search" class="cd-search">
@@ -44,8 +45,10 @@
 
 <nav class="cd-nav">
 	<ul id="cd-primary-nav" class="cd-primary-nav is-fixed">
-		<li><a href="#">Accueil</a></li>
-		<li class="has-children">
+		<li><a href="{{ route('index') }}">Accueil</a></li>
+		<li><a href="#">Poissons Frais</a></li>
+		<li><a href="#">Poissons Congelés</a></li>
+		{{-- <li class="has-children">
 			<a href="#">Produits</a>
 			<ul class="cd-secondary-nav is-hidden">
 				<li class="go-back"><a href="#0">Menu</a></li>
@@ -131,10 +134,10 @@
 					</ul>
 				</li>
 			</ul>
-		</li>
+		</li> --}}
+		<li><a href="#">Blog</a></li>
 		<li><a href="#">À Propos</a></li>
-        <li><a href="#">Blog</a></li>
-		<li><a href="#">Contact</a></li>
+		<li><a href="{{ route('contact') }}">Contact</a></li>
 	</ul> <!-- primary-nav -->
 </nav> <!-- cd-nav -->
 

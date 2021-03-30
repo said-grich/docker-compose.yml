@@ -131,14 +131,14 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/pro-show', \App\Http\Live
 
 // Routes Of Fluoka
 
-// Primary | Routes
+// Primary | Routes Backend
 Route::middleware(['auth:sanctum', 'verified'])->get('/produits', \App\Http\Livewire\Produits::class)->name('produits');
 Route::middleware(['auth:sanctum', 'verified'])->get('/stock', \App\Http\Livewire\Stock::class)->name('stock');
 Route::middleware(['auth:sanctum', 'verified'])->get('/commandes', \App\Http\Livewire\Commandes::class)->name('commandes');
 
-// Paramétrage | Routes
+// Paramétrage | Routes Backend
 
-// Paramétrage Produits | Routes
+// Paramétrage Produits | Routes Backend
 Route::middleware(['auth:sanctum', 'verified'])->get('/categories', \App\Http\Livewire\Parametrage\Categories::class)->name('categories');
 Route::middleware(['auth:sanctum', 'verified'])->get('/familles', \App\Http\Livewire\Parametrage\Familles::class)->name('familles');
 Route::middleware(['auth:sanctum', 'verified'])->get('/unites', \App\Http\Livewire\Parametrage\Unites::class)->name('unites');
@@ -148,10 +148,13 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/qualite', \App\Http\Livew
 Route::middleware(['auth:sanctum', 'verified'])->get('/fournisseurs', \App\Http\Livewire\Parametrage\Fournisseurs::class)->name('fournisseurs');
 Route::middleware(['auth:sanctum', 'verified'])->get('/clients', \App\Http\Livewire\Parametrage\Clients::class)->name('clients');
 
-// Paramétrage Stock | Routes
+// Paramétrage Stock | Routes Backend
 Route::middleware(['auth:sanctum', 'verified'])->get('/depots', \App\Http\Livewire\Parametrage\Depots::class)->name('depots');
 
-// Paramétrage Commandes | Routes
+// Paramétrage Commandes | Routes Backend
 Route::middleware(['auth:sanctum', 'verified'])->get('/modes-paiement', \App\Http\Livewire\Parametrage\ModesPaiement::class)->name('modes-paiement');
 Route::middleware(['auth:sanctum', 'verified'])->get('/modes-livraison', \App\Http\Livewire\Parametrage\ModesLivraison::class)->name('modes-livraison');
 Route::middleware(['auth:sanctum', 'verified'])->get('/livreurs', \App\Http\Livewire\Parametrage\Livreurs::class)->name('livreurs');
+
+// Primary | Routes Frontend
+Route::middleware(['auth:sanctum', 'verified'])->get('/contact', \App\Http\Livewire\Frontend\Contact::class)->name('contact');

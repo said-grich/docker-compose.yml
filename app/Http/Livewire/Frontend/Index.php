@@ -2,51 +2,24 @@
 
 namespace App\Http\Livewire\Frontend;
 
+use App\Models\Lot;
 use App\Models\Produit;
+use App\Models\StockKgPc;
+use App\Models\StockPoidsPc;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class Index extends Component
 {
-    use WithPagination;
-
-    public $sortBy = 'nom';
-    public $sortDirection = 'asc';
-    public $perPage = 5;
-    public $search = '';
-    protected $listeners = ['saved'];
-
     public function render()
     {
-
-        // $p = Produit::where('id',1)->first();
-        // dd($p->preparations->first()->preparation->nom);
-
-        $items = Produit::query()
-        ->where('nom','ilike','%'.$this->search.'%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
+        $items = StockPoidsPc::select('lot_num', DB::raw('MIN(prix_n) as prix'))->groupBy('lot_num')->get();     
 
         foreach ($items as &$item) {
-            $item['photo_url'] = Storage::url($item->photo_principale);
+            $item['photo_url'] = Storage::url($item->lot->produit->photo_principale);
         }
 
         return view('livewire.frontend.index',['items' => $items])->layout('layouts.frontend.app');
-    }
-    public function sortBy($field)
-    {
-        if ($this->sortDirection == 'asc') {
-            $this->sortDirection = 'desc';
-        } else {
-            $this->sortDirection = 'asc';
-        }
-
-        return $this->sortBy = $field;
-    }
-
-    public function saved()
-    {
-        $this->render();
     }
 }
