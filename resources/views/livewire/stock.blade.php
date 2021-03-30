@@ -147,12 +147,24 @@
                                                             <td class="pl-0">
                                                                 <input type="text" class="form-control" placeholder=" " wire:model="pas.0"/>
                                                             </td>
+                                                            <td class="pl-0">
+                                                                <select class="form-control" wire:model="tranches.0" multiple>
+                                                                    <option>{{ __('Choisir une tranche') }}</option>
+                                                                    @if (!empty($list_tranches[0]))
+                                                                         @foreach ($list_tranches[0] as $key => $item)
+                                                                            <option value="{{$item[0]['uid']}}">{{$item[0]['nom']}}</option>
+                                                                        @endforeach
+                                                                    @endif
+
+                                                                </select>
+                                                            </td>
+
                                                         </tr>
                                                         @foreach($inputs as $key => $value)
                                                         <tr>
                                                             <td class="pl-0">
 {{--                                                                 <input type="text" wire:model="mode_vente_produit.{{$value}}">
- --}}                                                                <select class="form-control" wire:model="produit.{{$value}}">
+--}}                                                                <select class="form-control" wire:model="produit.{{$value}}">
                                                                     <option>{{ __('Choisir un produit') }}</option>
                                                                     @foreach ($list_produits as $item)
                                                                         <option value="{{$item->id }}">{{$item->nom }}</option>
@@ -160,7 +172,7 @@
                                                                 </select>
                                                             </td>
                                                             <td class="pl-0">
-                                                                <input type="text" class="form-control" placeholder=" " wire:model="qte.{{$value}}"/>
+                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="qte.{{$value}}"/>
                                                             </td>
                                                             <td class="pl-0">
                                                                 <input type="text" class="form-control" placeholder=" " wire:model="nbr_pc.{{$value}}"/>
@@ -170,10 +182,10 @@
                                                             </td>
 
                                                             <td class="pl-0">
-                                                                <input type="text" class="form-control" placeholder=" " wire:model="prix_achat.{{$value}}"/>
+                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="prix_achat.{{$value}}"/>
                                                             </td>
                                                             <td class="pl-0">
-                                                                <select class="form-control" wire:model="unite.{{$value}}">
+                                                                <select class="form-control" wire:model.defer="unite.{{$value}}">
                                                                     <option>{{ __('Choisir une unité') }}</option>
                                                                     @foreach ($list_unites as $item)
                                                                         <option value="{{$item->id }}">{{$item->nom }}</option>
@@ -181,10 +193,10 @@
                                                                 </select>
                                                             </td>
                                                             <td class="pl-0">
-                                                                <input type="text" class="form-control" placeholder=" " wire:model="lot_num.{{$value}}"/>
+                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num.{{$value}}"/>
                                                             </td>
                                                             <td class="pl-0">
-                                                                <select class="form-control" wire:model="qualite.{{$value}}">
+                                                                <select class="form-control" wire:model.defer="qualite.{{$value}}">
                                                                     <option>{{ __('Choisir une qualite') }}</option>
                                                                     @foreach ($list_qualites as $item)
                                                                         <option value="{{$item->id }}">{{$item->nom }}</option>
@@ -192,7 +204,18 @@
                                                                 </select>
                                                             </td>
                                                             <td class="pl-0">
-                                                                <input type="text" class="form-control" placeholder=" " wire:model="pas.{{$value}}"/>
+                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="pas.{{$value}}"/>
+                                                            </td>
+                                                            <td class="pl-0">
+                                                                <select class="form-control" wire:model="tranches.{{$value}}" multiple>
+                                                                    <option>{{ __('Choisir une tranche') }}</option>
+                                                                    
+                                                                    @if (!empty($list_tranches[$value]))
+                                                                         @foreach ($list_tranches[$value] as $key => $item)
+                                                                            <option value="{{$item[0]['uid']}}">{{$item[0]['nom']}}</option>
+                                                                        @endforeach
+                                                                    @endif
+                                                                </select>
                                                             </td>
                                                         </tr>
                                                         @endforeach
