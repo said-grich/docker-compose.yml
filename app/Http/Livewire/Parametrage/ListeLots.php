@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Parametrage;
 
+use App\Models\BonReception;
 use App\Models\Livreur;
 use App\Models\Lot;
 use App\Models\Fournisseur;
@@ -53,9 +54,11 @@ class ListeLots extends Component
     public $prix_vente_fidele = [];
     public $prix_vente_business = [];
     public $bon_reception = [];
+    public $liste_lots= [];
+    public $bon_reception_ref;
 
 
-    public $sortBy = 'lot_num';
+    public $sortBy = 'ref';
     public $sortDirection = 'asc';
     public $perPage = 5;
     public $search = '';
@@ -86,9 +89,15 @@ class ListeLots extends Component
 
         // $in_progress_lots_ids = array_unique(Lot::whereNotIn('lot_num', $archived_lots_ids)->pluck('lot_num')->toArray());
 
-        $items = Lot::query()
+        /* $items = Lot::query()
         ->whereNotIn('lot_num', $archived_lots_ids)
         ->where('lot_num','ilike','%'.$this->search.'%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage); */
+
+        $items = BonReception::query()
+        //->whereNotIn('lot_num', $archived_lots_ids)
+        ->where('ref','ilike','%'.$this->search.'%')
         ->orderBy($this->sortBy, $this->sortDirection)
         ->paginate($this->perPage);
 
@@ -113,6 +122,74 @@ class ListeLots extends Component
         }
 
         return $this->sortBy = $field;
+    }
+
+    public function getLots($id){
+
+        $this->liste_lots = $lot = Lot::where('bon_reception_ref',$id)->get();
+
+        foreach ($this->liste_lots as $key => $value) {
+            //$this->lot_id[$key] =$lot->id;
+            $value->produit->modeVente->id == 1 ? $this->showNbrPiece = true :  $this->showNbrPiece = false;
+            $this->lot_num[$key] =$value->lot_num;
+            $this->bon_reception_ref =$value->bon_reception_ref;
+            $this->article =$value->produit->nom;
+            $this->mode_vente_id =$value->produit->modeVente->id;
+            $this->mode_vente =$value->produit->modeVente->nom;
+
+        }
+        //dd($lot);
+        /* $lot->produit->modeVente->id == 1 ? $this->showNbrPiece = true :  $this->showNbrPiece = false;
+
+        $mode_vente  = $lot->produit->modeVente->id;
+
+        $lot_tranches = LotTranche::where('lot_num', $lot->lot_num)->get();
+        //dd($lot,count($lot_tranches),$lot_tranches);
+
+        $lot->produit->modeVente->id != 1 ? $this->countInputs = count($lot_tranches) :  $this->countInputs = 0;
+
+        $this->lot_id =$lot->id;
+        $this->lot_num =$lot->lot_num;
+        $this->article =$lot->produit->nom;
+        $this->mode_vente_id =$lot->produit->modeVente->id;
+        $this->mode_vente =$lot->produit->modeVente->nom;
+
+        $this->tranche_id = [];
+
+        foreach ($lot_tranches as $key => $value) {
+            //$this->test[$key] = "eee";
+            $this->tranche_id[$key] = $value->tranche_id;
+            $this->list_tranches[$key] = $mode_vente == 1 ? TranchesPoidsPc::where('uid',$value->tranche_id)->get() : TranchesKgPc::where('uid',$value->tranche_id)->get();
+            $this->nom_tranche[$key] = $this->list_tranches[$key][0]->nom;
+
+        } */
+        // dump($this->list_tranches);
+
+
+
+
+        // foreach ($lot_tranches as $key => $value) {
+        //     if ($mode_vente == 1) {
+        //         $this->list_tranches[$key] = TranchesPoidsPc::where('uid', $value->tranche_id)->get();
+        //         $this->countInputs = count($this->list_tranches);
+        //     } else {
+        //         $this->list_tranches[$key] =  TranchesKgPc::where('uid', $value->tranche_id)->get();
+        //         $this->countInputs = count($this->list_tranches);
+        //     }
+        //     //$this->list_tranches[$key] = $mode_vente == 1 ? $list_tranches[$key] = TranchesPoidsPc::where('uid',$value->tranche_id)->get() : $list_tranches[$key] = TranchesKgPc::where('uid',$value->tranche_id)->get();
+        //     $this->nom_tranche[$key] = $this->list_tranches[$key][0]->nom;
+        //     $this->tranche_uid[$key] = $this->list_tranches[$key][0]->uid;
+        // }
+        /* foreach ($this->list_tranches as $key => $value) {
+            dd($key,$value->get($key)->nom);
+        } */
+
+
+        /* $this->date_capture =$item->date_capture;
+        $this->date_entree =$item->date_entree;
+        $this->date_preemption =$item->date_preemption;
+        $this->pas =$item->pas;
+        $this->active =$item->active; */
     }
 
     public function getStock($id){

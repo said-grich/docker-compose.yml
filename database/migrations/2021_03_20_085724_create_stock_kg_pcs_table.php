@@ -24,7 +24,7 @@ class CreateStockKgPcsTable extends Migration
             $table->string('br_num');
 
             $table->string('lot_num');
-            $table->foreign('lot_num')->references('lot_num')->on('lots');
+            //$table->foreign('lot_num')->references('lot_num')->on('lots');
 
             $table->string('tranche_id');
             //$table->foreign('tranche_id')->references('id')->on('tranches');

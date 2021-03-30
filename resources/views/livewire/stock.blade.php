@@ -21,19 +21,19 @@
 
                         <!--Button trigger modal-->
                         <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#lot">
-                            <i class="flaticon-plus"></i> {{ __('Ajouter Lot') }}
+                            <i class="flaticon-plus"></i> {{ __('Entrée stock') }}
                         </button>
                         <div wire:ignore.self class="modal fade" id="lot" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="lot" aria-hidden="true">
                             <div class="modal-dialog modal-xxl modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">{{ __('Nouveau Lot') }}</h5>
+                                        <h5 class="modal-title">{{ __('Entrée de stock') }}</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <i aria-hidden="true" class="ki ki-close"></i>
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form id="lot-form" class="form row" wire:submit.prevent="createLots">
+                                        <form id="lot-form" class="form row" wire:submit.prevent="createStock" {{-- wire:submit.prevent="createLots" --}}>
                                             <div class="form-group col-md-3">
                                                 <label>{{ __('Réf. bon de réception') }}</label>
                                                 <div class="input-group input-group-prepend">
@@ -93,12 +93,14 @@
                                                     <tr class="text-left">
                                                         <th class="pl-0">Article</th>
                                                         <th class="pl-0">Quantité</th>
-                                                        <th class="pl-0">Nombre de pièces</th>
                                                         <th class="pl-0">Prix Achat</th>
                                                         <th class="pl-0">Unité</th>
                                                         <th class="pl-0">Lot</th>
                                                         <th class="pl-0">Qualité</th>
                                                         <th class="pl-0">Pas</th>
+                                                        {{-- @if ($mode_vente_produit[0] == 1)
+                                                            <th class="pl-0">Nombre de pièces</th>
+                                                        @endif --}}
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -116,12 +118,7 @@
                                                             <td class="pl-0">
                                                                 <input type="text" class="form-control" placeholder=" " wire:model="qte.0"/>
                                                             </td>
-                                                            <td class="pl-0">
-                                                                <input type="text" class="form-control" placeholder=" " wire:model="nbr_pc.0"/>
-                                                                @error('nbr_pc')
-                                                                    <span class="form-text text-danger">{{ $message }}</span>
-                                                                @enderror
-                                                            </td>
+
                                                             <td class="pl-0">
                                                                 <input type="text" class="form-control" placeholder=" " wire:model="prix_achat.0"/>
                                                             </td>
@@ -159,6 +156,21 @@
                                                                 </select>
                                                             </td>
 
+                                                            @if (isset($mode_vente_produit[0]) && $mode_vente_produit[0] == 1)
+                                                                <td class="pl-0">
+                                                                    <div class="input-group input-group-prepend">
+                                                                        <input type="text" class="form-control" placeholder="Nombre de pièce" wire:model="nbr_pc.0"/>
+
+                                                                        <div class="input-group-append" data-toggle="modal" data-target="#code-poids">
+                                                                            <button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Code / poids" wire:click="setCodePoids(0)"><i class="fa fa-plus-circle"></i></button></div>
+                                                                        @error('nbr_pc')
+                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                    @enderror
+                                                                    </div>
+                                                                </td>
+                                                            @endif
+
+
                                                         </tr>
                                                         @foreach($inputs as $key => $value)
                                                         <tr>
@@ -174,13 +186,6 @@
                                                             <td class="pl-0">
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="qte.{{$value}}"/>
                                                             </td>
-                                                            <td class="pl-0">
-                                                                <input type="text" class="form-control" placeholder=" " wire:model="nbr_pc.{{$value}}"/>
-                                                                @error('nbr_pc')
-                                                                    <span class="form-text text-danger">{{ $message }}</span>
-                                                                @enderror
-                                                            </td>
-
                                                             <td class="pl-0">
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="prix_achat.{{$value}}"/>
                                                             </td>
@@ -207,9 +212,14 @@
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="pas.{{$value}}"/>
                                                             </td>
                                                             <td class="pl-0">
+                                                                {{-- @if ($mode_vente_produit[$value] == 1)
+
+                                                                @else
+
+                                                                @endif --}}
                                                                 <select class="form-control" wire:model="tranches.{{$value}}" multiple>
                                                                     <option>{{ __('Choisir une tranche') }}</option>
-                                                                    
+
                                                                     @if (!empty($list_tranches[$value]))
                                                                          @foreach ($list_tranches[$value] as $key => $item)
                                                                             <option value="{{$item[0]['uid']}}">{{$item[0]['nom']}}</option>
@@ -217,14 +227,21 @@
                                                                     @endif
                                                                 </select>
                                                             </td>
+                                                            @if (isset($mode_vente_produit[$value]) && $mode_vente_produit[$value] == 1)
+                                                                <td class="pl-0">
+                                                                    <div class="input-group input-group-prepend">
+                                                                        <input type="text" class="form-control" placeholder="Nombre de pièce" wire:model="nbr_pc.{{$value}}"/>
+
+                                                                        <div class="input-group-append" data-toggle="modal" data-target="#code-poids">
+                                                                            <button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Unite" wire:click="setCodePoids({{$value}})"><i class="fa fa-plus-circle"></i></button></div>
+                                                                        @error('nbr_pc')
+                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                    @enderror
+                                                                    </div>
+                                                                </td>
+                                                            @endif
                                                         </tr>
                                                         @endforeach
-
-                                                        @if(!empty($bon_recption_details))
-                                                            @php
-                                                                dd($bon_recption_details);
-                                                            @endphp
-                                                        @endif
                                                 </tbody>
                                             </table>
 
@@ -301,6 +318,7 @@
                                                     </span>
                                                 </div>
                                             </div> --}}
+                                            <!--Modal-->
                                         </form>
                                     </div>
                                     <div class="modal-footer">
@@ -639,6 +657,51 @@
         </div>
         <!--end::Row-->
     </div>
+
+
+
+        <div wire:ignore.self class="modal secondary fade" id="code-poids" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="unite" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ __('Désignation Code / poids') }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i aria-hidden="true" class="ki ki-close"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="unite-form" class="form" wire:submit.prevent="saveCodePoids">
+                            <input type="text" class="form-control" placeholder=" " wire:model="details_index"/>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Code</th>
+                                        <th scope="col">Poids</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for ($i = 0; $i < $count_rows; $i++)
+                                    <tr>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder=" " wire:model.defer="code.{{$i}}"/>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder=" " wire:model.defer="poids.{{$i}}"/>
+                                        </td>
+                                    </tr>
+                                    @endfor
+
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
+                        <button type="submit" class="btn btn-primary font-weight-bold" form="unite-form">{{ __('Enregistrer') }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     <!--end::Container-->
 </div>
 
@@ -865,39 +928,9 @@
             </div>
         </div>
     </div>
-</div>
+</div>--}}
 
-<!--Modal-Unite-->
-<div wire:ignore.self class="modal secondary fade" id="unite" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="unite" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">{{ __('Nouvelle Unité') }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i aria-hidden="true" class="ki ki-close"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="unite-form" class="form" wire:submit.prevent="createUnite">
-                    <div class="form-group">
-                        <div class="input-group input-group-prepend">
-                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-weight-hanging icon-lg"></i></span></div>
-                            <input type="text" class="form-control" placeholder=" " wire:model.defer="nom"/>
-                            <label>{{ __('Nom') }}</label>
-                        </div>
-                        @error('nom')
-                            <span class="form-text text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
-                <button type="submit" class="btn btn-primary font-weight-bold" form="unite-form">{{ __('Enregistrer') }}</button>
-            </div>
-        </div>
-    </div>
-</div> --}}
+
 
 
 

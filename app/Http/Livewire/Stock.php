@@ -29,6 +29,7 @@ class Stock extends Component
     public $qualite;
     public $produit; */
     public $active = false;
+    public $showNbrPiece = false;
 
     public $lot_id;
     public $tranches = [];
@@ -62,6 +63,14 @@ class Stock extends Component
     public $mode_vente_produit = [];
     public $bon_recption_details;
 
+    public $details = [];
+    public $details_index;
+    public $count_rows;
+    public $nom_produit;
+    public $code = [];
+    public $poids = [];
+    public $code_poids = [];
+    public $tranche_uid = [];
 
     public $inputs = [];
     public $i = 0;
@@ -103,6 +112,32 @@ class Stock extends Component
 
 
     }
+     public function updatedNbrPc($value,$index){
+        $this->details[$index] = $value;
+        //$this->poids = $index;
+        //dump($this->details_index);
+
+     }
+
+
+     public function setCodePoids($i){
+        $this->reset(['code','poids']);
+        $this->details_index = $i;
+        $this->nom_produit =$this->produit[$i];
+        $this->count_rows = $this->details[$i];
+
+        //dump($this->code);
+     }
+
+     public function saveCodePoids(){
+        foreach ($this->code as $key => $value) {
+            $code_poids[$value] = $this->poids[$key];
+            $this->code_poids[$this->details_index] = $code_poids;
+        }
+
+        //dump($this->details_index ,$this->code,$this->poids,$this->code_poids);
+     }
+
 
     public function updatedProduit($value,$index){
 
@@ -111,15 +146,38 @@ class Stock extends Component
         $this->mode_vente_produit[$index] = $produit->modeVente->id;
         $mode_vente = $produit->modeVente->id;
 
+        //$this->list_tranches = [];
         foreach($produit_tranches as $key=>$value){
-            $this->list_tranches[$index][$key] = $this->mode_vente_produit[$index] == 1 ? $this->list_tranches[$index][$key] = TranchesPoidsPc::where('uid',$value->tranche_id)->get()->toArray() : TranchesKgPc::where('uid',$value->tranche_id)->get()->toArray();
+            $this->list_tranches[$index][$key] = $this->mode_vente_produit[$index] == 1 ? $this->list_tranches[$index][$key] = TranchesPoidsPc::where('uid',$value->tranche_id)->get()->toArray() :  $this->list_tranches[$index][$key] = TranchesKgPc::where('uid',$value->tranche_id)->get()->toArray();
         }
+        //$this->mode_vente_produit[$index] == 1 ? $this->showNbrPiece = true : $this->showNbrPiece = false;
 
         //dd($this->list_tranches);
 
     }
 
-    public function updatedLotId($value){
+    public function createStock(){
+        //dump($this->produit,$this->code_poids,$this->tranches);
+        foreach (array_reverse($this->produit) as $key => $value) {
+            $produit = Produit::where('id',$value)->first();
+            if(isset($this->code_poids[$key])){
+                foreach ($this->tranches as $k => $tranche) {
+                    $lot_tranche = TranchesPoidsPc::where('uid',$tranche)->get()->toArray();
+                    //dd($lot_tranche[0]);
+                    
+                    if($value >= $lot_tranche[0]['min_poids'] && $value < $lot_tranche[0]['max_poids']){
+                        $this->tranche_uid[$key] = $lot_tranche[0]['uid'];
+                    }
+                }
+
+            }
+
+        }
+        dump($this->tranche_uid);
+    }
+
+
+    /* public function updatedLotId($value){
 
         $lot = Lot::where('lot_num',$value)->first();
         $produit_tranches = ProduitTranche::where('produit_id', $lot->produit->id)->get();
@@ -129,17 +187,29 @@ class Stock extends Component
             $this->list_tranches[$key] = $mode_vente == 1 ? TranchesPoidsPc::where('uid',$value->tranche_id)->get()->toArray() : TranchesKgPc::where('uid',$value->tranche_id)->get()->toArray();
         }
 
-    }
+    } */
 
     protected $messages = [
+        'ref_br.unique' => "Ref existe déja.",
+        'lot_num.unique' => "Numéro de lot existe déja.",
         'lot_num.required' => "Le numéro de lot ne peut pas être vide.",
         'pas.required' => "Le pas ne peut pas être vide.",
     ];
 
     public function createLots(){
+        dd($this->code_poids);
         $this->validate([
-            'ref_br' => 'required',
+            'ref_br' => 'required|unique:bon_receptions,ref',
+            'lot_num' => 'required|unique:lots,lot_num',
             'date_entree' => 'required',
+            'pas' => 'required',
+            'qualite' => 'required',
+            'produit' => 'required',
+            'fournisseur' => 'required',
+            'qte' => 'required',
+            'prix_achat' => 'required',
+            'unite' => 'required',
+            'tranches' => 'required',
             //'nbr_pc' => 'exclude_if:mode_vente_produit,1|required',
         ]);
 
@@ -152,94 +222,19 @@ class Stock extends Component
             $item->fournisseur_id = $this->fournisseur;
             $item->save();
 
-            // if (array_key_exists('premier', $search_array)) {
-            //     echo "L'élément 'premier' existe dans le tableau";
-            // }
-            $produits_prix = [];
-            //dump($this->produit);
-            // dump($this->produit);
-            $produit_qte = [];
-            $qte = 0;
-            // foreach ($this->produit as $key => $value) {
-            //     $produit_qte[$value][$this->prix_achat[$key]]= $this->qte[$key];
-            //     if (array_key_exists($value, $produit_qte) && in_array($value[$this->prix_achat[$key]], $produit_qte)) {
-            //         dump($key);
-            // //         dump("Key exists!",$this->produit[$i]) ;
-            // //         $qte +=  $this->qte[$i];
-            // //         $produit_qte[$this->produit[$i]] = $this->qte[$i];
-            // //         //dump("value exists!", $this->prix_achat[$i]);
-            // //         //dump("qte",$i);
-            // //     }
-            // }}
-
-            // for ($i = 0; $i < count($this->produit); $i++) {
-            //     $produits_prix[$this->produit[$i]][$this->prix_achat[$i]] = $this->qte[$i];
-            // }
-            // dd($produits_prix);
-            // for ($i=0; $i < count($this->produit) ; $i++) {
-            //     //$produit_qte[strval($this->produit[$i])] = $this->qte[$i];
-
-            //    // dump($i,$this->qte[$i]);
-            //     if (array_key_exists($this->produit[$i], $produits_prix) && in_array($this->prix_achat[$i], $produits_prix)) {
-            //         dump("Key exists!",$this->produit[$i]) ;
-            //         $produits_prix[$this->produit[$i]] = $this->qte[$i];
-            //         //dump("value exists!", $this->prix_achat[$i]);
-            //         //dump("qte",$i);
-            //     } else {
-            //         dump("DIDNT FIND IT IN!",$i);
-
-            //         $produits_prix[strval($this->produit[$i])] = $this->prix_achat[$i];
-            //         //$produit_qte[$this->produit[$i]] += $this->qte[$i];
-
-            //     }
-
-            //  }
-
-            // $distinct = array();
-            // $distinct2 = array();
-            // foreach ($this->produit as $index => $product) {
-            //     dump($index);
-
-            //     dump($distinct[$product]);
-            //     if (!isset($distinct[$product]) && !isset($distinct[$product][$index])) {
-            //         $distinct[$product][$index] = $this->prix_achat[$index];
-            //         //$distinct2[$product][] = $this->prix_achat[$index];
-
-
-            //     } else {
-            //         $distinct[$product][] += $this->prix_achat[$index];
-            //         //$distinct2[$product][] += $this->prix_achat[$index];
-
-            //     }
-            // }
-
-
-            // foreach ($this->produit as $key => $value) {
-
-            //         $test[strval($value)] = $this->prix_achat[$key];
-
-            // }
-            // dd($produits_prix, $produit_qte, $qte);
-
-
-
-
-
-
-
-
 
             foreach ($this->produit as $key => $value) {
                 $item = new Lot();
                 $item->produit_id = $this->produit[$key];
                 $item->lot_num = $this->lot_num[$key];
+                $item->nombre_pieces = isset($this->nbr_pc[$key]) ? $this->nbr_pc[$key] : 0;
+                $item->bon_reception_ref = $this->ref_br;
                 $item->date_entree = $this->date_entree;
                 $item->pas = $this->pas[$key];
                 $item->fournisseur_id = $this->fournisseur;
                 $item->qualite_id = $this->qualite[$key];
                 $item->active = true;
                 $item->save();
-                //dd($this->tranches);
 
 
                 if (BonReceptionLigne::where('bon_reception_ref', '=', $this->ref_br)
@@ -274,13 +269,12 @@ class Stock extends Component
                 //$this->bon_recption_details = $item;
 
             }
+            session()->flash('message', 'Bon de réception réf "' . $this->ref_br . '" a été crée');
+            $this->reset(['lot_num','fournisseur','date_entree','qualite','pas','fournisseur','qualite','produit','active','qte','prix_achat','tranches']);
+
+            $this->emit('saved');
 
         });
-    }
-
-    public function createStock(){
-        dd($this->tranches,$this->date_capture);
-
     }
 
 
