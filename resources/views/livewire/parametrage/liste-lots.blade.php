@@ -312,7 +312,7 @@
                                     <span class="form-text text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="form-group col-md-{{$showNbrPiece == true ?  "3" : "4"}}"" style="display:{{$showNbrPiece == true ?  "block" : "none"}}">
+                            {{-- <div class="form-group col-md-{{$showNbrPiece == true ?  "3" : "4"}}"" style="display:{{$showNbrPiece == true ?  "block" : "none"}}">
                                 <label>{{ __('Nombre de pièces') }}</label>
                                 <div class="input-group input-group-prepend">
                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sliders-h icon-lg"></i></span></div>
@@ -321,7 +321,7 @@
                                 @error('nombre_piece')
                                     <span class="form-text text-danger">{{ $message }}</span>
                                 @enderror
-                            </div>
+                            </div> --}}
                             <table class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
@@ -333,14 +333,14 @@
                                             <th scope="col">Code</th>
                                             <th scope="col">Poids</th>
                                         @endif
-                                        <th scope="col">Quantité</th>
+                                        {{-- <th scope="col">Quantité</th> --}}
                                         <th scope="col">CR</th>
-                                        <th scope="col">Dépot</th>
+                                        {{-- <th scope="col">Dépot</th> --}}
                                         <th scope="col">Prix Achat</th>
                                         <th scope="col">Prix Vente Normal</th>
                                         <th scope="col">Prix Vente Fidèle</th>
                                         <th scope="col">Prix Vente Business</th>
-                                        <th scope="col">Numéro BR</th>
+                                        {{-- <th scope="col">Numéro BR</th> --}}
                                         <th scope="col">Promo</th>
                                     </tr>
                                 </thead>

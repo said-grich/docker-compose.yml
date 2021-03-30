@@ -12,6 +12,7 @@ use App\Models\ModeVente;
 use App\Models\Produit;
 use App\Models\ProduitTranche;
 use App\Models\Qualite;
+use App\Models\StockPoidsPc;
 use App\Models\TranchesKgPc;
 use App\Models\TranchesPoidsPc;
 use App\Models\Unite;
@@ -121,7 +122,7 @@ class Stock extends Component
 
 
      public function setCodePoids($i){
-        $this->reset(['code','poids']);
+        //$this->reset(['code','poids']);
         $this->details_index = $i;
         $this->nom_produit =$this->produit[$i];
         $this->count_rows = $this->details[$i];
@@ -158,22 +159,137 @@ class Stock extends Component
 
     public function createStock(){
         //dump($this->produit,$this->code_poids,$this->tranches);
-        foreach (array_reverse($this->produit) as $key => $value) {
-            $produit = Produit::where('id',$value)->first();
-            if(isset($this->code_poids[$key])){
-                foreach ($this->tranches as $k => $tranche) {
-                    $lot_tranche = TranchesPoidsPc::where('uid',$tranche)->get()->toArray();
-                    //dd($lot_tranche[0]);
-                    
-                    if($value >= $lot_tranche[0]['min_poids'] && $value < $lot_tranche[0]['max_poids']){
-                        $this->tranche_uid[$key] = $lot_tranche[0]['uid'];
-                    }
+        $test = [];
+        DB::transaction(function () {
+
+            $item = new BonReception();
+            $item->ref = $this->ref_br;
+            $item->date = $this->date_entree;
+            $item->depot_id = $this->depot;
+            $item->fournisseur_id = $this->fournisseur;
+            //$item->save();
+
+
+            foreach ($this->produit as $key => $value) {
+                //dump($key);
+                $item = new Lot();
+                $item->produit_id = $this->produit[$key];
+                $item->lot_num = $this->lot_num[$key];
+                $item->nombre_pieces = isset($this->nbr_pc[$key]) ? $this->nbr_pc[$key] : 0;
+                $item->bon_reception_ref = $this->ref_br;
+                $item->date_entree = $this->date_entree;
+                $item->pas = $this->pas[$key];
+                $item->fournisseur_id = $this->fournisseur;
+                $item->qualite_id = $this->qualite[$key];
+                $item->active = true;
+                //$item->save();
+
+
+                if (BonReceptionLigne::where('bon_reception_ref', '=', $this->ref_br)
+                    ->where('produit_id', '=', $this->produit[$key])
+                    ->where('prix_achat', '=', $this->prix_achat[$key])
+                    ->exists()
+                ) {
+                    $previous_row_qte = BonReceptionLigne::where('bon_reception_ref', '=', $this->ref_br)
+                        ->where('produit_id', '=', $this->produit[$key])
+                        ->where('prix_achat', '=', $this->prix_achat[$key])
+                        ->first(['qte'])->qte;
+                    BonReceptionLigne::where('bon_reception_ref', '=', $this->ref_br)
+                        ->where('produit_id', $this->produit[$key])
+                        ->where('prix_achat', $this->prix_achat[$key])
+                        ->update(['qte' => $previous_row_qte + intval($this->qte[$key])]);
+                } else {
+                    $item = new BonReceptionLigne();
+                    $item->bon_reception_ref = $this->ref_br;
+                    $item->produit_id = $this->produit[$key];
+                    $item->qte = $this->qte[$key];
+                    $item->prix_achat = $this->prix_achat[$key];
+                    $item->montant = $this->qte[$key] * $this->prix_achat[$key];
+                    //$item->save();
                 }
 
-            }
+                foreach ($this->tranches[$key] as $ke => $t) {
+                    LotTranche::create([
+                        'lot_num' => $this->lot_num[$key],
+                        'tranche_id' => $t,
+                    ]);
+                }
 
-        }
-        dump($this->tranche_uid);
+                // foreach (array_reverse($this->produit) as $key => $value) {
+                    $produit = Produit::where('id', $value)->first();
+                    $lot_tranche = [];
+
+                    if ($produit->modeVente->id == 1) {
+                        foreach ($this->tranches[$key] as $k => $tranche) {
+                        //dump($k,$this->tranches[$key]);
+
+                            //foreach ($tranche as $i => $t) {
+                        $lot_tranche[$key][$k] = TranchesPoidsPc::where('uid', $tranche)->get()->toArray()[0];
+
+
+
+                    }
+                    //dump($lot_tranche[$key][$k]);
+
+
+                    foreach ($this->code_poids[$key] as $code => $poids) {
+                        //dump(count($this->code_poids[$key]));
+                        //dump($this->code_poids[$key]);
+                        //dump("////////////////////////:");
+
+
+                        //dd($this->code_poids[$key]);
+                        //if ($poids >= $lot_tranche[$key][$k]['min_poids'] && $poids < $lot_tranche[$key][$k]['max_poids']) {
+                            dump($poids,$lot_tranche[$key][$k]['min_poids'] , $lot_tranche[$key][$k]['max_poids']);
+                            dump($poids >= $lot_tranche[$key][$k]['min_poids'] && $poids < $lot_tranche[$key][$k]['max_poids']);
+                            $item = new StockPoidsPc();
+                            $item->qte = $this->qte[$key];
+                            $item->lot_num = $this->lot_num[$key];
+                            $item->br_num = $this->ref_br;
+                            $item->depot_id = $this->depot;
+                            $item->prix_achat = $this->prix_achat[$key];
+                            $item->code = $code;
+                            $item->poids = $poids;
+                            $item->tranche_id = $lot_tranche[$key][$k]['uid'];
+                            $item->cr = 0;
+                            $item->prix_n = 0;
+                            $item->prix_f = 0;
+                            $item->prix_p = 0;
+                            $item->save();
+
+                            //dump($item);
+                        //}
+                    }
+
+
+
+                            //}
+                        }
+                    //dd($lot_tranche);
+
+
+                    // if (isset($this->code_poids[$key])) {
+                    //     foreach ($this->tranches as $k => $tranche) {
+                    //         $lot_tranche = TranchesPoidsPc::where('uid', $tranche)->get()->toArray();
+                    //         //dd($lot_tranche[0]);
+
+                    //         // if($value >= $lot_tranche[0]['min_poids'] && $value < $lot_tranche[0]['max_poids']){
+                    //         //     $this->tranche_uid[$key] = $lot_tranche[0]['uid'];
+                    //         // }
+                    //     }
+                    // }
+                //}
+
+                //$this->bon_recption_details = $item;
+
+            }
+            session()->flash('message', 'Bon de réception réf "' . $this->ref_br . '" a été crée');
+            //$this->reset(['lot_num', 'fournisseur', 'date_entree', 'qualite', 'pas', 'fournisseur', 'qualite', 'produit', 'active', 'qte', 'prix_achat', 'tranches']);
+
+            $this->emit('saved');
+        });
+
+        //dump($this->tranche_uid);
     }
 
 
