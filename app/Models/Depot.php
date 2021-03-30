@@ -25,4 +25,9 @@ class Depot extends Model
         return $this->hasMany(StockKgPc::class);
     }
 
+    public function bonsReception()
+    {
+        return $this->hasMany(BonReception::class);
+    }
+
 }

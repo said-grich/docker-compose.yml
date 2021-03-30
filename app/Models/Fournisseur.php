@@ -25,4 +25,9 @@ class Fournisseur extends Model
         return $this->hasMany(FournisseurContact::class);
     }
 
+    public function bonsReception()
+    {
+        return $this->hasMany(BonReception::class);
+    }
+
 }
