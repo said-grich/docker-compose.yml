@@ -19,8 +19,8 @@
                 </th>
                 <th class="pl-0" style="cursor: pointer;">Photo</th>
                 <th class="pl-0" wire:click="sortBy('nom')" style="cursor: pointer;">Nom @include('layouts.partials._sort-icon',['field'=>'nom'])</th>
-                <th class="pl-0" wire:click="sortBy('nom')" style="cursor: pointer;">Catégorie @include('layouts.partials._sort-icon',['field'=>'nom'])</th>
-                <th class="pl-0" wire:click="sortBy('nom')" style="cursor: pointer;">Sous catégorie @include('layouts.partials._sort-icon',['field'=>'nom'])</th>
+                {{-- <th class="pl-0" wire:click="sortBy('nom')" style="cursor: pointer;">Catégorie @include('layouts.partials._sort-icon',['field'=>'nom'])</th>
+                <th class="pl-0" wire:click="sortBy('nom')" style="cursor: pointer;">Sous catégorie @include('layouts.partials._sort-icon',['field'=>'nom'])</th> --}}
                 <th class="pl-0" wire:click="sortBy('nom')" style="cursor: pointer;">Famille @include('layouts.partials._sort-icon',['field'=>'nom'])</th>
                 <th class="pl-0" wire:click="sortBy('nom')" style="cursor: pointer;">Mode de vente @include('layouts.partials._sort-icon',['field'=>'nom'])</th>
                 <th class="pl-0" style="cursor: pointer;">Mode de préparation</th>
@@ -48,12 +48,12 @@
                     <td class="pl-0">
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->nom }}</a>
                     </td>
-                    <td class="pl-0">
+                    {{-- <td class="pl-0">
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->sousCategorie->categorie->nom }}</a>
                     </td>
                     <td class="pl-0">
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->sousCategorie->nom }}</a>
-                    </td>
+                    </td> --}}
                     <td class="pl-0">
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->famille->nom }}</a>
                     </td>

@@ -17,10 +17,10 @@ class CreateBonReceptionsTable extends Migration
             $table->id();
             $table->string('ref')->unique();
             $table->date('date');
-            $table->decimal('total_ht')->nullable();
-            $table->decimal('total_tva')->nullable();
-            $table->decimal('total_ttc')->nullable();
+            $table->decimal('total')->nullable();
 
+            $table->unsignedBigInteger('qualite_id');
+            $table->foreign('qualite_id')->references('id')->on('qualites');
             $table->unsignedBigInteger('depot_id');
             $table->foreign('depot_id')->references('id')->on('depots');
             $table->unsignedBigInteger('fournisseur_id');

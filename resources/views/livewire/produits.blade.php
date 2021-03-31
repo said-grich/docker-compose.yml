@@ -60,7 +60,7 @@
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
-                                            <div wire:ignore class="form-group col-md-6">
+                                            {{-- <div wire:ignore class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sitemap icon-lg"></i></span></div>
                                                     <select class="form-control selectpicker" wire:model.defer="sous_categorie">
@@ -74,7 +74,7 @@
                                                 @error('sous_categorie')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
-                                            </div>
+                                            </div> --}}
                                             <div wire:ignore class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-money-check-alt icon-lg"></i></span></div>

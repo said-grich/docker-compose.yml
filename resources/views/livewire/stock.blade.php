@@ -34,22 +34,22 @@
                                     </div>
                                     <div class="modal-body">
                                         <form id="lot-form" class="form row" wire:submit.prevent="createStock" {{-- wire:submit.prevent="createLots" --}}>
-                                            <div class="form-group col-md-3">
+                                            <div class="form-group col">
                                                 <label>{{ __('Réf. bon de réception') }}</label>
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-hashtag icon-lg"></i></span></div>
-                                                    <input type="text" class="form-control" placeholder=" " wire:model="ref_br"/>
+                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="ref_br"/>
 {{--                                                     <label>{{ __('Réf.BR') }}</label>
  --}}                                                </div>
                                                 @error('ref_br')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
-                                            <div class="form-group col-md-3">
+                                            <div class="form-group col">
                                                 <label>{{ __('Fournisseur') }}</label>
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
-                                                    <select class="form-control" wire:model="fournisseur">
+                                                    <select class="form-control" wire:model.defer="fournisseur">
                                                         <option>{{ __('Choisir un fournisseur') }}</option>
                                                         @foreach ($list_fournisseurs as $item)
                                                             <option value="{{$item->id }}">{{$item->nom }}</option>
@@ -61,7 +61,7 @@
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
-                                            <div class="form-group col-md-3">
+                                            <div class="form-group col">
                                                 <label>{{ __("Date d'entrée") }}</label>
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar-plus icon-lg"></i></span></div>
@@ -71,13 +71,29 @@
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
-                                            <div class="form-group col-md-3">
+                                            <div class="form-group col">
                                                 <label>{{ __("Dépôt") }}</label>
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
-                                                    <select class="form-control" wire:model="depot">
+                                                    <select class="form-control" wire:model.defer="depot">
                                                         <option>{{ __('Choisir un dépôt') }}</option>
                                                         @foreach ($list_depots as $item)
+                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                        @endforeach
+
+                                                    </select>
+                                                </div>
+                                                @error('depot')
+                                                    <span class="form-text text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label>{{ __("Qualité globale") }}</label>
+                                                <div class="input-group input-group-prepend">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
+                                                    <select class="form-control" wire:model.defer="qualite_globale">
+                                                        <option>{{ __('Choisir une qualité globale') }}</option>
+                                                        @foreach ($list_qualites as $item)
                                                             <option value="{{$item->id }}">{{$item->nom }}</option>
                                                         @endforeach
 
@@ -92,6 +108,8 @@
                                                 <thead>
                                                     <tr class="text-left">
                                                         <th class="pl-0">Article</th>
+                                                        <th class="pl-0">Catégorie</th>
+                                                        <th class="pl-0">Sous catégorie</th>
                                                         <th class="pl-0">Quantité</th>
                                                         <th class="pl-0">Prix Achat</th>
                                                         <th class="pl-0">Unité</th>
@@ -111,6 +129,22 @@
                                                                 <select class="form-control" wire:model="produit.0">
                                                                     <option>{{ __('Choisir un produit') }}</option>
                                                                     @foreach ($list_produits as $item)
+                                                                        <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </td>
+                                                            <td class="pl-0">
+                                                                <select class="form-control" wire:model="categorie.0">
+                                                                    <option>{{ __('Choisir une catégorie') }}</option>
+                                                                    @foreach ($list_categories as $item)
+                                                                        <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </td>
+                                                            <td class="pl-0">
+                                                                <select class="form-control" wire:model="sous_categorie.0">
+                                                                    <option>{{ __('Choisir une sous catégorie') }}</option>
+                                                                    @foreach ($list_sous_categories as $item)
                                                                         <option value="{{$item->id }}">{{$item->nom }}</option>
                                                                     @endforeach
                                                                 </select>
@@ -144,19 +178,20 @@
                                                             <td class="pl-0">
                                                                 <input type="text" class="form-control" placeholder=" " wire:model="pas.0"/>
                                                             </td>
-                                                            <td class="pl-0">
-                                                                <select class="form-control" wire:model="tranches.0" multiple>
-                                                                    <option>{{ __('Choisir une tranche') }}</option>
-                                                                    @if (!empty($list_tranches[0]))
-                                                                         @foreach ($list_tranches[0] as $key => $item)
-                                                                            <option value="{{$item[0]['uid']}}">{{$item[0]['nom']}}</option>
-                                                                        @endforeach
-                                                                    @endif
 
-                                                                </select>
-                                                            </td>
 
                                                             @if (isset($mode_vente_produit[0]) && $mode_vente_produit[0] == 1)
+                                                                <td class="pl-0">
+                                                                    <select class="form-control" wire:model="tranches.0" multiple>
+                                                                        <option>{{ __('Choisir une tranche') }}</option>
+                                                                        @if (!empty($list_tranches[0]))
+                                                                            @foreach ($list_tranches[0] as $key => $item)
+                                                                                <option value="{{$item[0]['uid']}}">{{$item[0]['nom']}}</option>
+                                                                            @endforeach
+                                                                        @endif
+
+                                                                    </select>
+                                                                </td>
                                                                 <td class="pl-0">
                                                                     <div class="input-group input-group-prepend">
                                                                         <input type="text" class="form-control" placeholder="Nombre de pièce" wire:model="nbr_pc.0"/>
@@ -168,6 +203,15 @@
                                                                     @enderror
                                                                     </div>
                                                                 </td>
+                                                            @elseif(isset($nom_tranche[0]['nom']))
+
+                                                                <td class="pl-0">
+                                                                    <div class="input-group input-group-prepend">
+                                                                        {{$nom_tranche[0]['nom']}}
+                                                                        <input type="hidden" class="form-control" wire:model="nom_tranche.0" disabled/>
+                                                                    </div>
+                                                                </td>
+
                                                             @endif
 
 
@@ -179,6 +223,22 @@
 --}}                                                                <select class="form-control" wire:model="produit.{{$value}}">
                                                                     <option>{{ __('Choisir un produit') }}</option>
                                                                     @foreach ($list_produits as $item)
+                                                                        <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </td>
+                                                            <<td class="pl-0">
+                                                                <select class="form-control" wire:model="categorie.{{$value}}">
+                                                                    <option>{{ __('Choisir une catégorie') }}</option>
+                                                                    @foreach ($list_categories as $item)
+                                                                        <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </td>
+                                                            <td class="pl-0">
+                                                                <select class="form-control" wire:model="sous_categorie.{{$value}}">
+                                                                    <option>{{ __('Choisir une sous catégorie') }}</option>
+                                                                    @foreach ($list_sous_categories as $item)
                                                                         <option value="{{$item->id }}">{{$item->nom }}</option>
                                                                     @endforeach
                                                                 </select>
@@ -211,13 +271,9 @@
                                                             <td class="pl-0">
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="pas.{{$value}}"/>
                                                             </td>
-                                                            <td class="pl-0">
-                                                                {{-- @if ($mode_vente_produit[$value] == 1)
-
-                                                                @else
-
-                                                                @endif --}}
-                                                                <select class="form-control" wire:model="tranches.{{$value}}" multiple>
+                                                            {{--<td class="pl-0">
+                                                                  --}}
+                                                                {{-- <select class="form-control" wire:model="tranches.{{$value}}" multiple>
                                                                     <option>{{ __('Choisir une tranche') }}</option>
 
                                                                     @if (!empty($list_tranches[$value]))
@@ -239,6 +295,40 @@
                                                                     @enderror
                                                                     </div>
                                                                 </td>
+                                                            @endif --}}
+                                                            @if (isset($mode_vente_produit[$value]) && $mode_vente_produit[$value] == 1)
+                                                                <td class="pl-0">
+                                                                    <select class="form-control" wire:model="tranches.{{$value}}" multiple>
+                                                                        <option>{{ __('Choisir une tranche') }}</option>
+                                                                        @if (!empty($list_tranches[$value]))
+
+                                                                            @foreach ($list_tranches[$value] as $key => $item)
+                                                                                <option value="{{$item[0]['uid']}}">{{$item[0]['nom']}}</option>
+                                                                            @endforeach
+                                                                        @endif
+
+                                                                    </select>
+                                                                </td>
+                                                                <td class="pl-0">
+                                                                    <div class="input-group input-group-prepend">
+                                                                        <input type="text" class="form-control" placeholder="Nombre de pièce" wire:model="nbr_pc.{{$value}}"/>
+
+                                                                        <div class="input-group-append" data-toggle="modal" data-target="#code-poids">
+                                                                            <button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Code / poids" wire:click="setCodePoids({{$value}})"><i class="fa fa-plus-circle"></i></button></div>
+                                                                        @error('nbr_pc')
+                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                    @enderror
+                                                                    </div>
+                                                                </td>
+                                                            @elseif(isset($nom_tranche[$value]['nom']))
+
+                                                                <td class="pl-0">
+                                                                    <div class="input-group input-group-prepend">
+                                                                        {{$nom_tranche[$value]['nom']}}
+                                                                        <input type="hidden" class="form-control" wire:model="nom_tranche.{{$value}}" disabled/>
+                                                                    </div>
+                                                                </td>
+
                                                             @endif
                                                         </tr>
                                                         @endforeach
@@ -615,12 +705,12 @@
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" href="#encours-tab">
-                                        <span class="nav-text">Lots en cours</span>
+                                        <span class="nav-text">BR en cours</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" data-toggle="tab" href="#archive-tab">
-                                        <span class="nav-text">Lots archivés</span>
+                                        <span class="nav-text">BR archivés</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -671,7 +761,7 @@
                     </div>
                     <div class="modal-body">
                         <form id="unite-form" class="form" wire:submit.prevent="saveCodePoids">
-                            <input type="text" class="form-control" placeholder=" " wire:model="details_index"/>
+                           {{--  <input type="text" class="form-control" placeholder=" " wire:model="details_index"/> --}}
                             <table class="table">
                                 <thead>
                                     <tr>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Parametrage;
 
+use App\Models\BonReception;
 use App\Models\Lot;
 use App\Models\Fournisseur;
 use App\Models\Produit;
@@ -50,7 +51,7 @@ class ListeLotsArchive extends Component
     public $bon_reception = [];
 
 
-    public $sortBy = 'lot_num';
+    public $sortBy = 'ref';
     public $sortDirection = 'asc';
     public $perPage = 5;
     public $search = '';
@@ -75,15 +76,16 @@ class ListeLotsArchive extends Component
     public function render()
     {
         $this->renderData();
-        $lot_stock_kg_pc = array_unique(StockKgPc::pluck('lot_num')->toArray());
-        $lot_stock_poids_pc = array_unique(StockPoidsPc::pluck('lot_num')->toArray());
+        $lot_stock_kg_pc = array_unique(StockKgPc::where('cr','!=',0)->pluck('br_num')->toArray());
+        $lot_stock_poids_pc = array_unique(StockPoidsPc::where('cr','!=',0)->pluck('br_num')->toArray());
 
         $archived_lots_ids = array_merge($lot_stock_kg_pc, $lot_stock_poids_pc);
-        $in_progress_lots_ids = array_unique(Lot::whereNotIn('lot_num', $archived_lots_ids)->pluck('lot_num')->toArray());
+        //dd($archived_lots_ids);
+        $in_progress_lots_ids = array_unique(BonReception::whereNotIn('ref', $archived_lots_ids)->pluck('ref')->toArray());
 
-        $items = Lot::query()
-        ->whereNotIn('lot_num', $in_progress_lots_ids)
-        ->where('lot_num', 'ilike', '%' . $this->search . '%')
+        $items = BonReception::query()
+        ->whereNotIn('ref', $in_progress_lots_ids)
+        ->where('ref', 'ilike', '%' . $this->search . '%')
         ->orderBy($this->sortBy, $this->sortDirection)
         ->paginate($this->perPage);
 

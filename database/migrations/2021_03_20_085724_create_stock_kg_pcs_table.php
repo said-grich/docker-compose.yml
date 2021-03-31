@@ -33,6 +33,12 @@ class CreateStockKgPcsTable extends Migration
             $table->unsignedBigInteger('depot_id');
             $table->foreign('depot_id')->references('id')->on('depots');
 
+            $table->unsignedBigInteger('sous_categorie_id');
+            $table->unsignedBigInteger('categorie_id');
+
+            $table->foreign('categorie_id')->references('id')->on('categories');
+            $table->foreign('sous_categorie_id')->references('id')->on('sous_categories');
+
             $table->unsignedBigInteger('promo_id')->nullable();
             $table->foreign('promo_id')->references('id')->on('promos');
             $table->timestamps();
