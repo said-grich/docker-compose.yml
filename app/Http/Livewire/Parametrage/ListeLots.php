@@ -100,6 +100,7 @@ class ListeLots extends Component
         ->where('ref','ilike','%'.$this->search.'%')
         ->orderBy($this->sortBy, $this->sortDirection)
         ->paginate($this->perPage);
+        //dd($items);
 
         // $in_progress_lots = Lot::query()
         // ->whereNotIn('lot_num', $in_progress_lots_ids)
@@ -133,9 +134,9 @@ class ListeLots extends Component
             $value->produit->modeVente->id == 1 ? $this->showNbrPiece = true :  $this->showNbrPiece = false;
             $this->lot_num[$key] =$value->lot_num;
             $this->bon_reception_ref =$value->bon_reception_ref;
-            $this->article =$value->produit->nom;
+            $this->article[$key] =$value->produit->nom;
             $this->mode_vente_id =$value->produit->modeVente->id;
-            $this->mode_vente =$value->produit->modeVente->nom;
+            $this->mode_vente[$key] =$value->produit->modeVente->nom;
 
         }
         //dd($lot);

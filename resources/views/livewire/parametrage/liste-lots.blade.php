@@ -296,7 +296,7 @@
                                 <label>{{ __('Produit') }}</label>
                                 <div class="input-group input-group-prepend">
                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-box-open icon-lg"></i></span></div>
-                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="article" disabled/>
+                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="article.{{$key}}" disabled/>
                                 </div>
                                 @error('article')
                                     <span class="form-text text-danger">{{ $message }}</span>
@@ -306,7 +306,7 @@
                                 <label>{{ __('Mode Vente') }}</label>
                                 <div class="input-group input-group-prepend">
                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sliders-h icon-lg"></i></span></div>
-                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="mode_vente" disabled/>
+                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="mode_vente.{{$key}}" disabled/>
                                 </div>
                                 @error('mode_vente')
                                     <span class="form-text text-danger">{{ $message }}</span>
