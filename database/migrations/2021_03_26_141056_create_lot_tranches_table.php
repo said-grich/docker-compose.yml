@@ -16,7 +16,7 @@ class CreateLotTranchesTable extends Migration
         Schema::create('lot_tranches', function (Blueprint $table) {
             $table->id();
             $table->string('lot_num');
-            $table->foreign('lot_num')->references('lot_num')->on('lots');
+            //$table->foreign('lot_num')->references('lot_num')->on('lots');
             $table->string('tranche_id');
             $table->timestamps();
         });

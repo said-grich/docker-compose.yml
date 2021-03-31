@@ -24,7 +24,7 @@ class CreateStockKgPcsTable extends Migration
             $table->string('br_num');
 
             $table->string('lot_num');
-            $table->foreign('lot_num')->references('lot_num')->on('lots');
+            //$table->foreign('lot_num')->references('lot_num')->on('lots');
 
             $table->string('tranche_id');
             //$table->foreign('tranche_id')->references('id')->on('tranches');
@@ -32,6 +32,12 @@ class CreateStockKgPcsTable extends Migration
 
             $table->unsignedBigInteger('depot_id');
             $table->foreign('depot_id')->references('id')->on('depots');
+
+            $table->unsignedBigInteger('sous_categorie_id');
+            $table->unsignedBigInteger('categorie_id');
+
+            $table->foreign('categorie_id')->references('id')->on('categories');
+            $table->foreign('sous_categorie_id')->references('id')->on('sous_categories');
 
             $table->unsignedBigInteger('promo_id')->nullable();
             $table->foreign('promo_id')->references('id')->on('promos');

@@ -16,19 +16,17 @@
                         <span></span>
                     </label>
                 </th>
-                <th class="pl-0" wire:click="sortBy('lot_num')" style="cursor: pointer;">Numéro @include('layouts.partials._sort-icon',['field'=>'lot_num'])</th>
-                <th class="pl-0" wire:click="sortBy('lot_num')" style="cursor: pointer;">Produit @include('layouts.partials._sort-icon',['field'=>'lot_num'])</th>
-                <th class="pl-0" wire:click="sortBy('date_capture')" style="cursor: pointer;">Date capture @include('layouts.partials._sort-icon',['field'=>'date_capture'])</th>
-                <th class="pl-0" wire:click="sortBy('date_entree')" style="cursor: pointer;">Date entrée @include('layouts.partials._sort-icon',['field'=>'date_entree'])</th>
-                <th class="pl-0" wire:click="sortBy('date_preemption')" style="cursor: pointer;">Date préemtion @include('layouts.partials._sort-icon',['field'=>'date_preemption'])</th>
-                <th class="pl-0" wire:click="sortBy('date_preemption')" style="cursor: pointer;">Qualité @include('layouts.partials._sort-icon',['field'=>'date_preemption'])</th>
-                <th class="pl-0" wire:click="sortBy('pas')" style="cursor: pointer;">Pas @include('layouts.partials._sort-icon',['field'=>'pas'])</th>
-                <th class="pl-0" wire:click="sortBy('active')" style="cursor: pointer;">Statut @include('layouts.partials._sort-icon',['field'=>'active'])</th>
+                <th class="pl-0" wire:click="sortBy('lot_num')" style="cursor: pointer;">Bon de réception réf @include('layouts.partials._sort-icon',['field'=>'lot_num'])</th>
+                <th class="pl-0" wire:click="sortBy('lot_num')" style="cursor: pointer;">date d'entrée @include('layouts.partials._sort-icon',['field'=>'lot_num'])</th>
+                <th class="pl-0" wire:click="sortBy('date_capture')" style="cursor: pointer;">Dépot @include('layouts.partials._sort-icon',['field'=>'date_capture'])</th>
+                <th class="pl-0" wire:click="sortBy('date_entree')" style="cursor: pointer;">Fournisseur @include('layouts.partials._sort-icon',['field'=>'date_entree'])</th>
+
                 <th class="pr-0 text-right" style="min-width: 160px">Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($items as $item)
+                <tr>
                     <td class="pl-0 py-6">
                         <label class="checkbox checkbox-lg checkbox-inline">
                             <input type="checkbox" value="1" />
@@ -36,32 +34,27 @@
                         </label>
                     </td>
                     <td class="pl-0">
-                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->lot_num }}</a>
+                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->ref }}</a>
                     </td>
                     <td class="pl-0">
-                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->produit->nom }}</a>
+                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->date }}</a>
                     </td>
                     <td class="pl-0">
-                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->date_capture }}</a>
+                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->depot->nom }}</a>
                     </td>
                     <td class="pl-0">
-                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->date_entree }}</a>
-                    </td>
-                    <td class="pl-0">
-                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->date_preemption }}</a>
-                    </td>
-                    <td class="pl-0">
-                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->qualite->nom }}</a>
-                    </td>
-                    <td class="pl-0">
-                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->pas }}</a>
-                    </td>
-                    <td class="pl-0">
-                        <span class="label {{ $item->active == true ? 'label-primary' : 'label-danger' }} label-pill label-inline mr-2">{{ $item->active == true ? 'Activé' : 'Désactivé' }} </span>
-                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg"></a>
+                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->fournisseur->nom }}</a>
                     </td>
 
+
                     <td class="pr-0 text-right">
+
+                        {{-- <button wire:click="getStock({{$item->ref}})" class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#stock">
+                            <i class="flaticon-plus"></i> {{ __('Ajouter Stock') }}
+                        </button> --}}
+                       {{--  <button wire:click="getLots({{$item->ref}})" class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#stock">
+                            <i class="flaticon-plus"></i> {{ __('Désignation des prix') }}
+                        </button> --}}
 
                         <a href="#" wire:click="edit({{$item->id}})" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#exampleModalSizeSm">
                             <span class="svg-icon svg-icon-md svg-icon-primary">
@@ -90,7 +83,7 @@
                             </span>
                         </a>
                     </td>
-                    </tr>
+                </tr>
                 @endforeach
             </tbody>
         </table>

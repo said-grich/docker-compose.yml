@@ -113,7 +113,7 @@ class Produits extends Component
 
             $item = new Produit();
             $item->nom = $this->nom;
-            $item->sous_categorie_id = $this->sous_categorie;
+            //$item->sous_categorie_id = $this->sous_categorie;
             $item->mode_vente_id = $this->mode_vente;
             $item->mode_preparation_id = $this->mode_preparation;
             $item->famille_id = $this->famille;
