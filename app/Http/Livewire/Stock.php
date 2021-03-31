@@ -159,7 +159,6 @@ class Stock extends Component
 
     public function createStock(){
         //dump($this->produit,$this->code_poids,$this->tranches);
-        $test = [];
         DB::transaction(function () {
 
             $item = new BonReception();
@@ -167,7 +166,7 @@ class Stock extends Component
             $item->date = $this->date_entree;
             $item->depot_id = $this->depot;
             $item->fournisseur_id = $this->fournisseur;
-            //$item->save();
+            $item->save();
 
 
             foreach ($this->produit as $key => $value) {
@@ -182,7 +181,7 @@ class Stock extends Component
                 $item->fournisseur_id = $this->fournisseur;
                 $item->qualite_id = $this->qualite[$key];
                 $item->active = true;
-                //$item->save();
+                $item->save();
 
 
                 if (BonReceptionLigne::where('bon_reception_ref', '=', $this->ref_br)
@@ -205,7 +204,7 @@ class Stock extends Component
                     $item->qte = $this->qte[$key];
                     $item->prix_achat = $this->prix_achat[$key];
                     $item->montant = $this->qte[$key] * $this->prix_achat[$key];
-                    //$item->save();
+                    $item->save();
                 }
 
                 foreach ($this->tranches[$key] as $ke => $t) {
@@ -229,35 +228,59 @@ class Stock extends Component
 
 
                     }
-                    //dump($lot_tranche[$key][$k]);
+                    //dump($lot_tranche,$k, $lot_tranche[$key][$k],$this->code_poids[$key]);
 
 
                     foreach ($this->code_poids[$key] as $code => $poids) {
-                        //dump(count($this->code_poids[$key]));
+                        //dump($lot_tranche[$key]);
+                        foreach ($lot_tranche[$key] as $keyT => $valueT) {
+                            //dump($poids,$valueT);
+                            //dump($poids >= $valueT['min_poids'] && $poids < $valueT['max_poids']);
+                            if ($poids >= $valueT['min_poids'] && $poids < $valueT['max_poids']) {
+                                //dump($poids, $lot_tranche[$key][$k]['min_poids'], $lot_tranche[$key][$k]['max_poids']);
+                                // dump($poids >= $lot_tranche[$key][$k]['min_poids'] && $poids < $lot_tranche[$key][$k]['max_poids']);
+                                $item = new StockPoidsPc();
+                                $item->qte = $this->qte[$key];
+                                $item->lot_num = $this->lot_num[$key];
+                                $item->br_num = $this->ref_br;
+                                $item->depot_id = $this->depot;
+                                $item->prix_achat = $this->prix_achat[$key];
+                                $item->code = $code;
+                                $item->poids = $poids;
+                                $item->tranche_id = $lot_tranche[$key][$k]['uid'];
+                                $item->cr = 0;
+                                $item->prix_n = 0;
+                                $item->prix_f = 0;
+                                $item->prix_p = 0;
+                                $item->save();
+
+                                //dump($item);
+                            }
+                        }
                         //dump($this->code_poids[$key]);
                         //dump("////////////////////////:");
 
 
                         //dd($this->code_poids[$key]);
-                        //if ($poids >= $lot_tranche[$key][$k]['min_poids'] && $poids < $lot_tranche[$key][$k]['max_poids']) {
-                            dump($poids,$lot_tranche[$key][$k]['min_poids'] , $lot_tranche[$key][$k]['max_poids']);
-                            dump($poids >= $lot_tranche[$key][$k]['min_poids'] && $poids < $lot_tranche[$key][$k]['max_poids']);
-                            $item = new StockPoidsPc();
-                            $item->qte = $this->qte[$key];
-                            $item->lot_num = $this->lot_num[$key];
-                            $item->br_num = $this->ref_br;
-                            $item->depot_id = $this->depot;
-                            $item->prix_achat = $this->prix_achat[$key];
-                            $item->code = $code;
-                            $item->poids = $poids;
-                            $item->tranche_id = $lot_tranche[$key][$k]['uid'];
-                            $item->cr = 0;
-                            $item->prix_n = 0;
-                            $item->prix_f = 0;
-                            $item->prix_p = 0;
-                            $item->save();
+                        // //if ($poids >= $lot_tranche[$key][$k]['min_poids'] && $poids < $lot_tranche[$key][$k]['max_poids']) {
+                        //     dump($poids,$lot_tranche[$key][$k]['min_poids'] , $lot_tranche[$key][$k]['max_poids']);
+                        //     // dump($poids >= $lot_tranche[$key][$k]['min_poids'] && $poids < $lot_tranche[$key][$k]['max_poids']);
+                        //     $item = new StockPoidsPc();
+                        //     $item->qte = $this->qte[$key];
+                        //     $item->lot_num = $this->lot_num[$key];
+                        //     $item->br_num = $this->ref_br;
+                        //     $item->depot_id = $this->depot;
+                        //     $item->prix_achat = $this->prix_achat[$key];
+                        //     $item->code = $code;
+                        //     $item->poids = $poids;
+                        //     $item->tranche_id = $lot_tranche[$key][$k]['uid'];
+                        //     $item->cr = 0;
+                        //     $item->prix_n = 0;
+                        //     $item->prix_f = 0;
+                        //     $item->prix_p = 0;
+                        //     $item->save();
 
-                            //dump($item);
+                        //     //dump($item);
                         //}
                     }
 
