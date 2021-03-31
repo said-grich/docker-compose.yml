@@ -11,7 +11,7 @@
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-				<p class="note">Livraison gratuite partout au Maroc à partir de 400 DH</p>
+				<span class="note">Livraison gratuite partout au Maroc à partir de 400 DH</span>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
 				<span class="text-bar">Partagez sur :</span>
@@ -46,8 +46,8 @@
 <nav class="cd-nav">
 	<ul id="cd-primary-nav" class="cd-primary-nav is-fixed">
 		<li><a href="{{ route('index') }}">Accueil</a></li>
-		<li><a href="#">Poissons Frais</a></li>
-		<li><a href="#">Poissons Congelés</a></li>
+		<li><a href="{{ route('boutique') }}">Poissons Frais</a></li>
+		<li><a href="{{ route('boutique') }}">Poissons Congelés</a></li>
 		{{-- <li class="has-children">
 			<a href="#">Produits</a>
 			<ul class="cd-secondary-nav is-hidden">
@@ -135,8 +135,8 @@
 				</li>
 			</ul>
 		</li> --}}
-		<li><a href="#">Blog</a></li>
-		<li><a href="#">À Propos</a></li>
+		<li><a href="{{ route('boutique') }}">Épicerie</a></li>
+		<li><a href="{{ route('apropos') }}">À Propos</a></li>
 		<li><a href="{{ route('contact') }}">Contact</a></li>
 	</ul> <!-- primary-nav -->
 </nav> <!-- cd-nav -->

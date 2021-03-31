@@ -68,7 +68,7 @@
 					<a href="#0" class="cd-hero__btn">Learn more</a>
 				</div> <!-- .cd-hero__content -->
 
-				<div class="cd-hero__content cd-hero__content--bg-video js-cd-bg-video" data-video="video/video">
+				<div class="cd-hero__content cd-hero__content--bg-video js-cd-bg-video" data-video="img/video/fugu">
 					<!-- video element will be loaded using JavaScript -->
 				</div> <!-- .cd-hero__content -->
 			</li>
@@ -79,40 +79,17 @@
 				<span class="cd-hero__marker cd-hero__marker--item-1 js-cd-marker"></span>
 				
 				<ul>
-					<li class="cd-selected"><a href="#0">Intro</a></li>
-					<li><a href="#">Fish 1</a></li>
-					<li><a href="#">Fish 2</a></li>
-					<li><a href="#">Fish 3</a></li>
-					<li><a href="#">Video</a></li>
+					<li class="cd-selected"><a href="#">Slide 1</a></li>
+					<li><a href="#">Slide 2</a></li>
+					<li><a href="#">Slide 3</a></li>
+					<li><a href="#">Slide 4</a></li>
+					<li><a href="#">Slide 5</a></li>
 				</ul>
 			</nav> 
 		</div> <!-- .cd-hero__nav -->
 	</section> <!-- .cd-hero -->
 	<!-- End Slidershow -->
 
-	<!-- Start Shop -->
-	<section class="shop">
-		<section class="cd-main-content-gallery no-fixed shop-content">
-			{{-- <div class="cd-tab-filter-wrapper">
-				<div class="cd-tab-filter">
-					<ul class="cd-filters">
-						<li class="placeholder"> 
-							<a data-type="all" href="#0">All</a> <!-- selected option on mobile -->
-						</li> 
-						<li class="filter"><a class="selected" href="#0" data-type="all">All</a></li>
-						<li class="filter" data-filter=".blue"><a href="#0" data-type="color-blue">Color Blue</a></li>
-						<li class="filter" data-filter=".pink"><a href="#0" data-type="color-pink">Color Pink</a></li>
-						<li class="filter" data-filter=".yellow"><a href="#0" data-type="color-yellow">Color Yellow</a></li>
-						<li class="filter" data-filter=".new"><a href="#0" data-type="new">New</a></li>
-						<li class="filter" data-filter=".sold"><a href="#0" data-type="sold">Sold</a></li>
-						<li class="filter" data-filter=".old"><a href="#0" data-type="old">Old</a></li>
-					</ul> <!-- cd-filters -->
-				</div> <!-- cd-tab-filter -->
-			</div> <!-- cd-tab-filter-wrapper --> --}}
-
-			<section class="container-fluid">
-			<section class="cd-gallery">
-				<ul class="products row">
 					{{-- @foreach ($items as $item)
 					<li class="mix col-sm-6 col-md-4 col-lg-3">
 						<div class="cd-single-item product">
@@ -144,249 +121,12 @@
 						</div> <!-- cd-item-info -->
 					</li>
 					@endforeach --}}
-					<li class="mix col-sm-6 col-md-4 col-lg-3">
-						<div class="cd-single-item product">
-							<a href="#">
-								<ul class="cd-slider-wrapper">
-									{{-- <div class="discount">Promotion</div> --}}
-									<div class="ribbon right-top">
-										<i class="fa fa-heart"></i>
-									</div>
-									<a href="img/prodiuts/huitre/huitre-flouka3.jpg" data-caption="Product" data-fancybox="{{-- asset($item->lot->produit->id) --}}"><img src="img/prodiuts/huitre/huitre-flouka3.jpg" alt="Preview Image"></a>
-								</ul>
-							</a>
-							<div class="cd-customization">
-								<a class="add-to-cart cd-add-to-cart js-cd-add-to-cart">
-									<em>Add to Cart</em>
-									<svg x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32">
-										<path stroke-dasharray="19.79 19.79" stroke-dashoffset="19.79" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9,17l3.9,3.9c0.1,0.1,0.2,0.1,0.3,0L23,11"/>
-									</svg>
-								</a>
-							</div> <!-- .cd-customization -->
-							<button class="cd-customization-trigger">Customize</button>
-						</div> <!-- .cd-single-item -->
-						<div class="cd-item-info product-info">
-							<a href="product.php?id={{-- $item->lot->produit->id --}}"><p class="title">Huitre</p></a>
-							<div class="price">
-								<span class="new-price">150 <span>DH</span></span>
-								{{-- <span class="old-price"> DH</span> --}}
-							</div>
-						</div> <!-- cd-item-info -->
-					</li>
-					<li class="mix col-sm-6 col-md-4 col-lg-3">
-						<div class="cd-single-item product">
-							<a href="#">
-								<ul class="cd-slider-wrapper">
-									{{-- <div class="discount">Promotion</div> --}}
-									<div class="ribbon right-top">
-										<i class="fa fa-heart"></i>
-									</div>
-									<a href="img/prodiuts/dorade/dorade-flouka3.jpg" data-caption="Product" data-fancybox="{{-- asset($item->lot->produit->id) --}}"><img src="img/prodiuts/dorade/dorade-flouka3.jpg" alt="Preview Image"></a>
-								</ul>
-							</a>
-							<div class="cd-customization">
-								<a class="add-to-cart cd-add-to-cart js-cd-add-to-cart">
-									<em>Add to Cart</em>
-									<svg x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32">
-										<path stroke-dasharray="19.79 19.79" stroke-dashoffset="19.79" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9,17l3.9,3.9c0.1,0.1,0.2,0.1,0.3,0L23,11"/>
-									</svg>
-								</a>
-							</div> <!-- .cd-customization -->
-							<button class="cd-customization-trigger">Customize</button>
-						</div> <!-- .cd-single-item -->
-						<div class="cd-item-info product-info">
-							<a href="product.php?id={{-- $item->lot->produit->id --}}"><p class="title">Dorade</p></a>
-							<div class="price">
-								<span class="new-price">200 <span>DH</span></span>
-								{{-- <span class="old-price"> DH</span> --}}
-							</div>
-						</div> <!-- cd-item-info -->
-					</li>
-					<li class="mix col-sm-6 col-md-4 col-lg-3">
-						<div class="cd-single-item product">
-							<a href="#">
-								<ul class="cd-slider-wrapper">
-									{{-- <div class="discount">Promotion</div> --}}
-									<div class="ribbon right-top">
-										<i class="fa fa-heart"></i>
-									</div>
-									<a href="img/prodiuts/saumon/saumon-flouka1.jpg" data-caption="Product" data-fancybox="{{-- asset($item->lot->produit->id) --}}"><img src="img/prodiuts/saumon/saumon-flouka1.jpeg" alt="Preview Image"></a>
-								</ul>
-							</a>
-							<div class="cd-customization">
-								<a class="add-to-cart cd-add-to-cart js-cd-add-to-cart">
-									<em>Add to Cart</em>
-									<svg x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32">
-										<path stroke-dasharray="19.79 19.79" stroke-dashoffset="19.79" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9,17l3.9,3.9c0.1,0.1,0.2,0.1,0.3,0L23,11"/>
-									</svg>
-								</a>
-							</div> <!-- .cd-customization -->
-							<button class="cd-customization-trigger">Customize</button>
-						</div> <!-- .cd-single-item -->
-						<div class="cd-item-info product-info">
-							<a href="product.php?id={{-- $item->lot->produit->id --}}"><p class="title">Saumon</p></a>
-							<div class="price">
-								<span class="new-price">350 <span>DH</span></span>
-								{{-- <span class="old-price"> DH</span> --}}
-							</div>
-						</div> <!-- cd-item-info -->
-					</li>
-					<li class="mix col-sm-6 col-md-4 col-lg-3">
-						<div class="cd-single-item product">
-							<a href="#">
-								<ul class="cd-slider-wrapper">
-									{{-- <div class="discount">Promotion</div> --}}
-									<div class="ribbon right-top">
-										<i class="fa fa-heart"></i>
-									</div>
-									<a href="img/prodiuts/sole/sole-flouka5.jpg" data-caption="Product" data-fancybox="{{-- asset($item->lot->produit->id) --}}"><img src="img/prodiuts/sole/sole-flouka5.jpg" alt="Preview Image"></a>
-								</ul>
-							</a>
-							<div class="cd-customization">
-								<a class="add-to-cart cd-add-to-cart js-cd-add-to-cart">
-									<em>Add to Cart</em>
-									<svg x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32">
-										<path stroke-dasharray="19.79 19.79" stroke-dashoffset="19.79" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9,17l3.9,3.9c0.1,0.1,0.2,0.1,0.3,0L23,11"/>
-									</svg>
-								</a>
-							</div> <!-- .cd-customization -->
-							<button class="cd-customization-trigger">Customize</button>
-						</div> <!-- .cd-single-item -->
-						<div class="cd-item-info product-info">
-							<a href="product.php?id={{-- $item->lot->produit->id --}}"><p class="title">Sole</p></a>
-							<div class="price">
-								<span class="new-price">100 <span>DH</span></span>
-								{{-- <span class="old-price"> DH</span> --}}
-							</div>
-						</div> <!-- cd-item-info -->
-					</li>
-				</ul>
-				<div class="cd-fail-message">No results found</div>
-			</section> <!-- cd-gallery -->
-			</section>
 
-			{{-- <div class="cd-filter">
-				<form>
-					<div class="cd-filter-block">
-						<h4>Search</h4>
-						
-						<div class="cd-filter-content">
-							<input type="search" placeholder="Try some things...">
-						</div> <!-- cd-filter-content -->
-					</div> <!-- cd-filter-block -->
-
-					<div class="cd-filter-block">
-						<h4>Colors</h4>
-						<ul class="cd-filter-content cd-filters list">
-							<li>
-								<input class="filter" data-filter=".blue" type="checkbox" id="color-blue">
-								<label class="checkbox-label" for="color-blue">Blue</label>
-							</li>
-							<li>
-								<input class="filter" data-filter=".pink" type="checkbox" id="color-pink">
-								<label class="checkbox-label" for="color-pink">Pink</label>
-							</li>
-							<li>
-								<input class="filter" data-filter=".yellow" type="checkbox" id="color-yellow">
-								<label class="checkbox-label" for="color-yellow">Yellow</label>
-							</li>
-						</ul> <!-- cd-filter-content -->
-					</div> <!-- cd-filter-block -->
-
-					<div class="cd-filter-block">
-						<h4>Sizes</h4>
-						<ul class="cd-filter-content cd-filters list row">
-							<div class="col-6">
-								<li>
-									<input class="filter" data-filter=".2XS" type="checkbox" id="size-2xs">
-									<label class="checkbox-label" for="size-2xs">2XS</label>
-								</li>
-								<li>
-									<input class="filter" data-filter=".XS" type="checkbox" id="size-xs">
-									<label class="checkbox-label" for="size-xs">XS</label>
-								</li>
-								<li>
-									<input class="filter" data-filter=".S" type="checkbox" id="size-s">
-									<label class="checkbox-label" for="size-s">S</label>
-								</li>
-								<li>
-									<input class="filter" data-filter=".M" type="checkbox" id="size-m">
-									<label class="checkbox-label" for="size-m">M</label>
-								</li>
-							</div>
-							<div class="col-6">
-								<li>
-									<input class="filter" data-filter=".L" type="checkbox" id="size-l">
-									<label class="checkbox-label" for="size-l">L</label>
-								</li>
-								<li>
-									<input class="filter" data-filter=".XL" type="checkbox" id="size-xl">
-									<label class="checkbox-label" for="size-xl">XL</label>
-								</li>
-								<li>
-									<input class="filter" data-filter=".2XL" type="checkbox" id="size-2xl">
-									<label class="checkbox-label" for="size-2xl">2XL</label>
-								</li>
-								<li>
-									<input class="filter" data-filter=".3XL" type="checkbox" id="size-3xl">
-									<label class="checkbox-label" for="size-3xl">3XL</label>
-								</li>
-							</div>
-						</ul> <!-- cd-filter-content -->
-					</div> <!-- cd-filter-block -->
-
-					<div class="cd-filter-block">
-						<h4>Select</h4>
-						
-						<div class="cd-filter-content">
-							<div class="cd-select cd-filters">
-								<select class="filter" name="selectThis" id="selectThis">
-									<option value="">Choose an option</option>
-									<option value=".option1">Option 1</option>
-									<option value=".option2">Option 2</option>
-									<option value=".option3">Option 3</option>
-									<option value=".option4">Option 4</option>
-								</select>
-							</div> <!-- cd-select -->
-						</div> <!-- cd-filter-content -->
-					</div> <!-- cd-filter-block -->
-
-					<div class="cd-filter-block">
-						<h4>Status</h4>
-						<ul class="cd-filter-content cd-filters list">
-							<li>
-								<input class="filter" data-filter="" type="radio" name="radioButton" id="radio1" checked>
-								<label class="radio-label" for="radio1">All</label>
-							</li>
-							<li>
-								<input class="filter" data-filter=".new" type="radio" name="radioButton" id="radio2">
-								<label class="radio-label" for="radio2">New</label>
-							</li>
-							<li>
-								<input class="filter" data-filter=".old" type="radio" name="radioButton" id="radio3">
-								<label class="radio-label" for="radio3">Old</label>
-							</li>
-							<li>
-								<input class="filter" data-filter=".sold" type="radio" name="radioButton" id="radio4">
-								<label class="radio-label" for="radio4">Sold</label>
-							</li>
-						</ul> <!-- cd-filter-content -->
-					</div> <!-- cd-filter-block -->
-				</form>
-
-				<a href="#0" class="cd-close">Close</a>
-			</div> <!-- cd-filter -->
-
-			<a href="#0" class="cd-filter-trigger">Filters</a> --}}
-		</section> <!-- cd-main-content -->
-	</section>
-	<!-- End Shop -->
-
-	<!-- Start Testimonials  -->
+	{{-- <!-- Start Testimonials  -->
 	<section class="testimonials">
 		<div class="overlay"></div>
 		<div class="container">
-			<h2>What Our Clients Say</h2>
+			<h2>Ce Que Disent Nos Clients</h2>
 			<div class="divider"></div>
 			<div id="testimonials" class="carousel slide" data-ride="carousel">
 				<ol class="carousel-indicators">
@@ -458,19 +198,170 @@
 			</div>
 		</div>
 	</section>
-	<!-- End Testimonials -->
+	<!-- End Testimonials --> --}}
+
+	<!-- Start Categories -->
+	<section class="categories">
+		<div class="container">
+			<h2>Catégories</h2>
+			<div class="divider"></div>
+			<div class="row">
+				<div class="col-md-4">
+					<a href="{{ route('boutique') }}">
+						<div class="card">
+							<div class="card-img">
+								<img src="https://www.mareebleue.net/site/images/normal/20161018083953jpg_5921497513dcc.jpg" alt="Post"/>
+							</div>
+							<div class="ribbon left-top">
+								Frais
+							</div>
+							<div class="card-body">
+								<h4 class="card-title">Poissons Frais</h4>
+								<div class="divider"></div>
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-md-4">
+					<a href="{{ route('boutique') }}">
+						<div class="card">
+							<div class="card-img">
+								<img src="https://www.ice-shop.be/guide/wp-content/uploads/2016/02/Bouquet-de-poisson-congel-cru-sur-la-glace-Ice-shop.jpg" alt="Post"/>
+							</div>
+							<div class="card-body">
+								<h4 class="card-title">Poissons Congelés</h4>
+								<div class="divider"></div>
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-md-4">
+					<a href="{{ route('boutique') }}">
+						<div class="card">
+							<div class="card-img">
+								<img src="img/epicerie-flouka1.jpg" alt="Post"/>
+							</div>
+							<div class="card-body">
+								<h4 class="card-title">Épicerie</h4>
+								<div class="divider"></div>
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End Categories -->
+
+	<!-- Start Latest Posts -->
+	<section class="latest-posts">
+		<div class="container">
+			<h2>Derniers Articles</h2>
+			<div class="divider"></div>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="card">
+						<div class="post-date">
+							<span>Mar 27</span>
+							<span>2021</span>
+						</div>
+						<div class="card-img">
+							<img src="https://cdn.futura-sciences.com/buildsv6/images/wide1920/7/f/e/7feb33f212_50153147_poissons-fotolia.jpg" alt="Post"/>
+						</div>
+						<div class="card-body">
+							<h4 class="card-title">Lorem ipsum dolor sit amet</h4>
+							<div class="divider"></div>
+							<p class="card-text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
+							<a href="#" class="card-link"><button type="button" class="btn btn-rounded btn-inline btn-primary">Lire la Suite</button></a>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="card">
+						<div class="post-date">
+							<span>Mar 28</span>
+							<span>2021</span>
+						</div>
+						<div class="card-img">
+							<img src="https://cdn.futura-sciences.com/buildsv6/images/wide1920/6/d/b/6dbcafb537_50167731_poisson-e-talage.jpg" alt="Post"/>
+						</div>
+						<div class="card-body">
+							<h4 class="card-title">Lorem ipsum dolor sit amet</h4>
+							<div class="divider"></div>
+							<p class="card-text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
+							<a href="#" class="card-link"><button type="button" class="btn btn-rounded btn-inline btn-primary">Lire la Suite</button></a>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="card">
+						<div class="post-date">
+							<span>Mar 29</span>
+							<span>2021</span>
+						</div>
+						<div class="card-img">
+							<img src="https://www.medisite.fr/files/styles/pano_xxxl/public/images/article/4/0/5/4519504/5836571-inline.jpg" alt="Post"/>
+						</div>
+						<div class="card-body">
+							<h4 class="card-title">Lorem ipsum dolor sit amet</h4>
+							<div class="divider"></div>
+							<p class="card-text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
+							<a href="#" class="card-link"><button type="button" class="btn btn-rounded btn-inline btn-primary">Lire la Suite</button></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End Latest Posts -->
+
+	{{-- <!-- Start Statistics -->
+	<section class="statistics">
+		<div class="overlay"></div>
+		<div class="container">
+			<h2>Quelques Faits Impressionnants</h2>
+			<div class="divider"></div>
+			<div class="row">
+				<div class="col-sm-6 col-md-3 item">
+					<i class="fa fa-cash-register"></i>
+					<span>+2500</span>
+					<p>Ventes</p>
+					<div class="divider"></div>
+				</div>
+				<div class="col-sm-6 col-md-3 item">
+					<i class="fa fa-id-card"></i>
+					<span>+10</span>
+					<p>Fournisseurs</p>
+					<div class="divider"></div>
+				</div>
+				<div class="col-sm-6 col-md-3 item">
+					<i class="fa fa-fish"></i>
+					<span>43</span>
+					<p>Type de Poisson</p>
+					<div class="divider"></div>
+				</div>
+				<div class="col-sm-6 col-md-3 item">
+					<i class="fa fa-smile-beam"></i>
+					<span>92.5%</span>
+					<p>Clients Satisfaits</p>
+					<div class="divider"></div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End Statistics --> --}}
 
 	<!-- Start Features -->
 	<section class="features" id="features">
 		<div class="container">
-			<h2 class="wow bounceIn">Some Features</h2>
-			<div class="divider wow fadeInUp"></div>
+			{{-- <h2 class="wow bounceIn">Some Features</h2>
+			<div class="divider wow fadeInUp"></div> --}}
 			<div class="row">
 				<div class="col-sm-6 col-md-3 item wow fadeInDown">
-					<i class="fa fa-shipping-fast"></i>
-					<h3>Livraison Gratuite</h3>
+					<i class="fa fa-snowflake"></i>
+					<h3>Logistique Frigorifique</h3>
 					<div class="divider"></div>
-					<p>Partout au Maroc à partir de 400 DH</p>
+					<p>Transport fraicheur garanti</p>
 				</div>
 				<div class="col-sm-6 col-md-3 item wow fadeInDown" data-wow-delay="300ms">
 					<i class="fa fa-award"></i>
@@ -482,7 +373,7 @@
 					<i class="fa fa-headset"></i>
 					<h3>Assistance Client</h3>
 					<div class="divider"></div>
-					<p>Nous serons ravis de vous assister</p>
+					<p>Nous serons ravis de vous assister<br>+212 6 19 82 65 01</p>
 				</div>
 				<div class="col-sm-6 col-md-3 item wow fadeInDown" data-wow-delay="900ms">
 					<i class="fa fa-donate"></i>
@@ -495,7 +386,7 @@
 	</section>
 	<!-- End Features -->
 
-	<!-- Start Contact Us -->
+	{{-- <!-- Start Contact Us -->
 	<section class="contact-us">
 		<div class="overlay"></div>
 		<div class="container">
@@ -503,9 +394,9 @@
 			<a href="contact.php"><button type="button" class="btn btn-lg btn-rounded btn-inline btn-primary-outline wow bounceInRight">Contact Us</button></a>
 		</div>
 	</section>
-	<!-- End Contact Us -->
+	<!-- End Contact Us --> --}}
 
-	<!-- Start Partners -->
+	{{-- <!-- Start Partners -->
 	<section class="partners">
 		<div class="container">
 			<h2 class="wow bounceIn">Our Honorable Partners</h2>
@@ -534,7 +425,7 @@
 			</div>
 		</div>
 	</section>
-	<!-- End Partners -->
+	<!-- End Partners --> --}}
 </main>
 <!-- End Main -->
 

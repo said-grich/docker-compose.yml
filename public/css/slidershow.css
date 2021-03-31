@@ -87,7 +87,7 @@
 }
 
 .cd-hero__slide:nth-of-type(2) {
-  background: #3d4952;
+  background-color: #3d4952;
   background-image: url("https://www.poissonneriedu8mai.com/public/img/big/paulinedanielpoissonnerie021600x1200jpg59259cedb0452jpg_5ec4f5b5ec62d.jpg");
 }
 
@@ -386,8 +386,8 @@
   bottom: 0;
   z-index: 2;
   text-align: center;
-  height: 55px;
-  background-color: rgba(0, 1, 1, 0.5);
+  height: 60px;
+  background-color: rgba(0, 1, 1, .3);
 }
 
 .cd-hero__nav nav, .cd-hero__nav ul, .cd-hero__nav li, .cd-hero__nav a {
@@ -398,7 +398,7 @@
   display: inline-block;
   position: relative;
 }
-
+/* 
 .cd-hero__marker {
   position: absolute;
   bottom: 0;
@@ -437,7 +437,7 @@
   -webkit-transform: translateX(400%);
       -ms-transform: translateX(400%);
           transform: translateX(400%);
-}
+} */
 
 .cd-hero__nav ul::after {
   clear: both;
@@ -447,17 +447,19 @@
 
 .cd-hero__nav li {
   display: inline-block;
-  width: 60px;
+  padding: 1.2rem 1rem;
   float: left;
 }
 
 .cd-hero__nav a {
   display: block;
   position: relative;
-  padding-top: 35px;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #a8b4be;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  overflow: hidden;
+  color: transparent;
+  background-color: rgba(255,255,255,.5);
   -webkit-transition: all 0.2s ease;
   -moz-transition: all 0.2s ease;
   -o-transition: all 0.2s ease;
@@ -465,19 +467,14 @@
 }
 
 .cd-hero__nav a:hover {
-  color: #a8b4be;
   background-color: rgba(0, 1, 1, 0.5);
 }
 
-.cd-hero__nav .cd-selected a:hover {
-  background-color: transparent;
-}
-
 .cd-hero__nav .cd-selected a {
-  color: #2c343b;
+  background-color: rgba(255,255,255, 1);
 }
 
-.cd-hero__nav a::before {
+/* .cd-hero__nav a::before {
   content: '';
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
@@ -520,9 +517,9 @@
 
 .cd-hero__nav li:nth-of-type(5) a::before {
   content: '\f26c';
-}
+} */
 
-@media only screen and (min-width: 768px) {
+/* @media only screen and (min-width: 768px) {
   .cd-hero__nav {
     height: 80px;
   }
@@ -537,8 +534,8 @@
   }
   .cd-hero__nav a::before {
     top: 18px;
-  }
-}
+  } 
+} */
 
 /* Javascript disabled */
 .no-js .cd-hero__slide {

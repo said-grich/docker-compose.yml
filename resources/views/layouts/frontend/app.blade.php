@@ -60,25 +60,21 @@
 		<footer class="footer cd-main-content">
 			<div class="container">
 				<div class="row">
-					<div class="col-md-3">
+					<div class="col-md-4">
 						<div class="short-about">
 							<img src="assets/media/logos/logo-footer.png" alt="Logo" class="wow rollIn"/>
-							<p class="wow flipInY" data-wow-delay="200ms">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis.</p>
+							<p class="wow flipInY" data-wow-delay="200ms">La diversité de nos produits, l’expertise de nos poissonniers et notre respect de la chaine du froid et au règle sanitaire témoignent de l’attention que nous portons à l’expérience client. De plus, nous cherchons constamment à nous surpasser et nous nous efforçons d’assurer la valeur ajoutée et donner le meilleur service à la clientèle possible.</p>
 						</div>
 					</div>
-					<div class="col-md-3">
+					<div class="col-md-2">
 						<div class="helpful-links">
-							<h4 class="wow rollIn">Helpful Links</h4>
+							<h4 class="wow rollIn">Besoin d’aide</h4>
 							<div class="row">
 								<ul class="col wow fadeInLeft" data-wow-delay="200ms">
-									<li><i class="fa fa-angle-right"></i><a href="shop.php" class="underline" target="_blank">Shop</a></li>
-									<li><i class="fa fa-angle-right"></i><a href="about.php" class="underline" target="_blank">About</a></li>
-									<li><i class="fa fa-angle-right"></i><a href="contact.php" class="underline" target="_blank">Contact</a></li>
-								</ul>
-								<ul class="col wow fadeInLeft" data-wow-delay="400ms">
-									<li><i class="fa fa-angle-right"></i><a href="#" class="underline">FAQ</a></li>
-									<li><i class="fa fa-angle-right"></i><a href="#" class="underline">Terms of Use</a></li>
-									<li><i class="fa fa-angle-right"></i><a href="#" class="underline">Privacy Policy</a></li>
+									<li><i class="fa fa-angle-right"></i><a href="#" class="underline" target="_blank">À propos</a></li>
+									<li><i class="fa fa-angle-right"></i><a href="#" class="underline" target="_blank">Qui sommes-nous ?</a></li>
+									<li><i class="fa fa-angle-right"></i><a href="#" class="underline" target="_blank">Contact</a></li>
+									<li><i class="fa fa-angle-right"></i><a href="#" class="underline">Conditions Générales</a></li>
 								</ul>
 							</div>
 						</div>
