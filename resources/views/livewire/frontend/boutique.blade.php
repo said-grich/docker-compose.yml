@@ -9,7 +9,7 @@
 @endpush
 
 {{-- Start Main --}}
-<main class="main-content">
+<main wire:ignore class="main-content">
     <div class="overlay-layer"></div>
 	
     <!-- Start Shop -->
@@ -75,68 +75,20 @@
 						</div> <!-- cd-item-info -->
 					</li>
 					@endforeach --}}
-                    <li class="mix col-sm-6 col-md-4 col-lg-3 cd-item">
-                        <img src="img/produits/crevette-royale/crevette-royal-flouka3.jpg" alt="Item Preview">
-                        <a href="#0" class="cd-trigger">Quick View</a>
-                    </li> <!-- cd-item -->
-            
-                    <li class="mix col-sm-6 col-md-4 col-lg-3 cd-item">
-                        <img src="img/produits/crevette-royale/crevette-royal-flouka3.jpg" alt="Item Preview">
-                        <a href="#0" class="cd-trigger">Quick View</a>
-                    </li> <!-- cd-item -->
-            
-                    <li class="mix col-sm-6 col-md-4 col-lg-3 cd-item">
-                        <img src="img/item-1.jpg" alt="Item Preview">
-                        <a href="#0" class="cd-trigger">Quick View</a>
-                    </li> <!-- cd-item -->
-            
-                    <li class="mix col-sm-6 col-md-4 col-lg-3 cd-item">
-                        <img src="img/item-1.jpg" alt="Item Preview">
-                        <a href="#0" class="cd-trigger">Quick View</a>
-                    </li> <!-- cd-item -->
-            
-                    <li class="mix col-sm-6 col-md-4 col-lg-3 cd-item">
-                        <img src="img/item-1.jpg" alt="Item Preview">
-                        <a href="#0" class="cd-trigger">Quick View</a>
-                    </li> <!-- cd-item -->
-            
-                    <li class="mix col-sm-6 col-md-4 col-lg-3 cd-item">
-                        <img src="img/item-1.jpg" alt="Item Preview">
-                        <a href="#0" class="cd-trigger">Quick View</a>
-                    </li> <!-- cd-item -->
-            
-                    <li class="mix col-sm-6 col-md-4 col-lg-3 cd-item">
-                        <img src="img/item-1.jpg" alt="Item Preview">
-                        <a href="#0" class="cd-trigger">Quick View</a>
-                    </li> <!-- cd-item -->
-            
-                    <li class="mix col-sm-6 col-md-4 col-lg-3 cd-item">
-                        <img src="img/item-1.jpg" alt="Item Preview">
-                        <a href="#0" class="cd-trigger">Quick View</a>
-                    </li> <!-- cd-item -->
-            
-                    <li class="mix col-sm-6 col-md-4 col-lg-3 cd-item">
-                        <img src="img/item-1.jpg" alt="Item Preview">
-                        <a href="#0" class="cd-trigger">Quick View</a>
-                    </li> <!-- cd-item -->
-            
-                    <li class="mix col-sm-6 col-md-4 col-lg-3 cd-item">
-                        <img src="img/item-1.jpg" alt="Item Preview">
-                        <a href="#0" class="cd-trigger">Quick View</a>
-                    </li> <!-- cd-item -->
-            
-                    <li class="mix col-sm-6 col-md-4 col-lg-3 cd-item">
-                        <img src="img/item-1.jpg" alt="Item Preview">
-                        <a href="#0" class="cd-trigger">Quick View</a>
-                    </li> <!-- cd-item -->
-            
-                    <li class="mix col-sm-6 col-md-4 col-lg-3 cd-item">
-                        <img src="img/item-1.jpg" alt="Item Preview">
-                        <a href="#0" class="cd-trigger">Quick View</a>
-                    </li> <!-- cd-item -->
+                    @foreach ($items as $item)
+                        <li class="mix col-sm-6 col-md-4 col-lg-3 cd-item">
+                            <div class="ribbon left-top">
+								Frais
+							</div>
+                            <img src="{{ asset(Storage::url($item->lot->produit->photo_principale)) }}" alt="Item Preview">
+                            <a wire:click="produit('{{ $item->id }}', '1')" href="#0" class="cd-trigger">{{ $item->lot->produit->nom }}</a>
+                        </li> <!-- cd-item -->
+                    @endforeach
 				</ul>
 			</section> <!-- cd-gallery -->
 			</section>
+
+
             <div class="cd-quick-view">
                 <div class="cd-slider-wrapper">
                     <ul class="cd-slider">
@@ -150,17 +102,23 @@
                         <li><a class="cd-prev" href="#0">Next</a></li>
                     </ul> <!-- cd-slider-navigation -->
                 </div> <!-- cd-slider-wrapper -->
-        
+
                 <div class="cd-item-info">
-                    <h2>Produt Title</h2>
+                    <h2>
+                        @if (!empty($produit))
+                            {{ $produit->lot->produit->nom }}
+                        @endif
+                    </h2>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia, omnis illo iste ratione. Numquam eveniet quo, ullam itaque expedita impedit. Eveniet, asperiores amet iste repellendus similique reiciendis, maxime laborum praesentium.</p>
         
                     <ul class="cd-item-action">
                         <li><button class="add-to-cart">Ajouter au panier</button></li>
                     </ul> <!-- cd-item-action -->
-                </div> <!-- cd-item-info -->
+                </div> <!-- cd-item-info -->=
                 <a href="#0" class="cd-close">Close</a>
             </div> <!-- cd-quick-view -->
+
+
 			<div class="cd-filter">
 				<form>
 					<div class="cd-filter-block">
