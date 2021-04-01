@@ -175,7 +175,7 @@
                                                             </td>
 
 
-                                                            @if (isset($mode_vente_produit[0]) && $mode_vente_produit[0] == 1)
+                                                            {{-- @if (isset($mode_vente_produit[0]) && $mode_vente_produit[0] == 1) --}}
                                                                 <td class="pl-0">
                                                                     <select class="form-control" wire:model="tranches.0" multiple>
                                                                         <option>{{ __('Choisir une tranche') }}</option>
@@ -198,7 +198,7 @@
                                                                     @enderror
                                                                     </div>
                                                                 </td>
-                                                            @elseif(isset($nom_tranche[0]['nom']))
+                                                            {{-- @elseif(isset($nom_tranche[0]['nom']))
 
                                                                 <td class="pl-0">
                                                                     <div class="input-group input-group-prepend">
@@ -207,7 +207,7 @@
                                                                     </div>
                                                                 </td>
 
-                                                            @endif
+                                                            @endif--}}
 
 
                                                         </tr>

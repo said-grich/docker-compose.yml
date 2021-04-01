@@ -49,24 +49,15 @@ class ListeBonReception extends Component
     public $i = 0;
 
     public $qte = [];
-    public $cr = [];
-    public $depot = [];
     public $prix_achat = [];
-    public $prix_vente_normal = [];
-    public $prix_vente_fidele = [];
-    public $prix_vente_business = [];
-    public $bon_reception = [];
-    public $liste_lots= [];
-    public $bon_reception_ref;
+    public $montant = [];
 
-    public $article_kg_pc=[];
-    public $produit_id_kg_pc=[];
-    public $lot_num_kg_pc=[];
-    public $cr_kg_pc=[];
-    public $nom_tranche_kc_pc = [];
-    public $prix_vente_normal_kg_pc=[];
-    public $prix_vente_fidele_kg_pc=[];
-    public $prix_vente_business_kg_pc=[];
+    public $date_entree;
+    public $ref_br;
+    public $fournisseur;
+    public $depot;
+    public $qualite;
+    public $br_lignes = [];
 
 
 
@@ -141,6 +132,44 @@ class ListeBonReception extends Component
         }
 
         return $this->sortBy = $field;
+    }
+
+    public function show($id){
+
+        $bon_reception = BonReception::where('ref',$id)->first();
+        $this->ref_br =$id;
+        $this->date_entree = $bon_reception->date;
+        $this->fournisseur =$bon_reception->fournisseur->nom;
+        $this->depot =$bon_reception->depot->nom;
+        $this->qualite =$bon_reception->qualite->nom;
+        $this->br_lignes = $bon_reception->bonReceptionLignes;
+
+    }
+
+    public function edit($id){
+
+        $item = Livreur::where('id',$id)->firstOrFail();
+        $this->livreur_id =$item->id;
+        $this->nom =$item->nom;
+        $this->cin =$item->cin;
+        $this->phone =$item->tel;
+        $this->type =$item->type;
+        $this->ville_id =$item->ville_id;
+        $this->isActive =$item->active;
+    }
+
+    public function editBonReception(){
+
+        BonReception::where('id', $this->livreur_id)
+            ->update([
+                'date' => $this->nom,
+                'qualite_id' => $this->cin,
+                'depot_id' => $this->phone,
+                'fournisseur_id' => $this->type,
+            ]);
+
+        session()->flash('message', 'Livreur "'.$this->nom.'" à été modifié');
+        //return redirect()->to('/livreurs');
     }
 
     public function getLots($id){
@@ -407,34 +436,6 @@ class ListeBonReception extends Component
         return redirect()->to('/stock');
 
 
-    }
-
-    public function edit($id){
-
-        $item = Livreur::where('id',$id)->firstOrFail();
-        $this->livreur_id =$item->id;
-        $this->nom =$item->nom;
-        $this->cin =$item->cin;
-        $this->phone =$item->tel;
-        $this->type =$item->type;
-        $this->ville_id =$item->ville_id;
-        $this->isActive =$item->active;
-    }
-
-    public function editLivreur(){
-
-        Livreur::where('id', $this->livreur_id)
-            ->update([
-                'nom' => $this->nom,
-                'cin' => $this->cin,
-                'tel' => $this->phone,
-                'type' => $this->type,
-                'ville_id' => $this->ville_id,
-                'active' => $this->isActive,
-            ]);
-
-        session()->flash('message', 'Livreur "'.$this->nom.'" à été modifié');
-        //return redirect()->to('/livreurs');
     }
 
     public function deleteLivreur($id)
