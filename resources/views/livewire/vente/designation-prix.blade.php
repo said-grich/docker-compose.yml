@@ -427,10 +427,10 @@
                                                                                                     <input type="text" class="form-control" placeholder="{{ __('Prix vente fidèle') }}" wire:model.defer="prix_vente_fidele_kg_pc.{{$key}}"/>
                                                                                                 </td>
                                                                                                 <td>
-                                                                                                    <input type="text" class="form-control" placeholder="{{ __('Prix vente business') }}" wire:model.defer="prix_vente_business_kg_pc.{{$i}}"/>
+                                                                                                    <input type="text" class="form-control" placeholder="{{ __('Prix vente business') }}" wire:model.defer="prix_vente_business_kg_pc.{{$key}}"/>
                                                                                                 </td>
                                                                                                 <td>
-                                                                                                    <input type="text" class="form-control" placeholder="{{ __('Promo') }}" wire:model.defer="cr.{{$i}}"/>
+                                                                                                    <input type="text" class="form-control" placeholder="{{ __('Promo') }}"/>
                                                                                                 </td>
                                                                                             </tr>
                                                                                     </tbody>

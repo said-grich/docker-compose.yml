@@ -8,6 +8,7 @@ use App\Models\StockKgPc;
 use App\Models\StockPoidsPc;
 use App\Models\TranchesKgPc;
 use App\Models\TranchesPoidsPc;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -130,35 +131,37 @@ class DesignationPrix extends Component
 
     public function affecterPrix(){
 
-        foreach ($this->produit_id as $key => $value) {
-            $produit = Produit::where('id', $value)->first();
-            if ($produit->modeVente->id == 1) {
-                StockPoidsPc::where('code', $this->code[$key])
-                    ->where('lot_num', $this->lot_num[$key])
+        DB::transaction( function () {
+
+            foreach ($this->produit_id as $key => $value) {
+                $produit = Produit::where('id', $value)->first();
+                if ($produit->modeVente->id == 1) {
+                    StockPoidsPc::where('code', $this->code[$key])
+                        ->where('lot_num', $this->lot_num[$key])
+                        ->where('br_num', $this->bon_reception_ref)
+                        ->update([
+                            'cr' => $this->cr[$key],
+                            'prix_n' => $this->prix_vente_normal[$key],
+                            'prix_f' => $this->prix_vente_fidele[$key],
+                            'prix_p' => $this->prix_vente_business[$key],
+                            ]);
+
+                }
+            }
+            foreach ($this->produit_id_kg_pc as $key => $value) {
+                StockKgPc::where('tranche_id', $this->nom_tranche_kc_pc[$key])
+                    ->where('lot_num', $this->lot_num_kg_pc[$key])
                     ->where('br_num', $this->bon_reception_ref)
                     ->update([
-                        'cr' => $this->cr[$key],
-                        'prix_n' => $this->prix_vente_normal[$key],
-                        'prix_f' => $this->prix_vente_fidele[$key],
-                        'prix_p' => $this->prix_vente_business[$key],
+                        'cr' => $this->cr_kg_pc[$key],
+                        'prix_n' => $this->prix_vente_normal_kg_pc[$key],
+                        'prix_f' => $this->prix_vente_fidele_kg_pc[$key],
+                        'prix_p' => $this->prix_vente_business_kg_pc[$key],
                         ]);
-
             }
-        }
+        });
 
-        foreach ($this->produit_id_kg_pc as $key => $value) {
-            StockPoidsPc::where('tranche_id', $this->nom_tranche_kc_pc[$key])
-                ->where('lot_num', $this->lot_num_kg_pc[$key])
-                ->where('br_num', $this->bon_reception_ref)
-                ->update([
-                    'cr' => $this->cr_kg_pc[$key],
-                    'prix_n' => $this->prix_vente_normal_kg_pc[$key],
-                    'prix_f' => $this->prix_vente_fidele_kg_pc[$key],
-                    'prix_p' => $this->prix_vente_business_kg_pc[$key],
-                    ]);
-        }
-
-        }
+    }
 
 
     public function saved()
