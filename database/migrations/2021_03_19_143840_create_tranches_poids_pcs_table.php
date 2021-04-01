@@ -16,7 +16,7 @@ class CreateTranchesPoidsPcsTable extends Migration
         Schema::create('tranches_poids_pcs', function (Blueprint $table) {
             $table->id();
             $table->string('uid')->unique();
-            $table->string('nom',80);
+            $table->string('nom',80)->unique();
             $table->float('min_poids');
             $table->float('max_poids');
             $table->timestamps();

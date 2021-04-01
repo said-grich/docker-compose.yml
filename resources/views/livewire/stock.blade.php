@@ -1,5 +1,5 @@
-@section('title', 'Stock')
-@section('header_title', 'Stock')
+@section('title', 'Entrée stock')
+@section('header_title', 'Entrée stock')
 
 <div class="d-flex flex-column-fluid">
     <!--begin::Container-->
@@ -11,7 +11,7 @@
                 <!--begin::Card-->
                 <div class="card card-custom card-stretch gutter-b">
                     <div class="card-header">
-                        <h3 class="card-title">{{ __('Stock') }}</h3>
+                        <h3 class="card-title">{{ __('Entrée stock') }}</h3>
                     </div>
                     <div class="card-body">
 
@@ -134,7 +134,7 @@
                                                                 </select>
                                                             </td>
                                                             <td class="pl-0">
-                                                                <select class="form-control" wire:model="categorie.0">
+                                                                <select class="form-control" wire:model.defer="categorie.0">
                                                                     <option>{{ __('Choisir une catégorie') }}</option>
                                                                     @foreach ($list_categories as $item)
                                                                         <option value="{{$item->id }}">{{$item->nom }}</option>
@@ -142,7 +142,7 @@
                                                                 </select>
                                                             </td>
                                                             <td class="pl-0">
-                                                                <select class="form-control" wire:model="sous_categorie.0">
+                                                                <select class="form-control" wire:model.defer="sous_categorie.0">
                                                                     <option>{{ __('Choisir une sous catégorie') }}</option>
                                                                     @foreach ($list_sous_categories as $item)
                                                                         <option value="{{$item->id }}">{{$item->nom }}</option>
@@ -150,25 +150,20 @@
                                                                 </select>
                                                             </td>
                                                             <td class="pl-0">
-                                                                <input type="text" class="form-control" placeholder=" " wire:model="qte.0"/>
+                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="qte.0"/>
                                                             </td>
 
                                                             <td class="pl-0">
-                                                                <input type="text" class="form-control" placeholder=" " wire:model="prix_achat.0"/>
+                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="prix_achat.0"/>
                                                             </td>
                                                             <td class="pl-0">
-                                                                <select class="form-control" wire:model="unite.0">
-                                                                    <option>{{ __('Choisir une unité') }}</option>
-                                                                    @foreach ($list_unites as $item)
-                                                                        <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                                    @endforeach
-                                                                </select>
+                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="unite.0"/>
                                                             </td>
                                                             <td class="pl-0">
-                                                                <input type="text" class="form-control" placeholder=" " wire:model="lot_num.0"/>
+                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num.0"/>
                                                             </td>
                                                             <td class="pl-0">
-                                                                <select class="form-control" wire:model="qualite.0">
+                                                                <select class="form-control" wire:model.defer="qualite.0">
                                                                     <option>{{ __('Choisir une qualite') }}</option>
                                                                     @foreach ($list_qualites as $item)
                                                                         <option value="{{$item->id }}">{{$item->nom }}</option>
@@ -176,7 +171,7 @@
                                                                 </select>
                                                             </td>
                                                             <td class="pl-0">
-                                                                <input type="text" class="form-control" placeholder=" " wire:model="pas.0"/>
+                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="pas.0"/>
                                                             </td>
 
 
@@ -228,7 +223,7 @@
                                                                 </select>
                                                             </td>
                                                             <<td class="pl-0">
-                                                                <select class="form-control" wire:model="categorie.{{$value}}">
+                                                                <select class="form-control" wire:model.defer="categorie.{{$value}}">
                                                                     <option>{{ __('Choisir une catégorie') }}</option>
                                                                     @foreach ($list_categories as $item)
                                                                         <option value="{{$item->id }}">{{$item->nom }}</option>
@@ -236,7 +231,7 @@
                                                                 </select>
                                                             </td>
                                                             <td class="pl-0">
-                                                                <select class="form-control" wire:model="sous_categorie.{{$value}}">
+                                                                <select class="form-control" wire:model.defer="sous_categorie.{{$value}}">
                                                                     <option>{{ __('Choisir une sous catégorie') }}</option>
                                                                     @foreach ($list_sous_categories as $item)
                                                                         <option value="{{$item->id }}">{{$item->nom }}</option>
@@ -250,12 +245,13 @@
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="prix_achat.{{$value}}"/>
                                                             </td>
                                                             <td class="pl-0">
-                                                                <select class="form-control" wire:model.defer="unite.{{$value}}">
+                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="unite.{{$value}}"/>
+                                                                {{-- <select class="form-control" wire:model.defer="unite.{{$value}}">
                                                                     <option>{{ __('Choisir une unité') }}</option>
                                                                     @foreach ($list_unites as $item)
                                                                         <option value="{{$item->id }}">{{$item->nom }}</option>
                                                                     @endforeach
-                                                                </select>
+                                                                </select> --}}
                                                             </td>
                                                             <td class="pl-0">
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num.{{$value}}"/>
@@ -702,7 +698,7 @@
                         </div> --}}
                         <!--Table-->
                         <div class="mt-5">
-                            <ul class="nav nav-tabs" role="tablist">
+                            {{-- <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" href="#encours-tab">
                                         <span class="nav-text">BR en cours</span>
@@ -737,7 +733,7 @@
                                 <div class="tab-pane fade" id="stock-kg-pc-tab" role="tabpanel">
                                     @livewire('parametrage.liste-stock-kg-pc')
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
