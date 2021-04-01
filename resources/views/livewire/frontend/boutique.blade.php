@@ -80,8 +80,8 @@
                             <div class="ribbon left-top">
 								Frais
 							</div>
-                            <img src="{{ asset(Storage::url($item->lot->produit->photo_principale)) }}" alt="Item Preview">
-                            <a wire:click="produit('{{ $item->id }}', '1')" href="#0" class="cd-trigger">{{ $item->lot->produit->nom }}</a>
+                            <img src="{{ asset(Storage::url($item->produit->photo_principale)) }}" alt="Item Preview">
+                            <a wire:click="produit('{{ $item->id }}', '1')" href="#0" class="cd-trigger">{{ $item->produit->nom }}</a>
                         </li> <!-- cd-item -->
                     @endforeach
 				</ul>
