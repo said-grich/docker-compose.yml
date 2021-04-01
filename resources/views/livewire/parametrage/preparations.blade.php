@@ -34,7 +34,7 @@
                             <i class="flaticon-plus"></i> {{ __('Ajouter Mode Préparation') }}
                         </button>
                         <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#preparation">
-                            <i class="flaticon-plus"></i> {{ __('Ajouter Préparation') }}
+                            <i class="flaticon-plus"></i> {{ __('Ajouter sous mode de préparation') }}
                         </button>
                         <!--Modal-->
                         <div wire:ignore.self class="modal fade" id="mode-preparation" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="mode-preparation" aria-hidden="true">
@@ -72,7 +72,7 @@
                             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">{{ __('Nouvelle Préparation') }}</h5>
+                                        <h5 class="modal-title">{{ __('Nouveau mode de préparation') }}</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <i aria-hidden="true" class="ki ki-close"></i>
                                         </button>
@@ -117,12 +117,12 @@
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" href="#mode-preparation-tab">
-                                        <span class="nav-text">Mode Préparation</span>
+                                        <span class="nav-text">Mode préparation</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" data-toggle="tab" href="#preparation-tab">
-                                        <span class="nav-text">Préparations</span>
+                                        <span class="nav-text">Sous mode de préparations</span>
                                     </a>
                                 </li>
                             </ul>

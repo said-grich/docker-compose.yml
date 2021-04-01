@@ -15,7 +15,7 @@ class CreateTranchesKgPcsTable extends Migration
     {
         Schema::create('tranches_kg_pcs', function (Blueprint $table) {
             $table->id();
-            $table->string('nom',80);
+            $table->string('nom',80)->unique();
             $table->string('uid')->unique();
             $table->timestamps();
         });

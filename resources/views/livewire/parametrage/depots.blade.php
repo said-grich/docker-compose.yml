@@ -69,6 +69,22 @@
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
+                                            <div wire:ignore class="form-group">
+                                                <div class="input-group input-group-prepend">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-map-marker-alt icon-lg"></i></span></div>
+                                                    <select class="form-control selectpicker" wire:model.defer="ville">
+                                                        <option>{{ __('Choisir une zone') }}</option>
+                                                        @if (!empty($list_zones_ville))
+                                                            @foreach ($list_zones_ville as $zone)
+                                                                <option value="{{$zone->id}}">{{$zone->nom}}</option>
+                                                            @endforeach
+                                                        @endif
+                                                    </select>
+                                                </div>
+                                                @error('zone-ville')
+                                                    <span class="form-text text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
                                         </form>
                                     </div>
                                     <div class="modal-footer">

@@ -27,7 +27,7 @@ class Tranches extends Component
 
     public function createModeVente()
     {
-        //$this->validate();
+        $this->validate();
 
         $item = new ModeVente();
         $item->nom = $this->mode_vente_name;
@@ -42,8 +42,9 @@ class Tranches extends Component
 
     public function createTranche()
     {
-        //$this->validate();
-
+        /* $this->validate([
+            'nom' => 'required|unique:tranches,ref',
+        ]); */
         $uniqueId = str_replace(".","",microtime(true)).rand(000,999);
 
         if($this->type == 1){

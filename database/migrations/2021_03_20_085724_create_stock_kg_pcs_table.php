@@ -30,6 +30,9 @@ class CreateStockKgPcsTable extends Migration
             //$table->foreign('tranche_id')->references('id')->on('tranches');
             $table->foreign('tranche_id')->references('uid')->on('tranches_kg_pcs');
 
+            $table->unsignedBigInteger('produit_id');
+            $table->foreign('produit_id')->references('id')->on('produits');
+
             $table->unsignedBigInteger('depot_id');
             $table->foreign('depot_id')->references('id')->on('depots');
 
