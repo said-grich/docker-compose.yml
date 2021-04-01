@@ -156,14 +156,14 @@ class Stock extends Component
         $mode_vente = $produit->modeVente->id;
         $this->mode_vente_produit[$index] == 1 ? $this->unite[$index] =  Unite::where('nom', "Kg")->first()->nom : $this->unite[$index] =  Unite::where('nom', "Pièce")->first()->nom;
 
-        //$this->list_tranches = [];
         foreach($produit_tranches as $key=>$value){
             //$kg_pc = TranchesKgPc::where('uid',$value->tranche_id)->first()->toArray();
             //dd( $kg_pc);
-            $this->mode_vente_produit[$index] == 1 ?
+            $this->list_tranches[$index] = [];
 
-           $this->list_tranches[$index][$key] =  TranchesPoidsPc::where('uid',$value->tranche_id)->get()->toArray() :
-           $this->list_tranches[$index][$key] = TranchesKgPc::where('uid',$value->tranche_id)->get()->toArray();
+            $this->mode_vente_produit[$index] == 1 ?
+            $this->list_tranches[$index][$key] =  TranchesPoidsPc::where('uid',$value->tranche_id)->get()->toArray() :
+            $this->list_tranches[$index][$key] = TranchesKgPc::where('uid',$value->tranche_id)->get()->toArray();
         }
 
         //$this->list_tranches[];
