@@ -14,4 +14,16 @@ class Categorie extends Model
         return $this->hasMany(SousCategorie::class);
 
     }
+
+    public function stockPoidsPiece(){
+
+        return $this->hasMany(StockPoidsPc::class);
+
+    }
+
+    public function stockKgPiece(){
+
+        return $this->hasMany(stockKgPiece::class);
+
+    }
 }

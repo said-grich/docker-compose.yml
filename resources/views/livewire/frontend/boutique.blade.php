@@ -78,10 +78,10 @@
                     @foreach ($items as $item)
                         <li class="mix col-sm-6 col-md-4 col-lg-3 cd-item">
                             <div class="ribbon left-top">
-								Frais
+								{{$item->categorie->nom}}
 							</div>
                             <img src="{{ asset(Storage::url($item->produit->photo_principale)) }}" alt="Item Preview">
-                            <a wire:click="produit('{{ $item->id }}', '1')" href="#0" class="cd-trigger">{{ $item->produit->nom }}</a>
+                            <a wire:click="produit('{{ $item->produit_id }}', '1')" href="#0" class="cd-trigger">{{ $item->produit->nom }}</a>
                         </li> <!-- cd-item -->
                     @endforeach
 				</ul>

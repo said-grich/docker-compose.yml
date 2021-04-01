@@ -111,8 +111,8 @@
                                                         <th class="pl-0">Catégorie</th>
                                                         <th class="pl-0">Sous catégorie</th>
                                                         <th class="pl-0">Quantité</th>
-                                                        <th class="pl-0">Prix Achat</th>
                                                         <th class="pl-0">Unité</th>
+                                                        <th class="pl-0">Prix Achat</th>
                                                         <th class="pl-0">Lot</th>
                                                         <th class="pl-0">Qualité</th>
                                                         <th class="pl-0">Pas</th>
@@ -152,13 +152,14 @@
                                                             <td class="pl-0">
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="qte.0"/>
                                                             </td>
+                                                            <td class="pl-0">
+                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="unite.0"/>
+                                                            </td>
 
                                                             <td class="pl-0">
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="prix_achat.0"/>
                                                             </td>
-                                                            <td class="pl-0">
-                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="unite.0"/>
-                                                            </td>
+
                                                             <td class="pl-0">
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num.0"/>
                                                             </td>
@@ -177,7 +178,7 @@
 
                                                             {{-- @if (isset($mode_vente_produit[0]) && $mode_vente_produit[0] == 1) --}}
                                                                 <td class="pl-0">
-                                                                    <select class="form-control" wire:model="tranches.0" multiple>
+                                                                    <select class="form-control" wire:model="tranches.0" {{isset($mode_vente_produit[0]) && $mode_vente_produit[0] == 1 ? 'multiple' :  '' }} >
                                                                         <option>{{ __('Choisir une tranche') }}</option>
                                                                         @if (!empty($list_tranches[0]))
                                                                             @foreach ($list_tranches[0] as $key => $item)
@@ -187,6 +188,7 @@
 
                                                                     </select>
                                                                 </td>
+                                                                @if (isset($mode_vente_produit[0]) && $mode_vente_produit[0] == 1)
                                                                 <td class="pl-0">
                                                                     <div class="input-group input-group-prepend">
                                                                         <input type="text" class="form-control" placeholder="Nombre de pièce" wire:model="nbr_pc.0"/>
@@ -205,9 +207,9 @@
                                                                         {{$nom_tranche[0]['nom']}}
                                                                         <input type="hidden" class="form-control" wire:model="nom_tranche.0" disabled/>
                                                                     </div>
-                                                                </td>
+                                                                </td>--}}
 
-                                                            @endif--}}
+                                                            @endif
 
 
                                                         </tr>
@@ -242,9 +244,6 @@
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="qte.{{$value}}"/>
                                                             </td>
                                                             <td class="pl-0">
-                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="prix_achat.{{$value}}"/>
-                                                            </td>
-                                                            <td class="pl-0">
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="unite.{{$value}}"/>
                                                                 {{-- <select class="form-control" wire:model.defer="unite.{{$value}}">
                                                                     <option>{{ __('Choisir une unité') }}</option>
@@ -252,6 +251,9 @@
                                                                         <option value="{{$item->id }}">{{$item->nom }}</option>
                                                                     @endforeach
                                                                 </select> --}}
+                                                            </td>
+                                                            <td class="pl-0">
+                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="prix_achat.{{$value}}"/>
                                                             </td>
                                                             <td class="pl-0">
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num.{{$value}}"/>
