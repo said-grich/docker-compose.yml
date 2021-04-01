@@ -42,6 +42,9 @@ class CreateStockPoidsPcsTable extends Migration
             $table->unsignedBigInteger('depot_id');
             $table->foreign('depot_id')->references('id')->on('depots');
 
+            $table->unsignedBigInteger('qualite_id');
+            $table->foreign('qualite_id')->references('id')->on('qualites');
+
             $table->unsignedBigInteger('promo_id')->nullable();;
             $table->foreign('promo_id')->references('id')->on('promos');
 

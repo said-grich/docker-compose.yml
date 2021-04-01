@@ -76,6 +76,7 @@ class Stock extends Component
     public $nom_produit;
     public $code = [];
     public $poids = [];
+    public $qualite_piece = [];
     public $code_poids = [];
     public $tranche_uid = [];
     public $nom_tranche = [];
@@ -141,10 +142,16 @@ class Stock extends Component
      }
 
      public function saveCodePoids(){
+        //dd($this->qualite_piece);
+
         foreach ($this->code as $key => $value) {
-            $code_poids[$value] = $this->poids[$key];
+            $code_poids[$value] = array( 'poids' =>$this->poids[$key], 'qualite' =>  $this->qualite_piece[$key]);
+
+            //$code_poids[$value] = $this->poids[$key];
             $this->code_poids[$this->details_index] = $code_poids;
         }
+        //dd($this->code_poids);
+
 
         //dump($this->details_index ,$this->code,$this->poids,$this->code_poids);
      }
@@ -184,7 +191,7 @@ class Stock extends Component
             $item->depot_id = $this->depot;
             $item->qualite_id = $this->qualite_globale;
             $item->fournisseur_id = $this->fournisseur;
-            $item->save();
+            //$item->save();
 
 
             foreach ($this->produit as $key => $value) {
@@ -199,7 +206,7 @@ class Stock extends Component
                 $item->fournisseur_id = $this->fournisseur;
                 $item->qualite_id = $this->qualite[$key];
                 $item->active = true;
-                $item->save();
+                //$item->save();
 
 
                 if (BonReceptionLigne::where('bon_reception_ref', '=', $this->ref_br)
@@ -222,7 +229,7 @@ class Stock extends Component
                     $item->qte = $this->qte[$key];
                     $item->prix_achat = $this->prix_achat[$key];
                     $item->montant = $this->qte[$key] * $this->prix_achat[$key];
-                    $item->save();
+                    //$item->save();
                 }
 
                 /* foreach ($this->tranches[$key] as $ke => $t) {
@@ -246,17 +253,18 @@ class Stock extends Component
                         $lot_tranche[$key][$k] = TranchesPoidsPc::where('uid', $tranche)->get()->toArray()[0];
                     }
                     //dump($lot_tranche,$k, $lot_tranche[$key][$k],$this->code_poids[$key]);
+                    dump($this->code_poids[$key]);
 
 
                     foreach ($this->code_poids[$key] as $code => $poids) {
-                        //dump($lot_tranche[$key]);
+                        dd($poids['poids']);
                         foreach ($lot_tranche[$key] as $keyT => $valueT) {
                             //dump($poids,$valueT);
                             //dump($poids >= $valueT['min_poids'] && $poids < $valueT['max_poids']);
-                            if ($poids >= $valueT['min_poids'] && $poids < $valueT['max_poids']) {
+                            if ($poids['poids'] >= $valueT['min_poids'] && $poids['poids'] < $valueT['max_poids']) {
                                 //dd( $valueT);
-                                //dump($poids, $lot_tranche[$key][$k]['min_poids'], $lot_tranche[$key][$k]['max_poids']);
-                                // dump($poids >= $lot_tranche[$key][$k]['min_poids'] && $poids < $lot_tranche[$key][$k]['max_poids']);
+                                //dump($poids['poids'], $lot_tranche[$key][$k]['min_poids'], $lot_tranche[$key][$k]['max_poids']);
+                                // dump($poids['poids'] >= $lot_tranche[$key][$k]['min_poids'] && $poids['poids'] < $lot_tranche[$key][$k]['max_poids']);
                                 $item = new StockPoidsPc();
                                 $item->qte = $this->qte[$key];
                                 $item->lot_num = $this->lot_num[$key];
@@ -266,7 +274,8 @@ class Stock extends Component
                                 $item->depot_id = $this->depot;
                                 $item->prix_achat = $this->prix_achat[$key];
                                 $item->code = $code;
-                                $item->poids = $poids;
+                                $item->poids = $poids['poids'];
+                                $item->qualite = $poids['qualite'];
                                 $item->tranche_id = $valueT['uid'];
                                 $item->cr = 0;
                                 $item->prix_n = 0;

@@ -767,6 +767,7 @@
                                     <tr>
                                         <th scope="col">Code</th>
                                         <th scope="col">Poids</th>
+                                        <th scope="col">Qualité</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -777,6 +778,15 @@
                                         </td>
                                         <td>
                                             <input type="text" class="form-control" placeholder=" " wire:model.defer="poids.{{$i}}"/>
+                                        </td>
+                                        <td>
+                                            <select class="form-control" wire:model.defer="qualite_piece.{{$i}}">
+                                                <option>{{ __('Choisir une qualite') }}</option>
+                                                @foreach ($list_qualites as $item)
+                                                    <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                @endforeach
+                                            </select>
+                                            {{-- <input type="text" class="form-control" placeholder=" " wire:model.defer="qualite_piece.{{$i}}"/> --}}
                                         </td>
                                     </tr>
                                     @endfor
