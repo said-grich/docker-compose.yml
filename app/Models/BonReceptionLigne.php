@@ -14,4 +14,9 @@ class BonReceptionLigne extends Model
         return $this->belongsTo(BonReception::class);
     }
 
+    public function produit()
+    {
+        return $this->belongsTo(Produit::class);
+    }
+
 }

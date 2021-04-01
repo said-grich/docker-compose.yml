@@ -158,14 +158,15 @@ class Stock extends Component
 
         //$this->list_tranches = [];
         foreach($produit_tranches as $key=>$value){
-            $poids = TranchesPoidsPc::where('uid',$value->tranche_id)->get()->toArray();
             //$kg_pc = TranchesKgPc::where('uid',$value->tranche_id)->first()->toArray();
             //dd( $kg_pc);
             $this->mode_vente_produit[$index] == 1 ?
 
-           $this->list_tranches[$index][$key] =  $poids :
+           $this->list_tranches[$index][$key] =  TranchesPoidsPc::where('uid',$value->tranche_id)->get()->toArray() :
            $this->list_tranches[$index][$key] = TranchesKgPc::where('uid',$value->tranche_id)->get()->toArray();
         }
+
+        $this->selectedTaux[$selectedTaux] != 0 ? $this->ventilation[$selectedTaux] = Ventilation::firstWhere('taux',strval($this->selectedTaux[$selectedTaux]))->toArray() :$this->ventilation[$selectedTaux]=[] ;
         //$this->list_tranches[];
         //$this->mode_vente_produit[$index] == 1 ? $this->showNbrPiece = true : $this->showNbrPiece = false;
 

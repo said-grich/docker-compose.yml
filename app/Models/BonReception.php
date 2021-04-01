@@ -19,8 +19,13 @@ class BonReception extends Model
         return $this->belongsTo(Fournisseur::class);
     }
 
+    public function qualite()
+    {
+        return $this->belongsTo(Qualite::class);
+    }
+
     public function bonReceptionLignes()
     {
-        return $this->hasMany(BonReceptionLigne::class);
+        return $this->hasMany(BonReceptionLigne::class,'bon_reception_ref','ref');
     }
 }

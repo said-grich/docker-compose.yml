@@ -53,4 +53,14 @@ class Produit extends Model
     {
         return $this->belongsTo(ModePreparation::class);
     }
+
+    public function stockPoidsPiece()
+    {
+        return $this->belongsTo(StockPoidsPc::class);
+    }
+
+    public function stockKgsPiece()
+    {
+        return $this->belongsTo(StockKgsPc::class);
+    }
 }

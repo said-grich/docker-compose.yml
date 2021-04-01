@@ -102,7 +102,10 @@ class DesignationPrix extends Component
 
     public function getLots($id){
 
-        $this->liste_poids_pc = StockPoidsPc::where('br_num',$id)->groupBy('tranche_id')->get();
+        /* $this->liste_poids_pc = StockPoidsPc::select('stock_poids_pcs.*')->where('br_num',$id)->get()->groupBy('tranche_id');
+        $this->liste_kg_pc = StockKgPc::select('stock_kg_pcs.*')->where('br_num',$id)->get()->groupBy('tranche_id'); */
+
+        $this->liste_poids_pc = StockPoidsPc::where('br_num',$id)->get();
         $this->liste_kg_pc = StockKgPc::where('br_num',$id)->get();
 
         foreach ($this->liste_poids_pc as $key => $value) {

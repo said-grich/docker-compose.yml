@@ -12,4 +12,9 @@ class Qualite extends Model
     public function lots(){
         return $this->hasMany(Lot::class);
     }
+
+    public function bonsReception()
+    {
+        return $this->hasMany(BonReception::class);
+    }
 }
