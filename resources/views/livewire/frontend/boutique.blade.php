@@ -105,9 +105,9 @@
 
                 <div class="cd-item-info">
                     <h2>
-                        @if (!empty($produit))
+                        {{-- @if (!empty($produit))
                             {{ $produit->lot->produit->nom }}
-                        @endif
+                        @endif --}}
                     </h2>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia, omnis illo iste ratione. Numquam eveniet quo, ullam itaque expedita impedit. Eveniet, asperiores amet iste repellendus similique reiciendis, maxime laborum praesentium.</p>
         
