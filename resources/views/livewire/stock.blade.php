@@ -116,6 +116,7 @@
                                                         <th class="pl-0">Lot</th>
                                                         <th class="pl-0">Qualité</th>
                                                         <th class="pl-0">Pas</th>
+                                                        <th class="pl-0">Tranche</th>
                                                         {{-- @if ($mode_vente_produit[0] == 1)
                                                             <th class="pl-0">Nombre de pièces</th>
                                                         @endif --}}

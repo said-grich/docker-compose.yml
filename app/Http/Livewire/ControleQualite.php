@@ -4,10 +4,10 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 
-class Employes extends Component
+class ControleQualite extends Component
 {
     public function render()
     {
-        return view('livewire.employes');
+        return view('livewire.controle-qualite');
     }
 }
