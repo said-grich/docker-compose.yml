@@ -166,7 +166,6 @@ class Stock extends Component
            $this->list_tranches[$index][$key] = TranchesKgPc::where('uid',$value->tranche_id)->get()->toArray();
         }
 
-        $this->selectedTaux[$selectedTaux] != 0 ? $this->ventilation[$selectedTaux] = Ventilation::firstWhere('taux',strval($this->selectedTaux[$selectedTaux]))->toArray() :$this->ventilation[$selectedTaux]=[] ;
         //$this->list_tranches[];
         //$this->mode_vente_produit[$index] == 1 ? $this->showNbrPiece = true : $this->showNbrPiece = false;
 
