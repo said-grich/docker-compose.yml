@@ -27,7 +27,7 @@ class StockPoidsPc extends Model
 
     public function produit()
     {
-        return $this->hasMany(Produit::class);
+        return $this->belongsTo(Produit::class);
     }
 
 }

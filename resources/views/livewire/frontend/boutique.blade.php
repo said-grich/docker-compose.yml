@@ -11,7 +11,7 @@
 {{-- Start Main --}}
 <main wire:ignore class="main-content">
     <div class="overlay-layer"></div>
-	
+
     <!-- Start Shop -->
 	<section class="shop">
 		<header class="header-shop">
@@ -25,9 +25,9 @@
 			<div class="cd-tab-filter-wrapper">
 				<div class="cd-tab-filter">
 					<ul class="cd-filters">
-						<li class="placeholder"> 
+						<li class="placeholder">
 							<a data-type="all" href="#0">All</a> <!-- selected option on mobile -->
-						</li> 
+						</li>
 						<li class="filter"><a class="selected" href="#0" data-type="all">All</a></li>
 						<li class="filter" data-filter=".blue"><a href="#0" data-type="color-blue">Color Blue</a></li>
 						<li class="filter" data-filter=".pink"><a href="#0" data-type="color-pink">Color Pink</a></li>
@@ -78,10 +78,10 @@
                     @foreach ($items as $item)
                         <li class="mix col-sm-6 col-md-4 col-lg-3 cd-item">
                             <div class="ribbon left-top">
-								Frais
+								{{ $item->categorie_id->categorie->nom }}
 							</div>
                             <img src="{{ asset(Storage::url($item->produit->photo_principale)) }}" alt="Item Preview">
-                            <a wire:click="produit('{{ $item->id }}', '1')" href="#0" class="cd-trigger">{{ $item->produit->nom }}</a>
+                            <a wire:click="produit('{{ $item->id }}', '1')" href="#0" class="cd-trigger">{{  $item->id }}</a>
                         </li> <!-- cd-item -->
                     @endforeach
 				</ul>
@@ -96,7 +96,7 @@
                         <li><img src="img/produits/crevette-royale/crevette-royal-flouka1.jpg" alt="Product 2"></li>
                         <li><img src="img/produits/crevette-royale/crevette-royal-flouka4.jpeg" alt="Product 3"></li>
                     </ul> <!-- cd-slider -->
-        
+
                     <ul class="cd-slider-navigation">
                         <li><a class="cd-next" href="#0">Prev</a></li>
                         <li><a class="cd-prev" href="#0">Next</a></li>
@@ -110,7 +110,7 @@
                         @endif --}}
                     </h2>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia, omnis illo iste ratione. Numquam eveniet quo, ullam itaque expedita impedit. Eveniet, asperiores amet iste repellendus similique reiciendis, maxime laborum praesentium.</p>
-        
+
                     <ul class="cd-item-action">
                         <li><button class="add-to-cart">Ajouter au panier</button></li>
                     </ul> <!-- cd-item-action -->
@@ -123,7 +123,7 @@
 				<form>
 					<div class="cd-filter-block">
 						<h4>Search</h4>
-						
+
 						<div class="cd-filter-content">
 							<input type="search" placeholder="Try some things...">
 						</div> <!-- cd-filter-content -->
@@ -191,7 +191,7 @@
 
 					<div class="cd-filter-block">
 						<h4>Select</h4>
-						
+
 						<div class="cd-filter-content">
 							<div class="cd-select cd-filters">
 								<select class="filter" name="selectThis" id="selectThis">

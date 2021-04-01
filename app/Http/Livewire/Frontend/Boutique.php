@@ -12,20 +12,19 @@ use Livewire\Component;
 
 class Boutique extends Component
 {
-    
+    public $produit;
     public $produit_id;
     public $mode;
-    // public function produit($produit_id, $mode)
-    // {
-    //     $mode == 1 ?  $this->produit = StockPoidsPc::where('id', $produit_id)->first() : $this->produit = StockKgPc::where('id', $produit_id)->first();
-    //     //dd($this->produit->lot->produit->nom);
-    // }
+    public function produit($produit_id, $mode)
+    {
+        $mode == 1 ?  $this->produit = StockPoidsPc::where('id', $produit_id)->first() : $this->produit = StockKgPc::where('id', $produit_id)->first();
+        dd($this->produit);
+    }
     public function render()
     {
         // $items = StockKgPc::select('lot_num', DB::raw('MIN(prix_n) as prix'))->groupBy('lot_num')->get();
-        $items = StockPoidsPc::select('produit_id')->groupBy('produit_id')->get(); 
-            
-
+        $items = StockPoidsPc::select('produit_id','categorie_id')->groupBy('produit_id','categorie_id')->get(); 
+        
         foreach ($items as &$item) {
             $item['photo_url'] = Storage::url($item->produit->photo_principale);
         }
