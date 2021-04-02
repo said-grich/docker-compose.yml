@@ -30,4 +30,14 @@ class StockPoidsPc extends Model
         return $this->belongsTo(Produit::class);
     }
 
+    public function sousCategorie()
+    {
+        return $this->belongsTo(SousCategorie::class);
+    }
+
+    public function categorie()
+    {
+        return $this->belongsTo(Categorie::class);
+    }
+
 }

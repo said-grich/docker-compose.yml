@@ -71,6 +71,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/livreurs', \App\Http\Live
 
 // Primary | Routes Frontend
 Route::middleware(['auth:sanctum', 'verified'])->get('/boutique', \App\Http\Livewire\Frontend\Boutique::class)->name('boutique');
+Route::middleware(['auth:sanctum', 'verified'])->get('/produit', \App\Http\Livewire\Frontend\ProduitInfo::class)->name('produit');
 Route::middleware(['auth:sanctum', 'verified'])->get('/blog', \App\Http\Livewire\Frontend\Blog::class)->name('blog');
 Route::middleware(['auth:sanctum', 'verified'])->get('/apropos', \App\Http\Livewire\Frontend\Apropos::class)->name('apropos');
 Route::middleware(['auth:sanctum', 'verified'])->get('/contact', \App\Http\Livewire\Frontend\Contact::class)->name('contact');

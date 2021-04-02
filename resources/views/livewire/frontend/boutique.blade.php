@@ -78,10 +78,10 @@
                     @foreach ($items as $item)
                         <li class="mix col-sm-6 col-md-4 col-lg-3 cd-item">
                             <div class="ribbon left-top">
-								{{ $item->categorie_id->categorie->nom }}
+								{{ $item->categorie->nom }}
 							</div>
                             <img src="{{ asset(Storage::url($item->produit->photo_principale)) }}" alt="Item Preview">
-                            <a wire:click="produit('{{ $item->id }}', '1')" href="#0" class="cd-trigger">{{  $item->id }}</a>
+                            <a href="{{ route('produit',['produit' => $item->produit->id]) }}" class="cd-trigger">{{ $item->produit->nom }}</a>
                         </li> <!-- cd-item -->
                     @endforeach
 				</ul>
@@ -89,7 +89,7 @@
 			</section>
 
 
-            <div class="cd-quick-view">
+            {{-- <div class="cd-quick-view">
                 <div class="cd-slider-wrapper">
                     <ul class="cd-slider">
                         <li class="selected"><img src="img/produits/crevette-royale/crevette-royal-flouka3.jpg" alt="Product 1"></li>
@@ -104,19 +104,15 @@
                 </div> <!-- cd-slider-wrapper -->
 
                 <div class="cd-item-info">
-                    <h2>
-                        {{-- @if (!empty($produit))
-                            {{ $produit->lot->produit->nom }}
-                        @endif --}}
-                    </h2>
+                    <h2></h2>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia, omnis illo iste ratione. Numquam eveniet quo, ullam itaque expedita impedit. Eveniet, asperiores amet iste repellendus similique reiciendis, maxime laborum praesentium.</p>
 
                     <ul class="cd-item-action">
                         <li><button class="add-to-cart">Ajouter au panier</button></li>
                     </ul> <!-- cd-item-action -->
-                </div> <!-- cd-item-info -->=
+                </div> <!-- cd-item-info -->
                 <a href="#0" class="cd-close">Close</a>
-            </div> <!-- cd-quick-view -->
+            </div> <!-- cd-quick-view --> --}}
 
 
 			<div class="cd-filter">
@@ -280,7 +276,5 @@
     <script src="js/main.js"></script>
     <script src="js/jquery.mixitup.min.js"></script>
     <script src="js/filter.js"></script>
-    <script src="js/velocity.min.js"></script>
-    <script src="js/test.js"></script>
 @endpush
 

@@ -34,11 +34,6 @@ class Produit extends Model
         return $this->hasMany(ProduitPhoto::class);
     }
 
-    public function sousCategorie()
-    {
-        return $this->belongsTo(SousCategorie::class);
-    }
-
     public function famille()
     {
         return $this->belongsTo(Famille::class);

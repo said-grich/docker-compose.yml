@@ -116,8 +116,8 @@
     }
 }
 .aside-menu .menu-nav > .menu-item .menu-submenu .menu-subnav {
-    max-height: 300px;
-    overflow-y: overlay;
+    /* max-height: 300px;
+    overflow-y: overlay; */
 }
 .aside-menu .menu-nav > .menu-item .menu-submenu .menu-item > .menu-heading i,
 .aside-menu .menu-nav > .menu-item .menu-submenu .menu-item > .menu-link i {

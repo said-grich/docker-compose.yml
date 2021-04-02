@@ -159,17 +159,18 @@ class Stock extends Component
         foreach($produit_tranches as $key=>$value){
             //$kg_pc = TranchesKgPc::where('uid',$value->tranche_id)->first()->toArray();
             //dd( $kg_pc);
-            $this->list_tranches[$index] = [];
 
-            $this->mode_vente_produit[$index] == 1 ?
-            $this->list_tranches[$index][$key] =  TranchesPoidsPc::where('uid',$value->tranche_id)->get()->toArray() :
-            $this->list_tranches[$index][$key] = TranchesKgPc::where('uid',$value->tranche_id)->get()->toArray();
+            if($this->mode_vente_produit[$index] == 1 ){
+                $this->list_tranches[$index][$key] =  TranchesPoidsPc::where('uid',$value->tranche_id)->get()->toArray();
+            }else{
+                $this->list_tranches[$index][$key] = TranchesKgPc::where('uid',$value->tranche_id)->get()->toArray();
+            }
+
         }
 
         //$this->list_tranches[];
         //$this->mode_vente_produit[$index] == 1 ? $this->showNbrPiece = true : $this->showNbrPiece = false;
-
-      // dd($this->list_tranches);
+        //unset($this->list_tranches);
 
     }
 
@@ -266,7 +267,7 @@ class Stock extends Component
                 else{
                     LotTranche::create([
                         'lot_num' => $this->lot_num[$key],
-                        'tranche_id' => $this->nom_tranche[$key]['uid'],
+                        'tranche_id' => $this->tranches[$key],
                     ]);
                     $item = new StockKgPc();
                     $item->qte = $this->qte[$key];
@@ -276,8 +277,9 @@ class Stock extends Component
                     $item->sous_categorie_id = $this->sous_categorie[$key];
                     $item->br_num = $this->ref_br;
                     $item->depot_id = $this->depot;
+                    //$item->qualite_id = $this->qualite[$key];
                     $item->prix_achat = $this->prix_achat[$key];
-                    $item->tranche_id = $this->nom_tranche[$key]['uid'];
+                    $item->tranche_id = $this->tranches[$key];
                     $item->cr = 0;
                     $item->prix_n = 0;
                     $item->prix_f = 0;
