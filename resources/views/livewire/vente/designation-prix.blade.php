@@ -14,19 +14,6 @@
                         <h3 class="card-title">{{ __('Liste des bons de réception') }}</h3>
                     </div>
                     <div class="card-body">
-
-                        <!--begin::Flash message-->
-                        @if (session()->has('message'))
-                            <div class="alert alert-custom alert-light-success shadow fade show mb-5" role="alert">
-                                <div class="alert-icon"><i class="flaticon-interface-10"></i></div>
-                                <div class="alert-text">{{ session('message') }}</div>
-                                <div class="alert-close">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true"><i class="ki ki-close"></i></span>
-                                    </button>
-                                </div>
-                            </div>
-                        @endif
                         <div class="table-responsive">
                             <div class="d-flex flex-row-reverse">
                                 <div class="input-icon">
@@ -45,10 +32,11 @@
                                                 <span></span>
                                             </label>
                                         </th>
-                                        <th class="pl-0" wire:click="sortBy('lot_num')" style="cursor: pointer;">Bon de réception réf @include('layouts.partials._sort-icon',['field'=>'lot_num'])</th>
-                                        <th class="pl-0" wire:click="sortBy('lot_num')" style="cursor: pointer;">date d'entrée @include('layouts.partials._sort-icon',['field'=>'lot_num'])</th>
-                                        <th class="pl-0" wire:click="sortBy('date_capture')" style="cursor: pointer;">Dépot @include('layouts.partials._sort-icon',['field'=>'date_capture'])</th>
-                                        <th class="pl-0" wire:click="sortBy('date_entree')" style="cursor: pointer;">Fournisseur @include('layouts.partials._sort-icon',['field'=>'date_entree'])</th>
+                                        <th class="pl-0" wire:click="sortBy('ref')" style="cursor: pointer;">Bon de réception réf @include('layouts.partials._sort-icon',['field'=>'ref'])</th>
+                                        <th class="pl-0" wire:click="sortBy('date')" style="cursor: pointer;">date d'entrée @include('layouts.partials._sort-icon',['field'=>'date'])</th>
+                                        <th class="pl-0" wire:click="sortBy('depot_id')" style="cursor: pointer;">Dépot @include('layouts.partials._sort-icon',['field'=>'depot_id'])</th>
+                                        <th class="pl-0" wire:click="sortBy('fournisseur_id')" style="cursor: pointer;">Fournisseur @include('layouts.partials._sort-icon',['field'=>'fournisseur_id'])</th>
+                                        <th class="pl-0" wire:click="sortBy('valide')" style="cursor: pointer;">Statut @include('layouts.partials._sort-icon',['field'=>'valite'])</th>
 
                                         <th class="pr-0 text-right" style="min-width: 160px">Actions</th>
                                     </tr>
@@ -57,7 +45,7 @@
                                     @if (!empty($items))
 
                                         @foreach ($items as $item)
-                                            <tr>
+                                            <tr class="{{$item->valide == false ? 'bg-danger-o-50' : '' }}">
                                                 <td class="pl-0 py-6">
                                                     <label class="checkbox checkbox-lg checkbox-inline">
                                                         <input type="checkbox" value="1" />
@@ -76,12 +64,33 @@
                                                 <td class="pl-0">
                                                     <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->fournisseur->nom }}</a>
                                                 </td>
+                                                <td class="pl-0">
+                                                    <span class="label {{ $item->valide == true ? 'label-primary' : 'label-danger' }} label-pill label-inline mr-2">{{ $item->valide == true ? 'Validé' : 'Non validé' }} </span>
+                                                    <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg"></a>
+                                                </td>
 
                                                 <td class="pr-0 text-right">
+                                                    @if ($item->valide == false)
+                                                        <button wire:click="designationPrix({{$item->ref}})" class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#stock">
+                                                            <i class="flaticon-plus"></i> {{ __('Désignation des prix') }}
+                                                        </button>
+                                                        @else
+                                                        <a href="#" wire:click="show({{$item->id}})" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#exampleModalSizeSm">
+                                                            <span class="svg-icon svg-icon-md svg-icon-primary">
+                                                                {{--begin::Svg Icon--}}
+                                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                        <rect x="0" y="0" width="24" height="24"/>
+                                                                        <path d="M3,12 C3,12 5.45454545,6 12,6 C16.9090909,6 21,12 21,12 C21,12 16.9090909,18 12,18 C5.45454545,18 3,12 3,12 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
+                                                                        <path d="M12,15 C10.3431458,15 9,13.6568542 9,12 C9,10.3431458 10.3431458,9 12,9 C13.6568542,9 15,10.3431458 15,12 C15,13.6568542 13.6568542,15 12,15 Z" fill="#000000" opacity="0.3"/>
+                                                                    </g>
+                                                                </svg>
+                                                                {{--end::Svg Icon--}}
+                                                            </span>
+                                                        </a>
 
-                                                    <button wire:click="getLots({{$item->ref}})" class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#stock">
-                                                        <i class="flaticon-plus"></i> {{ __('Désignation des prix') }}
-                                                    </button>
+                                                    @endif
+
 
                                                     <a href="#" wire:click="edit({{$item->id}})" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#exampleModalSizeSm">
                                                         <span class="svg-icon svg-icon-md svg-icon-primary">
@@ -135,9 +144,22 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
+                                            <!--begin::Flash message-->
+                                            @if (session()->has('message'))
+                                            <div class="alert alert-custom alert-light-success shadow fade show mb-5" role="alert">
+                                                <div class="alert-icon"><i class="flaticon-interface-10"></i></div>
+                                                <div class="alert-text">{{ session('message') }}</div>
+                                                <div class="alert-close">
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true"><i class="ki ki-close"></i></span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            @endif
                                             <form id="stock-form" class="form row" wire:submit.prevent="affecterPrix">
                                                 <div class="form-group col-md-12">
                                                     <div class="accordion accordion-toggle-arrow" id="accordionExample1">
+                                                        @if (count($liste_poids_pc)>0)
                                                         <div class="card">
                                                             <div class="card-header">
                                                                 <div class="card-title" data-toggle="collapse" data-target="#collapseOne1">
@@ -371,7 +393,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        @if (!empty($liste_kg_pc))
+                                                        @endif
+                                                        @if (count($liste_kg_pc)>0)
 
                                                             <div class="card">
                                                                 <div class="card-header">
@@ -406,6 +429,8 @@
                                                                                             <tr>
                                                                                                 <td>
                                                                                                     <input type="hidden" class="form-control" placeholder=" " wire:model.defer="produit_id_kg_pc.{{$key}}" disabled/>
+                                                                                                    <input type="hidden" class="form-control" placeholder=" " wire:model.defer="uid_tranche_kc_pc.{{$key}}" disabled/>
+                                                                                                    <input type="hidden" class="form-control" placeholder=" " wire:model.defer="id_kc_pc.{{$key}}" disabled/>
                                                                                                     <input type="text" class="form-control" placeholder=" " wire:model.defer="article_kg_pc.{{$key}}" disabled/>
                                                                                                 </td>
                                                                                                 <td>

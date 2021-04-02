@@ -154,7 +154,7 @@
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="qte.0"/>
                                                             </td>
                                                             <td class="pl-0">
-                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="unite.0"/>
+                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="unite.0" disabled/>
                                                             </td>
 
                                                             <td class="pl-0">
@@ -189,13 +189,15 @@
 
                                                                 </select>
                                                             </td>
+
+
+
                                                             @if (isset($mode_vente_produit[0]) && $mode_vente_produit[0] == 1)
                                                             <td class="pl-0">
                                                                 <div class="input-group input-group-prepend">
                                                                     <input type="text" class="form-control" placeholder="Nombre de pièce" wire:model="nbr_pc.0"/>
-
                                                                     <div class="input-group-append" data-toggle="modal" data-target="#code-poids">
-                                                                        <button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Code / poids" wire:click="setCodePoids(0)"><i class="fa fa-plus-circle"></i></button></div>
+                                                                        <button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Code / poids" wire:click="setCodePoids(0)"><i class="far fa-eye"></i></button></div>
                                                                     @error('nbr_pc')
                                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                                 @enderror
@@ -245,7 +247,7 @@
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="qte.{{$value}}"/>
                                                             </td>
                                                             <td class="pl-0">
-                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="unite.{{$value}}"/>
+                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="unite.{{$value}}" disabled/>
                                                                 {{-- <select class="form-control" wire:model.defer="unite.{{$value}}">
                                                                     <option>{{ __('Choisir une unité') }}</option>
                                                                     @foreach ($list_unites as $item)

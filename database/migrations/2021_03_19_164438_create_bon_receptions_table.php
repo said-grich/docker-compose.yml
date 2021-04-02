@@ -17,7 +17,8 @@ class CreateBonReceptionsTable extends Migration
             $table->id();
             $table->string('ref')->unique();
             $table->date('date');
-            $table->decimal('total')->nullable();
+            $table->boolean('valide')->default(false);
+            //$table->decimal('total')->nullable();
 
             $table->unsignedBigInteger('qualite_id');
             $table->foreign('qualite_id')->references('id')->on('qualites');

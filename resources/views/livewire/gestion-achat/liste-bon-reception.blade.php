@@ -45,10 +45,11 @@
                                                 <span></span>
                                             </label>
                                         </th>
-                                        <th class="pl-0" wire:click="sortBy('lot_num')" style="cursor: pointer;">Bon de réception réf @include('layouts.partials._sort-icon',['field'=>'lot_num'])</th>
-                                        <th class="pl-0" wire:click="sortBy('lot_num')" style="cursor: pointer;">date d'entrée @include('layouts.partials._sort-icon',['field'=>'lot_num'])</th>
-                                        <th class="pl-0" wire:click="sortBy('date_capture')" style="cursor: pointer;">Dépot @include('layouts.partials._sort-icon',['field'=>'date_capture'])</th>
-                                        <th class="pl-0" wire:click="sortBy('date_entree')" style="cursor: pointer;">Fournisseur @include('layouts.partials._sort-icon',['field'=>'date_entree'])</th>
+                                        <th class="pl-0" wire:click="sortBy('ref')" style="cursor: pointer;">Bon de réception réf @include('layouts.partials._sort-icon',['field'=>'ref'])</th>
+                                        <th class="pl-0" wire:click="sortBy('date')" style="cursor: pointer;">date d'entrée @include('layouts.partials._sort-icon',['field'=>'date'])</th>
+                                        <th class="pl-0" wire:click="sortBy('depot_id')" style="cursor: pointer;">Dépot @include('layouts.partials._sort-icon',['field'=>'depot_id'])</th>
+                                        <th class="pl-0" wire:click="sortBy('fournisseur_id')" style="cursor: pointer;">Fournisseur @include('layouts.partials._sort-icon',['field'=>'fournisseur_id'])</th>
+                                        <th class="pl-0" wire:click="sortBy('qualite_id')" style="cursor: pointer;">Qualité globale @include('layouts.partials._sort-icon',['field'=>'qualite_id'])</th>
 
                                         <th class="pr-0 text-right" style="min-width: 160px">Actions</th>
                                     </tr>
@@ -79,6 +80,9 @@
                                                 <td class="pl-0">
                                                     <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->fournisseur->nom }}</a>
                                                 </td>
+                                                <td class="pl-0">
+                                                    <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->qualite->nom }}</a>
+                                                </td>
 
 
                                                 <td class="pr-0 text-right">
@@ -102,7 +106,7 @@
                                                             <!--end::Svg Icon-->
                                                         </span>
                                                     </a>
-                                                    <a href="#" wire:click="edit({{$item->id}})" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#exampleModalSizeSm">
+                                                    <a href="#" wire:click="edit({{$item->ref}})" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#edit">
                                                         <span class="svg-icon svg-icon-md svg-icon-primary">
                                                             {{--begin::Svg Icon--}}
                                                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -115,7 +119,7 @@
                                                             {{--end::Svg Icon--}}
                                                         </span>
                                                     </a>
-                                                    <a href="#" class="btn btn-icon btn-light btn-hover-primary btn-sm" wire:click="deleteLivreur('{{$item->id}}')">
+                                                    <a href="#" class="btn btn-icon btn-light btn-hover-primary btn-sm" wire:click="deleteBonReception('{{$item->id}}')">
                                                         <span class="svg-icon svg-icon-md svg-icon-primary">
                                                             {{--begin::Svg Icon--}}
                                                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -206,10 +210,7 @@
                             </table>
                             {{ $items->links('layouts.partials.custom-pagination') }}
 
-                            {{-- Stock Modal --}}
-
-
-                            {{-- Edit Modal --}}
+                            {{-- show Modal --}}
                             <div wire:ignore.self class="modal fade" id="stock" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="stock" aria-hidden="true">
                                 <div class="modal-dialog modal-xxl modal-dialog-centered" role="document">
                                     <div class="modal-content">
@@ -220,7 +221,7 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form id="stock-form" class="form row" wire:submit.prevent="affecterPrix">
+                                            <form id="stock-form" class="form row">
                                                     <div class="form-group col">
                                                         <label>{{ __('Réf. bon de réception') }}</label>
                                                         <div class="input-group input-group-prepend">
@@ -278,6 +279,10 @@
                                                                     <td class="pl-0">{{$ligne->montant}}</td>
                                                                 </tr>
                                                             @endforeach
+                                                            <tr>
+                                                                <th colspan="3" class="pl-0">Total</th>
+                                                                <td class="pl-0 text-left">{{$montant_total}}</td>
+                                                            </tr>
 
                                                         </tbody>
                                                     </table>
@@ -293,7 +298,130 @@
                                     </div>
                                 </div>
                             </div>
-                            {{-- End Stock Modal --}}
+                            {{-- End show Modal --}}
+
+
+                            {{-- Edit Modal --}}
+                            <div wire:ignore.self class="modal fade" id="edit" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+                                <div class="modal-dialog modal-xxl modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">{{ __('Modification bon réception réf ') }} - {{$ref_br}}</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <i aria-hidden="true" class="ki ki-close"></i>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!--begin::Flash message-->
+                                            @if (session()->has('editmessage'))
+                                                <div class="alert alert-custom alert-light-success shadow fade show mb-5" role="alert">
+                                                    <div class="alert-icon"><i class="flaticon-interface-10"></i></div>
+                                                    <div class="alert-text">{{ session('editmessage') }}</div>
+                                                    <div class="alert-close">
+                                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                            <span aria-hidden="true"><i class="ki ki-close"></i></span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                            <form id="stock-form" class="form row">
+                                                    <div class="form-group col">
+                                                        <label>{{ __('Réf. bon de réception') }}</label>
+                                                        <div class="input-group input-group-prepend">
+                                                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-hashtag icon-lg"></i></span></div>
+                                                            <input type="text" class="form-control" placeholder=" " wire:model.defer="ref_br" disabled/>
+                                                       </div>
+
+                                                    </div>
+                                                    <div class="form-group col">
+                                                        <label>{{ __('Fournisseur') }}</label>
+                                                        <div class="input-group input-group-prepend">
+                                                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
+                                                            <select class="form-control" wire:model.defer="fournisseur">
+                                                                <option>{{ __('Choisir un fournisseur') }}</option>
+                                                                @foreach ($list_fournisseurs as $item)
+                                                                    <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                @endforeach
+
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="form-group col">
+                                                        <label>{{ __("Date d'entrée") }}</label>
+                                                        <div class="input-group input-group-prepend">
+                                                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar-plus icon-lg"></i></span></div>
+                                                            <input id="date_entree" type="text" class="form-control datepicker" placeholder=" " wire:model.defer="date_entree" autocomplete="off"/>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="form-group col">
+                                                        <label>{{ __("Dépôt") }}</label>
+                                                        <div class="input-group input-group-prepend">
+                                                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
+                                                            <select class="form-control" wire:model.defer="depot">
+                                                                <option>{{ __('Choisir un dépôt') }}</option>
+                                                                @foreach ($list_depots as $item)
+                                                                    <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                @endforeach
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label>{{ __("Qualité globale") }}</label>
+
+                                                        <div class="input-group input-group-prepend">
+                                                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
+                                                            <select class="form-control" wire:model.defer="qualite">
+                                                                <option>{{ __('Choisir une qualité globale') }}</option>
+                                                                @foreach ($list_qualites as $item)
+                                                                    <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                @endforeach
+
+                                                            </select>
+{{--                                                             <input type="text" class="form-control" placeholder=" " wire:model.defer="qualite"/>
+ --}}                                                        </div>
+                                                    </div>
+
+                                                    {{-- <table class="table table-vertical-center" id="kt_advance_table_widget_4">
+                                                        <thead>
+                                                            <tr class="text-left">
+                                                                <th class="pl-0">Article</th>
+                                                                <th class="pl-0">Quantité</th>
+                                                                <th class="pl-0">Prix Achat</th>
+                                                                <th class="pl-0">Montant</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($br_lignes as $ligne)
+                                                                <tr>
+                                                                    <td class="pl-0">{{$ligne->produit->nom}}</td>
+                                                                    <td class="pl-0">{{$ligne->qte}}</td>
+                                                                    <td class="pl-0">{{$ligne->prix_achat}}</td>
+                                                                    <td class="pl-0">{{$ligne->montant}}</td>
+                                                                </tr>
+                                                            @endforeach
+                                                            <tr>
+                                                                <th colspan="3" class="pl-0">Total</th>
+                                                                <td class="pl-0 text-left">{{$montant_total}}</td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table> --}}
+
+
+
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
+                                            <button type="submit" wire:click="editBonReception"  class="btn btn-primary font-weight-bold" form="stock-form">{{ __('Enregistrer') }}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{-- End Edit Modal --}}
 
                         </div>
                     </div>

@@ -58,6 +58,7 @@ class ListeBonReception extends Component
     public $depot;
     public $qualite;
     public $br_lignes = [];
+    public $montant_total;
 
 
 
@@ -137,38 +138,37 @@ class ListeBonReception extends Component
     public function show($id){
 
         $bon_reception = BonReception::where('ref',$id)->first();
+        //dd($bon_reception->geMontantTotal());
         $this->ref_br =$id;
         $this->date_entree = $bon_reception->date;
         $this->fournisseur =$bon_reception->fournisseur->nom;
         $this->depot =$bon_reception->depot->nom;
         $this->qualite =$bon_reception->qualite->nom;
         $this->br_lignes = $bon_reception->bonReceptionLignes;
+        $this->montant_total = $bon_reception->geMontantTotal();
 
     }
 
     public function edit($id){
-
-        $item = Livreur::where('id',$id)->firstOrFail();
-        $this->livreur_id =$item->id;
-        $this->nom =$item->nom;
-        $this->cin =$item->cin;
-        $this->phone =$item->tel;
-        $this->type =$item->type;
-        $this->ville_id =$item->ville_id;
-        $this->isActive =$item->active;
+        $item = BonReception::where('ref',$id)->firstOrFail();
+        $this->ref_br =$id;
+        $this->depot =$item->depot->id;
+        $this->date_entree =$item->date;
+        $this->fournisseur =$item->fournisseur->id;
+        $this->qualite =$item->qualite->id;
     }
 
     public function editBonReception(){
 
-        BonReception::where('id', $this->livreur_id)
+        BonReception::where('ref', $this->ref_br)
             ->update([
-                'date' => $this->nom,
-                'qualite_id' => $this->cin,
-                'depot_id' => $this->phone,
-                'fournisseur_id' => $this->type,
+                'date' => $this->date_entree,
+                'qualite_id' => $this->qualite,
+                'depot_id' => $this->depot,
+                'fournisseur_id' => $this->fournisseur,
             ]);
 
-        session()->flash('message', 'Livreur "'.$this->nom.'" à été modifié');
+        session()->flash('editmessage', 'Bon de réception réf"'.$this->ref_br.'" à été modifié');
         //return redirect()->to('/livreurs');
     }
 
