@@ -19,8 +19,13 @@
 					<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 						<div class="carousel-inner">
 							<div class="carousel-item active">
-                                    <img src="{{ asset(Storage::url($items[0]->produit->photo_principale)) }}" class="d-block w-100" alt="Preview Image">
+                                <img src="{{ asset(Storage::url($items[0]->produit->photo_principale)) }}" class="d-block w-100" alt="Preview Image">
 							</div>
+                            @foreach ($photos as $key => $photo)
+                                <div class="carousel-item">
+                                    <img src="{{ asset(Storage::url($photo->photo)) }}" class="d-block w-100" alt="Preview Image">
+                                </div>
+                            @endforeach
 							<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
 								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 								<span class="sr-only">Previous</span>
@@ -31,9 +36,14 @@
 							</a>
 						</div>
 						<ol class="carousel-indicators">
-							<li data-target="#carouselExampleIndicators" data-slide-to="" class="active">
-								<img src="{{ asset(Storage::url($items[0]->produit->photo_principale)) }}" class="d-block w-100" alt="Preview Image">
+							<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">
+								<img src="{{ asset(Storage::url($items[0]->produit->photo_principale)) }}" alt="Preview Image">
 							</li>
+                            @foreach ($photos as $key => $photo)
+                                <li data-target="#carouselExampleIndicators" data-slide-to="{{ $key+1 }}">
+                                    <img src="{{ asset(Storage::url($photo->photo)) }}" alt="Preview Image">
+                                </li>
+                            @endforeach
 						</ol>
 					</div>
 				</div>
@@ -66,10 +76,22 @@
                                                 <div class="input-group bootstrap-touchspin">
                                                     <input wire:click="upQyt({{ $key }})" class="form-control" name="qyt" type="text" placeholder="Quantity" value="1" wire:model="qyt.{{ $key }}">
                                                 </div>
-                                                <div class="tranche-total-poid">{{ $item->poids }} kg</div>
-                                                <div class="tranche-total-prix"><span class="prix">{{ $item->poids*$item->prix_n }}</span> Dh</div>
+                                                {{-- <div class="tranche-total-poid">{{ $item->poids }} kg</div>
+                                                <div class="tranche-total-prix"><span class="prix">{{ $item->poids*$item->prix_n }}</span> Dh</div> --}}
                                             </div>
                                         </div>
+                                        <table class="table table-bordered table-hover">
+                                            <tr>
+                                              <th>Qte / Kg</th>
+                                              <th>Montant</th>
+                                              <th>Préparation</th>
+                                            </tr>
+                                            <tr>
+                                              <td>{{ $item->poids }} kg</td>
+                                              <td>{{ $item->poids*$item->prix_n }} DH</td>
+                                              <td>{{ $item->produit->modePreparation->preparations }}</td>
+                                            </tr>
+                                          </table>
                                     </div>
                                 @endforeach
 							</div>
@@ -81,6 +103,7 @@
 									</div>
 								</div>
 							</div> --}}
+                            Poids Total : {{ $poids_total }} kg | Prix Total {{ $prix_total }} DH
 					</section>
 					<section class="typical-section">
 						<a class="add-to-cart cd-add-to-cart js-cd-add-to-cart" data-id="" data-title="" data-price="" data-pic="" data-color="" data-size="">
@@ -92,8 +115,8 @@
 					</section>
 					<section class="typical-section">
 						<div class="notes">
-							<p>Processing Time : <span>Your item will be shipped out within 3 business days.</span></p>
-							<p>Shipping : <span>Free standard shipping on orders over 400 DH.</span></p>
+							<p>Temps de Traitement : <span>Votre article sera expédié dans les 3 jours ouvrables.</span></p>
+							{{-- <p>Shipping : <span>Free standard shipping on orders over 400 DH.</span></p> --}}
 						</div>
 						<div class="social-media">
 							<ul class="links">
