@@ -24,8 +24,22 @@ class BonReception extends Model
         return $this->belongsTo(Qualite::class);
     }
 
+    /* public function stockPoidsPc()
+    {
+        return $this->belongsTo(StockPoidsPc::class,'br_num','ref');
+    } */
+
+    public function stockPoidsPc()
+    {
+        return $this->hasMany(StockPoidsPc::class,'br_num','ref');
+    }
+
     public function bonReceptionLignes()
     {
         return $this->hasMany(BonReceptionLigne::class,'bon_reception_ref','ref');
+    }
+    public function geMontantTotal()
+    {
+        return $this->bonReceptionLignes()->sum('montant');
     }
 }

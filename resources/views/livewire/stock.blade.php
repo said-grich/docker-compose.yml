@@ -116,6 +116,7 @@
                                                         <th class="pl-0">Lot</th>
                                                         <th class="pl-0">Qualité</th>
                                                         <th class="pl-0">Pas</th>
+                                                        <th class="pl-0">Tranche</th>
                                                         {{-- @if ($mode_vente_produit[0] == 1)
                                                             <th class="pl-0">Nombre de pièces</th>
                                                         @endif --}}
@@ -153,7 +154,7 @@
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="qte.0"/>
                                                             </td>
                                                             <td class="pl-0">
-                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="unite.0"/>
+                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="unite.0" disabled/>
                                                             </td>
 
                                                             <td class="pl-0">
@@ -177,29 +178,31 @@
 
 
                                                             {{-- @if (isset($mode_vente_produit[0]) && $mode_vente_produit[0] == 1) --}}
-                                                                <td class="pl-0">
-                                                                    <select class="form-control" wire:model="tranches.0" {{isset($mode_vente_produit[0]) && $mode_vente_produit[0] == 1 ? 'multiple' :  '' }} >
-                                                                        <option>{{ __('Choisir une tranche') }}</option>
-                                                                        @if (!empty($list_tranches[0]))
-                                                                            @foreach ($list_tranches[0] as $key => $item)
-                                                                                <option value="{{$item[0]['uid']}}">{{$item[0]['nom']}}</option>
-                                                                            @endforeach
-                                                                        @endif
+                                                            <td class="pl-0">
+                                                                <select class="form-control" wire:model="tranches.0" {{isset($mode_vente_produit[0]) && $mode_vente_produit[0] == 1 ? 'multiple' :  '' }} >
+                                                                    <option>{{ __('Choisir une tranche') }}</option>
+                                                                    @if (!empty($list_tranches[0]))
+                                                                        @foreach ($list_tranches[0] as $key => $item)
+                                                                            <option value="{{$item[0]['uid']}}">{{$item[0]['nom']}}</option>
+                                                                        @endforeach
+                                                                    @endif
 
-                                                                    </select>
-                                                                </td>
-                                                                @if (isset($mode_vente_produit[0]) && $mode_vente_produit[0] == 1)
-                                                                <td class="pl-0">
-                                                                    <div class="input-group input-group-prepend">
-                                                                        <input type="text" class="form-control" placeholder="Nombre de pièce" wire:model="nbr_pc.0"/>
+                                                                </select>
+                                                            </td>
 
-                                                                        <div class="input-group-append" data-toggle="modal" data-target="#code-poids">
-                                                                            <button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Code / poids" wire:click="setCodePoids(0)"><i class="fa fa-plus-circle"></i></button></div>
-                                                                        @error('nbr_pc')
-                                                                        <span class="form-text text-danger">{{ $message }}</span>
-                                                                    @enderror
-                                                                    </div>
-                                                                </td>
+
+
+                                                            @if (isset($mode_vente_produit[0]) && $mode_vente_produit[0] == 1)
+                                                            <td class="pl-0">
+                                                                <div class="input-group input-group-prepend">
+                                                                    <input type="text" class="form-control" placeholder="Nombre de pièce" wire:model="nbr_pc.0"/>
+                                                                    <div class="input-group-append" data-toggle="modal" data-target="#code-poids">
+                                                                        <button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Code / poids" wire:click="setCodePoids(0)"><i class="far fa-eye"></i></button></div>
+                                                                    @error('nbr_pc')
+                                                                    <span class="form-text text-danger">{{ $message }}</span>
+                                                                @enderror
+                                                                </div>
+                                                            </td>
                                                             {{-- @elseif(isset($nom_tranche[0]['nom']))
 
                                                                 <td class="pl-0">
@@ -244,7 +247,7 @@
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="qte.{{$value}}"/>
                                                             </td>
                                                             <td class="pl-0">
-                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="unite.{{$value}}"/>
+                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="unite.{{$value}}" disabled/>
                                                                 {{-- <select class="form-control" wire:model.defer="unite.{{$value}}">
                                                                     <option>{{ __('Choisir une unité') }}</option>
                                                                     @foreach ($list_unites as $item)
@@ -294,41 +297,31 @@
                                                                     </div>
                                                                 </td>
                                                             @endif --}}
+                                                            <td class="pl-0">
+                                                                <select class="form-control" wire:model="tranches.{{$value}}" {{isset($mode_vente_produit[$value]) && $mode_vente_produit[$value] == 1 ? 'multiple' :  '' }} >
+                                                                    <option>{{ __('Choisir une tranche') }}</option>
+                                                                    @if (!empty($list_tranches[$value]))
+                                                                        @foreach ($list_tranches[$value] as $key => $item)
+                                                                            <option value="{{$item[0]['uid']}}">{{$item[0]['nom']}}</option>
+                                                                        @endforeach
+                                                                    @endif
+
+                                                                </select>
+                                                            </td>
                                                             @if (isset($mode_vente_produit[$value]) && $mode_vente_produit[$value] == 1)
-                                                                <td class="pl-0">
-                                                                    <select class="form-control" wire:model="tranches.{{$value}}" multiple>
-                                                                        <option>{{ __('Choisir une tranche') }}</option>
-                                                                        @if (!empty($list_tranches[$value]))
+                                                            <td class="pl-0">
+                                                                <div class="input-group input-group-prepend">
+                                                                    <input type="text" class="form-control" placeholder="Nombre de pièce" wire:model="nbr_pc.{{$value}}"/>
 
-                                                                            @foreach ($list_tranches[$value] as $key => $item)
-                                                                                <option value="{{$item[0]['uid']}}">{{$item[0]['nom']}}</option>
-                                                                            @endforeach
-                                                                        @endif
-
-                                                                    </select>
-                                                                </td>
-                                                                <td class="pl-0">
-                                                                    <div class="input-group input-group-prepend">
-                                                                        <input type="text" class="form-control" placeholder="Nombre de pièce" wire:model="nbr_pc.{{$value}}"/>
-
-                                                                        <div class="input-group-append" data-toggle="modal" data-target="#code-poids">
-                                                                            <button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Code / poids" wire:click="setCodePoids({{$value}})"><i class="fa fa-plus-circle"></i></button></div>
-                                                                        @error('nbr_pc')
-                                                                        <span class="form-text text-danger">{{ $message }}</span>
-                                                                    @enderror
-                                                                    </div>
-                                                                </td>
-                                                            @elseif(isset($nom_tranche[$value]['nom']))
-
-                                                                <td class="pl-0">
-                                                                    <div class="input-group input-group-prepend">
-                                                                        {{$nom_tranche[$value]['nom']}}
-                                                                        <input type="hidden" class="form-control" wire:model="nom_tranche.{{$value}}" disabled/>
-                                                                    </div>
-                                                                </td>
-
-                                                            @endif
+                                                                    <div class="input-group-append" data-toggle="modal" data-target="#code-poids">
+                                                                        <button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Code / poids" wire:click="setCodePoids({{$value}})"><i class="fa fa-plus-circle"></i></button></div>
+                                                                    @error('nbr_pc')
+                                                                    <span class="form-text text-danger">{{ $message }}</span>
+                                                                @enderror
+                                                                </div>
+                                                            </td>
                                                         </tr>
+                                                            @endif
                                                         @endforeach
                                                 </tbody>
                                             </table>

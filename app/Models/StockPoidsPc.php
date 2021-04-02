@@ -40,4 +40,14 @@ class StockPoidsPc extends Model
         return $this->belongsTo(Categorie::class);
     }
 
+    public function qualite()
+    {
+        return $this->belongsTo(Qualite::class);
+    }
+
+    public function bonReception()
+    {
+        return $this->belongsTo(BonReception::class);
+    }
+
 }

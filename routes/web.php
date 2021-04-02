@@ -44,6 +44,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/edit-user', \App\Http\Liv
 Route::middleware(['auth:sanctum', 'verified'])->get('/produits', \App\Http\Livewire\Produits::class)->name('produits');
 Route::middleware(['auth:sanctum', 'verified'])->get('/entree-stock', \App\Http\Livewire\Stock::class)->name('entree-stock');
 Route::middleware(['auth:sanctum', 'verified'])->get('/commandes', \App\Http\Livewire\Commandes::class)->name('commandes');
+Route::middleware(['auth:sanctum', 'verified'])->get('/controle-qualite', \App\Http\Livewire\ControleQualite::class)->name('controle-qualite');
+
 
 // Paramétrage | Routes Backend
 

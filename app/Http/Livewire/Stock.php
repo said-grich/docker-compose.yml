@@ -330,6 +330,7 @@ class Stock extends Component
 
             $item = new BonReception();
             $item->ref = $this->ref_br;
+            $item->valide = false;
             $item->date = $this->date_entree;
             $item->depot_id = $this->depot;
             $item->fournisseur_id = $this->fournisseur;
