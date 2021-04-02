@@ -145,6 +145,9 @@ class ControleQualite extends Component
             Lot::where('lot_num', $value)
             ->update(['active' => $this->statut[$value]]);
         }
+        foreach ($this->code as $key => $value) {
+            # code...
+        }
         //
 
     }
