@@ -127,18 +127,19 @@ class ControleQualite extends Component
         foreach ($this->lot_lignes as $key => $value) {
 
             $this->statut[$key]= $value->first()->lot->active;
+
             foreach ($value as $k => $v) {
                 $this->qualite[$k] = isset($v->qualite_id) ? $v->qualite_id :  $v->lot->qualite_id ;
                 $this->code[$k] = $v->code ;
             }
+
             array_push($this->lots,$key);
-            //$this->lots[$key] = $key;
         }
         $this->lot_num = $id;
     }
 
     public function editLot(){
-        //dd($this->lot_lignes);
+        dd($this->code);
 
         foreach ($this->lots as $key => $value) {
             Lot::where('lot_num', $value)

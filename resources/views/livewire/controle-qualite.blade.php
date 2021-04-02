@@ -390,8 +390,8 @@
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr class="text-left">
-                                                                                    <th class="pl-0">Code pièce</th>
                                                                                     <th class="pl-0">Produit</th>
+                                                                                    <th class="pl-0">Code pièce</th>
                                                                                     <th class="pl-0">Qualité</th>
                                                                                 </tr>
                                                                             </thead>
@@ -399,12 +399,12 @@
 
                                                                                 @foreach ($produits as $key=>$ligne)
                                                                                     <tr>
+                                                                                        <td class="pl-0">{{$ligne->produit->nom}}</td>
                                                                                         <td class="pl-0">
-                                                                                              <input type="text" class="form-control" placeholder=" " wire:model.defer="code.{{$key}}"/>
+                                                                                              <input type="hidden" class="form-control" placeholder=" " wire:model.defer="code.{{$key}}"/>
                                                                                            {{--<input type="text" class="form-control" placeholder=" " wire:model.defer="lot.{{$key}}"/>
  --}}                                                                                            {{$ligne->code ? $ligne->code : "-"}}
                                                                                         </td>
-                                                                                        <td class="pl-0">{{$ligne->produit->nom}}</td>
                                                                                         <td class="pl-0">
                                                                                             <div class="input-group input-group-prepend">
                                                                                                 <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>

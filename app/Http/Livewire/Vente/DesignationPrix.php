@@ -188,8 +188,9 @@ class DesignationPrix extends Component
                     'prix_p' => $this->prix_vente_business_kg_pc[$key],
                     ]);
 
-                BonReception::where('ref', $this->bon_reception_ref) ->update(['valide' => true]);
+
             }
+            BonReception::where('ref', $this->bon_reception_ref) ->update(['valide' => true]);
 
             session()->flash('message', 'Les prix du BR "' . $this->bon_reception_ref . '" sont désignés');
         });
