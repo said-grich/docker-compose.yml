@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\BonReception;
 use App\Models\Lot;
+use App\Models\Qualite;
 use Livewire\WithPagination;
 
 class ControleQualite extends Component
@@ -17,13 +18,7 @@ class ControleQualite extends Component
     public $lot_num;
     public $article;
     public $produit_id = [];
-    public $mode_vente_id;
-    public $mode_vente;
-    public $nombre_piece;
-    public $nom_tranche = [];
-    public $code = [];
-    public $poids = [];
-    public $isActive = false;
+    public $active = false;
 
     public $list_fournisseurs = [];
     public $list_qualites = [];
@@ -44,35 +39,45 @@ class ControleQualite extends Component
     public $date_entree;
     public $fournisseur;
     public $depot;
-    public $qualite;
+    public $qualite= [];
     public $lot_lignes = [];
+    public $statut = [];
+    public $lot = [];
+    public $code = [];
+    public $lots = [];
 
 
-
-    public $sortBy = 'lot_num';
+    public $sortBy = 'ref';
     public $sortDirection = 'asc';
     public $perPage = 5;
     public $search = '';
     protected $listeners = ['saved'];
 
-    public function updatedNombrePiece($value)
-    {
 
-        $this->countInputs = $value;
+    public function renderData()
+    {
+        $this->list_qualites = Qualite::all()->sortBy('nom');
     }
 
 
     public function render()
     {
-         $items = Lot::query()
-             ->where('lot_num', 'ilike', '%' . $this->search . '%')
-             ->orderBy($this->sortBy, $this->sortDirection)
-             ->paginate($this->perPage);
+        /* $items = Lot::query()
+            ->where('lot_num', 'ilike', '%' . $this->search . '%')
+            ->orderBy($this->sortBy, $this->sortDirection)
+            ->paginate($this->perPage); */
+            $this->renderData();
 
-        /* $items = Lot::where('lot_num', 'ilike', '%' . $this->search . '%')
-            ->orderBy($this->sortBy, $this->sortDirection)->paginate($this->perPage)->groupBy(function ($data) {
-            return $data->lot_num;
-        }); */
+            $items = BonReception::query()
+            //->where('ref', $archived_lots_ids)
+            ->where('ref','ilike','%'.$this->search.'%')
+            ->where('valide',true)
+            ->orderBy($this->sortBy, $this->sortDirection)
+            ->paginate($this->perPage);
+
+            /* return view('livewire.vente.designation-prix',[
+                'items'=> $items,
+          ]); */
 
 
 
@@ -91,30 +96,64 @@ class ControleQualite extends Component
 
     public function show($id){
 
-        $lot = Lot::where('lot_num', $id)->first();
-        $this->lot_lignes = count($lot->stockPoidPC) > 0 ? $lot->stockPoidPC : $lot->stockKgPC;
-        $this->show_details = isset($this->lot_lignes->first()->code) ? true : false;
+        $br = BonReception::where('ref', $id)->first();
+        $l_stock_poids_pc = $br->stockPoidsPc;
+        $l_stock_kg_pc = $br->stockKgPc;
+
+        $collection = collect();
+        foreach ($l_stock_poids_pc as $poids_pc)
+            $collection->push($poids_pc);
+        foreach ($l_stock_kg_pc as $kg_pc)
+            $collection->push($kg_pc);
+            $this->lot_lignes = $collection->groupBy('lot_num');
+        /* $this->show_details = isset($this->lot_lignes->first()->code) ? true : false;*/
         $this->lot_num = $id;
     }
 
     public function edit($id){
 
-        $item = Lot::where('lot_num', $id)->firstOrFail();
-        dd($item);
+        $br = BonReception::where('ref', $id)->first();
+        $l_stock_poids_pc = $br->stockPoidsPc;
+        $l_stock_kg_pc = $br->stockKgPc;
+
+        $collection = collect();
+        foreach ($l_stock_poids_pc as $poids_pc)
+            $collection->push($poids_pc);
+        foreach ($l_stock_kg_pc as $kg_pc)
+            $collection->push($kg_pc);
+
+        $this->lot_lignes = $collection->groupBy('lot_num');
+
+        foreach ($this->lot_lignes as $key => $value) {
+
+            $this->statut[$key]= $value->first()->lot->active;
+            foreach ($value as $k => $v) {
+                $this->qualite[$k] = isset($v->qualite_id) ? $v->qualite_id :  $v->lot->qualite_id ;
+                $this->code[$k] = $v->code ;
+            }
+            array_push($this->lots,$key);
+            //$this->lots[$key] = $key;
+        }
         $this->lot_num = $id;
-        $this->code = $item->nom;
-        $this->date_entree = $item->date_entree;
-        $this->active = $item->active;
-        $this->qualite = $item->qualite_id;
-        $this->produit = $item->produit_id;
     }
 
-    public function deleteLivreur($id)
+    public function editLot(){
+        //dd($this->lot_lignes);
+
+        foreach ($this->lots as $key => $value) {
+            Lot::where('lot_num', $value)
+            ->update(['active' => $this->statut[$value]]);
+        }
+        //
+
+    }
+
+    /* public function deleteLivreur($id)
     {
         $this->render();
         $livreur = Lot::findOrFail($id);
         $livreur->delete();
-    }
+    } */
 
     public function saved()
     {

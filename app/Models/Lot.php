@@ -29,5 +29,10 @@ class Lot extends Model
         return $this->hasMany(StockKgPc::class, 'lot_num', 'lot_num');
     }
 
+    public function bonReception()
+    {
+        return $this->belongsTo(StockKgPc::class, 'br_num', 'ref');
+    }
+
 
 }
