@@ -18,29 +18,17 @@ class Boutique extends Component
     public function produit($produit_id, $mode)
     {
         /* $mode == 1 ?  $this->produit = StockKgPc::where('id', $produit_id)->first() : $this->produit = StockPoidsPc::where('id', $produit_id)->first(); */
-        $items = StockPoidsPc::select('stock_poids_pcs.*')->where('produit_id', $produit_id)->get()->groupBy('produit_id');
-        dd($items);
+        $produit = StockPoidsPc::select('stock_poids_pcs.*')->where('produit_id', $produit_id)->get()->groupBy('produit_id');
+        dd($produit);
 
         //dd($this->produit->lot->produit->nom);
     }
     public function render()
     {
 
-        //$items = StockPoidsPc::select('stock_poids_pcs.*')->get()->groupBy(['produit_id','categorie_id']);
+        // $items = StockPoidsPc::select('stock_poids_pcs.*')->get()->groupBy(['produit_id','categorie_id']);
         // $items = StockKgPc::select('lot_num', DB::raw('MIN(prix_n) as prix'))->groupBy('lot_num')->get();
-        $items = StockPoidsPc::select('produit_id','categorie_id')->groupBy('produit_id','categorie_id')->get();
-        foreach ($items as $key=>&$item) {
-            /* foreach ($item as $ke=>&$it) {
-                foreach ($it as $k=>&$i) {
-                }
-
-
-            } */
-            //$item['photo_url'] = Storage::url($item->produit->photo_principale);
-
-
-        }
-
+        $items = StockPoidsPc::select('produit_id','categorie_id')->groupBy(['produit_id','categorie_id'])->get();
 
         return view('livewire.frontend.boutique',['items' => $items])->layout('layouts.frontend.app');
     }

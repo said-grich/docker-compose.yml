@@ -2581,7 +2581,7 @@ main {
 .header-product {
   position: relative;
   padding: 4rem 0;
-  background: url(../img/baby-bg-4.jpg) center -100px no-repeat fixed;
+  background: url(../img/slide-bg-2.jpg) center -100px no-repeat fixed;
   background-size: cover;
 }
 .header-product .overlay {
@@ -2608,7 +2608,7 @@ main {
   text-transform: capitalize;
 }
 .product {
-  background: url(../img/pattern-light.png) fixed #e8eaf3;
+  background: /* url(../img/pattern-light.png) fixed */ #e8eaf3;
 }
 .product > .container {
   padding: 2rem 0;
@@ -2616,6 +2616,13 @@ main {
 .product .product-content {
   padding: 1rem 0;
   background: #fff;
+  overflow: hidden;
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 10%), 0 10px 10px -5px rgb(0 0 0 / 4%) !important;
+  border-radius: 3rem;
+}
+.product .product-content .product-pic {
+  margin-top: -1rem;
+  margin-left: -15px;
 }
 .product .product-content .carousel-inner,
 .product .product-content .carousel-item {
@@ -2715,6 +2722,53 @@ main {
   .product .product-content .typical-section .form-group:last-of-type {
     margin-bottom: 0;
   }
+}
+.product .product-content .tranche-info {
+  width: 100%;
+  margin: 1rem 0;
+  padding: .6rem .5rem;
+  border: 2px solid #54a0ff;
+  font-size: .9rem;
+  font-weight: 700;
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 10%), 0 10px 10px -5px rgb(0 0 0 / 4%) !important;
+  border-radius: 1rem;
+}
+.product .product-content .tranche-info span.prix {
+  color: #54a0ff;
+}
+.tranche-prix {
+  margin-top: 4px;
+}
+.tranche {
+  border: 2px solid #e8e8e8;
+  border-radius: 5rem;
+  display: inline-block;
+  width: auto;
+  padding: 8px 4px;
+}
+.tranche span {
+  padding: 5px 8px;
+  background: #0046ce;
+  border-radius: 6rem;
+  color: #fff;
+}
+.input-group :first-child, .input-group-btn:first-child > .btn {
+  border-radius: 10rem 0 0 10rem !important;
+}
+.input-group :last-child, .input-group-btn:last-child > .btn {
+  border-radius: 0 10rem 10rem 0 !important;
+}
+.tranche-total-poid {
+  float: left;
+  margin-top: 4px;
+  padding: 5px 8px;
+  background: #0046ce;
+  border-radius: 6rem;
+  color: #fff;
+}
+.tranche-total-prix {
+  float: right;
+  margin-top: 4px;
 }
 .product .product-content .select2-selection__rendered {
   padding: .55rem 25px .55rem 1rem;
