@@ -380,8 +380,7 @@
                                                                 @endforeach
 
                                                             </select>
-{{--                                                             <input type="text" class="form-control" placeholder=" " wire:model.defer="qualite"/>
- --}}                                                        </div>
+                                                        </div>
                                                     </div>
 
                                                     {{-- <table class="table table-vertical-center" id="kt_advance_table_widget_4">

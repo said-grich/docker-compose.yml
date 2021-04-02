@@ -40,4 +40,9 @@ class StockKgPc extends Model
     {
         return $this->belongsTo(Categorie::class);
     }
+
+    public function bonReception()
+    {
+        return $this->belongsTo(BonReception::class);
+    }
 }
