@@ -271,9 +271,11 @@ class Stock extends Component
                             $lot_tranche[$key][$k] = TranchesPoidsPc::where('uid', $tranche)->get()->toArray()[0];
                         }
 
+
                     foreach ($this->code_poids[$key] as $code => $poids) {
                         foreach ($lot_tranche[$key] as $keyT => $valueT) {
                             if ($poids['poids'] >= $valueT['min_poids'] && $poids['poids'] < $valueT['max_poids']) {
+                                LotTranche::where('lot_num', $this->lot_num[$key])->where('tranche_id', $valueT['uid'])->update(['qte' => DB::raw('qte + 1')]);
 
                                 $item = new StockPoidsPc();
                                 $item->qte = $this->qte[$key];
@@ -285,6 +287,8 @@ class Stock extends Component
                                 $item->depot_id = $this->depot;
                                 $item->prix_achat = $this->prix_achat[$key];
                                 $item->code = $code;
+                                $item->pas = $this->pas[$key];
+                                $item->unite_id = Unite::where('nom', $this->unite[$key])->first()->id;
                                 $item->poids = $poids['poids'];
                                 $item->qualite_id = $poids['qualite'];
                                 $item->tranche_id = $valueT['uid'];
@@ -327,7 +331,7 @@ class Stock extends Component
             session()->flash('message', 'Bon de réception réf "' . $this->ref_br . '" a été crée');
             //$this->reset(['lot_num', 'fournisseur', 'date_entree', 'qualite', 'pas', 'fournisseur', 'qualite', 'produit', 'active', 'qte', 'prix_achat', 'tranches']);
 
-            $this->emit('saved');
+           // $this->emit('saved');
         });
 
     }

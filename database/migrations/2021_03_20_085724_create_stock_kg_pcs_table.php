@@ -22,6 +22,7 @@ class CreateStockKgPcsTable extends Migration
             $table->double('prix_f');
             $table->double('prix_p');
             $table->string('br_num');
+            $table->decimal('pas');
 
             $table->string('lot_num');
             //$table->foreign('lot_num')->references('lot_num')->on('lots');
@@ -29,6 +30,9 @@ class CreateStockKgPcsTable extends Migration
             $table->string('tranche_id');
             //$table->foreign('tranche_id')->references('id')->on('tranches');
             $table->foreign('tranche_id')->references('uid')->on('tranches_kg_pcs');
+
+            $table->unsignedBigInteger('unite_id');
+            $table->foreign('unite_id')->references('id')->on('unites');
 
             $table->unsignedBigInteger('produit_id');
             $table->foreign('produit_id')->references('id')->on('produits');

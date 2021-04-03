@@ -17,6 +17,7 @@ class CreateLotTranchesTable extends Migration
             $table->id();
             $table->string('lot_num');
             //$table->foreign('lot_num')->references('lot_num')->on('lots');
+            $table->integer('qte')->default(0);
             $table->string('tranche_id');
             $table->timestamps();
         });

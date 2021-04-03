@@ -25,7 +25,7 @@ class CreateStockPoidsPcsTable extends Migration
             $table->double('prix_p');
             $table->decimal('pas');
 
-            $table->string('unite_id');
+            $table->unsignedBigInteger('unite_id');
             $table->foreign('unite_id')->references('id')->on('unites');
 
             $table->string('br_num');
