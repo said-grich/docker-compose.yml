@@ -408,7 +408,7 @@
                                                                                         <td class="pl-0">
                                                                                             <div class="input-group input-group-prepend">
                                                                                                 <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
-                                                                                                <select class="form-control" wire:model.defer="qualite.{{$key}}">
+                                                                                                <select class="form-control" wire:model.defer="qualite.{{$lot}}.{{$key}}">
                                                                                                     <option>{{ __('Choisir une qualité globale') }}</option>
                                                                                                     @foreach ($list_qualites as $item)
                                                                                                         <option value="{{$item->id }}">{{$item->nom }}</option>
