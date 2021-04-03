@@ -17,13 +17,12 @@ class ProduitInfo extends Component
     public $produit_photos;
     public $prix_total;
     public $poids_total;
-    public $qyt = [];
+    public $qyt = ["4440"];
     public $key;
 
     public function upQyt($key)
     {
-        $this->qyt[$key] = $this->qyt.[$key];
-        dd($key);
+        $this->qyt[$key] = 1;
     }
     public function render()
     {

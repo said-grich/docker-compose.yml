@@ -624,6 +624,7 @@ input[type="search"]::-webkit-search-results-decoration {
   line-height: 50px;
   padding: 0 20px;
   color: #ffffff;
+  text-decoration: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
@@ -2745,7 +2746,8 @@ main {
   color: #54a0ff;
 }
 .tranche-prix {
-  margin-top: 4px;
+  float: right;
+  margin-top: 8px;
 }
 .tranche {
   border: 2px solid #e8e8e8;
@@ -2777,6 +2779,18 @@ main {
 .tranche-total-prix {
   float: right;
   margin-top: 4px;
+}
+.poids-total, .prix-total {
+  position: relative;
+  margin: 1rem 0;
+  font-weight: 500;
+}
+.poids-total span, .prix-total span {
+  padding: 5px 8px;
+  background: #0046ce;
+  border-radius: 6rem;
+  color: #fff;
+  font-weight: 700;
 }
 .product .product-content .select2-selection__rendered {
   padding: .55rem 25px .55rem 1rem;

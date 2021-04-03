@@ -1,6 +1,10 @@
 @section('title', 'Produit - Flouka')
 @section('header_title', 'Produit - Flouka')
 
+@push('styles')
+    <link rel="stylesheet" href="css/add-to-cart.css"/>
+@endpush
+
 {{-- Start Main --}}
 <main class="main-content">
 
@@ -74,7 +78,7 @@
                                             </div>
                                             <div class="col-6">
                                                 <div class="input-group bootstrap-touchspin">
-                                                    <input wire:click="upQyt({{ $key }})" class="form-control" name="qyt" type="text" placeholder="Quantity" value="1" wire:model="qyt.{{ $key }}">
+                                                    <input wire:click="upQyt({{ $key }})" class="form-control" name="qyt" type="text" placeholder="Quantity" wire:model="qyt.{{ $key }}">
                                                 </div>
                                                 {{-- <div class="tranche-total-poid">{{ $item->poids }} kg</div>
                                                 <div class="tranche-total-prix"><span class="prix">{{ $item->poids*$item->prix_n }}</span> Dh</div> --}}
@@ -89,11 +93,31 @@
                                             <tr>
                                               <td>{{ $item->poids }} kg</td>
                                               <td>{{ $item->poids*$item->prix_n }} DH</td>
-                                              <td>{{ $item->produit->modePreparation->preparations }}</td>
+                                                <td class="d-flex">
+                                                    <select class="form-control">
+                                                        <option>Mode Cuisine</option>
+                                                        <option>Four</option>
+                                                        <option>Friture</option>
+                                                        <option>Grillade</option>
+                                                        <option>Plancha</option>
+                                                        <option>Tajine</option>
+                                                    </select>
+                                                    
+                                                    <select class="form-control">
+                                                        <option>Mode Nettoyage</option>
+                                                        <option>Anneaux</option>
+                                                        <option>Avec coquilles</option>
+                                                        <option>Avec peau</option>
+                                                        <option>Brochette</option>
+                                                        <option>Darne</option>
+                                                    </select>
+                                                </td>
                                             </tr>
                                           </table>
                                     </div>
                                 @endforeach
+                                <div class="poids-total">Poids Total : <span>{{ $poids_total }} kg</span></div>
+                                <div class="prix-total">Prix Total <span>{{ $prix_total }} DH</span></div>
 							</div>
 							{{-- <div class="form-group col-sm-6">
 								<label class="form-label" for="product-qty"><i class="fa fa-shopping-basket"></i>Quantity</label>
@@ -103,11 +127,10 @@
 									</div>
 								</div>
 							</div> --}}
-                            Poids Total : {{ $poids_total }} kg | Prix Total {{ $prix_total }} DH
 					</section>
 					<section class="typical-section">
 						<a class="add-to-cart cd-add-to-cart js-cd-add-to-cart" data-id="" data-title="" data-price="" data-pic="" data-color="" data-size="">
-							<em>Add to Cart</em>
+							<em>Ajouter au Panier</em>
 							<svg x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32">
 								<path stroke-dasharray="19.79 19.79" stroke-dashoffset="19.79" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9,17l3.9,3.9c0.1,0.1,0.2,0.1,0.3,0L23,11" style="stroke-dashoffset: 19.79;"></path>
 							</svg>
