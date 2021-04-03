@@ -69,7 +69,6 @@ class ControleQualite extends Component
             ->orderBy($this->sortBy, $this->sortDirection)
             ->paginate($this->perPage); */
             $this->renderData();
-
             $items = BonReception::query()
             //->where('ref', $archived_lots_ids)
             ->where('ref','ilike','%'.$this->search.'%')
@@ -80,8 +79,6 @@ class ControleQualite extends Component
             /* return view('livewire.vente.designation-prix',[
                 'items'=> $items,
           ]); */
-
-
 
         return view('livewire.controle-qualite', compact(['items']));
     }

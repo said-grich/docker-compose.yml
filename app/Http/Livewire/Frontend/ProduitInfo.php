@@ -20,10 +20,13 @@ class ProduitInfo extends Component
     public $qyt = [];
     public $key;
 
-    public function upQyt($key)
+    /* public function upQyt($key)
     {
-        $this->qyt[$key] = $this->qyt.[$key];
-        dd($key);
+        // $this->qyt[$key] = $this->qyt.[$key];
+        //dd($key);
+    } */
+    public function updatedQyt($value,$index){
+        dd($value,$index);
     }
     public function render()
     {

@@ -74,7 +74,7 @@
                                             </div>
                                             <div class="col-6">
                                                 <div class="input-group bootstrap-touchspin">
-                                                    <input wire:click="upQyt({{ $key }})" class="form-control" name="qyt" type="text" placeholder="Quantity" value="1" wire:model="qyt.{{ $key }}">
+                                                    <input {{-- wire:click="upQyt({{ $key }})" --}} class="form-control" name="qyt" type="text" placeholder="Quantity" value="1" wire:model="qyt.{{ $key }}">
                                                 </div>
                                                 {{-- <div class="tranche-total-poid">{{ $item->poids }} kg</div>
                                                 <div class="tranche-total-prix"><span class="prix">{{ $item->poids*$item->prix_n }}</span> Dh</div> --}}
@@ -89,7 +89,11 @@
                                             <tr>
                                               <td>{{ $item->poids }} kg</td>
                                               <td>{{ $item->poids*$item->prix_n }} DH</td>
-                                              <td>{{ $item->produit->modePreparation->preparations }}</td>
+                                              <td>
+                                                    @foreach ( $item->produit->preparations as $preparations )
+                                                        {{$preparations->preparation->nom}}
+                                                    @endforeach
+                                                </td>
                                             </tr>
                                           </table>
                                     </div>
@@ -157,5 +161,5 @@
                 buttonup_class: "btn btn-default-outline"
             });
         });
-    </script> 
+    </script>
 @endpush
