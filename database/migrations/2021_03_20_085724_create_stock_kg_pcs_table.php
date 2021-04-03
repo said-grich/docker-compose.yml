@@ -16,11 +16,11 @@ class CreateStockKgPcsTable extends Migration
         Schema::create('stock_kg_pcs', function (Blueprint $table) {
             $table->id();
             $table->integer('qte');
-            $table->double('prix_achat');
-            $table->double('cr');
-            $table->double('prix_n');
-            $table->double('prix_f');
-            $table->double('prix_p');
+            $table->decimal('prix_achat');
+            $table->decimal('cr');
+            $table->decimal('prix_n');
+            $table->decimal('prix_f');
+            $table->decimal('prix_p');
             $table->string('br_num');
             $table->decimal('pas');
 

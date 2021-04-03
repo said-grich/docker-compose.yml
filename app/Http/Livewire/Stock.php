@@ -57,6 +57,10 @@ class Stock extends Component
 
     public $ref_br;
     public $date;
+    public $lot_num = [];
+
+    public $lot = [];
+
     public $pas = [];
     public $qualite = [];
     public $produit = [];
@@ -65,7 +69,6 @@ class Stock extends Component
     public $prix_achat = [];
     public $qte = [];
     public $nbr_pc = [];
-    public $lot_num = [];
     public $unite = [];
     public $mode_vente_produit = [];
     public $bon_recption_details;
@@ -137,12 +140,12 @@ class Stock extends Component
         $this->dispatchBrowserEvent('contentChanged');
     }
 
-    public function updatedFournisseur($value){
-        $uniqueNumLot =  random_int(100, 999);
-        $fournisseur = Fournisseur::where('id',$value)->first(['nom']);
-        $fournisseur_nom = substr($fournisseur->nom, 0, 3);
-        $this->lot_num = $fournisseur_nom.$uniqueNumLot;
-    }
+    // public function updatedFournisseur($value){
+    //     $uniqueNumLot =  random_int(100, 999);
+    //     $fournisseur = Fournisseur::where('id',$value)->first(['nom']);
+    //     $fournisseur_nom = substr($fournisseur->nom, 0, 3);
+    //     $this->lot_num = $fournisseur_nom.$uniqueNumLot;
+    // }
 
     public function renderData()
     {
@@ -178,18 +181,18 @@ class Stock extends Component
 
 
     public function updatedProduit($value,$index){
-
-        /* $uniqueNumLot =  random_int(100, 999);
+         $uniqueNumLot =  random_int(100, 999);
         $fournisseur = Fournisseur::where('id',$this->fournisseur)->first(['nom'])->nom;
-        $fournisseur_nom = substr_replace($fournisseur, 0, 2);
-        dd($fournisseur_nom);
-        $this->lot_num[$index] = $fournisseur_nom.$uniqueNumLot; */
+        //$fournisseur_nom = substr_replace($fournisseur, 0, 2);
+        // dd($fournisseur_nom);
+        // $this->lot_num[$index] = $fournisseur_nom.$uniqueNumLot;
 
         $produit = Produit::where('id',$value)->first();
         $produit_tranches = ProduitTranche::where('produit_id', $value)->get();
         $this->mode_vente_produit[$index] = $produit->modeVente->id;
         $mode_vente = $produit->modeVente->id;
         $this->mode_vente_produit[$index] == 1 ? $this->unite[$index] =  Unite::where('nom', "Kg")->first()->nom : $this->unite[$index] =  Unite::where('nom', "Pièce")->first()->nom;
+        $this->lot_num[$index] = substr_replace($fournisseur, 0, 2) . substr_replace($produit->nom, 0, 2). $uniqueNumLot;
 
         foreach($produit_tranches as $key=>$value){
             //$kg_pc = TranchesKgPc::where('uid',$value->tranche_id)->first()->toArray();
@@ -499,6 +502,7 @@ class Stock extends Component
             $this->qte[$key]  =$value->qte;
             $this->prix_achat[$key]  =$value->prix_achat;
             $this->pas[$key]  =$value->pas;
+            $this->unite[$key]  = $value->unite->nom;
         }
 
         foreach ($this->liste_kg_pc as $k => $v) {

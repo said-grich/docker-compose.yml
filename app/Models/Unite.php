@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Unite extends Model
 {
     use HasFactory;
+
+    public function stockPoidsPc()
+    {
+        return $this->hasMany(StockPoidsPc::class);
+    }
+
+    public function stockKgPc()
+    {
+        return $this->hasMany(StockKgPc::class);
+    }
 }

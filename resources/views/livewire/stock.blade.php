@@ -255,7 +255,7 @@
                                                             </td>
 
                                                             <td class="pl-0">
-                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num.0"/>
+                                                                <input type="text" class="form-control" placeholder=" " wire:model="lot_num.0"/>
                                                             </td>
                                                             <td class="pl-0">
                                                                 <select class="form-control" wire:model.defer="qualite.0">
@@ -331,7 +331,7 @@
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="prix_achat.{{$value}}"/>
                                                             </td>
                                                             <td class="pl-0">
-                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num.{{$value}}"/>
+                                                                <input type="text" class="form-control" placeholder=" " wire:model="lot_num.{{$value}}"/>
                                                             </td>
                                                             <td class="pl-0">
                                                                 <select class="form-control" wire:model.defer="qualite.{{$value}}">
@@ -1196,10 +1196,10 @@
                                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="article_kg_pc.{{$key}}" disabled/>
                                                                             </td>
                                                                             <td>
-                                                                                <input type="text" class="form-control" placeholder="{{ __('CR') }}" wire:model.defer="categorie_kg_pc.{{$key}}" disabled/>
+                                                                                <input type="text" class="form-control" placeholder="{{ __('Catégorie') }}" wire:model.defer="categorie_kg_pc.{{$key}}" disabled/>
                                                                             </td>
                                                                             <td>
-                                                                                <input type="text" class="form-control" placeholder="{{ __('CR') }}" wire:model.defer="sous_categorie_kg_pc.{{$key}}" disabled/>
+                                                                                <input type="text" class="form-control" placeholder="{{ __('Sous catégorie') }}" wire:model.defer="sous_categorie_kg_pc.{{$key}}" disabled/>
                                                                             </td>
 
                                                                             <td>

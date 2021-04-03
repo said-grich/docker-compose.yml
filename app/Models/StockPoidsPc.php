@@ -50,4 +50,9 @@ class StockPoidsPc extends Model
         return $this->belongsTo(BonReception::class);
     }
 
+    public function unite()
+    {
+        return $this->belongsTo(Unite::class);
+    }
+
 }
