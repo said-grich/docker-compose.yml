@@ -255,7 +255,7 @@
                                                             </td>
 
                                                             <td class="pl-0">
-                                                                <input type="text" class="form-control" placeholder=" " wire:model="lot_num.0"/>
+                                                                <input type="text" class="form-control" placeholder=" " wire:model="lot_num.0" disabled/>
                                                             </td>
                                                             <td class="pl-0">
                                                                 <select class="form-control" wire:model.defer="qualite.0">
@@ -331,7 +331,7 @@
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="prix_achat.{{$value}}"/>
                                                             </td>
                                                             <td class="pl-0">
-                                                                <input type="text" class="form-control" placeholder=" " wire:model="lot_num.{{$value}}"/>
+                                                                <input type="text" class="form-control" placeholder=" " wire:model="lot_num.{{$value}}" disabled/>
                                                             </td>
                                                             <td class="pl-0">
                                                                 <select class="form-control" wire:model.defer="qualite.{{$value}}">

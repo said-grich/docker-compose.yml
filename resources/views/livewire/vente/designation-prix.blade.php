@@ -193,6 +193,8 @@
                                                                                             <input type="text" class="form-control" placeholder=" " wire:model.defer="article.{{$key}}" disabled/>
                                                                                         </td>
                                                                                         <td>
+
+                                                                                            <input type="hidden" class="form-control" wire:model.defer="tranche_uid.{{$key}}" disabled/>
                                                                                             <input type="text" class="form-control" placeholder="{{ __('Tranche') }}" wire:model.defer="nom_tranche.{{$key}}" disabled/>
                                                                                         </td>
                                                                                         {{-- <td>
