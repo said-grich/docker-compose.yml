@@ -224,6 +224,11 @@ input[type="search"]::-webkit-search-results-decoration {
   background: #0046ce;
   z-index: 3;
 }
+@media (max-width: 767.98px) {
+  .top-bar {
+    display: none;
+  }
+}
 .top-bar ul {
   margin-bottom: 0px;
   letter-spacing: 0.03em;
@@ -2623,7 +2628,7 @@ main {
 }
 .product .product-content .product-pic {
   margin-top: -1rem;
-  margin-left: -15px;
+  padding-left: 0;
 }
 .product .product-content .carousel-inner,
 .product .product-content .carousel-item {
@@ -2661,6 +2666,9 @@ main {
 }
 .product .product-content .carousel-indicators li.active {
   opacity: 1;
+}
+.product .product-content .carousel-indicators li:last-of-type {
+  margin-right: 8px;
 }
 .product .product-content .carousel-indicators li img {
   display: block;
@@ -2734,7 +2742,7 @@ main {
 }
 .product .product-content .tranche-info {
   width: 100%;
-  margin: 1rem 0;
+  margin-bottom: 1rem;
   padding: .6rem .5rem;
   border: 2px solid #54a0ff;
   font-size: .9rem;
@@ -2745,30 +2753,32 @@ main {
 .product .product-content .tranche-info span.prix {
   color: #54a0ff;
 }
-.tranche-prix {
-  float: right;
-  margin-top: 8px;
+.product .product-content .tranche-info .tranche-prix {
+  /*float: right;*/
+  margin: 2px 0;
 }
-.tranche {
+.product .product-content .tranche-info .tranche {
   border: 2px solid #e8e8e8;
   border-radius: 5rem;
   display: inline-block;
   width: auto;
   padding: 8px 4px;
 }
-.tranche span {
+.product .product-content .tranche-info .tranche span {
   padding: 5px 8px;
   background: #0046ce;
   border-radius: 6rem;
   color: #fff;
 }
-.input-group :first-child, .input-group-btn:first-child > .btn {
+.product .product-content .tranche-info .input-group :first-child,
+.product .product-content .tranche-info .input-group-btn:first-child > .btn {
   border-radius: 10rem 0 0 10rem !important;
 }
-.input-group :last-child, .input-group-btn:last-child > .btn {
+.product .product-content .tranche-info .input-group :last-child,
+.product .product-content .tranche-info .input-group-btn:last-child > .btn {
   border-radius: 0 10rem 10rem 0 !important;
 }
-.tranche-total-poid {
+/* .tranche-total-poid {
   float: left;
   margin-top: 4px;
   padding: 5px 8px;
@@ -2779,17 +2789,26 @@ main {
 .tranche-total-prix {
   float: right;
   margin-top: 4px;
+} */
+.product .product-content .tranche-info table {
+  font-size: .8rem;
 }
-.poids-total, .prix-total {
+.product .product-content .tranche-info .checkbox input + label, .radio input + label {
+  font-size: .8rem;
+}
+.product .product-content .poids-total,
+.product .product-content .prix-total {
   position: relative;
   margin: 1rem 0;
   font-weight: 500;
 }
-.poids-total span, .prix-total span {
-  padding: 5px 8px;
-  background: #0046ce;
-  border-radius: 6rem;
+.product .product-content .poids-total span,
+.product .product-content .prix-total span {
+  padding: 6px 10px;
+  background: #54a0ff;
+  border-radius: 10rem;
   color: #fff;
+  font-size: 1.2rem;
   font-weight: 700;
 }
 .product .product-content .select2-selection__rendered {
@@ -2941,6 +2960,46 @@ main {
 }
 .product .product-content .links li i.fa-whatsapp {
   background: #2ECC71;
+}
+@media (max-width: 767.98px) {
+  .product .product-content {
+    border-radius: 2rem;
+  }
+  .product .product-content .product-pic {
+    padding-right: 0;
+  }
+  .product .product-content .carousel-inner,
+  .product .product-content .carousel-item {
+    height: 300px;
+    border-radius: 0;
+  }
+  .product .product-content .carousel-indicators li {
+    height: 80px;
+  }
+  .product .product-content .title {
+    font-size: 1.4rem;
+    margin: .5rem 0;
+  }
+  .product .product-content .divider {
+    margin: .5rem auto;
+    margin-left: 0;
+  }
+  .product .product-content .typical-section {
+    padding: .5rem 0;
+  }
+  .product .product-content .description {
+    font-size: .8rem;
+  }
+  .product .product-content .tranche-info {
+    font-size: .8rem;
+  }
+  .product .product-content .notes p {
+    font-size: .8rem;
+    padding: 0;
+  }
+  .product .product-content .links li {
+    padding: 0 .2rem;
+  }
 }
 .product .product-content .tabs-section {
   margin: 2rem 0 0 0;

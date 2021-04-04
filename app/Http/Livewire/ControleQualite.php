@@ -6,6 +6,8 @@ use Livewire\Component;
 use App\Models\BonReception;
 use App\Models\Lot;
 use App\Models\Qualite;
+use App\Models\StockKgPc;
+use App\Models\StockPoidsPc;
 use Livewire\WithPagination;
 
 class ControleQualite extends Component
@@ -67,7 +69,6 @@ class ControleQualite extends Component
             ->orderBy($this->sortBy, $this->sortDirection)
             ->paginate($this->perPage); */
             $this->renderData();
-
             $items = BonReception::query()
             //->where('ref', $archived_lots_ids)
             ->where('ref','ilike','%'.$this->search.'%')
@@ -78,8 +79,6 @@ class ControleQualite extends Component
             /* return view('livewire.vente.designation-prix',[
                 'items'=> $items,
           ]); */
-
-
 
         return view('livewire.controle-qualite', compact(['items']));
     }
@@ -126,11 +125,13 @@ class ControleQualite extends Component
 
         foreach ($this->lot_lignes as $key => $value) {
 
+
             $this->statut[$key]= $value->first()->lot->active;
 
             foreach ($value as $k => $v) {
-                $this->qualite[$k] = isset($v->qualite_id) ? $v->qualite_id :  $v->lot->qualite_id ;
-                $this->code[$k] = $v->code ;
+
+                $this->qualite[$key][$k] = isset($v->qualite_id) ? $v->qualite_id :  $v->lot->qualite_id ;
+                $this->code[$k] = isset($value[$k]->code) ? $value[$k]->code : '' ;
             }
 
             array_push($this->lots,$key);
@@ -139,15 +140,30 @@ class ControleQualite extends Component
     }
 
     public function editLot(){
-        dd($this->code);
+        $code_piece =[];
 
         foreach ($this->lots as $key => $value) {
             Lot::where('lot_num', $value)
             ->update(['active' => $this->statut[$value]]);
         }
-        foreach ($this->code as $key => $value) {
-            # code...
+        foreach ($this->lot_lignes as $key => $value) {
+            foreach ($value as $k => $v) {
+               $code_piece[$key][] = isset($v['code']) ? $v['code'] : null;
+            }
+
         }
+        foreach ($code_piece as $lot => $code) {
+            foreach ($code as $index => $c) {
+                isset($c) ? StockPoidsPc::where('lot_num', $lot)->where('code', $c)->update(['qualite_id' => $this->qualite[$lot][$index]]) :
+                Lot::where('lot_num', $lot)->update(['qualite_id' => $this->qualite[$lot][$index]]);
+
+            }
+
+
+        }
+        //dd($code_piece, $this->qualite);
+
+
         //
 
     }

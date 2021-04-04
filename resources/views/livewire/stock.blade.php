@@ -23,6 +23,105 @@
                         <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#lot">
                             <i class="flaticon-plus"></i> {{ __('Entrée stock') }}
                         </button>
+
+                        <div class="table-responsive">
+                            <div class="d-flex flex-row-reverse">
+                                <div class="input-icon">
+                                    <input wire:model.debounce.300ms="search" class="form-control" type="text" placeholder="Recherche...">
+                                    <span>
+                                        <i class="flaticon2-search-1 text-muted"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                        <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_4">
+                            <thead>
+                                <tr class="text-left">
+                                    <th class="pl-0" style="width: 30px">
+                                        <label class="checkbox checkbox-lg checkbox-inline mr-2">
+                                            <input type="checkbox" value="1" />
+                                            <span></span>
+                                        </label>
+                                    </th>
+                                    <th class="pl-0" wire:click="sortBy('ref')" style="cursor: pointer;">Entrée numéro @include('layouts.partials._sort-icon',['field'=>'ref'])</th>
+                                    <th class="pl-0" wire:click="sortBy('date')" style="cursor: pointer;">date @include('layouts.partials._sort-icon',['field'=>'date'])</th>
+                                    <th class="pl-0" wire:click="sortBy('depot_id')" style="cursor: pointer;">Dépot @include('layouts.partials._sort-icon',['field'=>'depot_id'])</th>
+                                    <th class="pr-0 text-right" style="min-width: 160px">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (!empty($items))
+
+                                    @foreach ($items as $item)
+                                        <tr>
+                                            <td class="pl-0 py-6">
+                                                <label class="checkbox checkbox-lg checkbox-inline">
+                                                    <input type="checkbox" value="1" />
+                                                    <span></span>
+                                                </label>
+                                            </td>
+                                            <td class="pl-0">
+                                                <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->ref }}</a>
+                                            </td>
+                                            <td class="pl-0">
+                                                <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->date }}</a>
+                                            </td>
+                                            <td class="pl-0">
+                                                <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->depot->nom }}</a>
+                                            </td>
+
+                                            <td class="pr-0 text-right">
+                                                <a href="#" wire:click="show({{$item->id}})" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#exampleModalSizeSm">
+                                                    <span class="svg-icon svg-icon-md svg-icon-primary">
+                                                        {{--begin::Svg Icon--}}
+                                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                <rect x="0" y="0" width="24" height="24"/>
+                                                                <path d="M3,12 C3,12 5.45454545,6 12,6 C16.9090909,6 21,12 21,12 C21,12 16.9090909,18 12,18 C5.45454545,18 3,12 3,12 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
+                                                                <path d="M12,15 C10.3431458,15 9,13.6568542 9,12 C9,10.3431458 10.3431458,9 12,9 C13.6568542,9 15,10.3431458 15,12 C15,13.6568542 13.6568542,15 12,15 Z" fill="#000000" opacity="0.3"/>
+                                                            </g>
+                                                        </svg>
+                                                        {{--end::Svg Icon--}}
+                                                    </span>
+                                                </a>
+
+                                                <a href="#" wire:click="edit({{$item->id}})" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#exampleModalSizeSm">
+                                                    <span class="svg-icon svg-icon-md svg-icon-primary">
+                                                        {{--begin::Svg Icon--}}
+                                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                <rect x="0" y="0" width="24" height="24" />
+                                                                <path d="M12.2674799,18.2323597 L12.0084872,5.45852451 C12.0004303,5.06114792 12.1504154,4.6768183 12.4255037,4.38993949 L15.0030167,1.70195304 L17.5910752,4.40093695 C17.8599071,4.6812911 18.0095067,5.05499603 18.0083938,5.44341307 L17.9718262,18.2062508 C17.9694575,19.0329966 17.2985816,19.701953 16.4718324,19.701953 L13.7671717,19.701953 C12.9505952,19.701953 12.2840328,19.0487684 12.2674799,18.2323597 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.701953, 10.701953) rotate(-135.000000) translate(-14.701953, -10.701953)" />
+                                                                <path d="M12.9,2 C13.4522847,2 13.9,2.44771525 13.9,3 C13.9,3.55228475 13.4522847,4 12.9,4 L6,4 C4.8954305,4 4,4.8954305 4,6 L4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,13 C20,12.4477153 20.4477153,12 21,12 C21.5522847,12 22,12.4477153 22,13 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 L2,6 C2,3.790861 3.790861,2 6,2 L12.9,2 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
+                                                            </g>
+                                                        </svg>
+                                                        {{--end::Svg Icon--}}
+                                                    </span>
+                                                </a>
+                                                <a href="#" class="btn btn-icon btn-light btn-hover-primary btn-sm" wire:click="deleteLivreur('{{$item->id}}')">
+                                                    <span class="svg-icon svg-icon-md svg-icon-primary">
+                                                        {{--begin::Svg Icon--}}
+                                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                <rect x="0" y="0" width="24" height="24" />
+                                                                <path d="M6,8 L6,20.5 C6,21.3284271 6.67157288,22 7.5,22 L16.5,22 C17.3284271,22 18,21.3284271 18,20.5 L18,8 L6,8 Z" fill="#000000" fill-rule="nonzero" />
+                                                                <path d="M14,4.5 L14,4 C14,3.44771525 13.5522847,3 13,3 L11,3 C10.4477153,3 10,3.44771525 10,4 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z" fill="#000000" opacity="0.3" />
+                                                            </g>
+                                                        </svg>
+                                                        {{--end::Svg Icon--}}
+                                                    </span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td>Aucun enregistrement à afficher</td>
+                                    </tr>
+                                @endif
+                            </tbody>
+                        </table>
+                        {{ $items->links('layouts.partials.custom-pagination') }}
                         <div wire:ignore.self class="modal fade" id="lot" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="lot" aria-hidden="true">
                             <div class="modal-dialog modal-xxl modal-dialog-centered" role="document">
                                 <div class="modal-content">
@@ -39,8 +138,7 @@
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-hashtag icon-lg"></i></span></div>
                                                     <input type="text" class="form-control" placeholder=" " wire:model.defer="ref_br"/>
-{{--                                                     <label>{{ __('Réf.BR') }}</label>
- --}}                                                </div>
+                                               </div>
                                                 @error('ref_br')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
@@ -116,17 +214,12 @@
                                                         <th class="pl-0">Lot</th>
                                                         <th class="pl-0">Qualité</th>
                                                         <th class="pl-0">Pas</th>
-                                                        <th class="pl-0">Tranche</th>
-                                                        {{-- @if ($mode_vente_produit[0] == 1)
-                                                            <th class="pl-0">Nombre de pièces</th>
-                                                        @endif --}}
+                                                        <th class="pl-0">Tranches</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                         <tr>
                                                             <td class="pl-0">
-{{--                                                                 <input type="text" wire:model="mode_vente_produit.0">
- --}}
                                                                 <select class="form-control" wire:model="produit.0">
                                                                     <option>{{ __('Choisir un produit') }}</option>
                                                                     @foreach ($list_produits as $item)
@@ -176,8 +269,6 @@
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="pas.0"/>
                                                             </td>
 
-
-                                                            {{-- @if (isset($mode_vente_produit[0]) && $mode_vente_produit[0] == 1) --}}
                                                             <td class="pl-0">
                                                                 <select class="form-control" wire:model="tranches.0" {{isset($mode_vente_produit[0]) && $mode_vente_produit[0] == 1 ? 'multiple' :  '' }} >
                                                                     <option>{{ __('Choisir une tranche') }}</option>
@@ -189,29 +280,17 @@
 
                                                                 </select>
                                                             </td>
-
-
-
                                                             @if (isset($mode_vente_produit[0]) && $mode_vente_produit[0] == 1)
-                                                            <td class="pl-0">
-                                                                <div class="input-group input-group-prepend">
-                                                                    <input type="text" class="form-control" placeholder="Nombre de pièce" wire:model="nbr_pc.0"/>
-                                                                    <div class="input-group-append" data-toggle="modal" data-target="#code-poids">
-                                                                        <button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Code / poids" wire:click="setCodePoids(0)"><i class="far fa-eye"></i></button></div>
-                                                                    @error('nbr_pc')
-                                                                    <span class="form-text text-danger">{{ $message }}</span>
-                                                                @enderror
-                                                                </div>
-                                                            </td>
-                                                            {{-- @elseif(isset($nom_tranche[0]['nom']))
-
                                                                 <td class="pl-0">
                                                                     <div class="input-group input-group-prepend">
-                                                                        {{$nom_tranche[0]['nom']}}
-                                                                        <input type="hidden" class="form-control" wire:model="nom_tranche.0" disabled/>
+                                                                        <input type="text" class="form-control" placeholder="Nombre de pièce" wire:model="nbr_pc.0"/>
+                                                                        <div class="input-group-append" data-toggle="modal" data-target="#code-poids">
+                                                                            <button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Code / poids" wire:click="setCodePoids(0)"><i class="far fa-eye"></i></button></div>
+                                                                        @error('nbr_pc')
+                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                    @enderror
                                                                     </div>
-                                                                </td>--}}
-
+                                                                </td>
                                                             @endif
 
 
@@ -219,8 +298,7 @@
                                                         @foreach($inputs as $key => $value)
                                                         <tr>
                                                             <td class="pl-0">
-{{--                                                                 <input type="text" wire:model="mode_vente_produit.{{$value}}">
---}}                                                                <select class="form-control" wire:model="produit.{{$value}}">
+                                                                <select class="form-control" wire:model="produit.{{$value}}">
                                                                     <option>{{ __('Choisir un produit') }}</option>
                                                                     @foreach ($list_produits as $item)
                                                                         <option value="{{$item->id }}">{{$item->nom }}</option>
@@ -248,12 +326,6 @@
                                                             </td>
                                                             <td class="pl-0">
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="unite.{{$value}}" disabled/>
-                                                                {{-- <select class="form-control" wire:model.defer="unite.{{$value}}">
-                                                                    <option>{{ __('Choisir une unité') }}</option>
-                                                                    @foreach ($list_unites as $item)
-                                                                        <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                                    @endforeach
-                                                                </select> --}}
                                                             </td>
                                                             <td class="pl-0">
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="prix_achat.{{$value}}"/>
@@ -692,8 +764,8 @@
                             </div>
                         </div> --}}
                         <!--Table-->
-                        <div class="mt-5">
-                            {{-- <ul class="nav nav-tabs" role="tablist">
+                        {{--<div class="mt-5">
+                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" href="#encours-tab">
                                         <span class="nav-text">BR en cours</span>
@@ -740,7 +812,6 @@
     </div>
 
 
-
         <div wire:ignore.self class="modal secondary fade" id="code-poids" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="unite" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -752,7 +823,7 @@
                     </div>
                     <div class="modal-body">
                         <form id="unite-form" class="form" wire:submit.prevent="saveCodePoids">
-                           {{--  <input type="text" class="form-control" placeholder=" " wire:model="details_index"/> --}}
+                            {{--  <input type="text" class="form-control" placeholder=" " wire:model="details_index"/> --}}
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -793,237 +864,186 @@
                 </div>
             </div>
         </div>
-    <!--end::Container-->
-</div>
 
-{{-- <!--Modal-Sous-Catégorie--->
-<div wire:ignore.self class="modal secondary fade" id="sous-categorie" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="sous-categorie" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">{{ __('Nouvelle Sous Catégorie') }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i aria-hidden="true" class="ki ki-close"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="sous-categorie-form" class="form" wire:submit.prevent="createSousCategorie">
-                    <div class="form-group">
-                        <div class="input-group input-group-prepend">
-                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sitemap icon-lg"></i></span></div>
-                            <input type="text" class="form-control" placeholder=" " wire:model.defer="sous_categorie_name"/>
-                            <label>{{ __('Nom') }}</label>
-                        </div>
-                        @error('sous_categorie_name')
-                            <span class="form-text text-danger">{{ $message }}</span>
-                        @enderror
+        {{-- Edit Modal --}}
+        <div wire:ignore.self class="modal fade" id="stock" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="stock" aria-hidden="true">
+            <div class="modal-dialog modal-xxl modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ __('Désignation des prix bon réception réf ') }} - {{$bon_reception_ref}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i aria-hidden="true" class="ki ki-close"></i>
+                        </button>
                     </div>
-                    <div wire:ignore class="form-group">
-                        <div class="input-group input-group-prepend">
-                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sitemap icon-lg"></i></span></div>
-                            <select class="form-control selectpicker" wire:model="categorie_id">
-                                <option>{{ __('Catégorie') }}</option>
-                                @foreach ($list_categories as $categorie)
-                                    <option value="{{$categorie->id}}">{{$categorie->nom}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        @error('categorie_id')
-                            <span class="form-text text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
-                <button type="submit" class="btn btn-primary font-weight-bold" form="sous-categorie-form">{{ __('Enregistrer') }}</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--Modal-Mode-Vente-->
-<div wire:ignore.self class="modal secondary fade" id="mode-vente" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="mode-vente" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">{{ __('Nouveau mode de vente') }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i aria-hidden="true" class="ki ki-close"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="mode-vente-form" class="form" wire:submit.prevent="createModeVente">
-                    <div class="form-group">
-                        <div class="input-group input-group-prepend">
-                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-money-check-alt icon-lg"></i></span></div>
-                            <input type="text" class="form-control" placeholder=" " wire:model.defer="mode_vente_name"/>
-                            <label>{{ __('Nom') }}</label>
-                        </div>
-                        @error('mode_vente_name')
-                            <span class="form-text text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
-                <button type="submit" class="btn btn-primary font-weight-bold" form="mode-vente-form">{{ __('Enregistrer') }}</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--Modal-Tranches-->
-<div wire:ignore.self class="modal secondary fade" id="tranches" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="tranches" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">{{ __('Nouvelle tranche') }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i aria-hidden="true" class="ki ki-close"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="tranches-form" class="form" wire:submit.prevent="createTranche">
-                    <div x-data="{ open: false }">
-                        <div class="mb-6">
-                            <div class="radio-inline">
-                                @foreach ($list_modes_vente as $mode)
-                                    <label class="radio radio-primary">
-                                        <input type="radio" name="type" wire:model.defer="type" value="{{$mode->id}}" @click="open = {{$mode->id}}"/>
-                                        <span></span>
-                                        {{$mode->nom}}
-                                    </label>
-                                @endforeach
+                    <div class="modal-body">
+                        <!--begin::Flash message-->
+                        @if (session()->has('message'))
+                        <div class="alert alert-custom alert-light-success shadow fade show mb-5" role="alert">
+                            <div class="alert-icon"><i class="flaticon-interface-10"></i></div>
+                            <div class="alert-text">{{ session('message') }}</div>
+                            <div class="alert-close">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true"><i class="ki ki-close"></i></span>
+                                </button>
                             </div>
                         </div>
-                        <div class="row" x-show="open === 1">
-                            <div class="form-group col-md-6">
-                                <div class="input-group input-group-prepend">
-                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sliders-h icon-lg"></i></span></div>
-                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="minPoids"/>
-                                    <label>{{ __('Poids Minimal') }}</label>
+                        @endif
+                        <form id="stock-form" class="form row" wire:submit.prevent="affecterPrix">
+                            <div class="form-group col-md-12">
+                                <div class="accordion accordion-toggle-arrow" id="accordionExample1">
+                                   {{--@if (count($liste_poids_pc)>0)--}}
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="card-title" data-toggle="collapse" data-target="#collapseOne1">
+                                                Poids par pièce
+                                            </div>
+                                        </div>
+                                        <div id="collapseOne1" class="collapse" data-parent="#accordionExample1">
+                                            <div class="card-body">
+                                                <table class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Lot</th>
+                                                            <th scope="col">Produit</th>
+                                                            <th scope="col">Tranche</th>
+                                                            <th scope="col">CR</th>
+                                                            <th scope="col">Prix Vente Normal</th>
+                                                            <th scope="col">Prix Vente Fidèle</th>
+                                                            <th scope="col">Prix Vente Business</th>
+                                                            <th scope="col">Promo</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num{{-- .{{$key}} --}}" disabled/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="hidden" class="form-control" placeholder=" " wire:model.defer="produit_id{{-- .{{$key}} --}}" disabled/>
+                                                                    <input type="hidden" class="form-control" placeholder=" " wire:model.defer="code{{-- .{{$key}} --}}" disabled/>
+                                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="article{{-- .{{$key}} --}}" disabled/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" placeholder="{{ __('Tranche') }}" wire:model.defer="nom_tranche{{-- .{{$key}} --}}" disabled/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" placeholder="{{ __('CR') }}" wire:model.defer="cr{{-- .{{$key}} --}}"/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" placeholder="{{ __('Prix vente normale') }}" wire:model.defer="prix_vente_normal{{-- .{{$key}} --}}"/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" placeholder="{{ __('Prix vente fidèle') }}" wire:model.defer="prix_vente_fidele{{-- .{{$key}} --}}"/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" placeholder="{{ __('Prix vente business') }}" wire:model.defer="prix_vente_business{{-- .{{$key}} --}}"/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" placeholder="{{ __('Promo') }}"/>
+                                                                </td>
+                                                            </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   {{-- @endif
+                                    @if (count($liste_kg_pc)>0)--}}
+
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <div class="card-title collapsed" data-toggle="collapse" data-target="#collapseTwo1">
+                                                    Kg / pièce
+                                                </div>
+                                            </div>
+                                            <div id="collapseTwo1" class="collapse" data-parent="#accordionExample1">
+                                                <div class="card-body">
+                                                    <div class="card-body">
+                                                            @foreach ($liste_kg_pc as $key => $lot )
+                                                            <table class="table table-striped table-bordered">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th scope="col">Produit</th>
+                                                                        <th scope="col">Lot</th>
+                                                                        <th scope="col">Tranche</th>
+                                                                        {{-- <th scope="col">Code</th>
+                                                                        <th scope="col">Poids</th --}}
+                                                                        {{-- <th scope="col">Quantité</th> --}}
+                                                                        <th scope="col">CR</th>
+                                                                        {{-- <th scope="col">Dépot</th>
+                                                                        <th scope="col">Prix Achat</th> --}}
+                                                                        <th scope="col">Prix Vente Normal</th>
+                                                                        <th scope="col">Prix Vente Fidèle</th>
+                                                                        <th scope="col">Prix Vente Business</th>
+                                                                        {{-- <th scope="col">Numéro BR</th> --}}
+                                                                        <th scope="col">Promo</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <input type="hidden" class="form-control" placeholder=" " wire:model.defer="produit_id_kg_pc.{{$key}}" disabled/>
+                                                                                <input type="hidden" class="form-control" placeholder=" " wire:model.defer="uid_tranche_kc_pc.{{$key}}" disabled/>
+                                                                                <input type="hidden" class="form-control" placeholder=" " wire:model.defer="id_kc_pc.{{$key}}" disabled/>
+                                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="article_kg_pc.{{$key}}" disabled/>
+                                                                            </td>
+                                                                            <td>
+                                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num_kg_pc.{{$key}}" disabled/>
+                                                                            </td>
+                                                                            <td>
+                                                                                <input type="text" class="form-control" placeholder="{{ __('Tranche') }}" wire:model.defer="nom_tranche_kc_pc.{{$key}}" disabled/>
+                                                                            </td>
+                                                                            {{-- <td>
+                                                                                <input type="text" class="form-control" placeholder="{{ __('Tranche') }}" wire:model.defer="poids.{{$key}}" disabled/>
+                                                                            </td> --}}
+                                                                            <td>
+                                                                                <input type="text" class="form-control" placeholder="{{ __('CR') }}" wire:model.defer="cr_kg_pc.{{$key}}"/>
+                                                                            </td>
+                                                                            <td>
+                                                                                <input type="text" class="form-control" placeholder="{{ __('Prix vente normale') }}" wire:model.defer="prix_vente_normal_kg_pc.{{$key}}"/>
+                                                                            </td>
+                                                                            <td>
+                                                                                <input type="text" class="form-control" placeholder="{{ __('Prix vente fidèle') }}" wire:model.defer="prix_vente_fidele_kg_pc.{{$key}}"/>
+                                                                            </td>
+                                                                            <td>
+                                                                                <input type="text" class="form-control" placeholder="{{ __('Prix vente business') }}" wire:model.defer="prix_vente_business_kg_pc.{{$key}}"/>
+                                                                            </td>
+                                                                            <td>
+                                                                                <input type="text" class="form-control" placeholder="{{ __('Promo') }}"/>
+                                                                            </td>
+                                                                        </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            @endforeach
+
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {{--@endif--}}
                                 </div>
-                                @error('minPoids')
-                                    <span class="form-text text-danger">{{ $message }}</span>
-                                @enderror
+
                             </div>
-                            <div class="form-group col-md-6">
-                                <div class="input-group input-group-prepend">
-                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sliders-h icon-lg"></i></span></div>
-                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="maxPoids"/>
-                                    <label>{{ __('Poids Maximal') }}</label>
-                                </div>
-                                @error('maxPoids')
-                                    <span class="form-text text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div x-show="open > 1">
-                            <div class="form-group">
-                                <div class="input-group input-group-prepend">
-                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-weight-hanging icon-lg"></i></span></div>
-                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="nom"/>
-                                    <label>{{ __('Nom') }}</label>
-                                </div>
-                                @error('nom')
-                                    <span class="form-text text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
+                        </form>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
-                <button type="submit" class="btn btn-primary font-weight-bold" form="tranches-form">{{ __('Enregistrer') }}</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
+                        <button type="submit" class="btn btn-primary font-weight-bold" form="stock-form">{{ __('Enregistrer') }}</button>
+                    </div>
+                </div>
             </div>
         </div>
+        {{-- End Stock Modal --}}
+
+
+
+        </div>
+
     </div>
+<!--end::Container-->
 </div>
-
-<!--Modal-Mode-Préparation-->
-<div wire:ignore.self class="modal secondary fade" id="mode-preparation" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="mode-preparation" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">{{ __('Nouveau Mode Préparation') }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i aria-hidden="true" class="ki ki-close"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="mode-preparation-form" class="form" wire:submit.prevent="createModePreparation">
-                    <div class="form-group">
-                        <div class="input-group input-group-prepend">
-                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-tools icon-lg"></i></span></div>
-                            <input type="text" class="form-control" placeholder=" " wire:model.defer="mode_preparation_nom"/>
-                            <label>{{ __('Nom') }}</label>
-                        </div>
-                        @error('mode_preparation_nom')
-                            <span class="form-text text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
-                <button type="submit" class="btn btn-primary font-weight-bold" form="mode-preparation-form">{{ __('Enregistrer') }}</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--Modal-Préparation-->
-<div wire:ignore.self class="modal secondary fade" id="preparation" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="preparation" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">{{ __('Nouvelle Préparation') }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i aria-hidden="true" class="ki ki-close"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="preparation-form" class="form" wire:submit.prevent="createPreparation">
-                    <div class="form-group">
-                        <div class="input-group input-group-prepend">
-                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-tools icon-lg"></i></span></div>
-                            <input type="text" class="form-control" placeholder=" " wire:model.defer="preparation_nom"/>
-                            <label>{{ __('Nom') }}</label>
-                        </div>
-                        @error('preparation_nom')
-                            <span class="form-text text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div wire:ignore class="form-group">
-                        <div class="input-group input-group-prepend">
-                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-tools icon-lg"></i></span></div>
-                            <select class="form-control selectpicker" wire:model="mode_preparation_id">
-                                <option>{{ __('Mode Préparation') }}</option>
-                                @foreach ($list_modes_preparation as $mode)
-                                    <option value="{{$mode->id}}">{{$mode->nom}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        @error('mode_preparation_id')
-                            <span class="form-text text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
-                <button type="submit" class="btn btn-primary font-weight-bold" form="preparation-form">{{ __('Enregistrer') }}</button>
-            </div>
-        </div>
-    </div>
-</div>--}}
-
-
-
-
 
 
 @push('scripts')

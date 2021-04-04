@@ -333,7 +333,7 @@
                                 <div class="modal-dialog modal-xxl modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">{{ __('Bon de réception réf ') }} - {{$lot_num}}</h5>
+                                            <h5 class="modal-title">{{ __('Lot numéro ') }} - {{$lot_num}}</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <i aria-hidden="true" class="ki ki-close"></i>
                                             </button>
@@ -345,17 +345,7 @@
                                                         <div class="accordion accordion-toggle-arrow" id="lot{{$lot}}">
                                                             <div class="card">
                                                                 <div class="card-header">
-                                                                    <div class="card-title" data-toggle="collapse" data-target="#collapse{{$lot}}">
-                                                                    Lot numéro : {{$lot}}
-                                                                        {{-- <div class="col-3">
-                                                                            <span class="switch switch-outline switch-icon switch-primary">
-                                                                                <label>
-                                                                                <input type="checkbox" checked={{$statut[$lot] ? "checked" : ""}}wire:model.defer="isActive" name="isActive"/>
-                                                                                <span></span>
-                                                                                </label>
-                                                                            </span>
-                                                                        </div> --}}
-                                                                    </div>
+                                                                    <div class="card-title" data-toggle="collapse" data-target="#collapse{{$lot}}">Lot numéro : {{$lot}}</div>
                                                                 </div>
                                                                 <div id="collapse{{$lot}}" class="collapse" data-parent="#lot{{$lot}}">
                                                                     <div class="card-body">
@@ -408,10 +398,9 @@
                                                                                         <td class="pl-0">
                                                                                             <div class="input-group input-group-prepend">
                                                                                                 <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
-                                                                                                <select class="form-control" wire:model.defer="qualite.{{$key}}">
+                                                                                                <select class="form-control" wire:model.defer="qualite.{{$lot}}.{{$key}}">
                                                                                                     <option>{{ __('Choisir une qualité globale') }}</option>
                                                                                                     @foreach ($list_qualites as $item)
-                                                                                                        <option value="{{$item->id }}">{{$item->nom }}</option>
                                                                                                         <option value="{{$item->id }}">{{$item->nom }}</option>
                                                                                                     @endforeach
 

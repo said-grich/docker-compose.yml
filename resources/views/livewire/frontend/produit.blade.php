@@ -25,7 +25,7 @@
 							<div class="carousel-item active">
                                 <img src="{{ asset(Storage::url($items[0]->produit->photo_principale)) }}" class="d-block w-100" alt="Preview Image">
 							</div>
-                            @foreach ($photos as $key => $photo)
+                            @foreach ($produit_photos as $key => $photo)
                                 <div class="carousel-item">
                                     <img src="{{ asset(Storage::url($photo->photo)) }}" class="d-block w-100" alt="Preview Image">
                                 </div>
@@ -43,7 +43,7 @@
 							<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">
 								<img src="{{ asset(Storage::url($items[0]->produit->photo_principale)) }}" alt="Preview Image">
 							</li>
-                            @foreach ($photos as $key => $photo)
+                            @foreach ($produit_photos as $key => $photo)
                                 <li data-target="#carouselExampleIndicators" data-slide-to="{{ $key+1 }}">
                                     <img src="{{ asset(Storage::url($photo->photo)) }}" alt="Preview Image">
                                 </li>
@@ -70,6 +70,9 @@
 							<div class="form-group">
 								<label class="form-label" for="product-size"><i class="fa fa-ruler"></i>Tranches</label>
                                 @foreach ($items as $key => $item)
+                                {{-- @for ($inc = 0; $inc < $key; $inc++)
+                                    @php $count_rows += $inc @endphp
+                                @endfor --}}
                                     <div class="tranche-info">
                                         <div class="row">
                                             <div class="col-6">
@@ -77,56 +80,66 @@
                                                 <div class="tranche-prix"><span class="prix">{{ $item->prix_n }}</span> Dh/Kg </div>
                                             </div>
                                             <div class="col-6">
-                                                <div class="input-group bootstrap-touchspin">
-                                                    <input wire:click="upQyt({{ $key }})" class="form-control" name="qyt" type="text" placeholder="Quantity" wire:model="qyt.{{ $key }}">
+                                                <div class="input-group">
+                                                    <span class="input-group-btn"><button class="btn btn-default-outline" type="button">-</button></span>
+                                                    <input {{--wire:click="add()"--}} class="form-control" type="test" placeholder="Qte" wire:model="qte.{{$key}}">
+                                                    <span class="input-group-btn"><button class="btn btn-default-outline" type="button">+</button></span>
                                                 </div>
                                                 {{-- <div class="tranche-total-poid">{{ $item->poids }} kg</div>
                                                 <div class="tranche-total-prix"><span class="prix">{{ $item->poids*$item->prix_n }}</span> Dh</div> --}}
                                             </div>
                                         </div>
                                         <table class="table table-bordered table-hover">
-                                            <tr>
-                                              <th>Qte / Kg</th>
-                                              <th>Montant</th>
-                                              <th>Préparation</th>
-                                            </tr>
-                                            <tr>
-                                              <td>{{ $item->poids }} kg</td>
-                                              <td>{{ $item->poids*$item->prix_n }} DH</td>
-                                                <td class="d-flex">
-                                                    <select class="form-control">
-                                                        <option>Mode Cuisine</option>
-                                                        <option>Four</option>
-                                                        <option>Friture</option>
-                                                        <option>Grillade</option>
-                                                        <option>Plancha</option>
-                                                        <option>Tajine</option>
-                                                    </select>
-                                                    
-                                                    <select class="form-control">
-                                                        <option>Mode Nettoyage</option>
-                                                        <option>Anneaux</option>
-                                                        <option>Avec coquilles</option>
-                                                        <option>Avec peau</option>
-                                                        <option>Brochette</option>
-                                                        <option>Darne</option>
-                                                    </select>
-                                                </td>
-                                            </tr>
-                                          </table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Qte</th>
+                                                    <th>Montant</th>
+                                                    <th>Préparation</th>
+                                                </tr>
+                                            </thead>
+                                            @php $rows = !empty($count_rows[$key]) ? $count_rows[$key] : 0; @endphp
+                                            @for ($i = 0; $i < $rows; $i++)
+                                                <tbody>
+                                                    <tr>
+                                                        <td>{{ $item->poids }} kg</td>
+                                                        <td>{{ $item->poids*$item->prix_n }} DH</td>
+                                                        <td>
+                                                            <div x-data="{ open{{$key}}:false }">
+                                                                <div class="d-flex">
+                                                                    <div class="radio">
+                                                                        <input @click="open{{$key}} = 1" type="radio" name="mode{{$key}}-{{$i}}" id="radio-1-{{$key}}-{{$i}}" value="option1">
+                                                                        <label for="radio-1-{{$key}}-{{$i}}">Mode Cuisine</label>
+                                                                    </div>
+                                                                    <div class="radio">
+                                                                        <input @click="open{{$key}} = 2" type="radio" name="mode{{$key}}-{{$i}}" id="radio-2-{{$key}}-{{$i}}" value="option2">
+                                                                        <label for="radio-2-{{$key}}-{{$i}}">Mode Nettoyage</label>
+                                                                    </div>
+                                                                </div>
+                                                                <select x-show="open{{$key}} == 1" class="form-control">
+                                                                    <option>Mode Cuisine</option>
+                                                                    <option>Four</option>
+                                                                    <option>Friture</option>
+                                                                    <option>Grillade</option>
+                                                                    <option>Plancha</option>
+                                                                    <option>Tajine</option>
+                                                                </select>
+                                                                <select x-show="open{{$key}} == 2" class="form-control" multiple>
+                                                                    <option>Mode Nettoyage</option>
+                                                                    @foreach ( $item->produit->preparations as $preparations )
+                                                                        <option>{{ $preparations->preparation->nom }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            @endfor
+                                        </table>
                                     </div>
                                 @endforeach
-                                <div class="poids-total">Poids Total : <span>{{ $poids_total }} kg</span></div>
-                                <div class="prix-total">Prix Total <span>{{ $prix_total }} DH</span></div>
+                                {{-- <div class="poids-total">Poids Total : <span>{{ $poids_total }} kg</span></div> --}}
+                                <div class="prix-total">Prix Total <span>{{ !empty($prix_total) ? $prix_total : 0 }} DH</span></div>
 							</div>
-							{{-- <div class="form-group col-sm-6">
-								<label class="form-label" for="product-qty"><i class="fa fa-shopping-basket"></i>Quantity</label>
-								<div class="form-control-wrapper">
-									<div class="input-group bootstrap-touchspin">
-										<input id="product-qyt" class="form-control" name="qyt" type="text" placeholder="Quantity" value="1" data-validation="[INTEGER]" data-validation-message="Quantity must be integer.">
-									</div>
-								</div>
-							</div> --}}
 					</section>
 					<section class="typical-section">
 						<a class="add-to-cart cd-add-to-cart js-cd-add-to-cart" data-id="" data-title="" data-price="" data-pic="" data-color="" data-size="">
@@ -169,7 +182,7 @@
     <script>
         $(document).ready(function(){
             $('.carousel-item').zoom({url: $('.carousel-item img').attr('data-BigImgSrc')});
-            $("input[name='qyt']").TouchSpin({
+            $("input[name='qte']").TouchSpin({
                 min: 0,
                 max: 100,
                 step: 1,
@@ -180,5 +193,5 @@
                 buttonup_class: "btn btn-default-outline"
             });
         });
-    </script> 
+    </script>
 @endpush

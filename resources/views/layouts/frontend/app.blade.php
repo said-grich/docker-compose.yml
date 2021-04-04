@@ -241,6 +241,7 @@
 		<!--end::Page Scripts-->
 
         @stack('scripts')
+		
 	</body>
 	<!--end::Body-->
 

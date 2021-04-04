@@ -85,6 +85,12 @@ class Stock extends Component
     public $inputs = [];
     public $i = 0;
 
+    public $sortBy = 'ref';
+    public $sortDirection = 'asc';
+    public $perPage = 5;
+    public $search = '';
+    protected $listeners = ['saved'];
+
     protected $messages = [
         'ref_br.unique' => "Ref existe déja.",
         'lot_num.unique' => "Numéro de lot existe déja.",
@@ -439,6 +445,14 @@ class Stock extends Component
     public function render()
     {
         $this->renderData();
-        return view('livewire.stock');
+        $items = BonReception::query()
+            ->where('ref','ilike','%'.$this->search.'%')
+            //->where('valide',true)
+            ->orderBy($this->sortBy, $this->sortDirection)
+           // ->get();
+            ->paginate($this->perPage);
+            //dd($items)
+;
+        return view('livewire.stock', compact(['items']));
     }
 }

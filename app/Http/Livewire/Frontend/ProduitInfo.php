@@ -15,27 +15,35 @@ class ProduitInfo extends Component
 {
     public $produit_id;
     public $produit_photos;
+    public $items;
     public $prix_total;
     public $poids_total;
-    public $qyt = ["4440"];
-    public $key;
+    public $qte = [];
+    public $prix = [];
+    public $count_rows = [];
+    
+    public function mount(){
+        $this->produit_id = request()->produit;
+        $this->items = StockPoidsPc::select()->where('produit_id', $this->produit_id)->get();
+        $this->produit_photos = ProduitPhoto::select()->where('produit_id', $this->produit_id)->get();
+    } 
+    
+    public function updatedQte($value,$index){
+        $this->qte[$index] = $value;
+        $this->count_rows[$index] = $value;
 
-    public function upQyt($key)
-    {
-        $this->qyt[$key] = 1;
+        foreach($this->items as $key => $item){
+            if(!empty($this->qte[$key])){
+                $this->prix[$key] = $item->poids*$item->prix_n*$this->qte[$key]; 
+            }else{
+                $this->prix[$key] = 0;
+            }
+        }
+        $this->prix_total = array_sum($this->prix);
     }
+
     public function render()
     {
-        $this->produit_id = request()->produit;
-        $items = StockPoidsPc::select()->where('produit_id', $this->produit_id)->get();
-        $this->produit_photos = ProduitPhoto::select()->where('produit_id', $this->produit_id)->get();
-
-        foreach($items as $item){
-            $this->poids_total += $item->poids;
-            $this->prix_total += $item->poids*$item->prix_n;
-        }
-
-        // dd($items);
-        return view('livewire.frontend.produit',['items' => $items,'photos' => $this->produit_photos])->layout('layouts.frontend.app');
+        return view('livewire.frontend.produit')->layout('layouts.frontend.app');
     }
 }
