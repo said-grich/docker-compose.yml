@@ -156,7 +156,7 @@
                                                 <label>{{ __('Client') }}</label>
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
-                                                    <select class="form-control" wire:model.defer="client">
+                                                    <select class="form-control" wire:model="client">
                                                         <option>{{ __('Choisir un client') }}</option>
                                                         @foreach ($list_clients as $item)
                                                             <option value="{{$item->id }}">{{$item->nom }}</option>
@@ -236,7 +236,7 @@
 
                                                                 <td class="pl-0">
                                                                     @foreach ($item as $tranche_uid => $produits)
-                                                                        <span class="label label-pill label-inline">{{$nom_tranche[$i][$tranche_uid]}}</span>
+                                                                        <span class="label label-primary label-inline mr-2">{{$nom_tranche[$i][$tranche_uid]}} | {{$nbr_piece[$i][$tranche_uid]}}</span>
                                                                     @endforeach
                                                                     </td>
                                                                 <td class="pl-0">
@@ -248,94 +248,122 @@
 
                                                 </tbody>
                                                 <tbody id="group-of-rows-{{$i}}" class="collapse">
-                                                                <tr>
-                                                                    {{-- <th>Tranche</th> --}}
-                                                                    <th>Catégorie</th>
-                                                                    <th>Sous catégorie</th>
-                                                                    <th>Code</th>
-                                                                    <th>Poids</th>
-                                                                    <th>Quantité</th>
-                                                                    <th>Unité</th>
-                                                                    <th>Prix Achat</th>
-                                                                    <th>Prix de vente normal</th>
-                                                                    <th>Prix de vente fidèle</th>
-                                                                    <th>Prix de vente business</th>
-                                                                    <th>Lot</th>
-                                                                    <th>Qualité</th>
-                                                                    <th>Pas</th>
-                                                                    <th></th>
-                                                                </tr>
+                                                    <tr>
+                                                        {{-- <th>Tranche</th> --}}
+                                                        <th>Catégorie</th>
+                                                        <th>Sous catégorie</th>
+                                                        <th>Code</th>
+                                                        <th>Poids</th>
+                                                        {{-- <th>Quantité</th> --}}
+                                                        <th>Unité</th>
+                                                        <th>Prix Achat</th>
+                                                        @if($profile === "Normal")
+                                                            <th>Prix de vente normal</th>
+                                                        @endif
+                                                        @if($profile === 'Fidèle')
+                                                            <th>Prix de vente fidèle</th>
+                                                        @endif
+                                                        @if($profile === 'Business')
+                                                            <th>Prix de vente business</th>
+                                                        @endif
+                                                        <th>Lot</th>
+                                                        <th>Qualité</th>
+                                                        <th>Pas</th>
+                                                        <th></th>
+                                                    </tr>
                                                     @foreach ($item as $tranche_uid => $produits)
                                                         <tr class="text-center">
-                                                            <th colspan="15">{{$nom_tranche[$i][$tranche_uid]}}</th>
+                                                            <th colspan="15">{{$nom_tranche[$i][$tranche_uid]}} | {{$nbr_piece[$i][$tranche_uid]}}</th>
                                                         </tr>
                                                         @foreach ( $produits as $key => $produit)
                                                             <tr class="clickable" data-toggle="collapse" data-target="#group-of-rows-{{$tranche_uid}}" aria-expanded="false" aria-controls="group-of-rows-{{$tranche_uid}}">
                                                                 {{-- <td>{{$nom_tranche[$i][$tranche_uid]}}</td> --}}
+                                                                @php
+                                                                    switch ($profile) {
+                                                                        case "Normal":
+                                                                            $prix = $produit->prix_n;
+                                                                            break;
+                                                                        case "Fidèle":
+                                                                            $prix = $produit->prix_f;
+                                                                            break;
+                                                                        case "Business":
+                                                                             $prix = $produit->prix_p;
+                                                                            break;
+                                                                    }
+
+                                                                @endphp
                                                                 <td>{{$produit->categorie->nom}}</td>
                                                                 <td>{{$produit->sousCategorie->nom}}</td>
                                                                 <td>{{$produit->code}}</td>
                                                                 <td>{{$produit->poids}}</td>
-                                                                <td>{{$produit->qte}}</td>
+                                                                {{-- <td>{{$produit->qte}}</td> --}}
                                                                 <td>{{$produit->unite->nom}}</td>
                                                                 <td>{{$produit->prix_achat}}</td>
-                                                                <td>{{$produit->prix_n}}</td>
+                                                                {{-- <td>{{$produit->prix_n}}</td>
                                                                 <td>{{$produit->prix_f}}</td>
-                                                                <td>{{$produit->prix_p}}</td>
+                                                                <td>{{$produit->prix_p}}</td>  --}}
+                                                                @if($profile === "Normal")
+                                                                    <td>{{$produit->prix_n}}</td>
+                                                                @endif
+                                                                @if($profile == "Fidèle")
+                                                                    <td>{{$produit->prix_f}}</td>
+                                                                @endif
+                                                                @if($profile == "Business")
+                                                                    <td>{{$produit->prix_p}}</td>
+                                                                @endif
                                                                 <td>{{$produit->lot_num}}</td>
                                                                 <td>{{$produit->qualite->nom}}</td>
                                                                 <td>{{$produit->pas}}</td>
                                                                 <td>
-                                                                    <div x-data="{ 'isDialogOpen': false, qte: null,tranche:'{{$tranche_uid}}',code:'{{$produit->code}}', prix:{{$produit->prix_n}},lot:'{{$produit->lot_num}}', qmax:{{ $produit->qte }} }"
+                                                                    <div x-data="{ 'isDialogOpen': false, qte: {{$nbr_piece[$i][$tranche_uid]}},tranche:'{{$tranche_uid}}',code:'{{$produit->code}}', prix:{{$prix}},lot:'{{$produit->lot_num}}', qmax:{{$nbr_piece[$i][$tranche_uid]}} }"
                                                                         @keydown.escape="isDialogOpen = false">
-                                                                        <button type="button" @click="isDialogOpen = true"
-                                                                            class="inline-flex items-center px-4 py-3 text-xs font-sm tracking-widest text-white uppercase transition duration-150 ease-in-out bg-indigo-700 border border-transparent rounded-md right-10 w-94 hover:bg-indigo-800 active:bg-indigo-900 focus:outline-none focus:border-indigo-900 focus:i-outline-indigo disabled:opacity-25" ">Ajouter</button>
+                                                                        <button type="button" class="btn btn-outline-primary" @click="$wire.add({{ $loop->index }},{{$i}},qte,prix,lot,code,tranche);isDialogOpen = false">Ajouter</button>
+                                                                            {{--<button type="button" @click="isDialogOpen = true" class="btn btn-outline-primary">Ajouter</button>
 
-                                                                            <div class=" overflow-auto"
+                                                                             <div class=" overflow-auto"
                                                                             style="background-color: rgba(0,0,0,0.5)"
                                                                             x-show="isDialogOpen"
                                                                             :class="{ 'fixed inset-0 z-10 flex items-start justify-center': isDialogOpen }">
 
-                                                                            <div class="bg-white shadow-2xl m-auto"
-                                                                                x-show="isDialogOpen">
+                                                                                <div class="bg-white shadow-2xl m-auto"
+                                                                                    x-show="isDialogOpen">
 
-                                                                                <div
-                                                                                    class="flex align-middle justify-between items-center border-b p-2 text-xl">
-                                                                                    <h6 class="text-xl font-bold">Entrer La quantité:
-                                                                                    </h6>
-                                                                                    <button type="button"
-                                                                                        @click="isDialogOpen = false">✖</button>
-                                                                                </div>
+                                                                                    <div
+                                                                                        class="flex align-middle justify-between items-center border-b p-2 text-xl">
+                                                                                        <h6 class="text-xl font-bold">Entrer La quantité:
+                                                                                        </h6>
+                                                                                        <button type="button"
+                                                                                            @click="isDialogOpen = false">✖</button>
+                                                                                    </div>
 
-                                                                                <div class="p-2">
-                                                                                    <div>
+                                                                                    <div class="pl-0">
                                                                                         <div>
-                                                                                            <div class="grid grid-cols-2 gap-4 p-4 mb-8">
+                                                                                            <div>
+                                                                                                <div class="grid grid-cols-2 gap-4 p-4 mb-8">
 
-                                                                                                <label class="block">
-                                                                                                    <span
-                                                                                                        class="text-gray-700">QTE</span><span
-                                                                                                        class="text-red-500">*</span>
-                                                                                                    <input type="number" x-model="qte"
-                                                                                                        class="block w-full mt-1 form-input"
-                                                                                                        placeholder="">
-                                                                                                    <span class="text-red-500"
-                                                                                                        x-show="qte>qmax">la quantité
-                                                                                                        doit être inférieure à
-                                                                                                        {{ $produit->qte }}</span>
-                                                                                                </label>
+                                                                                                    <label class="block">
+                                                                                                        <span class="text-gray-700">QTE</span><span
+                                                                                                            class="text-red-500">*</span>
+                                                                                                        <input type="number" x-model="qte"
+                                                                                                            class="block w-full mt-1 form-input"
+                                                                                                            placeholder="">
+                                                                                                        <span class="text-red-500"
+                                                                                                            x-show="qte>qmax">La quantité
+                                                                                                            doit être inférieure à
+                                                                                                            {{$nbr_piece[$i][$tranche_uid]}}</span>
+                                                                                                    </label>
 
-                                                                                            </div>
-                                                                                            <div class="text-right pt-3 pr-4"  x-show="qte>0 && qte<=qmax">
-                                                                                                <button type="button"
-                                                                                                    class="inline-flex items-center px-4 py-3 text-xs font-sm tracking-widest text-white uppercase transition duration-150 ease-in-out bg-indigo-700 border border-transparent rounded-md right-10 w-94 hover:bg-indigo-800 active:bg-indigo-900 focus:outline-none focus:border-indigo-900 focus:i-outline-indigo disabled:opacity-25"
-                                                                                                    @click="$wire.add({{ $loop->index }},{{$i}},qte,prix,lot,code,tranche);isDialogOpen = false">Valider</button>
+                                                                                                </div>
+                                                                                                <div class="text-right pt-3 pr-4" x-show="qte>0 && qte<=qmax">
+                                                                                                    <button type="button"
+                                                                                                        class="btn btn-outline-primary"
+                                                                                                        @click="$wire.add({{ $loop->index }},{{$i}},qte,prix,lot,code,tranche);isDialogOpen = false">Valider</button>
+                                                                                                </div>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                            </div>
-                                                                    </div>
+                                                                            </div> --}}
                                                                 </td>
 
                                                             </tr>
@@ -347,6 +375,7 @@
                                                 @endif
                                             </table>
 
+                                            @if (count($produitId) > 0)
 
                                             <table class="table table-vertical-center" id="kt_advance_table_widget_4">
                                                 <thead>
@@ -360,46 +389,56 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @if (count($produitId) > 0)
-                                                        @foreach ($produitId as $key => $val)
-                                                            {{-- @php
-                                                                dd($i,$item);
-                                                            @endphp --}}
-                                                            <tr>
-                                                                
-                                                                <td class="pl-0">
-                                                                    @isset($produitNom[$key])
-                                                                        {{ $produitNom[$key] }}
-                                                                    @endisset
-                                                                </td>
-                                                                <td class="pl-0">
-                                                                    @isset($code[$key])
-                                                                        {{ $code[$key] }}
-                                                                    @endisset
-                                                                </td>
-                                                                <td class="pl-0">
-                                                                    @isset($poids[$key])
-                                                                        {{ $poids[$key] }}
-                                                                    @endisset
-                                                                </td>
-                                                                <td class="pl-0">
-                                                                    @isset($qte[$key])
-                                                                        {{ $qte[$key] }}
-                                                                    @endisset
-                                                                </td>
-                                                                <td class="pl-0">
-                                                                    @isset($prix_vente[$key])
-                                                                        {{ $prix_vente[$key] }}
-                                                                    @endisset
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
-                                                    @endif
+                                                    @foreach ($produitId as $key => $val)
+                                                        <tr>
+
+                                                            <td class="pl-0">
+                                                                @isset($produitNom[$key])
+                                                                    {{ $produitNom[$key] }}
+                                                                @endisset
+                                                            </td>
+                                                            <td class="pl-0">
+                                                                @isset($code[$key])
+                                                                    {{ $code[$key] }}
+                                                                @endisset
+                                                            </td>
+                                                            <td class="pl-0">
+                                                                @isset($poids[$key])
+                                                                    {{ $poids[$key] }}
+                                                                @endisset
+                                                            </td>
+                                                            <td class="pl-0">
+                                                                @isset($qte[$key])
+                                                                    {{ $qte[$key] }}
+                                                                @endisset
+                                                            </td>
+                                                            <td class="pl-0">
+                                                                @isset($prix_vente[$key])
+                                                                    {{ $prix_vente[$key] }}
+                                                                @endisset
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
 
                                                 </tbody>
 
 
                                             </table>
+
+                                            <table class="table table-vertical-center" id="kt_advance_table_widget_4">
+                                            <tbody>
+                                                <tr>
+                                                    <th class="pl-0" colspan="6">
+                                                        Total
+                                                    </th>
+                                                    <td class="pl-0">
+                                                        {{ number_format($totalMt, 2, ',', ' ') }}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+
+                                        </table>
+                                        @endif
                                             <!--Modal-->
                                         </form>
                                     </div>
