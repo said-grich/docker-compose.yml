@@ -57,6 +57,10 @@ class Stock extends Component
 
     public $ref_br;
     public $date;
+    public $lot_num = [];
+
+    public $lot = [];
+
     public $pas = [];
     public $qualite = [];
     public $produit = [];
@@ -65,7 +69,6 @@ class Stock extends Component
     public $prix_achat = [];
     public $qte = [];
     public $nbr_pc = [];
-    public $lot_num = [];
     public $unite = [];
     public $mode_vente_produit = [];
     public $bon_recption_details;
@@ -84,6 +87,29 @@ class Stock extends Component
 
     public $inputs = [];
     public $i = 0;
+
+    public $bon_reception_ref;
+    public $article;
+    public $produit_id = [];
+    public $mode_vente_id;
+    public $mode_vente;
+    public $nombre_piece;
+    public $liste_poids_pc = [];
+    public $liste_kg_pc = [];
+
+    public $article_kg_pc=[];
+    public $produit_id_kg_pc=[];
+    public $lot_num_kg_pc=[];
+    public $pas_kg_pc=[];
+    public $uid_tranche_kg_pc = [];
+    public $nom_tranche_kg_pc = [];
+    public $id_kg_pc = [];
+    public $qualite_kg_pc=[];
+    public $qte_kg_pc=[];
+    public $unite_kg_pc=[];
+    public $categorie_kg_pc=[];
+    public $sous_categorie_kg_pc=[];
+    public $prix_achat_kg_pc = [];
 
     public $sortBy = 'ref';
     public $sortDirection = 'asc';
@@ -114,12 +140,12 @@ class Stock extends Component
         $this->dispatchBrowserEvent('contentChanged');
     }
 
-    public function updatedFournisseur($value){
-        $uniqueNumLot =  random_int(100, 999);
-        $fournisseur = Fournisseur::where('id',$value)->first(['nom']);
-        $fournisseur_nom = substr($fournisseur->nom, 0, 3);
-        $this->lot_num = $fournisseur_nom.$uniqueNumLot;
-    }
+    // public function updatedFournisseur($value){
+    //     $uniqueNumLot =  random_int(100, 999);
+    //     $fournisseur = Fournisseur::where('id',$value)->first(['nom']);
+    //     $fournisseur_nom = substr($fournisseur->nom, 0, 3);
+    //     $this->lot_num = $fournisseur_nom.$uniqueNumLot;
+    // }
 
     public function renderData()
     {
@@ -155,12 +181,18 @@ class Stock extends Component
 
 
     public function updatedProduit($value,$index){
+        $uniqueNumLot =  random_int(100, 999);
+        $fournisseur = Fournisseur::where('id',$this->fournisseur)->first(['nom'])->nom;
+        //$fournisseur_nom = substr_replace($fournisseur, 0, 2);
+        // dd($fournisseur_nom);
+        // $this->lot_num[$index] = $fournisseur_nom.$uniqueNumLot;
 
         $produit = Produit::where('id',$value)->first();
         $produit_tranches = ProduitTranche::where('produit_id', $value)->get();
         $this->mode_vente_produit[$index] = $produit->modeVente->id;
         $mode_vente = $produit->modeVente->id;
         $this->mode_vente_produit[$index] == 1 ? $this->unite[$index] =  Unite::where('nom', "Kg")->first()->nom : $this->unite[$index] =  Unite::where('nom', "Pièce")->first()->nom;
+        $this->lot_num[$index] = strtoupper(substr($fournisseur, 0, 3)) . strtoupper(substr($produit->nom, 0, 3)). $uniqueNumLot;
 
         foreach($produit_tranches as $key=>$value){
             //$kg_pc = TranchesKgPc::where('uid',$value->tranche_id)->first()->toArray();
@@ -242,9 +274,12 @@ class Stock extends Component
                             $lot_tranche[$key][$k] = TranchesPoidsPc::where('uid', $tranche)->get()->toArray()[0];
                         }
 
+
                     foreach ($this->code_poids[$key] as $code => $poids) {
                         foreach ($lot_tranche[$key] as $keyT => $valueT) {
                             if ($poids['poids'] >= $valueT['min_poids'] && $poids['poids'] < $valueT['max_poids']) {
+                                LotTranche::where('lot_num', $this->lot_num[$key])->where('tranche_id', $valueT['uid'])->update(['qte' => DB::raw('qte + 1')]);
+
                                 $item = new StockPoidsPc();
                                 $item->qte = $this->qte[$key];
                                 $item->lot_num = $this->lot_num[$key];
@@ -255,6 +290,8 @@ class Stock extends Component
                                 $item->depot_id = $this->depot;
                                 $item->prix_achat = $this->prix_achat[$key];
                                 $item->code = $code;
+                                $item->pas = $this->pas[$key];
+                                $item->unite_id = Unite::where('nom', $this->unite[$key])->first()->id;
                                 $item->poids = $poids['poids'];
                                 $item->qualite_id = $poids['qualite'];
                                 $item->tranche_id = $valueT['uid'];
@@ -297,7 +334,7 @@ class Stock extends Component
             session()->flash('message', 'Bon de réception réf "' . $this->ref_br . '" a été crée');
             //$this->reset(['lot_num', 'fournisseur', 'date_entree', 'qualite', 'pas', 'fournisseur', 'qualite', 'produit', 'active', 'qte', 'prix_achat', 'tranches']);
 
-            $this->emit('saved');
+           // $this->emit('saved');
         });
 
     }
@@ -440,6 +477,161 @@ class Stock extends Component
         $this->reset(['lot_num','date_capture','date_entree','date_preemption','pas','fournisseur','qualite','produit','active']);
 
         $this->emit('saved');
+    }
+
+    public function show($id){
+        /* $this->liste_poids_pc = collect(StockPoidsPc::where('br_num',$id)->get()->groupBy(['tranche_id','produit_id']));
+        $this->liste_kg_pc = StockKgPc::where('br_num',$id)->get();
+        $this->bon_reception_ref =$id; */
+
+        $this->liste_poids_pc = StockPoidsPc::where('br_num',$id)->get();
+        $this->liste_kg_pc = StockKgPc::where('br_num',$id)->get();
+        $this->bon_reception_ref =$id;
+
+
+        foreach ($this->liste_poids_pc as $key => $value) {
+            $this->lot_num[$key] =$value->lot_num;
+            $this->produit_id[$key]  =$value->lot->produit->id;
+            $this->article[$key]  =$value->lot->produit->nom;
+            $this->nom_tranche[$key] = TranchesPoidsPc::where('uid', $value->tranche_id)->first()->nom;
+            $this->categorie[$key]  =$value->categorie->nom;
+            $this->sous_categorie[$key]  =$value->sousCategorie->nom;
+            $this->poids[$key] = $value->poids;
+            $this->code[$key] = $value->code;
+            $this->qualite[$key]  =$value->qualite->nom;
+            $this->qte[$key]  =$value->qte;
+            $this->prix_achat[$key]  =$value->prix_achat;
+            $this->pas[$key]  =$value->pas;
+            $this->unite[$key]  = $value->unite->nom;
+        }
+
+        foreach ($this->liste_kg_pc as $k => $v) {
+            $this->id_kg_pc[$k] = $v->id;
+            $this->lot_num_kg_pc[$k] =$v->lot_num;
+            $this->produit_id_kg_pc[$k]  =$v->lot->produit->id;
+            $this->article_kg_pc[$k]  =$v->lot->produit->nom;
+            $this->nom_tranche_kg_pc[$k] = TranchesKgPc::where('uid', $v->tranche_id)->first()->nom;
+            $this->uid_tranche_kg_pc[$k] = TranchesKgPc::where('uid', $v->tranche_id)->first()->uid;
+            $this->prix_achat_kg_pc[$k] = $v->prix_achat;
+            $this->categorie_kg_pc[$k] = $v->categorie->nom;
+            $this->sous_categorie_kg_pc[$k] = $v->sousCategorie->nom;
+            $this->qualite_kg_pc[$k] = $v->lot->qualite->nom;
+            $this->qte_kg_pc[$k] = $v->qte;
+            $this->pas_kg_pc[$k] = $v->pas;
+
+        }
+
+
+
+        /* groupement par tranches
+        foreach ($this->liste_poids_pc as $key => $value) {
+            $this->nom_tranche[$key] = TranchesPoidsPc::where('uid', $key)->first()->nom;
+
+            foreach ($value as $produit => $details){
+                $this->article[$key] = Produit::where('id', $produit)->first()->nom;
+                foreach ($details as $k => $v){
+                    $this->lot_num[$key] =$v->lot_num;
+                    $this->article[$key]  =$v->lot->produit->nom;
+                    $this->categorie[$key]  =$v->categorie->nom;
+                    $this->sous_categorie[$key]  =$v->sousCategorie->nom;
+                    $this->qte[$key]  =$v->qte;
+                    $this->prix_achat[$key]  =$v->prix_achat;
+                    $this->qualite[$key]  =$v->qualite->nom;
+                    $this->pas[$key]  =$v->pas;
+                    $this->code[$key] = $v->code;
+
+                }
+            }
+
+        } */
+        //dd($this->article);
+
+        foreach ($this->liste_kg_pc as $k => $v) {
+           /*  $this->id_kg_pc[$k] = $v->id;
+            $this->lot_num_kg_pc[$k] =$v->lot_num;
+            $this->produit_id_kg_pc[$k]  =$v->lot->produit->id;
+            $this->article_kg_pc[$k]  =$v->lot->produit->nom;
+            $this->nom_tranche_kg_pc[$k] = TranchesKgPc::where('uid', $v->tranche_id)->first()->nom;
+            $this->uid_tranche_kg_pc[$k] = TranchesKgPc::where('uid', $v->tranche_id)->first()->uid; */
+        }
+    }
+
+    public function edit($id){
+        /* $this->liste_poids_pc = collect(StockPoidsPc::where('br_num',$id)->get()->groupBy(['tranche_id','produit_id']));
+        $this->liste_kg_pc = StockKgPc::where('br_num',$id)->get();
+        $this->bon_reception_ref =$id; */
+
+        $this->liste_poids_pc = StockPoidsPc::where('br_num',$id)->get();
+        $this->liste_kg_pc = StockKgPc::where('br_num',$id)->get();
+        $this->bon_reception_ref =$id;
+
+
+        foreach ($this->liste_poids_pc as $key => $value) {
+            $this->lot_num[$key] =$value->lot_num;
+            $this->produit_id[$key]  =$value->lot->produit->id;
+            $this->article[$key]  =$value->lot->produit->nom;
+            $this->nom_tranche[$key] = TranchesPoidsPc::where('uid', $value->tranche_id)->first()->nom;
+            $this->categorie[$key]  =$value->categorie->nom;
+            $this->sous_categorie[$key]  =$value->sousCategorie->nom;
+            $this->poids[$key] = $value->poids;
+            $this->code[$key] = $value->code;
+            $this->qualite[$key]  =$value->qualite->nom;
+            $this->qte[$key]  =$value->qte;
+            $this->prix_achat[$key]  =$value->prix_achat;
+            $this->pas[$key]  =$value->pas;
+            $this->unite[$key]  = $value->unite->nom;
+        }
+
+        foreach ($this->liste_kg_pc as $k => $v) {
+            $this->id_kg_pc[$k] = $v->id;
+            $this->lot_num_kg_pc[$k] =$v->lot_num;
+            $this->produit_id_kg_pc[$k]  =$v->lot->produit->id;
+            $this->article_kg_pc[$k]  =$v->lot->produit->nom;
+            $this->nom_tranche_kg_pc[$k] = TranchesKgPc::where('uid', $v->tranche_id)->first()->nom;
+            $this->uid_tranche_kg_pc[$k] = TranchesKgPc::where('uid', $v->tranche_id)->first()->uid;
+            $this->prix_achat_kg_pc[$k] = $v->prix_achat;
+            $this->categorie_kg_pc[$k] = $v->categorie->nom;
+            $this->sous_categorie_kg_pc[$k] = $v->sousCategorie->nom;
+            $this->qualite_kg_pc[$k] = $v->lot->qualite->nom;
+            $this->qte_kg_pc[$k] = $v->qte;
+            $this->pas_kg_pc[$k] = $v->pas;
+            $this->unite[$key]  = $value->unite->nom;
+
+        }
+
+
+
+        /* groupement par tranches
+        foreach ($this->liste_poids_pc as $key => $value) {
+            $this->nom_tranche[$key] = TranchesPoidsPc::where('uid', $key)->first()->nom;
+
+            foreach ($value as $produit => $details){
+                $this->article[$key] = Produit::where('id', $produit)->first()->nom;
+                foreach ($details as $k => $v){
+                    $this->lot_num[$key] =$v->lot_num;
+                    $this->article[$key]  =$v->lot->produit->nom;
+                    $this->categorie[$key]  =$v->categorie->nom;
+                    $this->sous_categorie[$key]  =$v->sousCategorie->nom;
+                    $this->qte[$key]  =$v->qte;
+                    $this->prix_achat[$key]  =$v->prix_achat;
+                    $this->qualite[$key]  =$v->qualite->nom;
+                    $this->pas[$key]  =$v->pas;
+                    $this->code[$key] = $v->code;
+
+                }
+            }
+
+        } */
+        //dd($this->article);
+
+        foreach ($this->liste_kg_pc as $k => $v) {
+           /*  $this->id_kg_pc[$k] = $v->id;
+            $this->lot_num_kg_pc[$k] =$v->lot_num;
+            $this->produit_id_kg_pc[$k]  =$v->lot->produit->id;
+            $this->article_kg_pc[$k]  =$v->lot->produit->nom;
+            $this->nom_tranche_kg_pc[$k] = TranchesKgPc::where('uid', $v->tranche_id)->first()->nom;
+            $this->uid_tranche_kg_pc[$k] = TranchesKgPc::where('uid', $v->tranche_id)->first()->uid; */
+        }
     }
 
     public function render()

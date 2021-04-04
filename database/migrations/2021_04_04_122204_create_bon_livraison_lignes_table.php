@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLotTranchesTable extends Migration
+class CreateBonLivraisonLignesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateLotTranchesTable extends Migration
      */
     public function up()
     {
-        Schema::create('lot_tranches', function (Blueprint $table) {
+        Schema::create('bon_livraison_lignes', function (Blueprint $table) {
             $table->id();
-            $table->string('lot_num');
-            //$table->foreign('lot_num')->references('lot_num')->on('lots');
-            $table->integer('qte')->default(0);
-            $table->string('tranche_id');
             $table->timestamps();
         });
     }
@@ -30,6 +26,6 @@ class CreateLotTranchesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lot_tranches');
+        Schema::dropIfExists('bon_livraison_lignes');
     }
 }
