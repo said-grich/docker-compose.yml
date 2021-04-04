@@ -60,6 +60,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/fournisseurs', \App\Http\
 Route::middleware(['auth:sanctum', 'verified'])->get('/clients', \App\Http\Livewire\Parametrage\Clients::class)->name('clients');
 Route::middleware(['auth:sanctum', 'verified'])->get('/bon-reception', \App\Http\Livewire\GestionAchat\ListeBonReception::class)->name('bon-reception');
 Route::middleware(['auth:sanctum', 'verified'])->get('/designation-prix', \App\Http\Livewire\Vente\DesignationPrix::class)->name('designation-prix');
+Route::middleware(['auth:sanctum', 'verified'])->get('/bon-livraison', \App\Http\Livewire\Vente\BonLivraison::class)->name('bon-livraison');
+
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/etat-stock', \App\Http\Livewire\Stock\EtatStock::class)->name('etat-stock');
 
