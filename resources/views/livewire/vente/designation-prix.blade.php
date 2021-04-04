@@ -636,19 +636,27 @@
                                                                                                 {{-- <input type="text" class="form-control" placeholder="{{ __('Tranche') }}" wire:model.defer="nom_tranche_kc_pc.{{$key}}" disabled/> --}}
                                                                                             </td>
                                                                                             <td>
-                                                                                                {{$cr_kg_pc[$key]}}
+                                                                                                @isset($cr_kg_pc[$key])
+                                                                                                    {{$cr_kg_pc[$key]}}
+                                                                                                @endisset
                                                                                                 {{-- <input type="text" class="form-control" placeholder="{{ __('CR') }}" wire:model.defer="cr_kg_pc.{{$key}}"/> --}}
                                                                                             </td>
                                                                                             <td>
-                                                                                                {{$prix_vente_normal_kg_pc[$key]}}
+                                                                                                @isset($prix_vente_normal_kg_pc[$key])
+                                                                                                    {{$prix_vente_normal_kg_pc[$key]}}
+                                                                                                @endisset
                                                                                                 {{-- <input type="text" class="form-control" placeholder="{{ __('Prix vente normale') }}" wire:model.defer="prix_vente_normal_kg_pc.{{$key}}"/> --}}
                                                                                             </td>
                                                                                             <td>
-                                                                                                {{$prix_vente_fidele_kg_pc[$key]}}
+                                                                                                @isset($prix_vente_fidele_kg_pc[$key])
+                                                                                                    {{$prix_vente_fidele_kg_pc[$key]}}
+                                                                                                @endisset
                                                                                                 {{-- <input type="text" class="form-control" placeholder="{{ __('Prix vente fidèle') }}" wire:model.defer="prix_vente_fidele_kg_pc.{{$key}}"/> --}}
                                                                                             </td>
                                                                                             <td>
-                                                                                                {{$prix_vente_business_kg_pc[$key]}}
+                                                                                                @isset($prix_vente_business_kg_pc[$key])
+                                                                                                    {{$prix_vente_business_kg_pc[$key]}}
+                                                                                                @endisset
                                                                                                 {{-- <input type="text" class="form-control" placeholder="{{ __('Prix vente business') }}" wire:model.defer="prix_vente_business_kg_pc.{{$key}}"/> --}}
                                                                                             </td>
                                                                                             <td>

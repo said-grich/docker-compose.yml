@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Vente;
 use App\Models\BonLivraison as ModelBonLivraison;
 use App\Models\Client;
 use App\Models\Depot;
+use App\Models\LotTranche;
 use App\Models\Produit;
 use App\Models\StockPoidsPc;
 use App\Models\TranchesPoidsPc;
@@ -59,8 +60,16 @@ class BonLivraison extends Component
     public $linenumber = -1;
     public $produitId = [];
     public $produitNom = [];
+    public $nbr_piece = [];
     public $client;
+    public $profile;
 
+    public $totalMts = [];
+    public $totalTtcs = [];
+    public $totalTvas = [];
+    public $totalMt;
+    public $totalTtc;
+    public $totalTva;
 
 
     public $sortBy = 'ref';
@@ -73,6 +82,11 @@ class BonLivraison extends Component
     {
         $this->list_clients = Client::all()->sortBy('nom');
         $this->list_depots = Depot::all()->sortBy('nom');
+    }
+
+    public function updatedClient($value){
+        $this->profile = Client::where('id', $value)->first()->profil->nom;
+
     }
 
     public function updatedRechercheProduit(){
@@ -99,6 +113,14 @@ class BonLivraison extends Component
                 $this->nom_produit[$produit_id] = Produit::where('id', $produit_id)->first()->nom;
                 foreach ($tranches as $tranche_uid => $produits) {
                     $this->nom_tranche[$produit_id][$tranche_uid] = TranchesPoidsPc::where('uid', $tranche_uid)->first()->nom;
+                // foreach ($produits as $key => $produit){
+                //     $lots[$key] = $produit->lot_num;
+                // }
+                $this->nbr_piece[$produit_id][$tranche_uid] = LotTranche::where('lot_num', $produits[0]->lot_num)->where('tranche_id', $tranche_uid)->first(['qte'])->qte;
+                //     dd(LotTranche::where('lot_num', $produits[0]->lot_num)->where('tranche_id', $tranche_uid)->get(['qte']));
+                // $this->nom_tranche[$produit_id][$tranche_uid]
+
+                    //$test = LotTranche::where('tranche_id', $tranche_uid)->where()
 
                 }
             }
@@ -123,12 +145,37 @@ class BonLivraison extends Component
         //dd($this->produitNom);
 
 
-
-
-
-        // $this->updateData($this->linenumber);
+        $this->updateData($this->linenumber);
 
         $this->updatedRechercheProduit();
+    }
+
+    public function updateData($i)
+    {
+        if ($i == 0 && !isset($this->prix_vente[$i]) && !isset($this->poids[$i])) {
+            $this->totalMt = 0;
+            $this->totalTtc = 0;
+            $this->totalTva = 0;
+
+            $this->totalMts = [];
+            $this->totalTtcs = [];
+            $this->totalTvas = [];
+        }
+
+
+        if (isset($this->prix_vente[$i]) && isset($this->poids[$i])) {
+
+
+            array_splice($this->montant, $i, 1, $this->prix_vente[$i] > 0 ? $this->poids[$i] * $this->prix_vente[$i] : $this->poids[$i] * 0);
+
+            $this->totalMts = [];
+
+            $this->totalMt = 0;
+            for ($i = 0; $i < count($this->montant); $i++) {
+                $this->totalMt += $this->montant[$i];
+            }
+
+        }
     }
 
     public function render()
