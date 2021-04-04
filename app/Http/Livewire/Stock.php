@@ -579,6 +579,7 @@ class Stock extends Component
             $this->qte[$key]  =$value->qte;
             $this->prix_achat[$key]  =$value->prix_achat;
             $this->pas[$key]  =$value->pas;
+            $this->unite[$key]  = $value->unite->nom;
         }
 
         foreach ($this->liste_kg_pc as $k => $v) {
@@ -594,6 +595,7 @@ class Stock extends Component
             $this->qualite_kg_pc[$k] = $v->lot->qualite->nom;
             $this->qte_kg_pc[$k] = $v->qte;
             $this->pas_kg_pc[$k] = $v->pas;
+            $this->unite[$key]  = $value->unite->nom;
 
         }
 
