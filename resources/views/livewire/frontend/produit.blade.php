@@ -87,15 +87,17 @@
                                                 <div class="tranche-total-prix"><span class="prix">{{ $item->poids*$item->prix_n }}</span> Dh</div> --}}
                                             </div>
                                         </div>
-                                        <table class="table table-bordered table-hover">
-                                            @php $rows = !empty($count_rows[$tranche_id]) ? $count_rows[$tranche_id] : 0; @endphp
-                                            @for ($i = 0; $i < $rows; $i++)
-                                                @foreach ($stock as $item)
-                                                @php dd($item) @endphp
+                                        @if($tranche_id != $t)
+                                        <table wire:ignore class="table table-bordered table-hover">
+                                        @elseif($tranche_id == $t)
+                                        <table wire:ignore.self class="table table-bordered table-hover">
+                                        @endif
+                                            @if(!empty($test) && $tranche_id == $t)
+                                                @foreach ($test as $i => $item)
                                                 <tbody>
                                                     <tr>
-                                                        <td>{{ $item[0]['poids'] }} kg</td>
-                                                        <td> DH</td>
+                                                        <td>{{ $item['poids'] }} kg</td>
+                                                        <td>{{ $item['prix_n']*$item['poids'] }} DH</td>
                                                         <td>
                                                             <div x-data="{ open{{$tranche_id}}:false }">
                                                                 <div class="d-flex">
@@ -127,7 +129,7 @@
                                                     </tr>
                                                 </tbody>
                                                 @endforeach
-                                            @endfor
+                                            @endif
                                         </table>
                                     </div>
                                 @endforeach

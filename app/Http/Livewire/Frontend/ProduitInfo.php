@@ -18,6 +18,7 @@ class ProduitInfo extends Component
     public $produit_id;
     public $produit;
     public $produit_photos;
+    public $test;
     public $items;
     public $stock;
     public $prix_total;
@@ -26,6 +27,7 @@ class ProduitInfo extends Component
     public $qte = [];
     public $prix = [];
     public $count_rows = [];
+    public $t;
     
     public function mount(){
         $this->produit_id = request()->produit;
@@ -52,9 +54,17 @@ class ProduitInfo extends Component
     } 
     
     public function updatedQte($value,$index){
-        $this->qte[$index] = $value;
-        $this->count_rows[$index] = $value;
+        $this->t = $index;
 
+        $this->count_rows[$index] = $value;
+        
+        if($this->produit[0]->mode_vente_id === 1){
+            $this->test = StockPoidsPc::select()->where('produit_id', $this->produit_id)->where('tranche_id', $index)->limit($value)->get();
+        }
+        else if($this->produit[0]->mode_vente_id === 2){
+            $this->test = StockKgPc::select()->where('produit_id', $this->produit_id)->where('tranche_id', $index)->limit($value)->get();
+        }
+        //dd($this->test);
         // foreach($this->items as $key => $item){
         //     if(!empty($this->qte[$key])){
         //         $this->prix[$key] = $item->poids*$item->prix_n*$this->qte[$key]; 
