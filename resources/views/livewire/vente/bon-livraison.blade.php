@@ -312,58 +312,64 @@
                                                                     <td>{{$produit->prix_p}}</td>
                                                                 @endif
                                                                 <td>{{$produit->lot_num}}</td>
-                                                                <td>{{$produit->qualite->nom}}</td>
+                                                                <td>
+                                                                    @isset($produit->qualite->nom)
+                                                                        {{$produit->qualite->nom}}
+                                                                    @endisset
+                                                                    @isset($produit->lot->qualite->nom)
+                                                                        {{$produit->lot->qualite->nom}}
+                                                                    @endisset
+                                                                </td>
                                                                 <td>{{$produit->pas}}</td>
                                                                 <td>
-                                                                    <div x-data="{ 'isDialogOpen': false, qte: {{$nbr_piece[$i][$tranche_uid]}},tranche:'{{$tranche_uid}}',code:'{{$produit->code}}', prix:{{$prix}},lot:'{{$produit->lot_num}}', qmax:{{$nbr_piece[$i][$tranche_uid]}} }"
+                                                                    <div x-data="{ 'isDialogOpen': false, qte: null,tranche:'{{$tranche_uid}}',code:'{{$produit->code}}', prix:{{$prix}},lot:'{{$produit->lot_num}}', qmax:{{$nbr_piece[$i][$tranche_uid]}} }"
                                                                         @keydown.escape="isDialogOpen = false">
-                                                                        <button type="button" class="btn btn-outline-primary" @click="$wire.add({{ $loop->index }},{{$i}},qte,prix,lot,code,tranche);isDialogOpen = false">Ajouter</button>
-                                                                            {{--<button type="button" @click="isDialogOpen = true" class="btn btn-outline-primary">Ajouter</button>
+                                                                            <button type="button" @click="isDialogOpen = true" class="btn btn-outline-primary">Ajouter</button>
 
-                                                                             <div class=" overflow-auto"
+                                                                            <div class=" overflow-auto"
                                                                             style="background-color: rgba(0,0,0,0.5)"
                                                                             x-show="isDialogOpen"
                                                                             :class="{ 'fixed inset-0 z-10 flex items-start justify-center': isDialogOpen }">
 
-                                                                                <div class="bg-white shadow-2xl m-auto"
-                                                                                    x-show="isDialogOpen">
+                                                                            <div class="bg-white shadow-2xl m-auto"
+                                                                                x-show="isDialogOpen">
 
-                                                                                    <div
-                                                                                        class="flex align-middle justify-between items-center border-b p-2 text-xl">
-                                                                                        <h6 class="text-xl font-bold">Entrer La quantité:
-                                                                                        </h6>
-                                                                                        <button type="button"
-                                                                                            @click="isDialogOpen = false">✖</button>
-                                                                                    </div>
+                                                                                <div
+                                                                                    class="flex align-middle justify-between items-center border-b p-2 text-xl">
+                                                                                    <h6 class="text-xl font-bold">Entrer La quantité:
+                                                                                    </h6>
+                                                                                    <button type="button"
+                                                                                        @click="isDialogOpen = false">✖</button>
+                                                                                </div>
 
-                                                                                    <div class="pl-0">
+                                                                                <div class="pl-0">
+                                                                                    <div>
                                                                                         <div>
-                                                                                            <div>
-                                                                                                <div class="grid grid-cols-2 gap-4 p-4 mb-8">
+                                                                                            <div class="grid grid-cols-2 gap-4 p-4 mb-8">
 
-                                                                                                    <label class="block">
-                                                                                                        <span class="text-gray-700">QTE</span><span
-                                                                                                            class="text-red-500">*</span>
-                                                                                                        <input type="number" x-model="qte"
-                                                                                                            class="block w-full mt-1 form-input"
-                                                                                                            placeholder="">
-                                                                                                        <span class="text-red-500"
-                                                                                                            x-show="qte>qmax">La quantité
-                                                                                                            doit être inférieure à
-                                                                                                            {{$nbr_piece[$i][$tranche_uid]}}</span>
-                                                                                                    </label>
+                                                                                                <label class="block">
+                                                                                                    <span class="text-gray-700">QTE</span><span
+                                                                                                        class="text-red-500">*</span>
+                                                                                                    <input type="number" x-model="qte"
+                                                                                                        class="block w-full mt-1 form-input"
+                                                                                                        placeholder="">
+                                                                                                    <span class="text-red-500"
+                                                                                                        x-show="qte>qmax">La quantité
+                                                                                                        doit être inférieure à
+                                                                                                        {{$nbr_piece[$i][$tranche_uid]}}</span>
+                                                                                                </label>
 
-                                                                                                </div>
-                                                                                                <div class="text-right pt-3 pr-4" x-show="qte>0 && qte<=qmax">
-                                                                                                    <button type="button"
-                                                                                                        class="btn btn-outline-primary"
-                                                                                                        @click="$wire.add({{ $loop->index }},{{$i}},qte,prix,lot,code,tranche);isDialogOpen = false">Valider</button>
-                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="text-right pt-3 pr-4" x-show="qte>0 && qte<=qmax">
+                                                                                                <button type="button"
+                                                                                                    class=""
+                                                                                                    @click="$wire.add({{ $loop->index }},{{$i}},qte,prix,lot,code,tranche);isDialogOpen = false">Valider</button>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                            </div> --}}
+                                                                            </div>
+                                                                    </div>
                                                                 </td>
 
                                                             </tr>

@@ -7,7 +7,9 @@ use App\Models\Client;
 use App\Models\Depot;
 use App\Models\LotTranche;
 use App\Models\Produit;
+use App\Models\StockKgPc;
 use App\Models\StockPoidsPc;
+use App\Models\TranchesKgPc;
 use App\Models\TranchesPoidsPc;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -91,7 +93,7 @@ class BonLivraison extends Component
 
     public function updatedRechercheProduit(){
 
-        $this->list_produits = StockPoidsPc::where('depot_id', $this->depot)
+        $list_produits = StockPoidsPc::where('depot_id', $this->depot)
             ->where(function ($query) {
                 $query->where(
                     function ($query) {
@@ -106,16 +108,45 @@ class BonLivraison extends Component
             })
             ->with('depot')
             ->with('produit')
-            ->get()
-            ->groupBy(['produit_id','tranche_id']);
+            ->get();
+            //->groupBy(['produit_id','tranche_id']);
+
+        $list_produits2 = StockKgPc::where('depot_id', $this->depot)
+        ->where(function ($query) {
+            $query->where(
+                function ($query) {
+                    $query->select('nom')
+                        ->from('produits')
+                        ->whereColumn('produits.id', 'stock_kg_pcs.produit_id');
+                    //->limit(1);
+                },
+                'ILIKE',
+                strtolower($this->recherche_produit . '%')
+            );
+        })
+        ->with('depot')
+        ->with('produit')
+        ->get();
+        //->groupBy(['produit_id', 'tranche_id']);
+
+        $collection = collect();
+        foreach ($list_produits as $poids_pc)
+            $collection->push($poids_pc);
+        foreach ($list_produits2 as $kg_pc)
+            $collection->push($kg_pc);
+        $this->list_produits = $collection->groupBy(['produit_id', 'tranche_id']);
+        //dd($this->list_produits);
 
             foreach ($this->list_produits as $produit_id => $tranches) {
+                //dd($this->list_produits);
                 $this->nom_produit[$produit_id] = Produit::where('id', $produit_id)->first()->nom;
                 foreach ($tranches as $tranche_uid => $produits) {
-                    $this->nom_tranche[$produit_id][$tranche_uid] = TranchesPoidsPc::where('uid', $tranche_uid)->first()->nom;
+
+                    $this->nom_tranche[$produit_id][$tranche_uid] = isset(TranchesPoidsPc::where('uid', $tranche_uid)->first()->nom) ? TranchesPoidsPc::where('uid', $tranche_uid)->first()->nom : TranchesKgPc::where('uid', $tranche_uid)->first()->nom;
                 // foreach ($produits as $key => $produit){
                 //     $lots[$key] = $produit->lot_num;
                 // }
+                $nbr_pc = LotTranche::where('lot_num', $produits[0]->lot_num)->where('tranche_id', $tranche_uid)->first(['qte'])->qte;
                 $this->nbr_piece[$produit_id][$tranche_uid] = LotTranche::where('lot_num', $produits[0]->lot_num)->where('tranche_id', $tranche_uid)->first(['qte'])->qte;
                 //     dd(LotTranche::where('lot_num', $produits[0]->lot_num)->where('tranche_id', $tranche_uid)->get(['qte']));
                 // $this->nom_tranche[$produit_id][$tranche_uid]
