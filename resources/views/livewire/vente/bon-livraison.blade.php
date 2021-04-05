@@ -135,75 +135,97 @@
                             <div class="modal-dialog modal-xxl modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">{{ __('Entrée de stock') }}</h5>
+                                        <h5 class="modal-title">{{ __('Bon de livraison') }}</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <i aria-hidden="true" class="ki ki-close"></i>
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form id="ajout-bl-form" class="form row" wire:submit.prevent="createStock" {{-- wire:submit.prevent="createLots" --}}>
-                                            <div class="form-group col">
-                                                <label>{{ __('Réf. bon de livraison') }}</label>
-                                                <div class="input-group input-group-prepend">
-                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-hashtag icon-lg"></i></span></div>
-                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="ref_bl"/>
-                                               </div>
-                                                @error('ref_bl')
-                                                    <span class="form-text text-danger">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                            <div class="form-group col">
-                                                <label>{{ __('Client') }}</label>
-                                                <div class="input-group input-group-prepend">
-                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
-                                                    <select class="form-control" wire:model="client">
-                                                        <option>{{ __('Choisir un client') }}</option>
-                                                        @foreach ($list_clients as $item)
-                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                        @endforeach
-
-                                                    </select>
+                                        <form id="ajout-bl-form"  wire:submit.prevent="createStock" {{-- wire:submit.prevent="createLots" --}}>
+                                            <div class="form row">
+                                                <div class="form-group col">
+                                                    <label>{{ __('Réf. bon de livraison') }}</label>
+                                                    <div class="input-group input-group-prepend">
+                                                        <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-hashtag icon-lg"></i></span></div>
+                                                        <input type="text" class="form-control" placeholder=" " wire:model.defer="ref_bl"/>
                                                 </div>
-                                                @error('client')
-                                                    <span class="form-text text-danger">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                            <div class="form-group col">
-                                                <label>{{ __("Date") }}</label>
-                                                <div class="input-group input-group-prepend">
-                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar-plus icon-lg"></i></span></div>
-                                                    <input id="date" type="text" class="form-control datepicker" placeholder=" " wire:model.defer="date" autocomplete="off"/>
+                                                    @error('ref_bl')
+                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
-                                                @error('date')
-                                                    <span class="form-text text-danger">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                            <div class="form-group col">
-                                                <label>{{ __("Dépôt") }}</label>
-                                                <div class="input-group input-group-prepend">
-                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
-                                                    <select class="form-control" wire:model.defer="depot">
-                                                        <option>{{ __('Choisir un dépôt') }}</option>
-                                                        @foreach ($list_depots as $item)
-                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                        @endforeach
+                                                <div class="form-group col">
+                                                    <label>{{ __('Client') }}</label>
+                                                    <div class="input-group input-group-prepend">
+                                                        <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
+                                                        <select class="form-control" wire:model="client">
+                                                            <option>{{ __('Choisir un client') }}</option>
+                                                            @foreach ($list_clients as $item)
+                                                                <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                            @endforeach
 
-                                                    </select>
+                                                        </select>
+                                                    </div>
+                                                    @error('client')
+                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
-                                                @error('depot')
-                                                    <span class="form-text text-danger">{{ $message }}</span>
-                                                @enderror
+                                                <div class="form-group col">
+                                                    <label>{{ __("Date") }}</label>
+                                                    <div class="input-group input-group-prepend">
+                                                        <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar-plus icon-lg"></i></span></div>
+                                                        <input id="date" type="text" class="form-control datepicker" placeholder=" " wire:model.defer="date" autocomplete="off"/>
+                                                    </div>
+                                                    @error('date')
+                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                                <div class="form-group col">
+                                                    <label>{{ __("Dépôt") }}</label>
+                                                    <div class="input-group input-group-prepend">
+                                                        <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
+                                                        <select class="form-control" wire:model.defer="depot">
+                                                            <option>{{ __('Choisir un dépôt') }}</option>
+                                                            @foreach ($list_depots as $item)
+                                                                <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                            @endforeach
+
+                                                        </select>
+                                                    </div>
+                                                    @error('depot')
+                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+
                                             </div>
 
-                                            <div class="form-group col">
-                                                <label>{{ __('Rechercher un produit') }}</label>
-                                                <div class="input-group input-group-prepend">
-                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-hashtag icon-lg"></i></span></div>
-                                                    <input type="text" class="form-control" placeholder=" " wire:model="recherche_produit"/>
-                                               </div>
-                                                @error('recherche_produit')
-                                                    <span class="form-text text-danger">{{ $message }}</span>
-                                                @enderror
+                                            <div class="form row">
+                                                <div class="form-group col-lg-4">
+                                                    <label>{{ __('Catégorie') }}</label>
+                                                    <div class="input-group input-group-prepend">
+                                                        <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
+                                                        <select class="form-control" wire:model="categorie">
+                                                            <option>{{ __('Choisir une catégorie') }}</option>
+                                                            @foreach ($list_categorie as $item)
+                                                                <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                            @endforeach
+
+                                                        </select>
+                                                    </div>
+                                                    @error('categorie')
+                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                                <div class="form-group col-lg-4">
+                                                    <label>{{ __('Rechercher un produit') }}</label>
+                                                    <div class="input-group input-group-prepend">
+                                                        <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-hashtag icon-lg"></i></span></div>
+                                                        <input type="text" class="form-control" placeholder=" " wire:model="recherche_produit"/>
+                                                </div>
+                                                    @error('recherche_produit')
+                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+
                                             </div>
 
 
@@ -220,7 +242,7 @@
                                                         <th class="pl-0">Qualité</th>
                                                         <th class="pl-0">Pas</th> --}}
                                                         <th class="pl-0">Tranches</th>
-                                                        <th class="pl-0">Détails</th>
+                                                        {{-- <th class="pl-0">Détails</th> --}}
 
                                                     </tr>
                                                 </thead>
@@ -236,21 +258,26 @@
 
                                                                 <td class="pl-0">
                                                                     @foreach ($item as $tranche_uid => $produits)
-                                                                        <span class="label label-primary label-inline mr-2">{{$nom_tranche[$i][$tranche_uid]}} | {{$nbr_piece[$i][$tranche_uid]}}</span>
+                                                                        <a class="btn btn-outline-primary" data-toggle="collapse" href="#{{$tranche_uid}}" role="button" aria-expanded="false" aria-controls="{{$tranche_uid}}">
+                                                                            <span class="label label-primary label-inline mr-2">{{$nom_tranche[$i][$tranche_uid]}}</span>
+                                                                            <span class="label label-primary mr-2">{{$nbr_piece[$i][$tranche_uid]}}</span>
+
+                                                                        </a>
+                                                                        {{-- <span class="label label-primary label-inline mr-2">{{$nom_tranche[$i][$tranche_uid]}} | {{$nbr_piece[$i][$tranche_uid]}}</span> --}}
                                                                     @endforeach
-                                                                    </td>
-                                                                <td class="pl-0">
+                                                                </td>
+                                                                {{-- <td class="pl-0">
                                                                     <button type="button">
                                                                         <i class="flaticon-plus text-primary"></i>
                                                                     </button>
-                                                                </td>
+                                                                </td> --}}
                                                             </tr>
 
                                                 </tbody>
                                                 <tbody id="group-of-rows-{{$i}}" class="collapse">
                                                     <tr>
-                                                        {{-- <th>Tranche</th> --}}
-                                                        <th>Catégorie</th>
+                                                        {{-- <th>Tranche</th>
+                                                        <th>Catégorie</th> --}}
                                                         <th>Sous catégorie</th>
                                                         <th>Code</th>
                                                         <th>Poids</th>
@@ -272,11 +299,9 @@
                                                         <th></th>
                                                     </tr>
                                                     @foreach ($item as $tranche_uid => $produits)
-                                                        <tr class="text-center">
-                                                            <th colspan="15">{{$nom_tranche[$i][$tranche_uid]}} | {{$nbr_piece[$i][$tranche_uid]}}</th>
-                                                        </tr>
+
                                                         @foreach ( $produits as $key => $produit)
-                                                            <tr class="clickable" data-toggle="collapse" data-target="#group-of-rows-{{$tranche_uid}}" aria-expanded="false" aria-controls="group-of-rows-{{$tranche_uid}}">
+                                                            <tr class="collapse" id="{{$tranche_uid}}">
                                                                 {{-- <td>{{$nom_tranche[$i][$tranche_uid]}}</td> --}}
                                                                 @php
                                                                     switch ($profile) {
@@ -287,12 +312,12 @@
                                                                             $prix = $produit->prix_f;
                                                                             break;
                                                                         case "Business":
-                                                                             $prix = $produit->prix_p;
+                                                                                $prix = $produit->prix_p;
                                                                             break;
                                                                     }
 
                                                                 @endphp
-                                                                <td>{{$produit->categorie->nom}}</td>
+                                                                {{-- <td>{{$produit->categorie->nom}}</td> --}}
                                                                 <td>{{$produit->sousCategorie->nom}}</td>
                                                                 <td>{{$produit->code}}</td>
                                                                 <td>{{$produit->poids}}</td>
@@ -373,6 +398,7 @@
                                                                 </td>
 
                                                             </tr>
+
                                                         @endforeach
 
                                                     @endforeach

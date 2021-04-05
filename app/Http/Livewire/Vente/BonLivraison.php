@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Vente;
 
 use App\Models\BonLivraison as ModelBonLivraison;
+use App\Models\Categorie;
 use App\Models\Client;
 use App\Models\Depot;
 use App\Models\LotTranche;
@@ -41,7 +42,7 @@ class BonLivraison extends Component
     public $liste_kg_pc = [];
     public $list_tranches = [];
     public $list_depots = [];
-    public $showNbrPiece = false;
+    public $list_categorie = [];
 
     public $countInputs;
     public $i = 0;
@@ -65,6 +66,7 @@ class BonLivraison extends Component
     public $nbr_piece = [];
     public $client;
     public $profile;
+    public $categorie = [];
 
     public $totalMts = [];
     public $totalTtcs = [];
@@ -84,16 +86,20 @@ class BonLivraison extends Component
     {
         $this->list_clients = Client::all()->sortBy('nom');
         $this->list_depots = Depot::all()->sortBy('nom');
+        $this->list_categorie = Categorie::all()->sortBy('nom');
     }
 
     public function updatedClient($value){
         $this->profile = Client::where('id', $value)->first()->profil->nom;
+        //$this->updatedRechercheProduit();
 
     }
 
     public function updatedRechercheProduit(){
 
-        $list_produits = StockPoidsPc::where('depot_id', $this->depot)
+        $list_produits_poids_pc = StockPoidsPc::where('depot_id', $this->depot)
+            ->where('categorie_id', $this->categorie)
+            //->where('poids', $this->recherche_poids)
             ->where(function ($query) {
                 $query->where(
                     function ($query) {
@@ -111,7 +117,8 @@ class BonLivraison extends Component
             ->get();
             //->groupBy(['produit_id','tranche_id']);
 
-        $list_produits2 = StockKgPc::where('depot_id', $this->depot)
+        $list_produits_kg_pc = StockKgPc::where('depot_id', $this->depot)
+        ->where('categorie_id', $this->categorie)
         ->where(function ($query) {
             $query->where(
                 function ($query) {
@@ -130,12 +137,12 @@ class BonLivraison extends Component
         //->groupBy(['produit_id', 'tranche_id']);
 
         $collection = collect();
-        foreach ($list_produits as $poids_pc)
+        foreach ($list_produits_poids_pc as $poids_pc)
             $collection->push($poids_pc);
-        foreach ($list_produits2 as $kg_pc)
+        foreach ($list_produits_kg_pc as $kg_pc)
             $collection->push($kg_pc);
         $this->list_produits = $collection->groupBy(['produit_id', 'tranche_id']);
-        //dd($this->list_produits);
+
 
             foreach ($this->list_produits as $produit_id => $tranches) {
                 //dd($this->list_produits);
@@ -158,6 +165,11 @@ class BonLivraison extends Component
 
         if ($this->recherche_produit === '') $this->list_produits = [];
         //dd($this->nom_produit, $this->nom_tranche, $produits);
+
+    }
+
+    public function updatedCategorie(){
+         $this->list_produits = [];
 
     }
 
