@@ -2630,10 +2630,12 @@ main {
   margin-top: -1rem;
   padding-left: 0;
 }
+.product .product-content .carousel-inner {
+  border-radius: 0 0 3rem 0;
+}
 .product .product-content .carousel-inner,
 .product .product-content .carousel-item {
   height: 600px;
-  border-radius: 0 0 3rem 0;
 }
 .product .product-content .carousel-item img {
   height: 100%;

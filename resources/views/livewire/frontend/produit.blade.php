@@ -25,7 +25,7 @@
 							<div class="carousel-item active">
                                 <img src="{{ asset(Storage::url($items[0]->produit->photo_principale)) }}" class="d-block w-100" alt="Preview Image">
 							</div>
-                            @foreach ($produit_photos as $key => $photo)
+                            @foreach ($produit_photos as $tranche_id => $photo)
                                 <div class="carousel-item">
                                     <img src="{{ asset(Storage::url($photo->photo)) }}" class="d-block w-100" alt="Preview Image">
                                 </div>
@@ -43,8 +43,8 @@
 							<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">
 								<img src="{{ asset(Storage::url($items[0]->produit->photo_principale)) }}" alt="Preview Image">
 							</li>
-                            @foreach ($produit_photos as $key => $photo)
-                                <li data-target="#carouselExampleIndicators" data-slide-to="{{ $key+1 }}">
+                            @foreach ($produit_photos as $tranche_id => $photo)
+                                <li data-target="#carouselExampleIndicators" data-slide-to="{{ $tranche_id+1 }}">
                                     <img src="{{ asset(Storage::url($photo->photo)) }}" alt="Preview Image">
                                 </li>
                             @endforeach
@@ -69,20 +69,17 @@
 					<section class="typical-section">
 							<div class="form-group">
 								<label class="form-label" for="product-size"><i class="fa fa-ruler"></i>Tranches</label>
-                                @foreach ($items as $key => $item)
-                                {{-- @for ($inc = 0; $inc < $key; $inc++)
-                                    @php $count_rows += $inc @endphp
-                                @endfor --}}
+                                @foreach ($tranches as $tranche_id => $tranche)
                                     <div class="tranche-info">
                                         <div class="row">
                                             <div class="col-6">
-                                                <div class="tranche"><span>{{ $item->tranche->min_poids }} kg</span> - <span>{{ $item->tranche->max_poids }} kg</span></div>
-                                                <div class="tranche-prix"><span class="prix">{{ $item->prix_n }}</span> Dh/{{ $item->produit->unite->nom }}</div>
+                                                <div class="tranche"><span>{{ $tranche["nom"] }} kg</span></div>
+                                                <div class="tranche-prix"><span class="prix">{{ $tranche["prix"] }}</span> Dh/{{-- $item->produit->unite->nom --}}</div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="input-group">
                                                     <span class="input-group-btn"><button class="btn btn-default-outline" type="button">-</button></span>
-                                                    <input {{--wire:click="add()"--}} class="form-control" type="test" placeholder="Qte" wire:model="qte.{{$key}}">
+                                                    <input {{--wire:click="add()"--}} class="form-control" type="test" placeholder="Qte" wire:model="qte.{{$tranche_id}}">
                                                     <span class="input-group-btn"></span>
                                                     <span class="input-group-btn"><button class="btn btn-default-outline" type="button">+</button></span>
                                                 </div>
@@ -91,32 +88,27 @@
                                             </div>
                                         </div>
                                         <table class="table table-bordered table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>Qte</th>
-                                                    <th>Montant</th>
-                                                    <th>Préparation</th>
-                                                </tr>
-                                            </thead>
-                                            @php $rows = !empty($count_rows[$key]) ? $count_rows[$key] : 0; @endphp
+                                            @php $rows = !empty($count_rows[$tranche_id]) ? $count_rows[$tranche_id] : 0; @endphp
                                             @for ($i = 0; $i < $rows; $i++)
+                                                @foreach ($stock as $item)
+                                                @php dd($item) @endphp
                                                 <tbody>
                                                     <tr>
-                                                        <td>{{ $item->poids }} kg</td>
-                                                        <td>{{ $item->poids*$item->prix_n }} DH</td>
+                                                        <td>{{ $item[0]['poids'] }} kg</td>
+                                                        <td> DH</td>
                                                         <td>
-                                                            <div x-data="{ open{{$key}}:false }">
+                                                            <div x-data="{ open{{$tranche_id}}:false }">
                                                                 <div class="d-flex">
                                                                     <div class="radio">
-                                                                        <input @click="open{{$key}} = 1" type="radio" name="mode{{$key}}-{{$i}}" id="radio-1-{{$key}}-{{$i}}" value="option1">
-                                                                        <label for="radio-1-{{$key}}-{{$i}}">Mode Cuisine</label>
+                                                                        <input @click="open{{$tranche_id}} = 1" type="radio" name="mode{{$tranche_id}}-{{$i}}" id="radio-1-{{$tranche_id}}-{{$i}}" value="option1">
+                                                                        <label for="radio-1-{{$tranche_id}}-{{$i}}">Mode Cuisine</label>
                                                                     </div>
                                                                     <div class="radio">
-                                                                        <input @click="open{{$key}} = 2" type="radio" name="mode{{$key}}-{{$i}}" id="radio-2-{{$key}}-{{$i}}" value="option2">
-                                                                        <label for="radio-2-{{$key}}-{{$i}}">Mode Nettoyage</label>
+                                                                        <input @click="open{{$tranche_id}} = 2" type="radio" name="mode{{$tranche_id}}-{{$i}}" id="radio-2-{{$tranche_id}}-{{$i}}" value="option2">
+                                                                        <label for="radio-2-{{$tranche_id}}-{{$i}}">Mode Nettoyage</label>
                                                                     </div>
                                                                 </div>
-                                                                <select x-show="open{{$key}} == 1" class="form-control">
+                                                                <select x-show="open{{$tranche_id}} == 1" class="form-control">
                                                                     <option>Mode Cuisine</option>
                                                                     <option>Four</option>
                                                                     <option>Friture</option>
@@ -124,16 +116,17 @@
                                                                     <option>Plancha</option>
                                                                     <option>Tajine</option>
                                                                 </select>
-                                                                <select x-show="open{{$key}} == 2" class="form-control" multiple>
+                                                                <select x-show="open{{$tranche_id}} == 2" class="form-control" multiple>
                                                                     <option>Mode Nettoyage</option>
-                                                                    @foreach ( $item->produit->preparations as $preparations )
+                                                                    {{-- @foreach ( $item->produit->preparations as $preparations )
                                                                         <option>{{ $preparations->preparation->nom }}</option>
-                                                                    @endforeach
+                                                                    @endforeach --}}
                                                                 </select>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                 </tbody>
+                                                @endforeach
                                             @endfor
                                         </table>
                                     </div>
