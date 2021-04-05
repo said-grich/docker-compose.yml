@@ -77,12 +77,13 @@
                                         <div class="row">
                                             <div class="col-6">
                                                 <div class="tranche"><span>{{ $item->tranche->min_poids }} kg</span> - <span>{{ $item->tranche->max_poids }} kg</span></div>
-                                                <div class="tranche-prix"><span class="prix">{{ $item->prix_n }}</span> Dh/Kg </div>
+                                                <div class="tranche-prix"><span class="prix">{{ $item->prix_n }}</span> Dh/{{ $item->produit->unite->nom }}</div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="input-group">
                                                     <span class="input-group-btn"><button class="btn btn-default-outline" type="button">-</button></span>
                                                     <input {{--wire:click="add()"--}} class="form-control" type="test" placeholder="Qte" wire:model="qte.{{$key}}">
+                                                    <span class="input-group-btn"></span>
                                                     <span class="input-group-btn"><button class="btn btn-default-outline" type="button">+</button></span>
                                                 </div>
                                                 {{-- <div class="tranche-total-poid">{{ $item->poids }} kg</div>

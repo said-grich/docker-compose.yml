@@ -16,6 +16,7 @@ class ProduitInfo extends Component
     public $produit_id;
     public $produit_photos;
     public $items;
+    public $test;
     public $prix_total;
     public $poids_total;
     public $qte = [];
@@ -24,6 +25,8 @@ class ProduitInfo extends Component
     
     public function mount(){
         $this->produit_id = request()->produit;
+        $this->test = StockPoidsPc::select('tranche_id')->groupBy('tranche_id')->where('produit_id', $this->produit_id)->get();
+        // dd($this->test);
         $this->items = StockPoidsPc::select()->where('produit_id', $this->produit_id)->get();
         $this->produit_photos = ProduitPhoto::select()->where('produit_id', $this->produit_id)->get();
     } 

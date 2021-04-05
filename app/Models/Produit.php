@@ -58,4 +58,9 @@ class Produit extends Model
     {
         return $this->hasMany(StockKgsPc::class);
     }
+
+    public function unite()
+    {
+        return $this->belongsTo(Unite::class);
+    }
 }

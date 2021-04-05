@@ -18,4 +18,9 @@ class Unite extends Model
     {
         return $this->hasMany(StockKgPc::class);
     }
+
+    public function produit()
+    {
+        return $this->hasMany(Produit::class);
+    }
 }

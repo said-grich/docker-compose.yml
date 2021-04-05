@@ -12,20 +12,8 @@ use Livewire\Component;
 
 class Boutique extends Component
 {
-    public $produit;
-    public $produit_id;
-    public $mode;
-    public function produit($produit_id, $mode)
-    {
-        /* $mode == 1 ?  $this->produit = StockKgPc::where('id', $produit_id)->first() : $this->produit = StockPoidsPc::where('id', $produit_id)->first(); */
-        $produit = StockPoidsPc::select('stock_poids_pcs.*')->where('produit_id', $produit_id)->get()->groupBy('produit_id');
-        dd($produit);
-
-        //dd($this->produit->lot->produit->nom);
-    }
     public function render()
     {
-
         // $items = StockPoidsPc::select('stock_poids_pcs.*')->get()->groupBy(['produit_id','categorie_id']);
         // $items = StockKgPc::select('lot_num', DB::raw('MIN(prix_n) as prix'))->groupBy('lot_num')->get();
         $items = StockPoidsPc::select('produit_id','categorie_id')->groupBy(['produit_id','categorie_id'])->get();
