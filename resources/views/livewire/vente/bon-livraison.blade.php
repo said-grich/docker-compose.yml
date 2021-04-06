@@ -141,7 +141,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form id="ajout-bl-form"  wire:submit.prevent="createStock" {{-- wire:submit.prevent="createLots" --}}>
+                                        <form id="lot-form"  wire:submit.prevent="save" {{-- wire:submit.prevent="createLots" --}}>
                                             <div class="form row">
                                                 <div class="form-group col">
                                                     <label>{{ __('Réf. bon de livraison') }}</label>
@@ -252,13 +252,13 @@
                                                             {{-- @php
                                                                 dd($i,$item);
                                                             @endphp --}}
-                                                            <tr class="clickable" data-toggle="collapse" data-target="#group-of-rows-{{$i}}" aria-expanded="false" aria-controls="group-of-rows-{{$i}}">
+                                                            <tr {{-- class="clickable" data-toggle="collapse" data-target="#group-of-rows-{{$i}}" aria-expanded="false" aria-controls="group-of-rows-{{$i}}"--}}>
 
                                                                 <td class="pl-0">{{$nom_produit[$i]}} </td>
 
                                                                 <td class="pl-0">
                                                                     @foreach ($item as $tranche_uid => $produits)
-                                                                        <a class="btn btn-outline-primary" data-toggle="collapse" href="#{{$tranche_uid}}" role="button" aria-expanded="false" aria-controls="{{$tranche_uid}}">
+                                                                        <a class="btn btn-outline-primary" {{-- data-toggle="collapse" href="#{{$tranche_uid}}" role="button" aria-expanded="false" aria-controls="{{$tranche_uid}}"--}}
                                                                             <span class="label label-primary label-inline mr-2">{{$nom_tranche[$i][$tranche_uid]}}</span>
                                                                             <span class="label label-primary mr-2">{{$nbr_piece[$i][$tranche_uid]}}</span>
 
@@ -274,13 +274,15 @@
                                                             </tr>
 
                                                 </tbody>
-                                                <tbody id="group-of-rows-{{$i}}" class="collapse">
+                                                <tbody  {{--id="group-of-rows-{{$i}}" class="collapse"--}}>
                                                     <tr>
                                                         {{-- <th>Tranche</th>
                                                         <th>Catégorie</th> --}}
                                                         <th>Sous catégorie</th>
                                                         <th>Code</th>
-                                                        <th>Poids</th>
+                                                        <th>Poids
+                                                            <input type="text" class="form-control" placeholder=" " wire:model="recherche_poids"/>
+                                                        </th>
                                                         {{-- <th>Quantité</th> --}}
                                                         <th>Unité</th>
                                                         <th>Prix Achat</th>
@@ -301,33 +303,62 @@
                                                     @foreach ($item as $tranche_uid => $produits)
 
                                                         @foreach ( $produits as $key => $produit)
-                                                            <tr class="collapse" id="{{$tranche_uid}}">
+                                                            <tr {{--class="collapse" id="{{$tranche_uid}}"--}}>
                                                                 {{-- <td>{{$nom_tranche[$i][$tranche_uid]}}</td> --}}
-                                                                @php
+                                                                {{-- @php
+                                                                //dd($produit);
                                                                     switch ($profile) {
                                                                         case "Normal":
-                                                                            $prix = $produit->prix_n;
+                                                                            $prix = $produit['prix_n'];
                                                                             break;
                                                                         case "Fidèle":
-                                                                            $prix = $produit->prix_f;
+                                                                            $prix = $produit['prix_f'];
                                                                             break;
                                                                         case "Business":
-                                                                                $prix = $produit->prix_p;
+                                                                                $prix = $produit['prix_p'];
                                                                             break;
                                                                     }
 
-                                                                @endphp
+                                                                @endphp --}}
                                                                 {{-- <td>{{$produit->categorie->nom}}</td> --}}
-                                                                <td>{{$produit->sousCategorie->nom}}</td>
-                                                                <td>{{$produit->code}}</td>
-                                                                <td>{{$produit->poids}}</td>
+                                                                {{-- <td>{{$produit->sousCategorie->nom}}</td> --}}
+                                                                <td>{{$produit['categorie']['nom']}}</td>
+
+                                                                <td>
+                                                                    @if (isset($produit['code']))
+                                                                        {{$produit['code']}}
+                                                                    @else
+                                                                        -
+                                                                    @endif
+                                                                </td>
+                                                                <td>
+                                                                    @if (isset($produit['poids']))
+                                                                        {{$produit['poids']}}
+                                                                    @else
+                                                                        -
+                                                                    @endif
+
+                                                                </td>
+                                                                <td>@isset($produit['unite']['nom'])
+                                                                    {{$produit['unite']['nom']}}
+
+                                                                @endisset</td>
                                                                 {{-- <td>{{$produit->qte}}</td> --}}
-                                                                <td>{{$produit->unite->nom}}</td>
-                                                                <td>{{$produit->prix_achat}}</td>
+                                                                {{-- <td>{{$produit->unite->nom}}</td> --}}
+                                                                <td>
+                                                                    @isset($produit['prix_achat'])
+                                                                    {{$produit['prix_achat']}}
+
+                                                                    @endisset</td>
+                                                                <td>
+                                                                    @isset($prix[$key])
+                                                                    {{$prix[$key]}}
+
+                                                                    @endisset</td>
                                                                 {{-- <td>{{$produit->prix_n}}</td>
                                                                 <td>{{$produit->prix_f}}</td>
                                                                 <td>{{$produit->prix_p}}</td>  --}}
-                                                                @if($profile === "Normal")
+                                                                {{-- @if($profile === "Normal")
                                                                     <td>{{$produit->prix_n}}</td>
                                                                 @endif
                                                                 @if($profile == "Fidèle")
@@ -335,26 +366,31 @@
                                                                 @endif
                                                                 @if($profile == "Business")
                                                                     <td>{{$produit->prix_p}}</td>
-                                                                @endif
-                                                                <td>{{$produit->lot_num}}</td>
-                                                                <td>
+                                                                @endif --}}
+                                                                <td>{{$produit['lot_num']}}</td>
+                                                                <td>{{$produit['qte']}}</td>
+                                                                {{-- <td>
                                                                     @isset($produit->qualite->nom)
                                                                         {{$produit->qualite->nom}}
                                                                     @endisset
                                                                     @isset($produit->lot->qualite->nom)
                                                                         {{$produit->lot->qualite->nom}}
                                                                     @endisset
-                                                                </td>
-                                                                <td>{{$produit->pas}}</td>
+                                                                </td> --}}
+                                                                {{-- <td>{{$produit->pas}}</td> --}}
                                                                 <td>
-                                                                    <div x-data="{ 'isDialogOpen': false, qte: null,tranche:'{{$tranche_uid}}',code:'{{$produit->code}}', prix:{{$prix}},lot:'{{$produit->lot_num}}', qmax:{{$nbr_piece[$i][$tranche_uid]}} }"
+
+                                                                    <div x-data="{ 'isDialogOpen': false, qte: null,tranche:'{{$tranche_uid}}',code:'{{$produit['code']}}', prix:{{$prix[$key]}},lot:'{{$produit['lot_num']}}', qmax:{{$produit['qte']}},categorie:{{$produit['categorie']['id']}} }"
                                                                         @keydown.escape="isDialogOpen = false">
+                                                                        @if (!isset($produit['code']))
                                                                             <button type="button" @click="isDialogOpen = true" class="btn btn-outline-primary">Ajouter</button>
+
 
                                                                             <div class=" overflow-auto"
                                                                             style="background-color: rgba(0,0,0,0.5)"
                                                                             x-show="isDialogOpen"
                                                                             :class="{ 'fixed inset-0 z-10 flex items-start justify-center': isDialogOpen }">
+
 
                                                                             <div class="bg-white shadow-2xl m-auto"
                                                                                 x-show="isDialogOpen">
@@ -381,20 +417,26 @@
                                                                                                     <span class="text-red-500"
                                                                                                         x-show="qte>qmax">La quantité
                                                                                                         doit être inférieure à
-                                                                                                        {{$nbr_piece[$i][$tranche_uid]}}</span>
+                                                                                                        {{$produit['qte']}}</span>
                                                                                                 </label>
 
                                                                                             </div>
                                                                                             <div class="text-right pt-3 pr-4" x-show="qte>0 && qte<=qmax">
-                                                                                                <button type="button"
-                                                                                                    class=""
-                                                                                                    @click="$wire.add({{ $loop->index }},{{$i}},qte,prix,lot,code,tranche);isDialogOpen = false">Valider</button>
+                                                                                                <button type="button" class="btn btn-outline-primary" @click="$wire.add({{ $loop->index }},{{$i}},qte,prix,lot,code,tranche);isDialogOpen = false">Valider</button>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
+
+                                                                            </div>
+                                                                            @else
+                                                                            <button type="button" class="btn btn-outline-primary" @click="$wire.add({{ $loop->index }},{{$i}},1,prix,lot,code,tranche,categorie);isDialogOpen = false">Ajouter</button>
+
+
+                                                                        @endif
                                                                     </div>
+
                                                                 </td>
 
                                                             </tr>
@@ -418,6 +460,7 @@
                                                         <th class="pl-0">Poids</th>
                                                         <th class="pl-0">Quantité à livrée</th>
                                                         <th class="pl-0">Prix</th>
+                                                        <th class="pl-0">Montant</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -447,6 +490,12 @@
                                                             <td class="pl-0">
                                                                 @isset($prix_vente[$key])
                                                                     {{ $prix_vente[$key] }}
+                                                                @endisset
+                                                            </td>
+
+                                                            <td class="pl-0">
+                                                                @isset($montant[$key])
+                                                                    {{ number_format($montant[$key], 2, ',', ' ') }}
                                                                 @endisset
                                                             </td>
                                                         </tr>

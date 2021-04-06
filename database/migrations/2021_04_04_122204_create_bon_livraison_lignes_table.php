@@ -15,6 +15,18 @@ class CreateBonLivraisonLignesTable extends Migration
     {
         Schema::create('bon_livraison_lignes', function (Blueprint $table) {
             $table->id();
+
+            $table->float('qte');
+            $table->double('prix');
+            $table->double('montant');
+
+            $table->string('bon_livraison_ref');
+            $table->foreign('bon_livraison_ref')->references('ref')->on('bon_livraisons');
+            $table->unsignedBigInteger('produit_id');
+            $table->foreign('produit_id')->references('id')->on('produits');
+            $table->unsignedBigInteger('categorie_id');
+            $table->foreign('categorie_id')->references('id')->on('categories');
+
             $table->timestamps();
         });
     }

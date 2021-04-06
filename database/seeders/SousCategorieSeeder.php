@@ -100,29 +100,29 @@ class SousCategorieSeeder extends Seeder
         ]);
 
 
-        ///// Poissons élaborés
+        // ///// Poissons élaborés
 
-        SousCategorie::create([
-            'nom' => 'Viande',
-            'categorie_id' => 6 ,
-        ]);
+        // SousCategorie::create([
+        //     'nom' => 'Viande',
+        //     'categorie_id' => 6 ,
+        // ]);
 
-        SousCategorie::create([
-            'nom' => 'Fish',
-            'categorie_id' => 6 ,
-        ]);
+        // SousCategorie::create([
+        //     'nom' => 'Fish',
+        //     'categorie_id' => 6 ,
+        // ]);
 
-        SousCategorie::create([
-            'nom' => 'Fish',
-            'categorie_id' => 6 ,
-        ]);
+        // SousCategorie::create([
+        //     'nom' => 'Fish',
+        //     'categorie_id' => 6 ,
+        // ]);
 
         ///// Poissons Epicerie
 
-        SousCategorie::create([
-            'nom' => 'Epicerie produits de mer',
-            'categorie_id' => 7 ,
-        ]);
+        // SousCategorie::create([
+        //     'nom' => 'Epicerie produits de mer',
+        //     'categorie_id' => 7 ,
+        // ]);
 
 
     }

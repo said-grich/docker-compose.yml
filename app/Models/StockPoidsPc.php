@@ -10,6 +10,10 @@ class StockPoidsPc extends Model
     use HasFactory;
     protected $guarded = [];
 
+    protected $casts = [
+        'poids' => 'double',
+    ];
+
     public function tranche()
     {
         return $this->belongsTo(TranchesPoidsPc::class, 'tranche_id', 'uid');
