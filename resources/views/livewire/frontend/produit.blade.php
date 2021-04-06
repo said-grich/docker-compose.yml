@@ -88,8 +88,8 @@
                                             </div>
                                         </div>
                                         <table class="table table-bordered table-hover">
-                                            @if(!empty($test) && $tranche_id == $t)
-                                                @foreach ($test as $i => $item)
+                                            @if(!empty($tranches_stock) && $tranche_id == $index)
+                                                @foreach ($tranches_stock as $i => $item)
                                                 <tbody>
                                                     <tr>
                                                         <td>{{ $item['poids'] }} kg</td>

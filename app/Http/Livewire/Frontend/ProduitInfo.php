@@ -19,16 +19,17 @@ class ProduitInfo extends Component
     public $produit_id;
     public $produit;
     public $produit_photos;
-    public $test;
+    public $tranches_stock;
     public $items;
     public $stock;
     public $prix_total;
     public $poids_total;
+    public $tranche_items = [];
     public $tranches = [];
     public $qte = [];
     public $prix = [];
     public $count_rows = [];
-    public $t;
+    public $index;
     
     public function mount(){
         $this->produit_id = request()->produit;
@@ -54,16 +55,23 @@ class ProduitInfo extends Component
     } 
     
     public function updatedQte($value,$index){
-        $this->t = $index;
+        $this->index = $index;
 
         $this->count_rows[$index] = $value;
         
         if($this->produit[0]->mode_vente_id === 1){
-            $this->test = StockPoidsPc::select()->where('produit_id', $this->produit_id)->where('tranche_id', $index)->limit($value)->get();
+            $this->tranches_stock = StockPoidsPc::select()->where('produit_id', $this->produit_id)->where('tranche_id', $index)->limit($value)->get();
         }
         else if($this->produit[0]->mode_vente_id === 2){
-            $this->test = StockKgPc::select()->where('produit_id', $this->produit_id)->where('tranche_id', $index)->limit($value)->get();
+            $this->tranches_stock = StockKgPc::select()->where('produit_id', $this->produit_id)->where('tranche_id', $index)->limit($value)->get();
         }
+
+        foreach ($this->tranches_stock as $item){
+            array_push($this->tranche_items, $item);
+        }
+
+        
+
         //dd($this->test);
         // foreach($this->items as $key => $item){
         //     if(!empty($this->qte[$key])){
