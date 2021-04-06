@@ -87,11 +87,7 @@
                                                 <div class="tranche-total-prix"><span class="prix">{{ $item->poids*$item->prix_n }}</span> Dh</div> --}}
                                             </div>
                                         </div>
-                                        @if($tranche_id != $t)
-                                        <table wire:ignore class="table table-bordered table-hover">
-                                        @elseif($tranche_id == $t)
-                                        <table wire:ignore.self class="table table-bordered table-hover">
-                                        @endif
+                                        <table class="table table-bordered table-hover">
                                             @if(!empty($test) && $tranche_id == $t)
                                                 @foreach ($test as $i => $item)
                                                 <tbody>
@@ -138,12 +134,13 @@
 							</div>
 					</section>
 					<section class="typical-section">
-						<a class="add-to-cart cd-add-to-cart js-cd-add-to-cart" data-id="" data-title="" data-price="" data-pic="" data-color="" data-size="">
+						<a wire:click="addToCart({{ $items[0]->produit->id }})" class="add-to-cart cd-add-to-cart js-cd-add-to-cart" data-id="" data-title="" data-price="" data-pic="" data-color="" data-size="">
 							<em>Ajouter au Panier</em>
 							<svg x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32">
 								<path stroke-dasharray="19.79 19.79" stroke-dashoffset="19.79" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9,17l3.9,3.9c0.1,0.1,0.2,0.1,0.3,0L23,11" style="stroke-dashoffset: 19.79;"></path>
 							</svg>
 						</a>
+                        <button wire:click="clear()" class="btn">Clear Cart</button>
 					</section>
 					<section class="typical-section">
 						<div class="notes">

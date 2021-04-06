@@ -1,4 +1,4 @@
-<!-- Start Navbar -->
+{{-- Start Navbar --}}
 <div class="top-bar main-content" class="tb-text-white">
 	<div class="container">
 		<div class="row">          
@@ -33,7 +33,7 @@
 
 	<ul class="cd-header-buttons">
 		<li><a class="cd-search-trigger" href="#cd-search"><span></span></a></li>
-		<li><a class="cd-cart-trigger" href="#cd-cart"><i class="fa fa-shopping-cart"></i></a></li>
+		<li><a class="cd-cart-trigger" href="#cd-cart"><i class="fa fa-shopping-cart"></i>({{ $cartTotal }})</a></li>
 		<li><a class="cd-nav-trigger" href="#cd-primary-nav"><span></span></a></li>
 	</ul> <!-- cd-header-buttons -->
 	<div id="cd-search" class="cd-search">

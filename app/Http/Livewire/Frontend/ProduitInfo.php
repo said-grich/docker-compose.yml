@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Frontend;
 
+use App\Facades\Cart;
 use App\Models\Lot;
 use App\Models\Produit;
 use App\Models\ProduitPhoto;
@@ -42,15 +43,14 @@ class ProduitInfo extends Component
         }
 
         $collection = collect();
-        foreach ($this->items as $item)
+        foreach ($this->items as $item){
             $collection->push($item);
+        }
         $this->stock = $collection->groupBy('tranche_id');
 
-        foreach ($this->stock as $tranche_uid => $tranche) {
-            //dd($produits);
+        foreach ($this->stock as $tranche_uid => $tranche){
             $this->tranches[$tranche_uid] = ['nom' => isset(TranchesPoidsPc::where('uid', $tranche_uid)->first()->nom) ? TranchesPoidsPc::where('uid', $tranche_uid)->first()->nom : TranchesKgPc::where('uid', $tranche_uid)->first()->nom, 'prix' => $tranche[0]->prix_n, "qte" => count($tranche)];
         }
-        //dd($this->tranches);
     } 
     
     public function updatedQte($value,$index){
@@ -75,8 +75,20 @@ class ProduitInfo extends Component
         // $this->prix_total = array_sum($this->prix);
     }
 
-    public function render()
+    public function addToCart(int $productId)
     {
+        Cart::add(Produit::where('id', $productId)->first());
+        $this->emit('productAdded');
+    }
+
+    public function clear()
+    {
+        Cart::clear();
+        $this->emit('clearCart');
+        $this->cart = Cart::get();
+    }
+
+    public function render(){
         return view('livewire.frontend.produit')->layout('layouts.frontend.app');
     }
 }

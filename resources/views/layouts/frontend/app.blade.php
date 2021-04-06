@@ -42,17 +42,14 @@
     </head>
 
     <!--begin::Body-->
-	<body id="kt_body" class="page-loading-enabled page-loading header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed page-loading">
+	<body>
 
         <!--begin::Main-->
-		@include('layouts.frontend.aside-bar')
+		@livewire('frontend.nav-bar')
 
 		<!--begin::Content-->
-		<div >
-
-			<!--[html-partial:include:{"file":"partials/_subheader/subheader-v1.html"}]/-->
+		<div>
 			{{ $slot }}
-
 		</div>
 		<!--end::Content-->
 
