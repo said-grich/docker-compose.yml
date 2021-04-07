@@ -67,10 +67,8 @@ class ProduitInfo extends Component
         }
 
         foreach ($this->tranches_stock as $item){
-            array_push($this->tranche_items, $item);
+            $this->tranche_items[] = $item;
         }
-
-        
 
         //dd($this->test);
         // foreach($this->items as $key => $item){

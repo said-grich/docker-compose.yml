@@ -24,6 +24,7 @@ class NavBar extends Component
     public function updateCartTotal()
     {
         $this->cartTotal = count(Cart::get()['products']);
+        dump($this->cartTotal);
         request()->session()->put('cartTotal', $this->cartTotal);
     }
 
