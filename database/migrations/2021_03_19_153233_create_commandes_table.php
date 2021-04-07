@@ -15,6 +15,7 @@ class CreateCommandesTable extends Migration
     {
         Schema::create('commandes', function (Blueprint $table) {
             $table->id();
+            $table->string('ref');
             $table->macAddress('mac_address');
             $table->date('date');
             $table->date('date_livraison');
@@ -27,7 +28,7 @@ class CreateCommandesTable extends Migration
 
             $table->unsignedBigInteger('mode_livraison_id');
             $table->unsignedBigInteger('mode_paiement_id');
-            $table->unsignedBigInteger('ville_id');
+            //$table->unsignedBigInteger('ville_id');
             $table->unsignedBigInteger('client_id');
             $table->unsignedBigInteger('ville_quartie_id');
             $table->unsignedBigInteger('livreur_id');

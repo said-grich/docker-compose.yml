@@ -24,5 +24,53 @@ class RegionSeeder extends Seeder
             'nom' => 'Rabat',
         ]);
 
+        /* Region::create([
+            'nom' => 'Tanger-Tétouan-Al Hoceïma',
+        ]);
+
+        Region::create([
+            'nom' => "l'Oriental",
+        ]);
+
+        Region::create([
+            'nom' => "Fès-Meknès",
+        ]);
+
+        Region::create([
+            'nom' => "Rabat-Salé-Kénitra",
+        ]);
+
+        Region::create([
+            'nom' => "Béni Mellal-Khénifra",
+        ]);
+
+        Region::create([
+            'nom' => "Casablanca-Settat",
+        ]);
+
+        Region::create([
+            'nom' => "Marrakech-Safi",
+        ]);
+
+        Region::create([
+            'nom' => "Drâa-Tafilalet",
+        ]);
+
+        Region::create([
+            'nom' => "Souss-Massa",
+        ]);
+
+        Region::create([
+            'nom' => "Guelmim-Oued Noun",
+        ]);
+
+        Region::create([
+            'nom' => "Laâyoune-Sakia El Hamra",
+        ]);
+
+        Region::create([
+            'nom' => "Dakhla-Oued Ed Dahab",
+        ]); */
+
     }
 }
