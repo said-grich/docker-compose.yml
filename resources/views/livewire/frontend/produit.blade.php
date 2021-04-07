@@ -68,28 +68,27 @@
 					</section>
 					<section class="typical-section">
 							<div class="form-group">
-								<label class="form-label" for="product-size"><i class="fa fa-ruler"></i>Tranches</label>
-                                @foreach ($tranches as $tranche_id => $tranche)
+								{{-- <label class="form-label" for="product-size"><i class="fa fa-ruler"></i>Tranches</label> --}}
+                                @foreach (Arr::sort($tranches) as $tranche_id => $tranche)
                                     <div class="tranche-info">
                                         <div class="row">
                                             <div class="col-6">
                                                 <div class="tranche"><span>{{ $tranche["nom"] }} kg</span></div>
-                                                <div class="tranche-prix"><span class="prix">{{ $tranche["prix"] }}</span> Dh/{{-- $item->produit->unite->nom --}}</div>
+                                                <div class="tranche-prix"><span class="prix">{{ $tranche["prix"] }}</span> Dh/{{ $items[0]->produit->unite->nom }}</div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="input-group">
-                                                    <span class="input-group-btn"><button class="btn btn-default-outline" type="button">-</button></span>
-                                                    <input {{--wire:click="add()"--}} class="form-control" type="test" placeholder="Qte" wire:model="qte.{{$tranche_id}}">
-                                                    <span class="input-group-btn"></span>
-                                                    <span class="input-group-btn"><button class="btn btn-default-outline" type="button">+</button></span>
+                                                    <span class="input-group-btn"><button wire:click="decrement('{{$tranche_id}}')" class="btn btn-default-outline" type="button">-</button></span>
+                                                    <input class="form-control" type="test" placeholder="Qte" value="{{ Session::has($produit_id.'-'.$tranche_id) ? count(Session::get($produit_id.'-'.$tranche_id)) : 0}}" readonly>
+                                                    <span class="input-group-addon">Pcs</span>
+                                                    <span class="input-group-btn"><button wire:click="increment('{{$tranche_id}}')" class="btn btn-default-outline" type="button">+</button></span>
                                                 </div>
-                                                {{-- <div class="tranche-total-poid">{{ $item->poids }} kg</div>
-                                                <div class="tranche-total-prix"><span class="prix">{{ $item->poids*$item->prix_n }}</span> Dh</div> --}}
                                             </div>
                                         </div>
                                         <table class="table table-bordered table-hover">
-                                            @if(!empty($tranches_stock) && $tranche_id == $index)
-                                                @foreach ($tranches_stock as $i => $item)
+                                            @if(Session::has($produit_id.'-'.$tranche_id))
+                                                @foreach (Session::get($produit_id.'-'.$tranche_id) as $i => $item)
+                                                @php $prix_total += $item['prix_n']*$item['poids']; @endphp
                                                 <tbody>
                                                     <tr>
                                                         <td>{{ $item['poids'] }} kg</td>
@@ -116,9 +115,9 @@
                                                                 </select>
                                                                 <select x-show="open{{$tranche_id}} == 2" class="form-control" multiple>
                                                                     <option>Mode Nettoyage</option>
-                                                                    {{-- @foreach ( $item->produit->preparations as $preparations )
+                                                                    @foreach ( $item->produit->preparations as $preparations )
                                                                         <option>{{ $preparations->preparation->nom }}</option>
-                                                                    @endforeach --}}
+                                                                    @endforeach
                                                                 </select>
                                                             </div>
                                                         </td>
