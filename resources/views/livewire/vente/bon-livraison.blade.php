@@ -228,226 +228,227 @@
 
                                             </div>
 
+                                            @if (count($list_produits) > 0)
+                                                <table class="table table-vertical-center" id="kt_advance_table_widget_4">
+                                                    <thead>
+                                                        <tr class="text-left">
+                                                            <th class="pl-0">Article</th>
+                                                            {{-- <th class="pl-0">Catégorie</th>
+                                                            <th class="pl-0">Sous catégorie</th>
+                                                            <th class="pl-0">Quantité</th>
+                                                            <th class="pl-0">Unité</th>
+                                                            <th class="pl-0">Prix Achat</th>
+                                                            <th class="pl-0">Lot</th>
+                                                            <th class="pl-0">Qualité</th>
+                                                            <th class="pl-0">Pas</th> --}}
+                                                            <th class="pl-0">Tranches</th>
+                                                            {{-- <th class="pl-0">Détails</th> --}}
 
-                                            <table class="table table-vertical-center" id="kt_advance_table_widget_4">
-                                                <thead>
-                                                    <tr class="text-left">
-                                                        <th class="pl-0">Article</th>
-                                                        {{-- <th class="pl-0">Catégorie</th>
-                                                        <th class="pl-0">Sous catégorie</th>
-                                                        <th class="pl-0">Quantité</th>
-                                                        <th class="pl-0">Unité</th>
-                                                        <th class="pl-0">Prix Achat</th>
-                                                        <th class="pl-0">Lot</th>
-                                                        <th class="pl-0">Qualité</th>
-                                                        <th class="pl-0">Pas</th> --}}
-                                                        <th class="pl-0">Tranches</th>
-                                                        {{-- <th class="pl-0">Détails</th> --}}
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
 
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @if (count($list_produits) > 0)
-                                                        @foreach ($list_produits as $i => $item)
-                                                            {{-- @php
-                                                                dd($i,$item);
-                                                            @endphp --}}
-                                                            <tr {{-- class="clickable" data-toggle="collapse" data-target="#group-of-rows-{{$i}}" aria-expanded="false" aria-controls="group-of-rows-{{$i}}"--}}>
-
-                                                                <td class="pl-0">{{$nom_produit[$i]}} </td>
-
-                                                                <td class="pl-0">
-                                                                    @foreach ($item as $tranche_uid => $produits)
-                                                                        <a class="btn btn-outline-primary" {{-- data-toggle="collapse" href="#{{$tranche_uid}}" role="button" aria-expanded="false" aria-controls="{{$tranche_uid}}"--}}
-                                                                            <span class="label label-primary label-inline mr-2">{{$nom_tranche[$i][$tranche_uid]}}</span>
-                                                                            <span class="label label-primary mr-2">{{$nbr_piece[$i][$tranche_uid]}}</span>
-
-                                                                        </a>
-                                                                        {{-- <span class="label label-primary label-inline mr-2">{{$nom_tranche[$i][$tranche_uid]}} | {{$nbr_piece[$i][$tranche_uid]}}</span> --}}
-                                                                    @endforeach
-                                                                </td>
-                                                                {{-- <td class="pl-0">
-                                                                    <button type="button">
-                                                                        <i class="flaticon-plus text-primary"></i>
-                                                                    </button>
-                                                                </td> --}}
-                                                            </tr>
-
-                                                </tbody>
-                                                <tbody  {{--id="group-of-rows-{{$i}}" class="collapse"--}}>
-                                                    <tr>
-                                                        {{-- <th>Tranche</th>
-                                                        <th>Catégorie</th> --}}
-                                                        <th>Sous catégorie</th>
-                                                        <th>Code</th>
-                                                        <th>Poids
-                                                            <input type="text" class="form-control" placeholder=" " wire:model="recherche_poids"/>
-                                                        </th>
-                                                        {{-- <th>Quantité</th> --}}
-                                                        <th>Unité</th>
-                                                        <th>Prix Achat</th>
-                                                        @if($profile === "Normal")
-                                                            <th>Prix de vente normal</th>
-                                                        @endif
-                                                        @if($profile === 'Fidèle')
-                                                            <th>Prix de vente fidèle</th>
-                                                        @endif
-                                                        @if($profile === 'Business')
-                                                            <th>Prix de vente business</th>
-                                                        @endif
-                                                        <th>Lot</th>
-                                                        <th>Qualité</th>
-                                                        <th>Pas</th>
-                                                        <th></th>
-                                                    </tr>
-                                                    @foreach ($item as $tranche_uid => $produits)
-
-                                                        @foreach ( $produits as $key => $produit)
-                                                            <tr {{--class="collapse" id="{{$tranche_uid}}"--}}>
-                                                                {{-- <td>{{$nom_tranche[$i][$tranche_uid]}}</td> --}}
+                                                            @foreach ($list_produits as $i => $item)
                                                                 {{-- @php
-                                                                //dd($produit);
-                                                                    switch ($profile) {
-                                                                        case "Normal":
-                                                                            $prix = $produit['prix_n'];
-                                                                            break;
-                                                                        case "Fidèle":
-                                                                            $prix = $produit['prix_f'];
-                                                                            break;
-                                                                        case "Business":
-                                                                                $prix = $produit['prix_p'];
-                                                                            break;
-                                                                    }
-
+                                                                    dd($i,$item);
                                                                 @endphp --}}
-                                                                {{-- <td>{{$produit->categorie->nom}}</td> --}}
-                                                                {{-- <td>{{$produit->sousCategorie->nom}}</td> --}}
-                                                                <td>{{$produit['categorie']['nom']}}</td>
+                                                                <tr {{-- class="clickable" data-toggle="collapse" data-target="#group-of-rows-{{$i}}" aria-expanded="false" aria-controls="group-of-rows-{{$i}}"--}}>
 
-                                                                <td>
-                                                                    @if (isset($produit['code']))
-                                                                        {{$produit['code']}}
-                                                                    @else
-                                                                        -
-                                                                    @endif
-                                                                </td>
-                                                                <td>
-                                                                    @if (isset($produit['poids']))
-                                                                        {{$produit['poids']}}
-                                                                    @else
-                                                                        -
-                                                                    @endif
+                                                                    <td class="pl-0">{{$nom_produit[$i]}} </td>
 
-                                                                </td>
-                                                                <td>@isset($produit['unite']['nom'])
-                                                                    {{$produit['unite']['nom']}}
+                                                                    <td class="pl-0">
+                                                                        @foreach ($item as $tranche_uid => $produits)
+                                                                            <a class="btn btn-outline-primary" {{-- data-toggle="collapse" href="#{{$tranche_uid}}" role="button" aria-expanded="false" aria-controls="{{$tranche_uid}}"--}}
+                                                                                <span class="label label-primary label-inline mr-2">{{$nom_tranche[$i][$tranche_uid]}}</span>
+                                                                                <span class="label label-primary mr-2">{{$nbr_piece[$i][$tranche_uid]}}</span>
 
-                                                                @endisset</td>
-                                                                {{-- <td>{{$produit->qte}}</td> --}}
-                                                                {{-- <td>{{$produit->unite->nom}}</td> --}}
-                                                                <td>
-                                                                    @isset($produit['prix_achat'])
-                                                                    {{$produit['prix_achat']}}
+                                                                            </a>
+                                                                            {{-- <span class="label label-primary label-inline mr-2">{{$nom_tranche[$i][$tranche_uid]}} | {{$nbr_piece[$i][$tranche_uid]}}</span> --}}
+                                                                        @endforeach
+                                                                    </td>
+                                                                    {{-- <td class="pl-0">
+                                                                        <button type="button">
+                                                                            <i class="flaticon-plus text-primary"></i>
+                                                                        </button>
+                                                                    </td> --}}
+                                                                </tr>
+
+                                                    </tbody>
+                                                    <tbody  {{--id="group-of-rows-{{$i}}" class="collapse"--}}>
+                                                        <tr>
+                                                            {{-- <th>Tranche</th>
+                                                            <th>Catégorie</th> --}}
+                                                            <th>Sous catégorie</th>
+                                                            <th>Code</th>
+                                                            <th>Poids
+                                                                <input type="text" class="form-control" placeholder=" " wire:model="recherche_poids"/>
+                                                            </th>
+                                                            {{-- <th>Quantité</th> --}}
+                                                            <th>Unité</th>
+                                                            <th>Prix Achat</th>
+                                                            @if($profile === "Normal")
+                                                                <th>Prix de vente normal</th>
+                                                            @endif
+                                                            @if($profile === 'Fidèle')
+                                                                <th>Prix de vente fidèle</th>
+                                                            @endif
+                                                            @if($profile === 'Business')
+                                                                <th>Prix de vente business</th>
+                                                            @endif
+                                                            <th>Lot</th>
+                                                            <th>Qualité</th>
+                                                            <th>Pas</th>
+                                                            <th></th>
+                                                        </tr>
+                                                        @foreach ($item as $tranche_uid => $produits)
+
+                                                            @foreach ( $produits as $key => $produit)
+                                                                <tr {{--class="collapse" id="{{$tranche_uid}}"--}}>
+                                                                    {{-- <td>{{$nom_tranche[$i][$tranche_uid]}}</td> --}}
+                                                                    {{-- @php
+                                                                    //dd($produit);
+                                                                        switch ($profile) {
+                                                                            case "Normal":
+                                                                                $prix = $produit['prix_n'];
+                                                                                break;
+                                                                            case "Fidèle":
+                                                                                $prix = $produit['prix_f'];
+                                                                                break;
+                                                                            case "Business":
+                                                                                    $prix = $produit['prix_p'];
+                                                                                break;
+                                                                        }
+
+                                                                    @endphp --}}
+                                                                    {{-- <td>{{$produit->categorie->nom}}</td> --}}
+                                                                    {{-- <td>{{$produit->sousCategorie->nom}}</td> --}}
+                                                                    <td>{{$produit['categorie']['nom']}}</td>
+
+                                                                    <td>
+                                                                        @if (isset($produit['code']))
+                                                                            {{$produit['code']}}
+                                                                        @else
+                                                                            -
+                                                                        @endif
+                                                                    </td>
+                                                                    <td>
+                                                                        @if (isset($produit['poids']))
+                                                                            {{$produit['poids']}}
+                                                                        @else
+                                                                            -
+                                                                        @endif
+
+                                                                    </td>
+                                                                    <td>@isset($produit['unite']['nom'])
+                                                                        {{$produit['unite']['nom']}}
 
                                                                     @endisset</td>
-                                                                <td>
-                                                                    @isset($prix[$key])
-                                                                    {{$prix[$key]}}
+                                                                    {{-- <td>{{$produit->qte}}</td> --}}
+                                                                    {{-- <td>{{$produit->unite->nom}}</td> --}}
+                                                                    <td>
+                                                                        @isset($produit['prix_achat'])
+                                                                        {{$produit['prix_achat']}}
 
-                                                                    @endisset</td>
-                                                                {{-- <td>{{$produit->prix_n}}</td>
-                                                                <td>{{$produit->prix_f}}</td>
-                                                                <td>{{$produit->prix_p}}</td>  --}}
-                                                                {{-- @if($profile === "Normal")
-                                                                    <td>{{$produit->prix_n}}</td>
-                                                                @endif
-                                                                @if($profile == "Fidèle")
+                                                                        @endisset</td>
+                                                                    <td>
+                                                                        @isset($prix[$key])
+                                                                        {{$prix[$key]}}
+
+                                                                        @endisset</td>
+                                                                    {{-- <td>{{$produit->prix_n}}</td>
                                                                     <td>{{$produit->prix_f}}</td>
-                                                                @endif
-                                                                @if($profile == "Business")
-                                                                    <td>{{$produit->prix_p}}</td>
-                                                                @endif --}}
-                                                                <td>{{$produit['lot_num']}}</td>
-                                                                <td>{{$produit['qte']}}</td>
-                                                                {{-- <td>
-                                                                    @isset($produit->qualite->nom)
-                                                                        {{$produit->qualite->nom}}
-                                                                    @endisset
-                                                                    @isset($produit->lot->qualite->nom)
-                                                                        {{$produit->lot->qualite->nom}}
-                                                                    @endisset
-                                                                </td> --}}
-                                                                {{-- <td>{{$produit->pas}}</td> --}}
-                                                                <td>
+                                                                    <td>{{$produit->prix_p}}</td>  --}}
+                                                                    {{-- @if($profile === "Normal")
+                                                                        <td>{{$produit->prix_n}}</td>
+                                                                    @endif
+                                                                    @if($profile == "Fidèle")
+                                                                        <td>{{$produit->prix_f}}</td>
+                                                                    @endif
+                                                                    @if($profile == "Business")
+                                                                        <td>{{$produit->prix_p}}</td>
+                                                                    @endif --}}
+                                                                    <td>{{$produit['lot_num']}}</td>
+                                                                    <td>{{$produit['qte']}}</td>
+                                                                    {{-- <td>
+                                                                        @isset($produit->qualite->nom)
+                                                                            {{$produit->qualite->nom}}
+                                                                        @endisset
+                                                                        @isset($produit->lot->qualite->nom)
+                                                                            {{$produit->lot->qualite->nom}}
+                                                                        @endisset
+                                                                    </td> --}}
+                                                                    {{-- <td>{{$produit->pas}}</td> --}}
+                                                                    <td>
 
-                                                                    <div x-data="{ 'isDialogOpen': false, qte: null,tranche:'{{$tranche_uid}}',code:'{{$produit['code']}}', prix:{{$prix[$key]}},lot:'{{$produit['lot_num']}}', qmax:{{$produit['qte']}},categorie:{{$produit['categorie']['id']}} }"
-                                                                        @keydown.escape="isDialogOpen = false">
-                                                                        @if (!isset($produit['code']))
-                                                                            <button type="button" @click="isDialogOpen = true" class="btn btn-outline-primary">Ajouter</button>
+                                                                        <div x-data="{ 'isDialogOpen': false, qte: null,tranche:'{{$tranche_uid}}',code:'{{$produit['code']}}', prix:{{$prix[$key]}},lot:'{{$produit['lot_num']}}', qmax:{{$produit['qte']}},categorie:{{$produit['categorie']['id']}} }"
+                                                                            @keydown.escape="isDialogOpen = false">
+                                                                            @if (!isset($produit['code']))
+                                                                                <button type="button" @click="isDialogOpen = true" class="btn btn-outline-primary">Ajouter</button>
 
 
-                                                                            <div class=" overflow-auto"
-                                                                            style="background-color: rgba(0,0,0,0.5)"
-                                                                            x-show="isDialogOpen"
-                                                                            :class="{ 'fixed inset-0 z-10 flex items-start justify-center': isDialogOpen }">
+                                                                                <div class=" overflow-auto"
+                                                                                style="background-color: rgba(0,0,0,0.5)"
+                                                                                x-show="isDialogOpen"
+                                                                                :class="{ 'fixed inset-0 z-10 flex items-start justify-center': isDialogOpen }">
 
 
-                                                                            <div class="bg-white shadow-2xl m-auto"
-                                                                                x-show="isDialogOpen">
+                                                                                <div class="bg-white shadow-2xl m-auto"
+                                                                                    x-show="isDialogOpen">
 
-                                                                                <div
-                                                                                    class="flex align-middle justify-between items-center border-b p-2 text-xl">
-                                                                                    <h6 class="text-xl font-bold">Entrer La quantité:
-                                                                                    </h6>
-                                                                                    <button type="button"
-                                                                                        @click="isDialogOpen = false">✖</button>
-                                                                                </div>
+                                                                                    <div
+                                                                                        class="flex align-middle justify-between items-center border-b p-2 text-xl">
+                                                                                        <h6 class="text-xl font-bold">Entrer La quantité:
+                                                                                        </h6>
+                                                                                        <button type="button"
+                                                                                            @click="isDialogOpen = false">✖</button>
+                                                                                    </div>
 
-                                                                                <div class="pl-0">
-                                                                                    <div>
+                                                                                    <div class="pl-0">
                                                                                         <div>
-                                                                                            <div class="grid grid-cols-2 gap-4 p-4 mb-8">
+                                                                                            <div>
+                                                                                                <div class="grid grid-cols-2 gap-4 p-4 mb-8">
 
-                                                                                                <label class="block">
-                                                                                                    <span class="text-gray-700">QTE</span><span
-                                                                                                        class="text-red-500">*</span>
-                                                                                                    <input type="number" x-model="qte"
-                                                                                                        class="block w-full mt-1 form-input"
-                                                                                                        placeholder="">
-                                                                                                    <span class="text-red-500"
-                                                                                                        x-show="qte>qmax">La quantité
-                                                                                                        doit être inférieure à
-                                                                                                        {{$produit['qte']}}</span>
-                                                                                                </label>
+                                                                                                    <label class="block">
+                                                                                                        <span class="text-gray-700">QTE</span><span
+                                                                                                            class="text-red-500">*</span>
+                                                                                                        <input type="number" x-model="qte"
+                                                                                                            class="block w-full mt-1 form-input"
+                                                                                                            placeholder="">
+                                                                                                        <span class="text-red-500"
+                                                                                                            x-show="qte>qmax">La quantité
+                                                                                                            doit être inférieure à
+                                                                                                            {{$produit['qte']}}</span>
+                                                                                                    </label>
 
-                                                                                            </div>
-                                                                                            <div class="text-right pt-3 pr-4" x-show="qte>0 && qte<=qmax">
-                                                                                                <button type="button" class="btn btn-outline-primary" @click="$wire.add({{ $loop->index }},{{$i}},qte,prix,lot,code,tranche);isDialogOpen = false">Valider</button>
+                                                                                                </div>
+                                                                                                <div class="text-right pt-3 pr-4" x-show="qte>0 && qte<=qmax">
+                                                                                                    <button type="button" class="btn btn-outline-primary" @click="$wire.add({{ $loop->index }},{{$i}},qte,prix,lot,code,tranche);isDialogOpen = false">Valider</button>
+                                                                                                </div>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                            </div>
 
-                                                                            </div>
-                                                                            @else
-                                                                            <button type="button" class="btn btn-outline-primary" @click="$wire.add({{ $loop->index }},{{$i}},1,prix,lot,code,tranche,categorie);isDialogOpen = false">Ajouter</button>
+                                                                                </div>
+                                                                                @else
+                                                                                <button type="button" class="btn btn-outline-primary" @click="$wire.add({{ $loop->index }},{{$i}},1,prix,lot,code,tranche,categorie);isDialogOpen = false">Ajouter</button>
 
 
-                                                                        @endif
-                                                                    </div>
+                                                                            @endif
+                                                                        </div>
 
-                                                                </td>
+                                                                    </td>
 
-                                                            </tr>
+                                                                </tr>
+
+                                                            @endforeach
 
                                                         @endforeach
-
+                                                    </tbody>
                                                     @endforeach
-                                                </tbody>
-                                                @endforeach
-                                                @endif
-                                            </table>
+
+                                                </table>
+                                            @endif
 
                                             @if (count($produitId) > 0)
 
@@ -507,20 +508,71 @@
                                             </table>
 
                                             <table class="table table-vertical-center" id="kt_advance_table_widget_4">
-                                            <tbody>
-                                                <tr>
-                                                    <th class="pl-0" colspan="6">
-                                                        Total
-                                                    </th>
-                                                    <td class="pl-0">
-                                                        {{ number_format($totalMt, 2, ',', ' ') }}
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-
-                                        </table>
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="pl-0" colspan="6">
+                                                            Total
+                                                        </th>
+                                                        <td class="pl-0">
+                                                            {{ number_format($totalMt, 2, ',', ' ') }}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         @endif
                                             <!--Modal-->
+
+                                            <div class="card-body">
+                                                <div class="form-group row mt-3">
+                                                    <label class="col-lg-1 col-form-label text-lg-right">Téléphone:</label>
+                                                    <div class="col-lg-3">
+                                                        <input type="email" class="form-control" placeholder="Téléphone de livraison"/>
+                                                    </div>
+                                                    <label class="col-lg-1 col-form-label text-lg-right">Contact:</label>
+                                                    <div class="col-lg-3">
+                                                        <input type="email" class="form-control" placeholder="Contact de livraison"/>
+                                                    </div>
+                                                    <label class="col-lg-1 col-form-label text-lg-right">Date:</label>
+                                                    <div class="col-lg-3">
+                                                        <input type="text" class="form-control" placeholder="Date de livraison"/>
+                                                    </div>
+                                                </div>
+
+                                                <div class="separator separator-dashed my-10"></div>
+
+                                                <div class="form-group row">
+                                                    <label class="col-lg-1 col-form-label text-lg-right">Adresse:</label>
+                                                    <div class="col-lg-3">
+                                                    <input type="email" class="form-control" placeholder="Adresse de livraison"/>
+                                                    </div>
+                                                    <label class="col-lg-1 col-form-label text-lg-right">Ville:</label>
+                                                    <div class="col-lg-3">
+                                                        <input type="text" class="form-control" placeholder="Ville de livraison"/>
+                                                    </div>
+                                                {{-- <label class="col-lg-1 col-form-label text-lg-right">Address:</label>
+                                                <div class="col-lg-3">
+                                                <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="Enter your address"/>
+                                                <div class="input-group-append"><span class="input-group-text"><i class="la la-map-marker"></i></span></div>
+                                                </div>
+                                                <span class="form-text text-muted">Please enter your address</span>
+                                                </div> --}}
+                                                </div>
+
+                                                <div class="separator separator-dashed my-10"></div>
+
+                                                <div class="form-group row">
+                                                    <label class="col-lg-1 col-form-label text-lg-right">Mode de paiement:</label>
+                                                    <div class="col-lg-3">
+                                                        <input type="text" class="form-control" placeholder="Mode de paiement"/>
+                                                    </div>
+                                                    <label class="col-lg-1 col-form-label text-lg-right">Frais de livraison :</label>
+                                                    <div class="col-lg-3">
+                                                        <input type="text" class="form-control" placeholder="Frais de livraison"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </form>
                                     </div>
                                     <div class="modal-footer">
