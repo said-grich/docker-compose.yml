@@ -9,12 +9,17 @@ use App\Models\Client;
 use App\Models\Commande;
 use App\Models\CommandeLigne;
 use App\Models\Depot;
+use App\Models\Livreur;
 use App\Models\LotTranche;
+use App\Models\ModeLivraison;
+use App\Models\ModePaiement;
 use App\Models\Produit;
+use App\Models\Region;
 use App\Models\StockKgPc;
 use App\Models\StockPoidsPc;
 use App\Models\TranchesKgPc;
 use App\Models\TranchesPoidsPc;
+use App\Models\Ville;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -39,6 +44,10 @@ class BonLivraison extends Component
     public $poids = [];
     public $isActive = false;
 
+    public $list_mode_paiement = [];
+    public $list_mode_livraison = [];
+    public $list_region = [];
+    public $list_livreurs = [];
     public $list_clients = [];
     public $list_qualites = [];
     public $list_produits = [];
@@ -82,6 +91,19 @@ class BonLivraison extends Component
     public $totalTtc;
     public $totalTva;
 
+    //// commande
+    public $mode_paiement;
+    public $frais_livraison;
+    public $date_livraison;
+    public $ville_quartie_id;
+    public $adresse_livraison;
+    public $tel_livraison;
+    public $contact_livraison;
+    public $livreur;
+    public $mode_livraison_id;
+    public $region_livraison;
+    public $list_ville = [];
+
 
     public $sortBy = 'ref';
     public $sortDirection = 'asc';
@@ -94,10 +116,19 @@ class BonLivraison extends Component
         $this->list_clients = Client::all()->sortBy('nom');
         $this->list_depots = Depot::all()->sortBy('nom');
         $this->list_categorie = Categorie::all()->sortBy('nom');
+        $this->list_mode_paiement = ModePaiement::all()->sortBy('nom');
+        $this->list_livreurs = Livreur::all()->sortBy('nom');
+        $this->list_mode_livraison = ModeLivraison::all()->sortBy('nom');
+        $this->list_region = Region::all()->sortBy('nom');
     }
 
     public function mount(){
         $this->date = date('d-m-Y');
+    }
+
+    public function updatedRegionLivraison($value){
+        $this->list_ville = Ville::where('region_id', $value)->get();
+
     }
 
     public function updatedClient($value){
@@ -342,17 +373,69 @@ class BonLivraison extends Component
         $this->filterStock();
     }
 
+    // public function updatedRechercheProduit(){
+
+    //     $first  =  StockPoidsPc::where('depot_id', $this->depot)
+    //     ->where(function ($query) {
+    //         $query->where(
+    //             function ($query) {
+    //                 $query->select('nom')
+    //                 ->from('produits')
+    //                 ->whereColumn('produits.id', 'stock_poids_pcs.produit_id');
+    //                 //->limit(1);
+    //             },
+    //             'ILIKE',
+    //             strtolower($this->recherche_produit . '%')
+    //         );
+    //     })
+    //     ->with('depot')
+    //     ->with('produit')
+    //     ->with('categorie')
+    //     ->with('sousCategorie')
+    //     ->with('unite')
+    //     ->with('qualite')
+    //     ->get();
+
+    //     $second =StockKgPc::where('depot_id', $this->depot)
+    //         ->where(function ($query) {
+    //             $query->where(
+    //                 function ($query) {
+    //                     $query->select('nom')
+    //                     ->from('produits')
+    //                     ->whereColumn('produits.id', 'stock_kg_pcs.produit_id');
+    //                     //->limit(1);
+    //                 },
+    //                 'ILIKE',
+    //                 strtolower($this->recherche_produit . '%')
+    //             );
+    //         })
+    //         ->with('depot')
+    //         ->with('produit')
+    //         ->get();
+
+    //     $collection = collect($first);
+    //     $merged     = $collection->merge($second);
+    //     $result[]   = $merged->all();
+
+    //     $filtered_collection = $second->filter(function ($item) {
+    //         return $item->poids == 	3.2;
+    //     })->values();
+    //     dd($filtered_collection,$result);
+
+    // }
+
+
     public function save(){
 
-        $this->validate([
-            'ref_bl' => 'required|unique:bon_livraisons,ref',
-            'date' => 'required',
-            'depot' => 'required',
-            'client' => 'required',
+        // $this->validate([
+        //     'ref_bl' => 'required|unique:bon_livraisons,ref',
+        //     'date' => 'required',
+        //     'depot' => 'required',
+        //     'client' => 'required',
 
-            //'nbr_pc' => 'exclude_if:mode_vente_produit,1|required',
-        ]);
-       // dd($this->produitNom);
+        //     //'nbr_pc' => 'exclude_if:mode_vente_produit,1|required',
+        // ]);
+        //dd($this->date_livraison);
         DB::transaction(function () {
             foreach ($this->produitNom as $key => $value) {
                 $item = new ModelBonLivraison();
@@ -361,7 +444,6 @@ class BonLivraison extends Component
                 $item->client_id = $this->client;
                 $item->depot_id = $this->depot;
                 $item->save();
-
 
                 BonLivraisonLigne::create([
                     'bon_livraison_ref' => $this->ref_bl,
@@ -373,40 +455,27 @@ class BonLivraison extends Component
                 ]);
 
                 $MAC = exec('getmac');
-
                 $MAC = strtok($MAC, ' ');
 
                 Commande::create([
                     'ref' => $this->ref_bl,
+                    'mac_address' => $MAC,
                     'date' => $this->date,
                     'date_livraison' => $this->date_livraison,
-                    //'date_livraison' => $this->date_livraison,
-                    'tele_livraison' => $this->tel_livraison,
+                    'tel_livraison' => $this->tel_livraison,
                     'contact_livraison' => $this->contact_livraison,
                     'adresse_livraison' => $this->adresse_livraison,
-                    'ville_quartie_id' => $this->ville,
+                    'mode_livraison_id' => $this->mode_livraison_id,
                     'frais_livraison' => $this->frais_livraison,
+                    'ville_quartie_id' => $this->ville_quartie_id,
                     'mode_paiement_id' => $this->mode_paiement,
                     'client_id' => $this->client,
-                    'mac_adress' => $MAC,
-                    // 'produit_id' => $this->produitId[$key],
-                    // 'categorie_id' => $this->categorieId[$key],
-                    // 'qte' => $this->qte[$key],
-                    // 'prix' => $this->prix_vente[$key],
-                    // 'montant' => $this->montant[$key]
+                    'livreur_id' => $this->livreur,
+
                 ]);
 
                 CommandeLigne::create([
                     'commande_ref' => $this->ref_bl,
-                    //'date' => $this->date,
-                    //'date_livraison' => $this->date_livraison,
-                    //'date_livraison' => $this->date_livraison,
-                    //'tele_livraison' => $this->tel_livraison,
-                    //'contact_livraison' => $this->contact_livraison,
-                    //'adresse_livraison' => $this->adresse_livraison,
-                    //'ville_id' => $this->ville,
-                    //'frais_livraison' => $this->frais_livraison,
-                    //'mode_paiement' => $this->mode_paiement,
                     'produit_id' => $this->produitId[$key],
                     'categorie_id' => $this->categorieId[$key],
                     'qte' => $this->qte[$key],
@@ -416,7 +485,7 @@ class BonLivraison extends Component
             }
 
         });
-        $this->reset(['code', 'list_produits']);
+        $this->reset(['code', 'list_produits','recherche_produit','depot','client']);
 
         //$this->emit('saved');
 
