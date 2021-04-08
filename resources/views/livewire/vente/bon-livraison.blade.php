@@ -194,11 +194,11 @@
                                                     @enderror
                                                 </div>
 
-                                                {{-- <div class="form-group col">
+                                                <div class="form-group col">
                                                     <label>{{ __("Dépôt") }}</label>
                                                     <div class="input-group input-group-prepend">
                                                         <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
-                                                        <select class="form-control" wire:model.defer="depot">
+                                                        <select class="form-control" wire:model.defer="filter.depot">
                                                             <option>{{ __('Choisir un dépôt') }}</option>
                                                             @foreach ($list_depots as $item)
                                                                 <option value="{{$item->id }}">{{$item->nom }}</option>
@@ -209,7 +209,7 @@
                                                     @error('depot')
                                                         <span class="form-text text-danger">{{ $message }}</span>
                                                     @enderror
-                                                </div> --}}
+                                                </div>
 
                                             </div>
 
@@ -218,7 +218,7 @@
                                                     <label>{{ __('Catégorie') }}</label>
                                                     <div class="input-group input-group-prepend">
                                                         <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
-                                                        <select class="form-control" wire:model="categorie">
+                                                        <select class="form-control" wire:model="filter.categorie">
                                                             <option>{{ __('Choisir une catégorie') }}</option>
                                                             @foreach ($list_categorie as $item)
                                                                 <option value="{{$item->id }}">{{$item->nom }}</option>
@@ -234,7 +234,7 @@
                                                     <label>{{ __('Rechercher un produit') }}</label>
                                                     <div class="input-group input-group-prepend">
                                                         <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-hashtag icon-lg"></i></span></div>
-                                                        <input type="text" class="form-control" placeholder=" " wire:model="recherche_produit"/>
+                                                        <input type="text" class="form-control" placeholder=" " wire:model="filter.recherche_produit"/>
                                                 </div>
                                                     @error('recherche_produit')
                                                         <span class="form-text text-danger">{{ $message }}</span>
@@ -293,7 +293,7 @@
                                                                 <th>Sous catégorie</th>
                                                                 <th>Code</th>
                                                                 <th>Poids
-                                                                    <input type="text" class="form-control" placeholder=" " wire:model="recherche_poids"/>
+                                                                    <input type="text" class="form-control" placeholder=" " wire:model="filter.poids"/>
                                                                 </th>
                                                                 {{-- <th>Quantité</th> --}}
                                                                 <th>Unité</th>
