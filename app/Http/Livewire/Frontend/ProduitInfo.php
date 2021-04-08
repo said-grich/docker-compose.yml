@@ -70,6 +70,7 @@ class ProduitInfo extends Component
     }
     
     public function updateQte($value,$index){
+        //dump(Session::all());
         if($this->produit[0]->mode_vente_id === 1){
             $this->tranches_stock = StockPoidsPc::select()->where('produit_id', $this->produit_id)->where('tranche_id', $index)->limit($value)->get();
         }
@@ -83,11 +84,17 @@ class ProduitInfo extends Component
             Session::pull($this->produit_id.'-'.$index);
         }
 
-        foreach ($this->tranches_stock as $key => $item){
+        foreach ($this->tranches_stock as $item){
             Session::push($item->produit_id.'-'.$item->tranche_id, $item);
         }
+    }
 
-        //dump(Session::all());
+    public function deletePcs($tranche_id,$pcs_id){
+        foreach (Session::get($this->produit_id.'-'.$tranche_id) as $i => $item){
+            if($pcs_id == $i){
+                Session::forget($i);
+            }
+        }
     }
 
     public function addToCart(int $productId)

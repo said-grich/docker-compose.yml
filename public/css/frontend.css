@@ -2795,6 +2795,13 @@ main {
 .product .product-content .tranche-info table {
   font-size: .8rem;
 }
+.product .product-content .tranche-info table .mode-preparation .radio {
+  padding: 0 .5rem;
+  margin-bottom: 0;
+}
+.product .product-content .tranche-info table .preparations {
+  margin-top: .5rem;
+}
 .product .product-content .tranche-info .checkbox input + label, .radio input + label {
   font-size: .8rem;
 }
@@ -3446,8 +3453,6 @@ main {
 }
 .our-services .content .item:hover .item-icon i {
 	box-shadow: 0px 0px 0px 8px #54a0ff, 0px 0px 0px 7px #fff, 0px 0px 0px 8px #54a0ff;
-}
-.our-services .content .item .item-content {
 }
 .our-services .content .item .item-content h4 {
 	color: #54a0ff;
