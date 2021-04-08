@@ -13,4 +13,9 @@ class Client extends Model
     {
         return $this->belongsTo(ProfilClient::class, 'profil_client_id');
     }
+
+    public function bonsLivraison()
+    {
+        return $this->hasMany(BonLivraison::class);
+    }
 }

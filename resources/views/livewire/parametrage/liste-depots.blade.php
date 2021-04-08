@@ -1,7 +1,7 @@
 <div class="table-responsive">
     <div class="d-flex flex-row-reverse">
         <div class="input-icon">
-            <input wire:model.debounce.300ms="search" class="form-control" type="text" placeholder="Search...">
+            <input wire:model.debounce.300ms="search" class="form-control" type="text" placeholder="Recherche...">
             <span>
                 <i class="flaticon2-search-1 text-muted"></i>
             </span>
@@ -17,7 +17,8 @@
                     </label>
                 </th>
                 <th class="pl-0" wire:click="sortBy('nom')" style="cursor: pointer;">Nom @include('layouts.partials._sort-icon',['field'=>'nom'])</th>
-                <th class="pl-0" wire:click="sortBy('nom')" style="cursor: pointer;">Ville @include('layouts.partials._sort-icon',['field'=>'nom'])</th>
+                <th class="pl-0" wire:click="sortBy('ville_id')" style="cursor: pointer;">Ville @include('layouts.partials._sort-icon',['field'=>'ville_id'])</th>
+                <th class="pl-0" wire:click="sortBy('zone_id')" style="cursor: pointer;">Zone @include('layouts.partials._sort-icon',['field'=>'zone_id'])</th>
                 <th class="pr-0 text-right" style="min-width: 160px">Actions</th>
             </tr>
         </thead>
@@ -35,6 +36,9 @@
                     </td>
                     <td class="pl-0">
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->ville->nom }}</a>
+                    </td>
+                    <td class="pl-0">
+                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->zone->nom }}</a>
                     </td>
                     <td class="pr-0 text-right">
                         <a href="#" wire:click="edit({{$item->id}})" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#exampleModalSizeSm">

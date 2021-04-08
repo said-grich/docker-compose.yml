@@ -12,8 +12,9 @@ class Depots extends Component
 
     public $nom;
     public $ville;
+    public $order_priorite;
     public $zone_ville;
-    public $list_zones_ville;
+    public $list_zones_ville = [];
     public $list_villes;
 
     public function mount(){
@@ -21,7 +22,7 @@ class Depots extends Component
     }
 
     public function updatedVille($value){
-        $this->list_zones_ville = VilleZone::where('ville_id',$value)->sortBy('nom');
+        $this->list_zones_ville = VilleZone::where('ville_id',$value)->get();
     }
 
     public function createDepot()
@@ -31,6 +32,7 @@ class Depots extends Component
         $item = new Depot();
         $item->nom = $this->nom;
         $item->ville_id = $this->ville;
+        $item->order_priorite = $this->order_priorite;
         $item->zone_ville_id = $this->zone_ville;
         $item->save();
 

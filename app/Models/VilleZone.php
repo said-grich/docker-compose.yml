@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class VilleZone extends Model
 {
     use HasFactory;
+
+    public function depots(){
+
+        return $this->hasMany(Depot::class);
+    }
 }

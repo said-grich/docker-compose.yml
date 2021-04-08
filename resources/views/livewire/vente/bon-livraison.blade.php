@@ -143,92 +143,6 @@
                                     <div class="modal-body">
                                         <form id="lot-form"  wire:submit.prevent="save" {{-- wire:submit.prevent="createLots" --}}>
 
-                                            <!--Info livraison-->
-                                            <div class="card card-custom card-stretch gutter-b">
-                                                <div class="card-header">
-                                                    <h3 class="card-title">Info livraison</h3>
-                                                </div>
-
-                                                <div class="card-body">
-                                                    <div class="form-group row mt-3">
-                                                        <div class="col">
-                                                            <label>{{ __('Région de livraison') }}</label>
-                                                            <select class="form-control" wire:model="region_livraison">
-                                                                <option>{{ __('Choisir un mode de paiement') }}</option>
-                                                                @foreach ($list_region as $item)
-                                                                    <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                        <div class="col">
-                                                            <label>{{ __('Téléphone de livraison') }}</label>
-                                                            <input type="text" class="form-control" placeholder="Téléphone de livraison" wire:model.defer="tel_livraison"/>
-                                                        </div>
-                                                        <div class="col">
-                                                            <label>{{ __('Contact de livraison') }}</label>
-                                                            <input type="text" class="form-control" placeholder="Contact de livraison" wire:model.defer="contact_livraison"/>
-                                                        </div>
-
-                                                        <div class="col">
-                                                            <label>{{ __('Adresse de livraison') }}</label>
-                                                            <input type="text" class="form-control" placeholder="Adresse de livraison" wire:model.defer="adresse_livraison"/>
-                                                        </div>
-                                                        <div class="col">
-                                                            <label>{{ __('Ville de livraison') }}</label>
-                                                            <select class="form-control" wire:model="ville_quartie_id">
-                                                                <option>{{ __('Choisir une ville de livraison') }}</option>
-                                                                @foreach ($list_ville as $item)
-                                                                    <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="separator separator-dashed my-10"></div>
-
-                                                    <div class="form-group row">
-                                                        <div class="col">
-                                                            <label>{{ __('Mode de paiement') }}</label>
-                                                            <select class="form-control" wire:model.defer="mode_paiement">
-                                                                <option>{{ __('Choisir un mode de paiement') }}</option>
-                                                                @foreach ($list_mode_paiement as $item)
-                                                                    <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                        <div class="col">
-                                                            <label>{{ __('Mode de livraison') }}</label>
-                                                            <select class="form-control" wire:model.defer="mode_livraison_id">
-                                                                <option>{{ __('Choisir un mode de livraison') }}</option>
-                                                                @foreach ($list_mode_livraison as $item)
-                                                                    <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                        <div class="col">
-                                                            <label>{{ __('Frais de livraison') }}</label>
-                                                            <input type="text" class="form-control" placeholder="Frais de livraison" wire:model.defer="frais_livraison"/>
-                                                        </div>
-
-                                                        <div class="col">
-                                                            <label>{{ __('Date de livraison') }}</label>
-                                                            <input type="date" class="form-control" placeholder="Date de livraison" wire:model.defer="date_livraison"/>
-                                                        </div>
-
-                                                        <div class="col">
-                                                            <label>{{ __('Livreur') }}</label>
-                                                            <select class="form-control" wire:model.defer="livreur">
-                                                                <option>{{ __('Choisir un livreur') }}</option>
-                                                                @foreach ($list_livreurs as $item)
-                                                                    <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <!--end Info livraison-->
 
                                             <div class="form row">
                                                 <div class="form-group col">
@@ -267,6 +181,19 @@
                                                         <span class="form-text text-danger">{{ $message }}</span>
                                                     @enderror
                                                 </div>
+                                                <div class="form-group col">
+                                                    <label>{{ __("Région de livraison") }}</label>
+                                                    <select class="form-control" wire:model="region_livraison">
+                                                        <option>{{ __('Choisir un mode de paiement') }}</option>
+                                                        @foreach ($list_region as $item)
+                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    @error('region_livraison')
+                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+
                                                 <div class="form-group col">
                                                     <label>{{ __("Dépôt") }}</label>
                                                     <div class="input-group input-group-prepend">
@@ -535,7 +462,7 @@
                                                 </table>
                                             @endif
 
-                                            @if (count($produitId) > 0)
+
 
                                                 <table class="table table-vertical-center" id="kt_advance_table_widget_4">
                                                     <thead>
@@ -550,6 +477,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+                                                        @if (count($produitId) > 0)
                                                         @foreach ($produitId as $key => $val)
                                                             <tr>
 
@@ -606,6 +534,104 @@
                                                 </table>
                                             @endif
                                             <!--Modal-->
+
+
+                                            <!--Info livraison-->
+                                            <div class="card card-custom card-stretch gutter-b">
+                                                <div class="card-header">
+                                                    <h3 class="card-title">Info livraison</h3>
+                                                </div>
+
+                                                <div class="card-body">
+                                                    <div class="form-group row mt-3">
+
+                                                        <div class="col">
+                                                            <label>{{ __('Téléphone de livraison') }}</label>
+                                                            <input type="text" class="form-control" placeholder="Téléphone de livraison" wire:model.defer="tel_livraison"/>
+                                                        </div>
+                                                        <div class="col">
+                                                            <label>{{ __('Contact de livraison') }}</label>
+                                                            <input type="text" class="form-control" placeholder="Contact de livraison" wire:model.defer="contact_livraison"/>
+                                                        </div>
+
+                                                        <div class="col">
+                                                            <label>{{ __('Adresse de livraison') }}</label>
+                                                            <input type="text" class="form-control" placeholder="Adresse de livraison" wire:model.defer="adresse_livraison"/>
+                                                        </div>
+                                                        <div class="col">
+                                                            <label>{{ __('Ville de livraison') }}</label>
+                                                            <select class="form-control" wire:model="ville">
+                                                                <option>{{ __('Choisir une ville de livraison') }}</option>
+                                                                @foreach ($list_villes as $item)
+                                                                    <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        <div class="col">
+                                                            <label>{{ __('Ville zone') }}</label>
+                                                            <select class="form-control" wire:model="ville_zone">
+                                                                <option>{{ __('Choisir une zone') }}</option>
+                                                                @foreach ($list_ville_zones as $item)
+                                                                    <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        <div class="col">
+                                                            <label>{{ __('Quartier') }}</label>
+                                                            <select class="form-control" wire:model="ville_quartie_id">
+                                                                <option>{{ __('Choisir un quartier') }}</option>
+                                                                @foreach ($list_quartiers as $item)
+                                                                    <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="separator separator-dashed my-10"></div>
+
+                                                    <div class="form-group row">
+                                                        <div class="col">
+                                                            <label>{{ __('Mode de paiement') }}</label>
+                                                            <select class="form-control" wire:model.defer="mode_paiement">
+                                                                <option>{{ __('Choisir un mode de paiement') }}</option>
+                                                                @foreach ($list_mode_paiement as $item)
+                                                                    <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        <div class="col">
+                                                            <label>{{ __('Mode de livraison') }}</label>
+                                                            <select class="form-control" wire:model.defer="mode_livraison_id">
+                                                                <option>{{ __('Choisir un mode de livraison') }}</option>
+                                                                @foreach ($list_mode_livraison as $item)
+                                                                    <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        <div class="col">
+                                                            <label>{{ __('Frais de livraison') }}</label>
+                                                            <input type="text" class="form-control" placeholder="Frais de livraison" wire:model.defer="frais_livraison"/>
+                                                        </div>
+
+                                                        <div class="col">
+                                                            <label>{{ __('Date de livraison') }}</label>
+                                                            <input type="date" class="form-control" placeholder="Date de livraison" wire:model.defer="date_livraison"/>
+                                                        </div>
+
+                                                        <div class="col">
+                                                            <label>{{ __('Livreur') }}</label>
+                                                            <select class="form-control" wire:model.defer="livreur">
+                                                                <option>{{ __('Choisir un livreur') }}</option>
+                                                                @foreach ($list_livreurs as $item)
+                                                                    <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!--end Info livraison-->
 
 
                                         </form>
