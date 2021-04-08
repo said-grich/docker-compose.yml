@@ -59,11 +59,8 @@ jQuery(document).ready(function($){
 });
 
 $(window).load(function(){
-	setTimeout(autoHideLoading,2500);
-	function autoHideLoading() {
-		$('.loading, .loading .load-folding-cube').fadeOut(1000);
-		wow.init();
-	}
+	$('.loading, .loading .load-folding-cube').fadeOut(1000);
+	wow.init();
 });
 
 $(document).ready(function(){

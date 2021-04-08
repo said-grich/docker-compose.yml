@@ -53,6 +53,8 @@
 		</div>
 		<!--end::Content-->
 
+		@livewire('frontend.livraison-localisation')
+
 		<!-- begin::Footer -->
 		<footer class="footer cd-main-content">
 			<div class="container">

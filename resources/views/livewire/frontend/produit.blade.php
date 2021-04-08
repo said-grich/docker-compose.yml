@@ -3,6 +3,7 @@
 
 @push('styles')
     <link rel="stylesheet" href="css/add-to-cart.css"/>
+    <link rel="stylesheet" href="css/select2.min.css"/>
 @endpush
 
 {{-- Start Main --}}
@@ -91,11 +92,13 @@
                                                 @php $prix_total += $item['prix_n']*$item['poids']; @endphp
                                                 <tbody>
                                                     <tr>
-                                                        <td>{{ $item['poids'] }} kg</td>
-                                                        <td>{{ $item['prix_n']*$item['poids'] }} DH</td>
+                                                        <td>
+                                                            <div>{{ $item['poids'] }} {{ $items[0]->produit->unite->nom }}</div>
+                                                            <div>{{ $item['prix_n']*$item['poids'] }} DH</div>
+                                                        </td>
                                                         <td>
                                                             <div x-data="{ open{{$tranche_id}}:false }">
-                                                                <div class="d-flex">
+                                                                <div class="d-flex mode-preparation">
                                                                     <div class="radio">
                                                                         <input @click="open{{$tranche_id}} = 1" type="radio" name="mode{{$tranche_id}}-{{$i}}" id="radio-1-{{$tranche_id}}-{{$i}}" value="option1">
                                                                         <label for="radio-1-{{$tranche_id}}-{{$i}}">Mode Cuisine</label>
@@ -105,7 +108,7 @@
                                                                         <label for="radio-2-{{$tranche_id}}-{{$i}}">Mode Nettoyage</label>
                                                                     </div>
                                                                 </div>
-                                                                <select x-show="open{{$tranche_id}} == 1" class="form-control">
+                                                                <select x-show="open{{$tranche_id}} == 1" class="form-control preparation">
                                                                     <option>Mode Cuisine</option>
                                                                     <option>Four</option>
                                                                     <option>Friture</option>
@@ -113,7 +116,7 @@
                                                                     <option>Plancha</option>
                                                                     <option>Tajine</option>
                                                                 </select>
-                                                                <select x-show="open{{$tranche_id}} == 2" class="form-control" multiple>
+                                                                <select x-show="open{{$tranche_id}} == 2" class="form-control preparation" multiple>
                                                                     <option>Mode Nettoyage</option>
                                                                     @foreach ( $item->produit->preparations as $preparations )
                                                                         <option>{{ $preparations->preparation->nom }}</option>
@@ -121,6 +124,7 @@
                                                                 </select>
                                                             </div>
                                                         </td>
+                                                        <td><button wire:click="deletePcs('{{$tranche_id}}','{{$i}}')" class="btn btn-danger" type="button"><i class="fa fa-times"></i></button></td>
                                                     </tr>
                                                 </tbody>
                                                 @endforeach
@@ -169,21 +173,14 @@
 <!-- End Main -->
 
 @push('scripts')
-    <script src="js/jquery.bootstrap-touchspin.min.js"></script>
+    <script src="js/select2.full.min.js"></script>
     <script src="js/jquery.zoom.min.js"></script>
     <script>
         $(document).ready(function(){
             $('.carousel-item').zoom({url: $('.carousel-item img').attr('data-BigImgSrc')});
-            $("input[name='qte']").TouchSpin({
-                min: 0,
-                max: 100,
-                step: 1,
-                decimals: 0,
-                boostat: 5,
-                maxboostedstep: 10,
-                buttondown_class: "btn btn-default-outline",
-                buttonup_class: "btn btn-default-outline"
-            });
+        });
+        $(document).ready(function() {
+            $('.select2').select2();
         });
     </script>
 @endpush
