@@ -11,6 +11,9 @@ class ListeFamille extends Component
 {
     use WithPagination;
 
+    public $famille_id;
+    public $nom;
+
     public $sortBy = 'nom';
     public $sortDirection = 'asc';
     public $perPage = 5;
@@ -27,9 +30,7 @@ class ListeFamille extends Component
         return view('livewire.Parametrage.liste-famille',[
             'famille'=> $famille
         ]);
-        /*$famille = Famille::all();
-        $list = Famille::all()->sortByDesc('created_at');
-        return view('livewire.Parametrage.liste-famille', [ 'list' => $list , 'famille' => $famille]);*/
+
     }
     public function sortBy($field)
     {
@@ -42,23 +43,37 @@ class ListeFamille extends Component
         return $this->sortBy = $field;
     }
 
+    public function edit($id){
+
+        $item = Famille::where('id',$id)->firstOrFail();
+        $this->famille_id =$item->id;
+        $this->nom =$item->nom;
+    }
+
+    public function editFamille(){
+
+        Famille::where('id', $this->famille_id)
+            ->update([
+                'nom' => $this->nom,
+            ]);
+
+        session()->flash('message', 'Famille "'.$this->nom.'" à été modifiée');
+    }
+
     public function deleteFamille($id)
     {
 
         $famille = Famille::findOrFail($id);
-        //DB::table("familles")->where('id', $id)->delete();
-
         $famille->delete();
-        session()->flash('message', 'Famille "'.$famille->nom.'" à été supprimée');
 
+        session()->flash('message', 'Famille "'.$famille->nom.'" à été supprimée');
         return redirect()->to('/familles');
 
     }
 
 
+    public function saved(){
 
-    public function saved()
-    {
         $this->render();
     }
 

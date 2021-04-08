@@ -11,6 +11,9 @@ class ListeCategorie extends Component
 {
     use WithPagination;
 
+    public $categorie_id;
+    public $nom;
+
     public $sortBy = 'nom';
     public $sortDirection = 'asc';
     public $perPage = 5;
@@ -38,6 +41,23 @@ class ListeCategorie extends Component
         }
 
         return $this->sortBy = $field;
+    }
+
+    public function edit($id){
+
+        $item = Categorie::where('id',$id)->firstOrFail();
+        $this->categorie_id =$item->id;
+        $this->nom =$item->nom;
+    }
+
+    public function editCategorie(){
+
+        Categorie::where('id', $this->categorie_id)
+            ->update([
+                'nom' => $this->nom,
+            ]);
+
+        session()->flash('message', 'Catégorie "'.$this->nom.'" à été modifiée');
     }
 
     public function deleteUnite($id)

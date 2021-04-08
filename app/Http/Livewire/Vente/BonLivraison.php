@@ -22,6 +22,7 @@ use App\Models\TranchesPoidsPc;
 use App\Models\Ville;
 use App\Models\VilleQuartier;
 use App\Models\VilleZone;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -85,6 +86,7 @@ class BonLivraison extends Component
     public $categorie = [];
     public $prix =[];
     public $categorieId = [];
+    public $depots = [];
 
     public $totalMts = [];
     public $totalTtcs = [];
@@ -121,7 +123,7 @@ class BonLivraison extends Component
     public function renderData()
     {
         $this->list_clients = Client::all()->sortBy('nom');
-        $this->list_depots = Depot::all()->sortBy('nom');
+        //$this->list_depots = Depot::all()->sortBy('nom');
         $this->list_categorie = Categorie::all()->sortBy('nom');
         $this->list_mode_paiement = ModePaiement::all()->sortBy('nom');
         $this->list_livreurs = Livreur::all()->sortBy('nom');
@@ -134,18 +136,15 @@ class BonLivraison extends Component
     }
 
     public function updatedRegionLivraison($value){
+
         $this->list_villes = Ville::where('region_id', $value)->get();
+        $this->list_depots = Depot::whereHas('ville', function (Builder $query) {
+            $query->where('region_id', $this->region_livraison);
+        })->get();
+        $this->depots = $this->list_depots->pluck('id');
 
-        $posts = VilleZone::has('depots')->get();
-        dd($posts);
-
-
-        //$depots = Depot::has('comments', '>=', 3)->get();
-
-
-        /* VilleZone::whereHas('depots', function ($query) {
-            return $query->where('IDUser', '=', 1);
-        })->get(); */
+        $this->recherche_produit === '';
+        $this->list_produits = [];
 
     }
 
@@ -164,10 +163,10 @@ class BonLivraison extends Component
         //$this->updatedRechercheProduit();
 
     }
-    public function filterStock()
+    /* public function filterStock()
     {
 
-        $this->liste_poids_pc = StockPoidsPc::where('depot_id', $this->depot)
+        $liste_poids_pc = StockPoidsPc::whereIn('depot_id', $this->depots)
             //->where('categorie_id', $this->categorie)
             // if($this->recherche_poids!=null)
             //->where('poids','=',number_format (0.7))
@@ -199,7 +198,7 @@ class BonLivraison extends Component
             ->with('qualite')
             ->get();
 
-        $list_produits_kg_pc = StockKgPc::where('depot_id', $this->depot)
+        $list_produits_kg_pc = StockKgPc::whereIn('depot_id', $this->depots)
             ->where(function ($query) {
                 $query->where(
                     function ($query) {
@@ -218,15 +217,13 @@ class BonLivraison extends Component
         //->groupBy(['produit_id', 'tranche_id']);
 
         $collection = collect();
-        foreach ($this->liste_poids_pc as $poids_pc)
+        foreach ($liste_poids_pc as $poids_pc)
             $collection->push($poids_pc);
         foreach ($list_produits_kg_pc as $kg_pc)
             $collection->push($kg_pc);
         $this->list_produits = $collection->groupBy(['produit_id', 'tranche_id']);
 
         //dd($this->list_produits);
-
-
 
 
         foreach ($this->list_produits as $produit_id => $tranches) {
@@ -236,7 +233,7 @@ class BonLivraison extends Component
 
                 $this->nom_tranche[$produit_id][$tranche_uid] = isset(TranchesPoidsPc::where('uid', $tranche_uid)->first()->nom) ? TranchesPoidsPc::where('uid', $tranche_uid)->first()->nom : TranchesKgPc::where('uid', $tranche_uid)->first()->nom;
                 foreach ($produits as $key => $produit){
-                    // $lots[$key] = $produit->lot_num;
+
                     switch($this->profile) {
                         case "Normal":
                             $this->prix[$key] = $produit['prix_n'];
@@ -274,119 +271,126 @@ class BonLivraison extends Component
         //dd($this->list_produits->all());
 
         if ($this->recherche_produit === '') $this->list_produits = [];
+    } */
+
+    public function updatedRechercheProduit($value){
+        //dd($value);
+        if ($value === "") $this->list_produits = [];
+
+        $liste_poids_pc = StockPoidsPc::whereIn('depot_id', $this->depots)
+            //->where('categorie_id', $this->categorie)
+            // if($this->recherche_poids!=null)
+            //->where('poids','=',number_format (0.7))
+
+
+            ->where(function ($query) {
+                $query->where(
+                    function ($query) {
+                        $query->select('nom')
+                        ->from('produits')
+                        ->whereColumn('produits.id', 'stock_poids_pcs.produit_id');
+                        //->limit(1);
+                    },
+                    'ILIKE',
+                    strtolower($this->recherche_produit . '%')
+                );
+            })
+            // ->where(function ($query) {
+            //     if ($this->recherche_poids != null){
+            //     $query->where('poids', '=', number_format((float)$this->recherche_poids));
+            //     }
+
+            // })
+            ->with('depot')
+            ->with('produit')
+            ->with('categorie')
+            ->with('sousCategorie')
+            ->with('unite')
+            ->with('qualite')
+            ->get();
+
+        $list_produits_kg_pc = StockKgPc::whereIn('depot_id', $this->depots)
+            ->where(function ($query) {
+                $query->where(
+                    function ($query) {
+                        $query->select('nom')
+                        ->from('produits')
+                        ->whereColumn('produits.id', 'stock_kg_pcs.produit_id');
+                        //->limit(1);
+                    },
+                    'ILIKE',
+                    strtolower($this->recherche_produit . '%')
+                );
+            })
+            ->with('depot')
+            ->with('produit')
+            ->get();
+        //->groupBy(['produit_id', 'tranche_id']);
+
+        $collection = collect();
+        foreach ($liste_poids_pc as $poids_pc)
+            $collection->push($poids_pc);
+        foreach ($list_produits_kg_pc as $kg_pc)
+            $collection->push($kg_pc);
+        $this->list_produits = $collection->groupBy(['produit_id', 'tranche_id']);
+
+        //dd($this->list_produits);
+
+
+        foreach ($this->list_produits as $produit_id => $tranches) {
+            //dd($this->list_produits);
+            $this->nom_produit[$produit_id] = Produit::where('id', $produit_id)->first()->nom;
+            foreach ($tranches as $tranche_uid => $produits) {
+
+                $this->nom_tranche[$produit_id][$tranche_uid] = isset(TranchesPoidsPc::where('uid', $tranche_uid)->first()->nom) ? TranchesPoidsPc::where('uid', $tranche_uid)->first()->nom : TranchesKgPc::where('uid', $tranche_uid)->first()->nom;
+                foreach ($produits as $key => $produit){
+
+                    switch($this->profile) {
+                        case "Normal":
+                            $this->prix[$key] = $produit['prix_n'];
+                            break;
+                        case "Fidèle":
+                            $this->prix[$key] = $produit['prix_f'];
+                            break;
+                        case "Business":
+                            $this->prix[$key] = $produit['prix_p'];
+                            break;
+                    }
+                }
+                $nbr_pc = LotTranche::where('lot_num', $produits[0]->lot_num)->where('tranche_id', $tranche_uid)->first(['qte'])->qte;
+                $this->nbr_piece[$produit_id][$tranche_uid] = LotTranche::where('lot_num', $produits[0]->lot_num)->where('tranche_id', $tranche_uid)->first(['qte'])->qte;
+
+
+                // if($this->recherche_poids != null){
+                //         foreach ($produits as $key => $produit) {
+                //             $this->list_produits = $produit->poids ? $produit->where('poids', $this->recherche_poids)->get() : '';
+                //             //$filtered->all();
+                //         }
+                // }
+
+
+                //     dd(LotTranche::where('lot_num', $produits[0]->lot_num)->where('tranche_id', $tranche_uid)->get(['qte']));
+                // $this->nom_tranche[$produit_id][$tranche_uid]
+
+                //$test = LotTranche::where('tranche_id', $tranche_uid)->where()
+                // foreach ($produits as $key => $value) {
+                //     dd($value);
+                // }
+
+            }
+        }
+        //dd($this->list_produits->all());
+
+        //if ($this->recherche_produit === '') $this->list_produits = [];
+
     }
 
-    public function updatedRechercheProduit(){
-
+    /* public function updatedDepot()
+    {
+        $this->recherche_produit === '';
+        $this->list_produits = [];
         $this->filterStock();
-
-        // $list_produits_poids_pc = StockPoidsPc::where('depot_id', $this->depot)
-        //     //->where('categorie_id', $this->categorie)
-        //     // if($this->recherche_poids!=null)
-        //     //->where('poids',number_format ((double)$this->recherche_poids))
-
-
-        //     ->where(function ($query) {
-        //         $query->where(
-        //             function ($query) {
-        //                 $query->select('nom')
-        //                     ->from('produits')
-        //                     ->whereColumn('produits.id', 'stock_poids_pcs.produit_id');
-        //                     //->limit(1);
-        //             },
-        //             'ILIKE',
-        //             strtolower($this->recherche_produit . '%')
-        //         );
-
-        //     })
-        //     // ->where(function ($query) {
-        //     //     if ($this->recherche_poids != null){
-        //     //     $query->where('poids', '=', number_format((float)$this->recherche_poids));
-        //     //     }
-
-        //     // })
-        //     ->with('depot')
-        //     ->with('produit')
-        //     ->with('categorie')
-        //     ->with('sousCategorie')
-        //     ->with('unite')
-        //     ->with('qualite')
-        //     ->get();
-
-        // $list_produits_kg_pc = StockKgPc::where('depot_id', $this->depot)
-        // //->where('categorie_id', $this->categorie)
-        // ->where(function ($query) {
-        //     $query->where(
-        //         function ($query) {
-        //             $query->select('nom')
-        //                 ->from('produits')
-        //                 ->whereColumn('produits.id', 'stock_kg_pcs.produit_id');
-        //             //->limit(1);
-        //         },
-        //         'ILIKE',
-        //         strtolower($this->recherche_produit . '%')
-        //     );
-        // })
-        // ->with('depot')
-        // ->with('produit')
-        // ->get();
-        // //->groupBy(['produit_id', 'tranche_id']);
-
-        // $collection = collect();
-        // foreach ($list_produits_poids_pc as $poids_pc)
-        //     $collection->push($poids_pc);
-        // foreach ($list_produits_kg_pc as $kg_pc)
-        //     $collection->push($kg_pc);
-        // $this->list_produits = $collection->groupBy(['produit_id', 'tranche_id']);
-        // //dd($this->list_produits);
-
-
-
-
-        // foreach ($this->list_produits as $produit_id => $tranches) {
-        //     //dd($this->list_produits);
-        //     $this->nom_produit[$produit_id] = Produit::where('id', $produit_id)->first()->nom;
-        //     foreach ($tranches as $tranche_uid => $produits) {
-
-        //         $this->nom_tranche[$produit_id][$tranche_uid] = isset(TranchesPoidsPc::where('uid', $tranche_uid)->first()->nom) ? TranchesPoidsPc::where('uid', $tranche_uid)->first()->nom : TranchesKgPc::where('uid', $tranche_uid)->first()->nom;
-        //     // foreach ($produits as $key => $produit){
-        //     //     $lots[$key] = $produit->lot_num;
-        //     // }
-        //     $nbr_pc = LotTranche::where('lot_num', $produits[0]->lot_num)->where('tranche_id', $tranche_uid)->first(['qte'])->qte;
-        //     $this->nbr_piece[$produit_id][$tranche_uid] = LotTranche::where('lot_num', $produits[0]->lot_num)->where('tranche_id', $tranche_uid)->first(['qte'])->qte;
-
-        //     // if($this->recherche_poids != null){
-        //     //         foreach ($produits as $key => $produit) {
-        //     //             $this->list_produits = $produit->poids ? $produit->where('poids', $this->recherche_poids)->get() : '';
-        //     //             //$filtered->all();
-        //     //         }
-        //     // }
-
-
-        //     //     dd(LotTranche::where('lot_num', $produits[0]->lot_num)->where('tranche_id', $tranche_uid)->get(['qte']));
-        //     // $this->nom_tranche[$produit_id][$tranche_uid]
-
-        //         //$test = LotTranche::where('tranche_id', $tranche_uid)->where()
-        //         // foreach ($produits as $key => $value) {
-        //         //     dd($value);
-        //         // }
-
-        //     }
-        // }
-        // //dd($this->list_produits->all());
-
-        // if ($this->recherche_produit === '') $this->list_produits = [];
-        //$this->updatedRecherchePoids($this->recherche_poids);
-        //dd($this->nom_produit, $this->nom_tranche, $produits);
-
-    }
-
-    // public function updatedDepot()
-    // {
-    //     // $this->recherche_produit === '';
-    //     //  $this->list_produits = [];
-    //     $this->filterStock();
-    // }
+    } */
 
     // public function updatingCategorie(){
     //     // $this->recherche_produit === '';
@@ -465,52 +469,42 @@ class BonLivraison extends Component
         // ]);
         DB::transaction(function () {
 
-            $item = new ModelBonLivraison();
-            $item->ref = $this->ref_bl;
-            $item->date = $this->date;
-            $item->client_id = $this->client;
-            $item->depot_id = $this->depot;
-            //dump($item);
-            $item->save();
+            $bl = new ModelBonLivraison();
+            $bl->ref = $this->ref_bl;
+            $bl->date = $this->date;
+            $bl->client_id = $this->client;
+            $bl->depot_id = $this->depot;
+            $bl->save();
 
             $MAC = exec('getmac');
             $MAC = strtok($MAC, ' ');
 
-            $item3 = new Commande();
-            $item3->ref = $this->ref_bl;
-            $item3->mac_address = $MAC;
-            $item3->date = $this->date;
-            $item3->date_livraison = $this->date_livraison;
-            $item3->tel_livraison = $this->tel_livraison;
-            $item3->contact_livraison = $this->contact_livraison;
-            $item3->adresse_livraison = $this->adresse_livraison;
-            $item3->mode_livraison_id = $this->mode_livraison_id;
-            $item3->frais_livraison = $this->frais_livraison;
-            $item3->ville_quartie_id = $this->ville_quartie_id;
-            $item3->mode_paiement_id = $this->mode_paiement;
-            $item3->client_id = $this->client;
-            $item3->livreur_id = $this->livreur;
-            $item3->save();
+            $commande = new Commande();
+            $commande->ref = $this->ref_bl;
+            $commande->mac_address = $MAC;
+            $commande->date = $this->date;
+            $commande->date_livraison = $this->date_livraison;
+            $commande->tel_livraison = $this->tel_livraison;
+            $commande->contact_livraison = $this->contact_livraison;
+            $commande->adresse_livraison = $this->adresse_livraison;
+            $commande->mode_livraison_id = $this->mode_livraison_id;
+            $commande->frais_livraison = $this->frais_livraison;
+            $commande->ville_quartie_id = $this->ville_quartie_id;
+            $commande->mode_paiement_id = $this->mode_paiement;
+            $commande->client_id = $this->client;
+            $commande->livreur_id = $this->livreur;
+            $commande->save();
 
             foreach ($this->produitNom as $key => $value) {
 
-
-                /* ModelBonLivraison::create([
-                    'ref' => $this->ref_bl,
-                    'date' => $this->date,
-                    'client_id' => $this->client,
-                    'depot_id' => $this->depot,
-
-                ]); */
-
-                $item2 = new BonLivraisonLigne();
-                $item2->bon_livraison_ref = $this->ref_bl;
-                $item2->produit_id = $this->produitId[$key];
-                $item2->categorie_id = $this->categorieId[$key];
-                $item2->qte = $this->qte[$key];
-                $item2->prix= $this->prix_vente[$key];
-                $item2->montant= $this->montant[$key];
-                $item2->save();
+                $bl_ligne = new BonLivraisonLigne();
+                $bl_ligne->bon_livraison_ref = $this->ref_bl;
+                $bl_ligne->produit_id = $this->produitId[$key];
+                $bl_ligne->categorie_id = $this->categorieId[$key];
+                $bl_ligne->qte = $this->qte[$key];
+                $bl_ligne->prix= $this->prix_vente[$key];
+                $bl_ligne->montant= $this->montant[$key];
+                $bl_ligne->save();
 
                 CommandeLigne::create([
                     'commande_ref' => $this->ref_bl,
@@ -520,54 +514,6 @@ class BonLivraison extends Component
                     'prix' => $this->prix_vente[$key],
                     'montant' => $this->montant[$key]
                 ]);
-                //dump($item2);
-
-                // BonLivraisonLigne::create([
-                //     'bon_livraison_ref' => $this->ref_bl,
-                //     'produit_id' => $this->produitId[$key],
-                //     'categorie_id' => $this->categorieId[$key],
-                //     'qte' => $this->qte[$key],
-                //     'prix' => $this->prix_vente[$key],
-                //     'montant' => $this->montant[$key]
-                // ]);
-
-
-                //dd($item3);
-
-                /* Commande::create([
-                    'ref' => $this->ref_bl,
-                    'mac_address' => $MAC,
-                    'date' => $this->date,
-                    'date_livraison' => $this->date_livraison,
-                    'tel_livraison' => $this->tel_livraison,
-                    'contact_livraison' => $this->contact_livraison,
-                    'adresse_livraison' => $this->adresse_livraison,
-                    'mode_livraison_id' => $this->mode_livraison_id,
-                    'frais_livraison' => $this->frais_livraison,
-                    'ville_quartie_id' => $this->ville_quartie_id,
-                    'mode_paiement_id' => $this->mode_paiement,
-                    'client_id' => $this->client,
-                    'livreur_id' => $this->livreur,
-
-                ]); */
-
-                // Commande::create([
-                //     'ref' => $this->ref_bl,
-                //     'mac_address' => $MAC,
-                //     'date' => $this->date,
-                //     'date_livraison' => $this->date_livraison,
-                //     'tel_livraison' => $this->tel_livraison,
-                //     'contact_livraison' => $this->contact_livraison,
-                //     'adresse_livraison' => $this->adresse_livraison,
-                //     'mode_livraison_id' => $this->mode_livraison_id,
-                //     'frais_livraison' => $this->frais_livraison,
-                //     'ville_quartie_id' => $this->ville_quartie_id,
-                //     'mode_paiement_id' => $this->mode_paiement,
-                //     'client_id' => $this->client,
-                //     'livreur_id' => $this->livreur,
-
-                // ]);
-
 
             }
 
@@ -641,8 +587,8 @@ class BonLivraison extends Component
             ->where('ref', 'ilike', '%' . $this->search . '%')
             ->orderBy($this->sortBy, $this->sortDirection)
             ->paginate($this->perPage);
-        $list_produits  =  $this->list_produits;
+        //$list_produits  =  $this->list_produits;
 
-        return view('livewire.vente.bon-livraison',compact(['items', 'list_produits']));
+        return view('livewire.vente.bon-livraison',compact(['items'/* , 'list_produits' */]));
     }
 }

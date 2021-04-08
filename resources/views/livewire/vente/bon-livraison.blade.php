@@ -194,7 +194,7 @@
                                                     @enderror
                                                 </div>
 
-                                                <div class="form-group col">
+                                                {{-- <div class="form-group col">
                                                     <label>{{ __("Dépôt") }}</label>
                                                     <div class="input-group input-group-prepend">
                                                         <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
@@ -209,7 +209,7 @@
                                                     @error('depot')
                                                         <span class="form-text text-danger">{{ $message }}</span>
                                                     @enderror
-                                                </div>
+                                                </div> --}}
 
                                             </div>
 
@@ -308,8 +308,9 @@
                                                                     <th>Prix de vente business</th>
                                                                 @endif
                                                                 <th>Lot</th>
-                                                                <th>Qualité</th>
+                                                                <th>Quantité</th>
                                                                 <th>Pas</th>
+                                                                <th>Depot</th>
                                                                 <th></th>
                                                             </tr>
                                                             @foreach ($item as $tranche_uid => $produits)
@@ -351,10 +352,11 @@
                                                                             @endif
 
                                                                         </td>
-                                                                        <td>@isset($produit['unite']['nom'])
-                                                                            {{$produit['unite']['nom']}}
-
-                                                                        @endisset</td>
+                                                                        <td>
+                                                                            @isset($produit['unite']['nom'])
+                                                                                {{$produit['unite']['nom']}}
+                                                                            @endisset
+                                                                        </td>
                                                                         {{-- <td>{{$produit->qte}}</td> --}}
                                                                         {{-- <td>{{$produit->unite->nom}}</td> --}}
                                                                         <td>
@@ -364,9 +366,9 @@
                                                                             @endisset</td>
                                                                         <td>
                                                                             @isset($prix[$key])
-                                                                            {{$prix[$key]}}
-
-                                                                            @endisset</td>
+                                                                                {{$prix[$key]}}
+                                                                            @endisset
+                                                                        </td>
                                                                         {{-- <td>{{$produit->prix_n}}</td>
                                                                         <td>{{$produit->prix_f}}</td>
                                                                         <td>{{$produit->prix_p}}</td>  --}}
@@ -381,6 +383,12 @@
                                                                         @endif --}}
                                                                         <td>{{$produit['lot_num']}}</td>
                                                                         <td>{{$produit['qte']}}</td>
+                                                                        <td>{{$produit['pas']}}</td>
+                                                                        <td>
+                                                                            @isset($produit['depot']['nom'])
+                                                                                {{$produit['depot']['nom']}}
+                                                                            @endisset
+                                                                        </td>
                                                                         {{-- <td>
                                                                             @isset($produit->qualite->nom)
                                                                                 {{$produit->qualite->nom}}
@@ -464,74 +472,74 @@
 
 
 
-                                                <table class="table table-vertical-center" id="kt_advance_table_widget_4">
-                                                    <thead>
-                                                        <tr class="text-left">
-                                                            <th class="pl-0">Article</th>
-                                                            {{-- <th class="pl-0">Tranches</th> --}}
-                                                            <th class="pl-0">Code</th>
-                                                            <th class="pl-0">Poids</th>
-                                                            <th class="pl-0">Quantité à livrée</th>
-                                                            <th class="pl-0">Prix</th>
-                                                            <th class="pl-0">Montant</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @if (count($produitId) > 0)
-                                                        @foreach ($produitId as $key => $val)
-                                                            <tr>
-
-                                                                <td class="pl-0">
-                                                                    @isset($produitNom[$key])
-                                                                        {{ $produitNom[$key] }}
-                                                                    @endisset
-                                                                </td>
-                                                                <td class="pl-0">
-                                                                    @isset($code[$key])
-                                                                        {{ $code[$key] }}
-                                                                    @endisset
-                                                                </td>
-                                                                <td class="pl-0">
-                                                                    @isset($poids[$key])
-                                                                        {{ $poids[$key] }}
-                                                                    @endisset
-                                                                </td>
-                                                                <td class="pl-0">
-                                                                    @isset($qte[$key])
-                                                                        {{ $qte[$key] }}
-                                                                    @endisset
-                                                                </td>
-                                                                <td class="pl-0">
-                                                                    @isset($prix_vente[$key])
-                                                                        {{ $prix_vente[$key] }}
-                                                                    @endisset
-                                                                </td>
-
-                                                                <td class="pl-0">
-                                                                    @isset($montant[$key])
-                                                                        {{ number_format($montant[$key], 2, ',', ' ') }}
-                                                                    @endisset
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
-
-                                                    </tbody>
-
-
-                                                </table>
-
-                                                <table class="table table-vertical-center" id="kt_advance_table_widget_4">
-                                                    <tbody>
+                                            <table class="table table-vertical-center" id="kt_advance_table_widget_4">
+                                                <thead>
+                                                    <tr class="text-left">
+                                                        <th class="pl-0">Article</th>
+                                                        {{-- <th class="pl-0">Tranches</th> --}}
+                                                        <th class="pl-0">Code</th>
+                                                        <th class="pl-0">Poids</th>
+                                                        <th class="pl-0">Quantité à livrée</th>
+                                                        <th class="pl-0">Prix</th>
+                                                        <th class="pl-0">Montant</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (count($produitId) > 0)
+                                                    @foreach ($produitId as $key => $val)
                                                         <tr>
-                                                            <th class="pl-0" colspan="6">
-                                                                Total
-                                                            </th>
+
                                                             <td class="pl-0">
-                                                                {{ number_format($totalMt, 2, ',', ' ') }}
+                                                                @isset($produitNom[$key])
+                                                                    {{ $produitNom[$key] }}
+                                                                @endisset
+                                                            </td>
+                                                            <td class="pl-0">
+                                                                @isset($code[$key])
+                                                                    {{ $code[$key] }}
+                                                                @endisset
+                                                            </td>
+                                                            <td class="pl-0">
+                                                                @isset($poids[$key])
+                                                                    {{ $poids[$key] }}
+                                                                @endisset
+                                                            </td>
+                                                            <td class="pl-0">
+                                                                @isset($qte[$key])
+                                                                    {{ $qte[$key] }}
+                                                                @endisset
+                                                            </td>
+                                                            <td class="pl-0">
+                                                                @isset($prix_vente[$key])
+                                                                    {{ $prix_vente[$key] }}
+                                                                @endisset
+                                                            </td>
+
+                                                            <td class="pl-0">
+                                                                @isset($montant[$key])
+                                                                    {{ number_format($montant[$key], 2, ',', ' ') }}
+                                                                @endisset
                                                             </td>
                                                         </tr>
-                                                    </tbody>
-                                                </table>
+                                                    @endforeach
+
+                                                </tbody>
+
+
+                                            </table>
+
+                                            <table class="table table-vertical-center" id="kt_advance_table_widget_4">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="pl-0" colspan="6">
+                                                            Total
+                                                        </th>
+                                                        <td class="pl-0">
+                                                            {{ number_format($totalMt, 2, ',', ' ') }}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                             @endif
                                             <!--Modal-->
 
