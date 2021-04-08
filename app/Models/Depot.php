@@ -15,6 +15,11 @@ class Depot extends Model
         return $this->belongsTo(Ville::class);
     }
 
+    public function zone()
+    {
+        return $this->belongsTo(VilleZone::class);
+    }
+
     public function stockPoidPC()
     {
         return $this->hasMany(StockPoidsPc::class);
@@ -28,6 +33,11 @@ class Depot extends Model
     public function bonsReception()
     {
         return $this->hasMany(BonReception::class);
+    }
+
+    public function bonsLivraison()
+    {
+        return $this->hasMany(BonLivraison::class);
     }
 
 }

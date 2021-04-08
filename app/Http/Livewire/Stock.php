@@ -191,7 +191,7 @@ class Stock extends Component
         $produit_tranches = ProduitTranche::where('produit_id', $value)->get();
         $this->mode_vente_produit[$index] = $produit->modeVente->id;
         $mode_vente = $produit->modeVente->id;
-        $this->mode_vente_produit[$index] == 1 ? $this->unite[$index] =  Unite::where('nom', "Kg")->first()->nom : $this->unite[$index] =  Unite::where('nom', "Pièce")->first()->nom;
+        $this->mode_vente_produit[$index] == 1 || $this->mode_vente_produit[$index] == 2 ? $this->unite[$index] =  Unite::where('nom', "Kg")->first()->nom : $this->unite[$index] =  Unite::where('nom', "Pièce")->first()->nom;
         $this->lot_num[$index] = strtoupper(substr($fournisseur, 0, 3)) . strtoupper(substr($produit->nom, 0, 3)). $uniqueNumLot;
 
         foreach($produit_tranches as $key=>$value){

@@ -58,7 +58,21 @@
                                             <div wire:ignore class="form-group">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-map-marker-alt icon-lg"></i></span></div>
-                                                    <select class="form-control selectpicker" wire:model.defer="ville">
+                                                    <select class="form-control selectpicker" wire:model="order_priorite">
+                                                        <option>{{ __('Order de priorité') }}</option>
+                                                        {{-- @foreach ($list_villes as $ville)
+                                                            <option value="{{$ville->id}}">{{$ville->nom}}</option>
+                                                        @endforeach --}}
+                                                    </select>
+                                                </div>
+                                                @error('order_priorite')
+                                                    <span class="form-text text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                            <div wire:ignore class="form-group">
+                                                <div class="input-group input-group-prepend">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-map-marker-alt icon-lg"></i></span></div>
+                                                    <select class="form-control selectpicker" wire:model="ville">
                                                         <option>{{ __('Ville') }}</option>
                                                         @foreach ($list_villes as $ville)
                                                             <option value="{{$ville->id}}">{{$ville->nom}}</option>
@@ -69,10 +83,10 @@
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
-                                            <div wire:ignore class="form-group">
+                                            <div class="form-group">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-map-marker-alt icon-lg"></i></span></div>
-                                                    <select class="form-control selectpicker" wire:model.defer="ville">
+                                                    <select class="form-control" wire:model.defer="ville">
                                                         <option>{{ __('Choisir une zone') }}</option>
                                                         @if (!empty($list_zones_ville))
                                                             @foreach ($list_zones_ville as $zone)

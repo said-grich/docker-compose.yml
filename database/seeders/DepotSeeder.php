@@ -16,13 +16,15 @@ class DepotSeeder extends Seeder
     {
         Depot::create([
             'nom' => 'Marrakech',
-            //'ville' => 'Marrakech',
             'ville_id'=> 2,
+            'order_priorite'=> 1,
+            'zone_id'=> 137,
         ]);
         Depot::create([
             'nom' => 'Casablance',
-            //'ville' => 'Casablanca',
             'ville_id'=> 1,
+            'order_priorite'=> 2,
+            'zone_id'=> 47,
         ]);
 
     }

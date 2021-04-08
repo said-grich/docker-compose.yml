@@ -15,6 +15,17 @@ class CreateCommandeLignesTable extends Migration
     {
         Schema::create('commande_lignes', function (Blueprint $table) {
             $table->id();
+            $table->integer('qte');
+            $table->decimal('prix');
+            $table->decimal('montant');
+
+            $table->string('commande_ref');
+            $table->foreign('commande_ref')->references('ref')->on('commandes');
+
+            $table->unsignedBigInteger('produit_id');
+            $table->foreign('produit_id')->references('id')->on('produits');
+            $table->unsignedBigInteger('categorie_id');
+            $table->foreign('categorie_id')->references('id')->on('categories');
             $table->timestamps();
         });
     }

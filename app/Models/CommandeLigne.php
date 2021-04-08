@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class CommandeLigne extends Model
 {
     use HasFactory;
+    protected $guarded = [];
 }
