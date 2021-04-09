@@ -1,7 +1,7 @@
 <div class="table-responsive">
     <div class="d-flex flex-row-reverse">
         <div class="input-icon">
-            <input wire:model.debounce.300ms="search" class="form-control" type="text" placeholder="Search...">
+            <input wire:model.debounce.300ms="search" class="form-control" type="text" placeholder="Recherche...">
             <span>
                 <i class="flaticon2-search-1 text-muted"></i>
             </span>

@@ -174,16 +174,6 @@ class BonLivraison extends Component
 
      public function loadList(){
 
-        $poids_piece = StockPoidsPc::get();
-        $kg_piece = StockKgPc::get();
-
-
-        $mergedCollection = $poids_piece->merge($kg_piece);
-
-        $mergedCollection->all();
-        //dd($mergedCollection);
-
-
         $query = [];
 
         if (!empty($this->filter["categorie"])) {
@@ -208,7 +198,7 @@ class BonLivraison extends Component
                     strtolower($this->filter['recherche_produit'] . '%')
 
                 )
-                ->where('poids',$this->filter['poids'])
+                //->where('poids',$this->filter['poids'])
                 ->with('depot')
                 ->with('produit')
                 ->with('categorie')
@@ -219,13 +209,11 @@ class BonLivraison extends Component
             });
         }
 
-        // Ordering
         if (!empty($this->filter["depot"])) {
             $order_type = (!empty($this->filter["depot"])) ? $this->filter["depot"] : 'ASC';
             $poids_pc = $poids_pc->where($this->filter["depot"], $order_type);
         }
 
-        // Paginating
         $poids_pc = $poids_pc->get();
 
         if (!empty($this->filter["recherche_produit"])) {
@@ -250,19 +238,13 @@ class BonLivraison extends Component
             });
         }
 
-        // Ordering
         if (!empty($this->filter["depot"])) {
             $order_type = (!empty($this->filter["depot"])) ? $this->filter["depot"] : 'ASC';
             $kg_pc = $kg_pc->where($this->filter["depot"], $order_type);
         }
 
-        // Paginating
         $kg_pc = $kg_pc->get();
 
-
-        // $mergedCollection = $objects->merge($kg_pc);
-
-        // $mergedCollection->all();
 
         $collection = collect();
         foreach ($poids_pc as $poids_pc)
@@ -303,14 +285,6 @@ class BonLivraison extends Component
                 // }
 
 
-                //     dd(LotTranche::where('lot_num', $produits[0]->lot_num)->where('tranche_id', $tranche_uid)->get(['qte']));
-                // $this->nom_tranche[$produit_id][$tranche_uid]
-
-                //$test = LotTranche::where('tranche_id', $tranche_uid)->where()
-                // foreach ($produits as $key => $value) {
-                //     dd($value);
-                // }
-
             }
         }
 
@@ -333,7 +307,7 @@ class BonLivraison extends Component
 
     public function updatedFilterRechercheProduit($value)
     {
-        if ($value === '') $this->list_produits = [];
+        if (empty($value)) $this->list_produits = [];
         $this->loadList();
 
     }
@@ -493,6 +467,7 @@ class BonLivraison extends Component
 
 
     public function save(){
+        dd($this->code);
 
         // $this->validate([
         //     'ref_bl' => 'required|unique:bon_livraisons,ref',
@@ -536,6 +511,7 @@ class BonLivraison extends Component
                 $bl_ligne->bon_livraison_ref = $this->ref_bl;
                 $bl_ligne->produit_id = $this->produitId[$key];
                 $bl_ligne->categorie_id = $this->categorieId[$key];
+                $bl_ligne->code = isset($this->code[$key]) ? $this->code[$key] : '';
                 $bl_ligne->qte = $this->qte[$key];
                 $bl_ligne->prix= $this->prix_vente[$key];
                 $bl_ligne->montant= $this->montant[$key];
@@ -562,7 +538,7 @@ class BonLivraison extends Component
     }
 
 
-    public function add($i,$productId, $qte, $prix, $lot,$code, $tranche,$categorie)
+    public function add($i,$productId, $qte, $prix, $tranche,$categorie)
     {
          //dd($i, $this->list_produits, $productId, $qte, $prix, $lot, $tranche, $code, $this->list_produits[$productId][$tranche][$i]);
         $this->linenumber++;
@@ -581,7 +557,7 @@ class BonLivraison extends Component
 
         $this->updateData($this->linenumber);
 
-        $this->updatedRechercheProduit();
+        //$this->updatedRechercheProduit();
     }
 
     public function updateData($i)

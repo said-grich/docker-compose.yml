@@ -15,7 +15,7 @@ class CreateBonLivraisonLignesTable extends Migration
     {
         Schema::create('bon_livraison_lignes', function (Blueprint $table) {
             $table->id();
-
+            $table->string('code');
             $table->float('qte');
             $table->double('prix');
             $table->double('montant');
