@@ -277,26 +277,10 @@ class BonLivraison extends Component
                 $this->nbr_piece[$produit_id][$tranche_uid] = LotTranche::where('lot_num', $produits[0]->lot_num)->where('tranche_id', $tranche_uid)->first(['qte'])->qte;
 
 
-                // if($this->recherche_poids != null){
-                //         foreach ($produits as $key => $produit) {
-                //             $this->list_produits = $produit->poids ? $produit->where('poids', $this->recherche_poids)->get() : '';
-                //             //$filtered->all();
-                //         }
-                // }
-
-
             }
         }
 
         //if ($this->recherche_produit === '') $this->list_produits = [];
-
-
-        //dd($poids_pc, $kg_pc, $mergedCollection, $this->list_produits);
-
-
-
-        // $this->paginator = $objects->toArray();
-        // $this->objects = $objects->items();
 
      }
 
