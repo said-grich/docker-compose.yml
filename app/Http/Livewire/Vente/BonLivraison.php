@@ -70,6 +70,7 @@ class BonLivraison extends Component
 
     public $date;
     public $ref_bl;
+    public $ref_cmd;
     public $fournisseur;
     public $depot;
     public $qualite;
@@ -87,6 +88,8 @@ class BonLivraison extends Component
     public $prix =[];
     public $categorieId = [];
     public $depots = [];
+    public $depotNom = [];
+    public $depotId = [];
 
     public $totalMts = [];
     public $totalTtcs = [];
@@ -112,6 +115,7 @@ class BonLivraison extends Component
     public $list_villes = [];
     public $list_ville_zones = [];
     public $list_quartiers = [];
+    public $depot_livraison;
 
 
     public $filter = [
@@ -138,7 +142,36 @@ class BonLivraison extends Component
         $this->list_region = Region::all()->sortBy('nom');
     }
 
+    function invoiceNumber()
+    {
+        $latest = ModelBonLivraison::latest()->first();
+
+        if (! $latest) {
+            return 'BL'.'0001';
+        }
+
+        $string = preg_replace("/[^0-9\.]/", '', $latest->ref);
+
+        return 'BL'. sprintf('%04d', $string+1);
+    }
+
     public function mount(){
+
+        $latest_bl = ModelBonLivraison::latest()->first();
+        if (! $latest_bl) {
+            $this->ref_bl =  'BL'.'0001';
+        }
+        $string = preg_replace("/[^0-9\.]/", '', $latest_bl->ref);
+        $this->ref_bl = 'BL'. sprintf('%04d', $string+1);
+
+        $latest_cmd = Commande::latest()->first();
+        if (! $latest_cmd) {
+            return 'FLK'.'0001';
+        }
+        $string = preg_replace("/[^0-9\.]/", '', $latest_cmd->ref);
+
+        $this->ref_cmd = 'FLK'. sprintf('%04d', $string+1);
+
         $this->date = date('d-m-Y');
     }
 
@@ -162,7 +195,6 @@ class BonLivraison extends Component
 
     public function updatedVilleZone($value){
         $this->list_quartiers = VilleQuartier::where('ville_zone_id', $value)->get();
-
     }
 
     public function updatedClient($value){
@@ -171,8 +203,67 @@ class BonLivraison extends Component
 
     }
 
+    public function loadList()
+    {
+        /* $collection = StockPoidsPc::all();
+        $collection2 = StockKgPc::all(); */
+        if ($this->filter['recherche_produit'] === '') {
+            $this->list_produits = [];
+            $this->nom_produit = [];
+            $this->nom_tranche = [];
+            $this->nbr_piece = [];
+        } else if (!empty($this->filter['recherche_produit'])) {
+            $collection = StockPoidsPc::where(function ($query) {
+                $query->where(
+                    function ($query) {
+                        $query->select('nom')
+                            ->from('produits')
+                            ->whereColumn('produits.id', 'stock_poids_pcs.produit_id');
+                    },
+                    'ILIKE',
+                    strtolower($this->filter['recherche_produit'] . '%')
+                );
+            })
+                ->with('depot')
+                ->with('produit')
+                ->with('categorie')
+                ->with('sousCategorie')
+                ->with('unite')
+                ->with('qualite')->get();
 
-     public function loadList(){
+
+            $this->list_produits = $collection->groupBy(['produit_id', 'tranche_id']);
+            foreach ($this->list_produits as $produit_id => $tranches) {
+                //     //dd($this->list_produits);
+                $this->nom_produit[$produit_id] = Produit::where('id', $produit_id)->first()->nom;
+                foreach ($tranches as $tranche_uid => $produits) {
+
+                    $this->nom_tranche[$produit_id][$tranche_uid] = isset(TranchesPoidsPc::where('uid', $tranche_uid)->first()->nom) ? TranchesPoidsPc::where('uid', $tranche_uid)->first()->nom : TranchesKgPc::where('uid', $tranche_uid)->first()->nom;
+                    foreach ($produits as $key => $produit) {
+
+                        switch ($this->profile) {
+                            case "Normal":
+                                $this->prix[$key] = $produit['prix_n'];
+                                break;
+                            case "Fidèle":
+                                $this->prix[$key] = $produit['prix_f'];
+                                break;
+                            case "Business":
+                                $this->prix[$key] = $produit['prix_p'];
+                                break;
+                        }
+                    }
+                    $nbr_pc = LotTranche::where('lot_num', $produits[0]->lot_num)->where('tranche_id', $tranche_uid)->first(['qte'])->qte;
+                    $this->nbr_piece[$produit_id][$tranche_uid] = LotTranche::where('lot_num', $produits[0]->lot_num)->where('tranche_id', $tranche_uid)->first(['qte'])->qte;
+
+                }
+            }
+                    }
+            else {}
+                }
+
+
+     public function loadList1(){
 
         $query = [];
 
@@ -304,7 +395,6 @@ class BonLivraison extends Component
 
 
     public function save(){
-        dd($this->code);
 
         // $this->validate([
         //     'ref_bl' => 'required|unique:bon_livraisons,ref',
@@ -314,22 +404,17 @@ class BonLivraison extends Component
 
         //     //'nbr_pc' => 'exclude_if:mode_vente_produit,1|required',
         // ]);
-        DB::transaction(function () {
 
-            $bl = new ModelBonLivraison();
-            $bl->ref = $this->ref_bl;
-            $bl->date = $this->date;
-            $bl->client_id = $this->client;
-            $bl->depot_id = $this->depot;
-            $bl->save();
+        DB::transaction(function () {
 
             $MAC = exec('getmac');
             $MAC = strtok($MAC, ' ');
 
             $commande = new Commande();
-            $commande->ref = $this->ref_bl;
+            $commande->ref = $this->ref_cmd;
             $commande->mac_address = $MAC;
             $commande->date = $this->date;
+            //$commande->total = $this->totalMt;
             $commande->date_livraison = $this->date_livraison;
             $commande->tel_livraison = $this->tel_livraison;
             $commande->contact_livraison = $this->contact_livraison;
@@ -342,29 +427,41 @@ class BonLivraison extends Component
             $commande->livreur_id = $this->livreur;
             $commande->save();
 
-            foreach ($this->produitNom as $key => $value) {
+            //foreach (array_unique ($this->depotId) as $key => $depot) {
+                $bl = new ModelBonLivraison();
+                $bl->ref = $this->ref_bl;
+                $bl->date = $this->date;
+                $bl->client_id = $this->client;
+                $bl->depot_id = $this->depot_livraison;
+                $bl->save();
 
-                $bl_ligne = new BonLivraisonLigne();
-                $bl_ligne->bon_livraison_ref = $this->ref_bl;
-                $bl_ligne->produit_id = $this->produitId[$key];
-                $bl_ligne->categorie_id = $this->categorieId[$key];
-                $bl_ligne->code = isset($this->code[$key]) ? $this->code[$key] : '';
-                $bl_ligne->qte = $this->qte[$key];
-                $bl_ligne->prix= $this->prix_vente[$key];
-                $bl_ligne->montant= $this->montant[$key];
-                $bl_ligne->save();
+                foreach ($this->produitNom as $key => $value) {
 
-                CommandeLigne::create([
-                    'commande_ref' => $this->ref_bl,
-                    'produit_id' => $this->produitId[$key],
-                    'categorie_id' => $this->categorieId[$key],
-                    'qte' => $this->qte[$key],
-                    'prix' => $this->prix_vente[$key],
-                    'montant' => $this->montant[$key]
-                ]);
+                    $bl_ligne = new BonLivraisonLigne();
+                    $bl_ligne->bon_livraison_ref = $bl->ref;
+                    $bl_ligne->produit_id = $this->produitId[$key];
+                    $bl_ligne->categorie_id = $this->categorieId[$key];
+                    $bl_ligne->code = isset($this->code[$key]) ? $this->code[$key] : '';
+                    $bl_ligne->qte = $this->qte[$key];
+                    $bl_ligne->prix= $this->prix_vente[$key];
+                    $bl_ligne->montant= $this->montant[$key];
+                    $bl_ligne->save();
 
-            }
+                    CommandeLigne::create([
+                        'commande_ref' => $commande->ref,
+                        'produit_id' => $this->produitId[$key],
+                        'categorie_id' => $this->categorieId[$key],
+                        'qte' => $this->qte[$key],
+                        'prix' => $this->prix_vente[$key],
+                        'montant' => $this->montant[$key]
+                    ]);
 
+                }
+
+                Livreur::where('id', $this->livreur)
+                        ->update(['solde' => $this->totalMt]);
+
+            //}
 
         });
         session()->flash('message', 'Bon de livraison réf "' . $this->ref_bl . '" a été crée');
@@ -378,6 +475,7 @@ class BonLivraison extends Component
     public function add($i,$productId, $qte, $prix, $tranche,$categorie)
     {
          //dd($i, $this->list_produits, $productId, $qte, $prix, $lot, $tranche, $code, $this->list_produits[$productId][$tranche][$i]);
+         //dd($this->list_produits[$productId][$tranche][$i]['depot']['nom']);
         $this->linenumber++;
 
         $this->produitId[$this->linenumber] = $this->list_produits[$productId][$tranche][$i]['produit_id'];
@@ -385,6 +483,9 @@ class BonLivraison extends Component
         $this->code[$this->linenumber] = isset($this->list_produits[$productId][$tranche][$i]['code']) ? $this->list_produits[$productId][$tranche][$i]['code'] : '';
         $this->poids[$this->linenumber] = isset($this->list_produits[$productId][$tranche][$i]['poids']) ?  $this->list_produits[$productId][$tranche][$i]['poids'] : '';
         $this->categorieId[$this->linenumber] = $categorie;
+
+        $this->depotId[$this->linenumber] = $this->list_produits[$productId][$tranche][$i]['depot_id'];
+        $this->depotNom[$this->linenumber] = $this->list_produits[$productId][$tranche][$i]['depot']['nom'];
 
 
         $this->qte[$this->linenumber] = $qte;

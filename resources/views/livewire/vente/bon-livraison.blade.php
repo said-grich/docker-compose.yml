@@ -135,7 +135,7 @@
                             <div class="modal-dialog modal-xxl modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">{{ __('Bon de livraison') }}</h5>
+                                        <h5 class="modal-title">{{ __('Bon de livraison') }} - {{$ref_bl}}</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <i aria-hidden="true" class="ki ki-close"></i>
                                         </button>
@@ -145,16 +145,16 @@
 
 
                                             <div class="form row">
-                                                <div class="form-group col">
+                                                {{-- <div class="form-group col">
                                                     <label>{{ __('Réf. bon de livraison') }}</label>
                                                     <div class="input-group input-group-prepend">
                                                         <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-hashtag icon-lg"></i></span></div>
-                                                        <input type="text" class="form-control" placeholder=" " wire:model.defer="ref_bl"/>
+                                                        <input type="text" class="form-control" placeholder=" " wire:model.defer="ref_bl" disabled/>
                                                 </div>
                                                     @error('ref_bl')
                                                         <span class="form-text text-danger">{{ $message }}</span>
                                                     @enderror
-                                                </div>
+                                                </div> --}}
                                                 <div class="form-group col">
                                                     <label>{{ __('Client') }}</label>
                                                     <div class="input-group input-group-prepend">
@@ -198,7 +198,7 @@
                                                     <label>{{ __("Dépôt") }}</label>
                                                     <div class="input-group input-group-prepend">
                                                         <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
-                                                        <select class="form-control" wire:model.defer="filter.depot">
+                                                        <select class="form-control" wire:model.defer="depot_livraison">
                                                             <option>{{ __('Choisir un dépôt') }}</option>
                                                             @foreach ($list_depots as $item)
                                                                 <option value="{{$item->id }}">{{$item->nom }}</option>
@@ -244,7 +244,9 @@
                                             </div>
 
                                             @if (count($list_produits) > 0)
-                                                <table class="table table-vertical-center" id="kt_advance_table_widget_4">
+
+                                                <div>
+                                                    <table class="table table-vertical-center" id="kt_advance_table_widget_4">
                                                     <thead>
                                                         <tr class="text-left">
                                                             <th class="pl-0">Article</th>
@@ -406,15 +408,16 @@
                                                     @endforeach
 
                                                 </table>
-                                            @endif
+                                                </div>
 
-                                            @if (count($produitId) > 0)
+
+
 
                                             <table class="table table-vertical-center" id="kt_advance_table_widget_4">
                                                 <thead>
                                                     <tr class="text-left">
                                                         <th class="pl-0">Article</th>
-                                                        {{-- <th class="pl-0">Tranches</th> --}}
+                                                        <th class="pl-0">Dépôt</th>
                                                         <th class="pl-0">Code</th>
                                                         <th class="pl-0">Poids</th>
                                                         <th class="pl-0">Quantité à livrée</th>
@@ -429,6 +432,11 @@
                                                                 <td class="pl-0">
                                                                     @isset($produitNom[$key])
                                                                         {{ $produitNom[$key] }}
+                                                                    @endisset
+                                                                </td>
+                                                                <td class="pl-0">
+                                                                    @isset($depotNom[$key])
+                                                                        {{ $depotNom[$key] }}
                                                                     @endisset
                                                                 </td>
                                                                 <td class="pl-0">
@@ -463,6 +471,7 @@
                                                 </tbody>
                                             </table>
                                             @endif
+                                            @if (count($produitId) > 0)
 
                                             <table class="table table-vertical-center" id="kt_advance_table_widget_4">
                                                 <tbody>
@@ -476,9 +485,9 @@
                                                     </tr>
                                                 </tbody>
                                             </table>
+                                            @endif
 
                                             <!--Modal-->
-
 
                                             <!--Info livraison-->
                                             <div class="card card-custom card-stretch gutter-b">
@@ -576,7 +585,6 @@
 
                                             </div>
                                             <!--end Info livraison-->
-
 
                                         </form>
                                     </div>

@@ -15,7 +15,7 @@ class VilleSeeder extends Seeder
     public function run()
     {
         Ville::create([
-            'nom' => 'Casablance',
+            'nom' => 'Casablanca',
             'region_id'=> 1,
         ]);
         Ville::create([

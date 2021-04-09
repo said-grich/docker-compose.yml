@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\VilleQuartier;
-use App\Models\VilleZone;
 use Illuminate\Database\Seeder;
 
 class VilleQuartierSeeder extends Seeder

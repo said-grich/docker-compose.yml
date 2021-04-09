@@ -20,7 +20,7 @@ class CreateCommandeLignesTable extends Migration
             $table->decimal('montant');
 
             $table->string('commande_ref');
-            $table->foreign('commande_ref')->references('ref')->on('commandes');
+            $table->foreign('commande_ref')->references('ref')->on('commandes')->onUpdate('cascade')->onDelete('cascade');;
 
             $table->unsignedBigInteger('produit_id');
             $table->foreign('produit_id')->references('id')->on('produits');
