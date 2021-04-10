@@ -122,7 +122,7 @@ class BonLivraison extends Component
         "categorie" => "",
         "depot" => "",
         "recherche_produit" => "",
-        "poids" => "",
+        "poids" => 0.0,
     ];
 
 
@@ -147,8 +147,10 @@ class BonLivraison extends Component
         $latest = ModelBonLivraison::latest()->first();
 
         if (! $latest) {
+            dd('ll');
             return 'BL'.'0001';
         }
+        dd($latest);
 
         $string = preg_replace("/[^0-9\.]/", '', $latest->ref);
 
@@ -160,17 +162,20 @@ class BonLivraison extends Component
         $latest_bl = ModelBonLivraison::latest()->first();
         if (! $latest_bl) {
             $this->ref_bl =  'BL'.'0001';
+        }else{
+            $string = preg_replace("/[^0-9\.]/", '', $latest_bl->ref);
+            $this->ref_bl = 'BL' . sprintf('%04d', $string + 1);
+
         }
-        $string = preg_replace("/[^0-9\.]/", '', $latest_bl->ref);
-        $this->ref_bl = 'BL'. sprintf('%04d', $string+1);
+
 
         $latest_cmd = Commande::latest()->first();
         if (! $latest_cmd) {
-            return 'FLK'.'0001';
+            $this->ref_cmd  = 'FLK'.'0001';
+        }else{
+            $string = preg_replace("/[^0-9\.]/", '', $latest_cmd->ref);
+            $this->ref_cmd = 'FLK' . sprintf('%04d', $string + 1);
         }
-        $string = preg_replace("/[^0-9\.]/", '', $latest_cmd->ref);
-
-        $this->ref_cmd = 'FLK'. sprintf('%04d', $string+1);
 
         $this->date = date('d-m-Y');
     }
@@ -203,15 +208,84 @@ class BonLivraison extends Component
 
     }
 
-    public function loadList()
+    public function loadList(){
+        $query = StockPoidsPc::query();
+
+        // if ($this->filter['recherche_produit'] === '') {
+        //     $this->list_produits = [];
+        //     $this->nom_produit = [];
+        //     $this->nom_tranche = [];
+        //     $this->nbr_piece = [];
+        // }
+
+        if (!empty($this->filter['recherche_produit'])) {
+            $query->where(
+                function ($query) {
+                    $query->select('nom')
+                        ->from('produits')
+                        ->whereColumn('produits.id', 'stock_poids_pcs.produit_id');
+                },
+                'ILIKE',
+                strtolower($this->filter['recherche_produit'] . '%')
+
+            );
+        }
+        if (!empty($this->filter['categorie'])) {
+            $query = $query->where('categorie_id', $this->filter['categorie']);
+        }
+        if ($this->filter['poids'] != 0.0) {
+            $query = $query->where('poids', $this->filter['poids']);
+        }
+
+        // Get the results
+        // After this call, it is now an Eloquent model
+        $scrapper =  $query->with('depot')
+                    ->with('produit')
+                    ->with('categorie')
+                    ->with('sousCategorie')
+                    ->with('unite')
+                    ->with('qualite')->get();
+
+        $this->list_produits = $scrapper->groupBy(['produit_id', 'tranche_id']);
+        foreach ($this->list_produits as $produit_id => $tranches) {
+            //     //dd($this->list_produits);
+            $this->nom_produit[$produit_id] = Produit::where('id', $produit_id)->first()->nom;
+            foreach ($tranches as $tranche_uid => $produits) {
+
+                $this->nom_tranche[$produit_id][$tranche_uid] = isset(TranchesPoidsPc::where('uid', $tranche_uid)->first()->nom) ? TranchesPoidsPc::where('uid', $tranche_uid)->first()->nom : TranchesKgPc::where('uid', $tranche_uid)->first()->nom;
+                foreach ($produits as $key => $produit) {
+
+                    switch ($this->profile) {
+                        case "Normal":
+                            $this->prix[$key] = $produit['prix_n'];
+                            break;
+                        case "Fidèle":
+                            $this->prix[$key] = $produit['prix_f'];
+                            break;
+                        case "Business":
+                            $this->prix[$key] = $produit['prix_p'];
+                            break;
+                    }
+                }
+                $nbr_pc = LotTranche::where('lot_num', $produits[0]->lot_num)->where('tranche_id', $tranche_uid)->first(['qte'])->qte;
+                $this->nbr_piece[$produit_id][$tranche_uid] = LotTranche::where('lot_num', $produits[0]->lot_num)->where('tranche_id', $tranche_uid)->first(['qte'])->qte;
+            }
+        }
+
+    }
+
+    public function loadList3()
     {
         /* $collection = StockPoidsPc::all();
         $collection2 = StockKgPc::all(); */
+
+
         if ($this->filter['recherche_produit'] === '') {
             $this->list_produits = [];
             $this->nom_produit = [];
             $this->nom_tranche = [];
             $this->nbr_piece = [];
+
         } else if (!empty($this->filter['recherche_produit'])) {
             $collection = StockPoidsPc::where(function ($query) {
                 $query->where(
@@ -222,7 +296,11 @@ class BonLivraison extends Component
                     },
                     'ILIKE',
                     strtolower($this->filter['recherche_produit'] . '%')
-                );
+
+                )
+                ->where('categorie_id', $this->filter['categorie']);
+                //->Where('poids', $this->filter['poids']);
+
             })
                 ->with('depot')
                 ->with('produit')
@@ -259,8 +337,10 @@ class BonLivraison extends Component
                 }
             }
                     }
-            else {}
-                }
+            else {
+
+            }
+    }
 
 
      public function loadList1(){
@@ -376,7 +456,7 @@ class BonLivraison extends Component
      }
 
     public function updatedFilterCategorie(){
-        $this->list_produits = [];
+        //$this->list_produits = [];
         $this->loadList();
     }
 

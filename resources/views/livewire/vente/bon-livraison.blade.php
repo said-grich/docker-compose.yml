@@ -296,6 +296,7 @@
                                                                 <th>Code</th>
                                                                 <th>Poids
                                                                     <input type="text" class="form-control" placeholder=" " wire:model="filter.poids"/>
+                                                                    
                                                                 </th>
                                                                 {{-- <th>Quantité</th> --}}
                                                                 <th>Unité</th>
