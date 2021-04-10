@@ -12,10 +12,10 @@ class Qualite extends Model
     public function lots(){
         return $this->hasMany(Lot::class);
     }
-    
-    public function stockPoidPC()
+
+    public function stock()
     {
-        return $this->hasMany(StockPoidsPc::class, 'qualite_id', 'id');
+        return $this->hasMany(Stock::class, 'qualite_id', 'id');
     }
 
     public function bonsReception()

@@ -142,13 +142,6 @@ class Stock extends Component
         $this->dispatchBrowserEvent('contentChanged');
     }
 
-    // public function updatedFournisseur($value){
-    //     $uniqueNumLot =  random_int(100, 999);
-    //     $fournisseur = Fournisseur::where('id',$value)->first(['nom']);
-    //     $fournisseur_nom = substr($fournisseur->nom, 0, 3);
-    //     $this->lot_num = $fournisseur_nom.$uniqueNumLot;
-    // }
-
     public function renderData()
     {
         $this->list_fournisseurs = Fournisseur::all()->sortBy('nom');
@@ -185,9 +178,6 @@ class Stock extends Component
     public function updatedProduit($value,$index){
         $uniqueNumLot =  random_int(100, 999);
         $fournisseur = Fournisseur::where('id',$this->fournisseur)->first(['nom'])->nom;
-        //$fournisseur_nom = substr_replace($fournisseur, 0, 2);
-        // dd($fournisseur_nom);
-        // $this->lot_num[$index] = $fournisseur_nom.$uniqueNumLot;
 
         $produit = Produit::where('id',$value)->first();
         $produit_tranches = ProduitTranche::where('produit_id', $value)->get();
@@ -201,9 +191,6 @@ class Stock extends Component
             $this->list_tranches[$index][$key] =  Tranche::where('uid',$value->tranche_id)->get()->toArray();
         }
 
-        //$this->list_tranches[];
-        //$this->mode_vente_produit[$index] == 1 ? $this->showNbrPiece = true : $this->showNbrPiece = false;
-        //unset($this->list_tranches);
 
     }
 
@@ -614,8 +601,9 @@ class Stock extends Component
         $this->liste_kg_pc = StockKgPc::where('br_num',$id)->get();
         $this->bon_reception_ref =$id; */
 
-        $this->liste_poids_pc = StockPoidsPc::where('br_num',$id)->get();
-        $this->liste_kg_pc = StockKgPc::where('br_num',$id)->get();
+        $this->liste_poids_pc = ModelsStock::where('br_num',$id)->where('type',"Poids par pièce")->get();
+        $this->liste_kg_pc = ModelsStock::where('br_num',$id)->where('type', '!=',"Poids par pièce")->get();
+
         $this->bon_reception_ref =$id;
 
 
@@ -623,7 +611,7 @@ class Stock extends Component
             $this->lot_num[$key] =$value->lot_num;
             $this->produit_id[$key]  =$value->lot->produit->id;
             $this->article[$key]  =$value->lot->produit->nom;
-            $this->nom_tranche[$key] = TranchesPoidsPc::where('uid', $value->tranche_id)->first()->nom;
+            $this->nom_tranche[$key] = Tranche::where('uid', $value->tranche_id)->first()->nom;
             $this->categorie[$key]  =$value->categorie->nom;
             $this->sous_categorie[$key]  =$value->sousCategorie->nom;
             $this->poids[$key] = $value->poids;
@@ -640,8 +628,8 @@ class Stock extends Component
             $this->lot_num_kg_pc[$k] =$v->lot_num;
             $this->produit_id_kg_pc[$k]  =$v->lot->produit->id;
             $this->article_kg_pc[$k]  =$v->lot->produit->nom;
-            $this->nom_tranche_kg_pc[$k] = TranchesKgPc::where('uid', $v->tranche_id)->first()->nom;
-            $this->uid_tranche_kg_pc[$k] = TranchesKgPc::where('uid', $v->tranche_id)->first()->uid;
+            $this->nom_tranche_kg_pc[$k] = Tranche::where('uid', $v->tranche_id)->first()->nom;
+            $this->uid_tranche_kg_pc[$k] = Tranche::where('uid', $v->tranche_id)->first()->uid;
             $this->prix_achat_kg_pc[$k] = $v->prix_achat;
             $this->categorie_kg_pc[$k] = $v->categorie->nom;
             $this->sous_categorie_kg_pc[$k] = $v->sousCategorie->nom;

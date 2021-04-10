@@ -50,4 +50,9 @@ class Stock extends Model
     {
         return $this->belongsTo(Unite::class);
     }
+
+    public function qualite()
+    {
+        return $this->belongsTo(Qualite::class);
+    }
 }
