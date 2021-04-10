@@ -1,0 +1,19 @@
+[33mcommit ad2dabf95d51d9c0cfa09830391f86bd5e549df2[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: Farah El Alem <farah.el1996@gmail.com>
+Date:   Sat Apr 10 11:23:17 2021 +0200
+
+    wip bl
+
+[1mdiff --git a/app/Http/Livewire/Vente/BonLivraison.php b/app/Http/Livewire/Vente/BonLivraison.php[m
+[1mindex f9d7d70..dab250f 100644[m
+[1m--- a/app/Http/Livewire/Vente/BonLivraison.php[m
+[1m+++ b/app/Http/Livewire/Vente/BonLivraison.php[m
+[36m@@ -469,7 +469,7 @@[m [mclass BonLivraison extends Component[m
+ [m
+     }[m
+ [m
+[31m-    public function updatedFilterPoids()[m
+[32m+[m[32m    public function updatedFilterPoids($value)[m
+     {[m
+         $this->loadList();[m
+     }[m

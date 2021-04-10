@@ -115,9 +115,46 @@
                         </button>
                     </div>
                     <div class="modal-body">
+                        <div class="form-group row">
+                        <!--Progress end-->
+                            <div class="md-stepper-horizontal green">
+                                <div class="md-step done">
+                                    <div class="md-step-circle"><span>1</span></div>
+                                    <div class="md-step-title">Reçue</div>
+                                    <div class="md-step-bar-left"></div>
+                                    <div class="md-step-bar-right"></div>
+                                </div>
+                                <div class="md-step done">
+                                    <div class="md-step-circle"><span>2</span></div>
+                                    <div class="md-step-title">Validée</div>
+                                    <div class="md-step-bar-left"></div>
+                                    <div class="md-step-bar-right"></div>
+                                </div>
+                                <div class="md-step active">
+                                    <div class="md-step-circle"><span>3</span></div>
+                                    <div class="md-step-title">Prête</div>
+                                    <div class="md-step-bar-left"></div>
+                                    <div class="md-step-bar-right"></div>
+                                </div>
+                                <div class="md-step">
+                                    <div class="md-step-circle"><span>4</span></div>
+                                    <div class="md-step-title">En Expédition</div>
+                                    <div class="md-step-bar-left"></div>
+                                    <div class="md-step-bar-right"></div>
+                                </div>
+                                <div class="md-step">
+                                    <div class="md-step-circle"><span>5</span></div>
+                                    <div class="md-step-title">Livrée</div>
+                                    <div class="md-step-bar-left"></div>
+                                    <div class="md-step-bar-right"></div>
+                              </div>
+                          </div>
+
+
+                        </div>
+                        <!--Progress end-->
 
                         <!--Info livraison-->
-
                         <div class="form-group row">
 
                             <div class="col">
