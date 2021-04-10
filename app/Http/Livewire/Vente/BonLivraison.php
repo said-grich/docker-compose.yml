@@ -142,20 +142,17 @@ class BonLivraison extends Component
         $this->list_region = Region::all()->sortBy('nom');
     }
 
-    function invoiceNumber()
+    /* function invoiceNumber()
     {
         $latest = ModelBonLivraison::latest()->first();
 
         if (! $latest) {
-            dd('ll');
             return 'BL'.'0001';
         }
-        dd($latest);
-
         $string = preg_replace("/[^0-9\.]/", '', $latest->ref);
 
         return 'BL'. sprintf('%04d', $string+1);
-    }
+    } */
 
     public function mount(){
 
@@ -209,14 +206,16 @@ class BonLivraison extends Component
     }
 
     public function loadList(){
+
         $query = StockPoidsPc::query();
 
-        // if ($this->filter['recherche_produit'] === '') {
-        //     $this->list_produits = [];
-        //     $this->nom_produit = [];
-        //     $this->nom_tranche = [];
-        //     $this->nbr_piece = [];
-        // }
+
+        if ($this->filter['recherche_produit'] === '') {
+            $this->list_produits = [];
+            $this->nom_produit = [];
+            $this->nom_tranche = [];
+            $this->nbr_piece = [];
+        }
 
         if (!empty($this->filter['recherche_produit'])) {
             $query->where(
@@ -237,18 +236,21 @@ class BonLivraison extends Component
             $query = $query->where('poids', $this->filter['poids']);
         }
 
-        // Get the results
-        // After this call, it is now an Eloquent model
-        $scrapper =  $query->with('depot')
-                    ->with('produit')
-                    ->with('categorie')
-                    ->with('sousCategorie')
-                    ->with('unite')
-                    ->with('qualite')->get();
+        if (!empty($this->filter['depot'])) {
+            $query = $query->where('depot_id', $this->filter['depot']);
+        }
 
-        $this->list_produits = $scrapper->groupBy(['produit_id', 'tranche_id']);
+        $poids_piece =  $query->with('depot')
+                                ->with('produit')
+                                ->with('categorie')
+                                ->with('sousCategorie')
+                                ->with('unite')
+                                ->with('qualite')
+                                ->get();
+
+        $this->list_produits = $poids_piece->groupBy(['produit_id', 'tranche_id']);
         foreach ($this->list_produits as $produit_id => $tranches) {
-            //     //dd($this->list_produits);
+
             $this->nom_produit[$produit_id] = Produit::where('id', $produit_id)->first()->nom;
             foreach ($tranches as $tranche_uid => $produits) {
 
@@ -468,6 +470,11 @@ class BonLivraison extends Component
     }
 
     public function updatedFilterPoids()
+    {
+        $this->loadList();
+    }
+
+    public function updatedFilterDepot()
     {
         $this->loadList();
     }

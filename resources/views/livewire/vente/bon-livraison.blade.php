@@ -194,26 +194,19 @@
                                                     @enderror
                                                 </div>
 
-                                                <div class="form-group col">
-                                                    <label>{{ __("Dépôt") }}</label>
-                                                    <div class="input-group input-group-prepend">
-                                                        <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
-                                                        <select class="form-control" wire:model.defer="depot_livraison">
-                                                            <option>{{ __('Choisir un dépôt') }}</option>
-                                                            @foreach ($list_depots as $item)
-                                                                <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                            @endforeach
-
-                                                        </select>
-                                                    </div>
-                                                    @error('depot')
-                                                        <span class="form-text text-danger">{{ $message }}</span>
-                                                    @enderror
-                                                </div>
-
                                             </div>
 
                                             <div class="form row">
+                                                <div class="form-group col-lg-4">
+                                                    <label>{{ __('Rechercher un produit') }}</label>
+                                                    <div class="input-group input-group-prepend">
+                                                        <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-hashtag icon-lg"></i></span></div>
+                                                        <input type="text" class="form-control" placeholder=" " wire:model="filter.recherche_produit"/>
+                                                </div>
+                                                    @error('recherche_produit')
+                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
                                                 <div class="form-group col-lg-4">
                                                     <label>{{ __('Catégorie') }}</label>
                                                     <div class="input-group input-group-prepend">
@@ -230,17 +223,22 @@
                                                         <span class="form-text text-danger">{{ $message }}</span>
                                                     @enderror
                                                 </div>
-                                                <div class="form-group col-lg-4">
-                                                    <label>{{ __('Rechercher un produit') }}</label>
+                                                <div class="form-group col">
+                                                    <label>{{ __("Dépôt") }}</label>
                                                     <div class="input-group input-group-prepend">
-                                                        <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-hashtag icon-lg"></i></span></div>
-                                                        <input type="text" class="form-control" placeholder=" " wire:model="filter.recherche_produit"/>
-                                                </div>
-                                                    @error('recherche_produit')
+                                                        <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
+                                                        <select class="form-control" wire:model="filter.depot">
+                                                            <option>{{ __('Choisir un dépôt') }}</option>
+                                                            @foreach ($list_depots as $item)
+                                                                <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                            @endforeach
+
+                                                        </select>
+                                                    </div>
+                                                    @error('depot')
                                                         <span class="form-text text-danger">{{ $message }}</span>
                                                     @enderror
                                                 </div>
-
                                             </div>
 
                                             @if (count($list_produits) > 0)
@@ -296,7 +294,7 @@
                                                                 <th>Code</th>
                                                                 <th>Poids
                                                                     <input type="text" class="form-control" placeholder=" " wire:model="filter.poids"/>
-                                                                    
+
                                                                 </th>
                                                                 {{-- <th>Quantité</th> --}}
                                                                 <th>Unité</th>
@@ -498,6 +496,23 @@
 
                                                 <div class="card-body">
                                                     <div class="form-group row mt-3">
+
+                                                        <div class="form-group col">
+                                                            <label>{{ __("Dépôt de la livraison") }}</label>
+                                                            <div class="input-group input-group-prepend">
+                                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
+                                                                <select class="form-control" wire:model.defer="depot_livraison">
+                                                                    <option>{{ __('Choisir un dépôt') }}</option>
+                                                                    @foreach ($list_depots as $item)
+                                                                        <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                    @endforeach
+
+                                                                </select>
+                                                            </div>
+                                                            @error('depot')
+                                                                <span class="form-text text-danger">{{ $message }}</span>
+                                                            @enderror
+                                                        </div>
 
                                                         <div class="col">
                                                             <label>{{ __('Téléphone de livraison') }}</label>
