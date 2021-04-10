@@ -37,7 +37,9 @@ class ListeCommandes extends Component
     public $mode_paiement;
     public $mode_livraison_id;
     public $frais_livraison;
-    //public $livreur;
+    public $etat = [];
+    public $etat_commande;
+    public $ref;
 
 
 
@@ -47,10 +49,15 @@ class ListeCommandes extends Component
     public $search = '';
     protected $listeners = ['saved'];
 
+    public function edit($ref){
+        Commande::where('ref', $ref)->update(['etat' => $this->etat[$ref]]);
+    }
+
 
     public function show($ref){
         $commande = Commande::where('ref',$ref)->firstOrFail();
         $this->commande_ref = $ref;
+        $this->etat_commande = $commande->etat;
         $this->date =$commande->date;
         $this->client =$commande->client_id;
         $this->date_livraison =$commande->date_livraison;

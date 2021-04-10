@@ -15,8 +15,10 @@ use App\Models\ModeLivraison;
 use App\Models\ModePaiement;
 use App\Models\Produit;
 use App\Models\Region;
+use App\Models\Stock;
 use App\Models\StockKgPc;
 use App\Models\StockPoidsPc;
+use App\Models\Tranche;
 use App\Models\TranchesKgPc;
 use App\Models\TranchesPoidsPc;
 use App\Models\Ville;
@@ -205,9 +207,9 @@ class BonLivraison extends Component
 
     }
 
-    public function loadList(){
+    public function loadList6(){
 
-        $query = StockPoidsPc::query();
+        $query = Stock::query();
 
 
         if ($this->filter['recherche_produit'] === '') {
@@ -222,23 +224,23 @@ class BonLivraison extends Component
                 function ($query) {
                     $query->select('nom')
                         ->from('produits')
-                        ->whereColumn('produits.id', 'stock_poids_pcs.produit_id');
+                        ->whereColumn('produits.id', 'stocks.produit_id');
                 },
                 'ILIKE',
                 strtolower($this->filter['recherche_produit'] . '%')
 
             );
         }
-        if (!empty($this->filter['categorie'])) {
-            $query = $query->where('categorie_id', $this->filter['categorie']);
-        }
-        if ($this->filter['poids'] != 0.0) {
-            $query = $query->where('poids', $this->filter['poids']);
-        }
+        // if (!empty($this->filter['categorie'])) {
+        //     $query = $query->where('categorie_id', $this->filter['categorie']);
+        // }
+        // if ($this->filter['poids'] != 0.0) {
+        //     $query = $query->where('poids', $this->filter['poids']);
+        // }
 
-        if (!empty($this->filter['depot'])) {
-            $query = $query->where('depot_id', $this->filter['depot']);
-        }
+        // if (!empty($this->filter['depot'])) {
+        //     $query = $query->where('depot_id', $this->filter['depot']);
+        // }
 
         $poids_piece =  $query->with('depot')
                                 ->with('produit')
@@ -254,7 +256,7 @@ class BonLivraison extends Component
             $this->nom_produit[$produit_id] = Produit::where('id', $produit_id)->first()->nom;
             foreach ($tranches as $tranche_uid => $produits) {
 
-                $this->nom_tranche[$produit_id][$tranche_uid] = isset(TranchesPoidsPc::where('uid', $tranche_uid)->first()->nom) ? TranchesPoidsPc::where('uid', $tranche_uid)->first()->nom : TranchesKgPc::where('uid', $tranche_uid)->first()->nom;
+                $this->nom_tranche[$produit_id][$tranche_uid] = Tranche::where('uid', $tranche_uid)->first()->nom;
                 foreach ($produits as $key => $produit) {
 
                     switch ($this->profile) {
@@ -276,7 +278,7 @@ class BonLivraison extends Component
 
     }
 
-    public function loadList3()
+    public function loadList()
     {
         /* $collection = StockPoidsPc::all();
         $collection2 = StockKgPc::all(); */
@@ -289,18 +291,18 @@ class BonLivraison extends Component
             $this->nbr_piece = [];
 
         } else if (!empty($this->filter['recherche_produit'])) {
-            $collection = StockPoidsPc::where(function ($query) {
+            $collection = Stock::where(function ($query) {
                 $query->where(
                     function ($query) {
                         $query->select('nom')
                             ->from('produits')
-                            ->whereColumn('produits.id', 'stock_poids_pcs.produit_id');
+                            ->whereColumn('produits.id', 'stocks.produit_id');
                     },
                     'ILIKE',
                     strtolower($this->filter['recherche_produit'] . '%')
 
-                )
-                ->where('categorie_id', $this->filter['categorie']);
+                );
+                //->where('categorie_id', $this->filter['categorie']);
                 //->Where('poids', $this->filter['poids']);
 
             })
@@ -318,7 +320,7 @@ class BonLivraison extends Component
                 $this->nom_produit[$produit_id] = Produit::where('id', $produit_id)->first()->nom;
                 foreach ($tranches as $tranche_uid => $produits) {
 
-                    $this->nom_tranche[$produit_id][$tranche_uid] = isset(TranchesPoidsPc::where('uid', $tranche_uid)->first()->nom) ? TranchesPoidsPc::where('uid', $tranche_uid)->first()->nom : TranchesKgPc::where('uid', $tranche_uid)->first()->nom;
+                    $this->nom_tranche[$produit_id][$tranche_uid] = Tranche::where('uid', $tranche_uid)->first()->nom ;
                     foreach ($produits as $key => $produit) {
 
                         switch ($this->profile) {
@@ -501,6 +503,7 @@ class BonLivraison extends Component
             $commande->ref = $this->ref_cmd;
             $commande->mac_address = $MAC;
             $commande->date = $this->date;
+            $commande->etat = "Reçue";
             //$commande->total = $this->totalMt;
             $commande->date_livraison = $this->date_livraison;
             $commande->tel_livraison = $this->tel_livraison;

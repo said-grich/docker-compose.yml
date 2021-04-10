@@ -54,7 +54,17 @@
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->livreur->nom }}</a>
                     </td>
                     <td class="pl-0">
-                        <span class="label label-lg label-light-primary label-inline">Recue</span>
+                        <span class="label label-lg label-light-primary label-inline">{{ $item->etat}}</span>
+
+                        <select class="form-control" wire:model="etat.{{ $item->ref }}" wire:change="edit('{{ $item->ref }}')" >
+                            <option value="Reçue">Reçue</option>
+                            <option value="Validée">Validée</option>
+                            <option value="Prête">Prête</option>
+                            <option value="En Expédition">En Expédition</option>
+                            <option value="Livrée">Livrée</option>
+
+                        </select>
+
                     </td>
 
                     <td class="pr-0 text-right">
@@ -71,7 +81,7 @@
                                 {{--end::Svg Icon--}}
                             </span>
                         </a>
-                        <a href="#" wire:click="edit({{$item->id}})" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#exampleModalSizeSm">
+                        <a href="#" wire:click="edit('{{$item->ref}}')" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#exampleModalSizeSm">
                             <span class="svg-icon svg-icon-md svg-icon-primary">
                                 {{--begin::Svg Icon--}}
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -118,37 +128,38 @@
                         <div class="form-group row">
                         <!--Progress end-->
                             <div class="md-stepper-horizontal green">
-                                <div class="md-step done">
+
+                                <div class="md-step {{$etat_commande === 'Reçue' ? "active" : "done"}}">
                                     <div class="md-step-circle"><span>1</span></div>
                                     <div class="md-step-title">Reçue</div>
                                     <div class="md-step-bar-left"></div>
                                     <div class="md-step-bar-right"></div>
                                 </div>
-                                <div class="md-step done">
+                                <div class="md-step {{$etat_commande === 'Validée' ? "active" : "done"}}">
                                     <div class="md-step-circle"><span>2</span></div>
                                     <div class="md-step-title">Validée</div>
                                     <div class="md-step-bar-left"></div>
                                     <div class="md-step-bar-right"></div>
                                 </div>
-                                <div class="md-step active">
+                                <div class="md-step {{$etat_commande === 'Prête' ? "active" : "done"}}">
                                     <div class="md-step-circle"><span>3</span></div>
                                     <div class="md-step-title">Prête</div>
                                     <div class="md-step-bar-left"></div>
                                     <div class="md-step-bar-right"></div>
                                 </div>
-                                <div class="md-step">
+                                <div class="md-step {{$etat_commande === 'En Expédition' ? "active" : "done"}}">
                                     <div class="md-step-circle"><span>4</span></div>
                                     <div class="md-step-title">En Expédition</div>
                                     <div class="md-step-bar-left"></div>
                                     <div class="md-step-bar-right"></div>
                                 </div>
-                                <div class="md-step">
+                                <div class="md-step {{$etat_commande === 'Livrée' ? "active" : "done"}}">
                                     <div class="md-step-circle"><span>5</span></div>
                                     <div class="md-step-title">Livrée</div>
                                     <div class="md-step-bar-left"></div>
                                     <div class="md-step-bar-right"></div>
                               </div>
-                          </div>
+                            </div>
 
 
                         </div>
