@@ -13,11 +13,20 @@ class Tranches extends Component
     public $mode_vente_name;
     public $nom;
     public $type;
+    public $type_nom;
     public $minPoids;
     public $maxPoids;
     public $list_modes_vente;
 
     protected $listeners = ['modeVenteAdded' => 'renderModeVente'];
+
+    protected $rules = [
+        'nom' => 'unique:tranches,nom',
+    ];
+
+    protected $messages = [
+        'nom.unique' => 'Tranche existe déja',
+    ];
 
 
     public function renderModeVente()
@@ -41,6 +50,45 @@ class Tranches extends Component
     }
 
     public function createTranche()
+    {
+
+        $uniqueId = str_replace(".","",microtime(true)).rand(000,999);
+
+        /* switch ($this->type) {
+            case '1':
+                $this->type_nom = "Poids par pièce";
+                break;
+            case '2':
+                $this->type_nom = "Kg";
+                break;
+            case '3':
+                $this->type_nom = "Pièce";
+                break;
+        } */
+
+        $this->type == 1 ? $this->nom =  $this->minPoids." - ".$this->maxPoids : $this->nom;
+        $this->validate();
+
+
+        Tranche::create([
+            'nom' => $this->nom,
+            'type' => $this->type == 1 ? "Poids par pièce" : "Kg/Pièce",
+            'min_poids' => $this->minPoids,
+            'max_poids' => $this->maxPoids,
+            'uid' => $this->type == 1 ? "PP".$uniqueId : "KP".$uniqueId,
+        ]);
+
+
+        session()->flash('message', 'Tranche "'.$this->nom. '" a été crée ');
+
+
+
+        $this->reset(['nom','minPoids','maxPoids']);
+
+        $this->emit('saved');
+    }
+
+    public function createTrancheOld()
     {
         /* $this->validate([
             'nom' => 'required|unique:tranches,ref',

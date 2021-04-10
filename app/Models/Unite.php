@@ -9,14 +9,9 @@ class Unite extends Model
 {
     use HasFactory;
 
-    public function stockPoidsPc()
+    public function stock()
     {
-        return $this->hasMany(StockPoidsPc::class);
-    }
-
-    public function stockKgPc()
-    {
-        return $this->hasMany(StockKgPc::class);
+        return $this->hasMany(Stock::class);
     }
 
     public function produit()

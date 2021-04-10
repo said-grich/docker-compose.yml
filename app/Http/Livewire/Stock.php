@@ -14,8 +14,10 @@ use App\Models\Produit;
 use App\Models\ProduitTranche;
 use App\Models\Qualite;
 use App\Models\SousCategorie;
+use App\Models\Stock as ModelsStock;
 use App\Models\StockKgPc;
 use App\Models\StockPoidsPc;
+use App\Models\Tranche;
 use App\Models\TranchesKgPc;
 use App\Models\TranchesPoidsPc;
 use App\Models\Unite;
@@ -196,14 +198,7 @@ class Stock extends Component
 
         foreach($produit_tranches as $key=>$value){
             //$kg_pc = TranchesKgPc::where('uid',$value->tranche_id)->first()->toArray();
-            //dd( $kg_pc);
-
-            if($this->mode_vente_produit[$index] == 1 ){
-                $this->list_tranches[$index][$key] =  TranchesPoidsPc::where('uid',$value->tranche_id)->get()->toArray();
-            }else{
-                $this->list_tranches[$index][$key] = TranchesKgPc::where('uid',$value->tranche_id)->get()->toArray();
-            }
-
+            $this->list_tranches[$index][$key] =  Tranche::where('uid',$value->tranche_id)->get()->toArray();
         }
 
         //$this->list_tranches[];
@@ -212,7 +207,140 @@ class Stock extends Component
 
     }
 
+
     public function createStock(){
+
+        DB::transaction(function () {
+
+            $item = new BonReception();
+            $item->ref = $this->ref_br;
+            $item->date = $this->date_entree;
+            $item->depot_id = $this->depot;
+            $item->qualite_id = $this->qualite_globale;
+            $item->fournisseur_id = $this->fournisseur;
+            $item->save();
+
+            foreach ($this->produit as $key => $value) {
+                $item = new Lot();
+                $item->produit_id = $this->produit[$key];
+                $item->lot_num = $this->lot_num[$key];
+                $item->nombre_pieces = isset($this->nbr_pc[$key]) ? $this->nbr_pc[$key] : 0;
+                $item->bon_reception_ref = $this->ref_br;
+                $item->date_entree = $this->date_entree;
+                $item->pas = $this->pas[$key];
+                $item->fournisseur_id = $this->fournisseur;
+                $item->qualite_id = $this->qualite[$key];
+                $item->active = true;
+                $item->save();
+
+                if (BonReceptionLigne::where('bon_reception_ref', '=', $this->ref_br)
+                    ->where('produit_id', '=', $this->produit[$key])
+                    ->where('prix_achat', '=', $this->prix_achat[$key])
+                    ->exists()
+                ) {
+                    $previous_row_qte = BonReceptionLigne::where('bon_reception_ref', '=', $this->ref_br)
+                        ->where('produit_id', '=', $this->produit[$key])
+                        ->where('prix_achat', '=', $this->prix_achat[$key])
+                        ->first(['qte'])->qte;
+                    BonReceptionLigne::where('bon_reception_ref', '=', $this->ref_br)
+                        ->where('produit_id', $this->produit[$key])
+                        ->where('prix_achat', $this->prix_achat[$key])
+                        ->update(['qte' => $previous_row_qte + intval($this->qte[$key])]);
+                } else {
+                    $item = new BonReceptionLigne();
+                    $item->bon_reception_ref = $this->ref_br;
+                    $item->produit_id = $this->produit[$key];
+                    $item->qte = $this->qte[$key];
+                    $item->prix_achat = $this->prix_achat[$key];
+                    $item->montant = $this->qte[$key] * $this->prix_achat[$key];
+                    $item->save();
+                }
+
+                // foreach (array_reverse($this->produit) as $key => $value) {
+                    $produit = Produit::where('id', $value)->first();
+                    $lot_tranche = [];
+
+                    if ($produit->modeVente->id == 1) {
+                        foreach ($this->tranches[$key] as $k => $tranche) {
+                            LotTranche::create([
+                                'lot_num' => $this->lot_num[$key],
+                                'tranche_id' => $tranche,
+                            ]);
+
+                            $lot_tranche[$key][$k] = Tranche::where('uid', $tranche)->get()->toArray()[0];
+                        }
+
+                        foreach ($this->code_poids[$key] as $code => $poids) {
+                            foreach ($lot_tranche[$key] as $keyT => $valueT) {
+                                if ($poids['poids'] >= $valueT['min_poids'] && $poids['poids'] < $valueT['max_poids']) {
+                                    LotTranche::where('lot_num', $this->lot_num[$key])->where('tranche_id', $valueT['uid'])->update(['qte' => DB::raw('qte + 1')]);
+
+                                    $item = new ModelsStock();
+                                    $item->type = $produit->modeVente->nom;
+                                    $item->qte = $this->qte[$key];
+                                    $item->lot_num = $this->lot_num[$key];
+                                    $item->produit_id = $this->produit[$key];
+                                    $item->categorie_id = $this->categorie[$key];
+                                    $item->sous_categorie_id = $this->sous_categorie[$key];
+                                    $item->br_num = $this->ref_br;
+                                    $item->depot_id = $this->depot;
+                                    $item->prix_achat = $this->prix_achat[$key];
+                                    $item->code = $code;
+                                    $item->pas = $this->pas[$key];
+                                    $item->unite_id = Unite::where('nom', $this->unite[$key])->first()->id;
+                                    $item->poids = $poids['poids'];
+                                    $item->qualite_id = $poids['qualite'];
+                                    $item->tranche_id = $valueT['uid'];
+                                    $item->cr = 0;
+                                    $item->prix_n = 0;
+                                    $item->prix_f = 0;
+                                    $item->prix_p = 0;
+                                    $item->save();
+
+                                }
+                            }
+                        }
+                    }
+
+                //}//end if mode vente poids par pièce
+
+                else{
+                    LotTranche::create([
+                        'lot_num' => $this->lot_num[$key],
+                        'tranche_id' => $this->tranches[$key],
+                    ]);
+                    $item = new ModelsStock();
+                    $item->type = $produit->modeVente->nom;
+                    $item->qte = $this->qte[$key];
+                    $item->lot_num = $this->lot_num[$key];
+                    $item->produit_id = $this->produit[$key];
+                    $item->categorie_id = $this->categorie[$key];
+                    $item->sous_categorie_id = $this->sous_categorie[$key];
+                    $item->br_num = $this->ref_br;
+                    $item->depot_id = $this->depot;
+                    $item->qualite_id = $this->qualite[$key];
+                    $item->prix_achat = $this->prix_achat[$key];
+                    $item->tranche_id = $this->tranches[$key];
+                    $item->cr = 0;
+                    $item->prix_n = 0;
+                    $item->prix_f = 0;
+                    $item->prix_p = 0;
+                    $item->pas = $this->pas[$key];
+                    $item->unite_id = Unite::where('nom', $this->unite[$key])->first()->id;
+                    $item->save();
+                }
+
+            }
+            session()->flash('message', 'Bon de réception réf "' . $this->ref_br . '" a été crée');
+            //$this->reset(['lot_num', 'fournisseur', 'date_entree', 'qualite', 'pas', 'fournisseur', 'qualite', 'produit', 'active', 'qte', 'prix_achat', 'tranches']);
+
+           // $this->emit('saved');
+        });
+
+    }
+
+
+    public function createStockOld(){
 
         DB::transaction(function () {
 

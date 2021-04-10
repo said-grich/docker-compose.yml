@@ -20,14 +20,9 @@ class Depot extends Model
         return $this->belongsTo(VilleZone::class);
     }
 
-    public function stockPoidPC()
+    public function stock()
     {
-        return $this->hasMany(StockPoidsPc::class);
-    }
-
-    public function stockKgPC()
-    {
-        return $this->hasMany(StockKgPc::class);
+        return $this->hasMany(Stock::class);
     }
 
     public function bonsReception()

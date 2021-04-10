@@ -15,8 +15,8 @@ class CreateTranchesTable extends Migration
     {
         Schema::create('tranches', function (Blueprint $table) {
             $table->id();
-            $table->string('nom',80);
-            $table->string('uid');
+            $table->string('nom',80)->unique();
+            $table->string('uid')->unique();
             $table->string('type',80);
             $table->float('min_poids')->nullable();
             $table->float('max_poids')->nullable();

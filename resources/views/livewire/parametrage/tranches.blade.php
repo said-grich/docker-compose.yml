@@ -92,6 +92,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="row" x-show="open === 1">
+                                                    @error('nom')
+                                                    <div class="form-group col-md-12">
+                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                    </div>
+                                                    @enderror
+
                                                     <div class="form-group col-md-6">
                                                         <div class="input-group input-group-prepend">
                                                             <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sliders-h icon-lg"></i></span></div>
