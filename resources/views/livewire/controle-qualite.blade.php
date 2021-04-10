@@ -297,12 +297,27 @@
 
                                                                                 @foreach ($produits as $ligne)
                                                                                     <tr>
-                                                                                        <td class="pl-0">{{$ligne->code ? $ligne->code : "-"}}</td>
-                                                                                        <td class="pl-0">{{$ligne->produit->nom}}</td>
-                                                                                        @if ($ligne->code)
+                                                                                        <td class="pl-0">
+                                                                                            @if (isset($ligne->code))
+                                                                                                {{$ligne->code}}
+                                                                                            @else
+                                                                                                -
+                                                                                            @endif
+                                                                                        </td>
+                                                                                        <td class="pl-0">
+                                                                                            @isset($ligne->produit->nom)
+                                                                                                {{$ligne->produit->nom}}
+                                                                                            @endisset
+
+                                                                                        </td>
+                                                                                        @if (isset($ligne->code))
                                                                                             <td class="pl-0">{{$ligne->qualite->nom}}</td>
                                                                                         @else
-                                                                                            <td class="pl-0">{{$ligne->lot->qualite->nom}}</td>
+                                                                                            <td class="pl-0">
+                                                                                                @isset($ligne->lot->qualite->nom)
+                                                                                                    {{$ligne->lot->qualite->nom}}
+                                                                                                @endisset
+                                                                                            </td>
                                                                                         @endif
 
                                                                                     </tr>
@@ -391,7 +406,7 @@
                                                                                     <tr>
                                                                                         <td class="pl-0">{{$ligne->produit->nom}}</td>
                                                                                         <td class="pl-0">
-                                                                                              <input type="hidden" class="form-control" placeholder=" " wire:model.defer="code.{{$key}}"/>
+                                                                                            <input type="hidden" class="form-control" placeholder=" " wire:model.defer="code.{{$key}}"/>
                                                                                            {{--<input type="text" class="form-control" placeholder=" " wire:model.defer="lot.{{$key}}"/>
  --}}                                                                                            {{$ligne->code ? $ligne->code : "-"}}
                                                                                         </td>

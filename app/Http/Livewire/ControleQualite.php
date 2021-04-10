@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\BonReception;
 use App\Models\Lot;
 use App\Models\Qualite;
+use App\Models\Stock;
 use App\Models\StockKgPc;
 use App\Models\StockPoidsPc;
 use Livewire\WithPagination;
@@ -96,32 +97,31 @@ class ControleQualite extends Component
     public function show($id){
 
         $br = BonReception::where('ref', $id)->first();
-        $l_stock_poids_pc = $br->stockPoidsPc;
-        $l_stock_kg_pc = $br->stockKgPc;
+        // $l_stock_poids_pc = $br->stockPoidsPc;
+        // $l_stock_kg_pc = $br->stockKgPc;
 
-        $collection = collect();
-        foreach ($l_stock_poids_pc as $poids_pc)
-            $collection->push($poids_pc);
-        foreach ($l_stock_kg_pc as $kg_pc)
-            $collection->push($kg_pc);
-            $this->lot_lignes = $collection->groupBy('lot_num');
-        /* $this->show_details = isset($this->lot_lignes->first()->code) ? true : false;*/
+        // $collection = collect();
+        // foreach ($l_stock_poids_pc as $poids_pc)
+        //     $collection->push($poids_pc);
+        // foreach ($l_stock_kg_pc as $kg_pc)
+        //     $collection->push($kg_pc);
+        $this->lot_lignes = collect($br->stock)->groupBy('lot_num');
         $this->lot_num = $id;
     }
 
     public function edit($id){
 
         $br = BonReception::where('ref', $id)->first();
-        $l_stock_poids_pc = $br->stockPoidsPc;
-        $l_stock_kg_pc = $br->stockKgPc;
+        // $l_stock_poids_pc = $br->stockPoidsPc;
+        // $l_stock_kg_pc = $br->stockKgPc;
 
-        $collection = collect();
-        foreach ($l_stock_poids_pc as $poids_pc)
-            $collection->push($poids_pc);
-        foreach ($l_stock_kg_pc as $kg_pc)
-            $collection->push($kg_pc);
+        // $collection = collect();
+        // foreach ($l_stock_poids_pc as $poids_pc)
+        //     $collection->push($poids_pc);
+        // foreach ($l_stock_kg_pc as $kg_pc)
+        //     $collection->push($kg_pc);
 
-        $this->lot_lignes = $collection->groupBy('lot_num');
+        $this->lot_lignes = collect($br->stock)->groupBy('lot_num');
 
         foreach ($this->lot_lignes as $key => $value) {
 
@@ -154,13 +154,15 @@ class ControleQualite extends Component
         }
         foreach ($code_piece as $lot => $code) {
             foreach ($code as $index => $c) {
-                isset($c) ? StockPoidsPc::where('lot_num', $lot)->where('code', $c)->update(['qualite_id' => $this->qualite[$lot][$index]]) :
+                isset($c) ? Stock::where('lot_num', $lot)->where('code', $c)->update(['qualite_id' => $this->qualite[$lot][$index]]) :
                 Lot::where('lot_num', $lot)->update(['qualite_id' => $this->qualite[$lot][$index]]);
 
             }
 
 
         }
+        session()->flash('message', 'Modifacation est effectuée');
+        return redirect()->to('/controle-qualite');
         //dd($code_piece, $this->qualite);
 
 
