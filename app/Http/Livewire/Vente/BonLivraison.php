@@ -469,7 +469,7 @@ class BonLivraison extends Component
 
     }
 
-    public function updatedFilterPoids()
+    public function updatedFilterPoids($value)
     {
         $this->loadList();
     }
