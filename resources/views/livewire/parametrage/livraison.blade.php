@@ -48,6 +48,7 @@
                                         <form id="livraison-form" class="form" wire:submit.prevent="createLivraison">
                                             <div class="form-group row">
                                                 <div wire:ignore class="form-group col-md-6">
+                                                    <label>{{ __('Ville') }}</label>
                                                     <div class="input-group input-group-prepend">
                                                         <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-people-carry icon-lg"></i></span></div>
                                                         <select class="form-control selectpicker" wire:model="ville">
@@ -68,7 +69,7 @@
                                                     <div class="checkbox-inline">
                                                         @foreach($jours as $key => $jour)
                                                             <label class="checkbox">
-                                                                <input type="checkbox" value="{{ $jour  }}" wire:model="jour_livraison.{{ $key  }}"/>
+                                                                <input type="checkbox" value="{{ $jour  }}" wire:model="jours_livraison.{{ $key  }}"/>
                                                                 <span></span>
                                                                 {{ $jour }}
                                                             </label>
@@ -76,10 +77,10 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-6">
+                                                        <label>{{ __('Frais de livraison') }}</label>
                                                         <div class="input-group input-group-prepend">
                                                         <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-award icon-lg"></i></span></div>
                                                         <input type="text" class="form-control" placeholder=" " wire:model.defer="frais_livraison"/>
-                                                        <label>{{ __('Frais de livraison') }}</label>
                                                     </div>
                                                     @error('frais_livraison')
                                                         <span class="form-text text-danger">{{ $message }}</span>
@@ -87,16 +88,24 @@
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label>Heure de livraison</label>
-                                                    <input class="form-control" id="kt_timepicker_1" readonly placeholder="Select time" type="text"/>
+                                                    <input class="form-control" id="kt_timepicker_1" type="time" wire:model.defer="heure"/>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label>Seuil commande</label>
-                                                    <input class="form-control" type="text"/>
+                                                    <input class="form-control" type="text" wire:model.defer="seuil_commande"/>
                                                 </div>
-                                                <div class="form-group col-md-6">
-                                                    <label>Active</label>
-                                                    <input class="form-control" type="text"/>
+                                                <div class="form-group col-md-6 row">
+                                                    <label class="col-3 col-form-label">Active</label>
+                                                    <div class="col-3">
+                                                        <span class="switch switch-outline switch-icon switch-primary">
+                                                            <label>
+                                                            <input type="checkbox" checked="checked" wire:model.defer="active" name="active"/>
+                                                            <span></span>
+                                                            </label>
+                                                        </span>
+                                                    </div>
                                                 </div>
+
 
                                             </div>
                                         </form>

@@ -9,6 +9,7 @@ use App\Models\Client;
 use App\Models\Commande;
 use App\Models\CommandeLigne;
 use App\Models\Depot;
+use App\Models\Livraison;
 use App\Models\Livreur;
 use App\Models\LotTranche;
 use App\Models\ModeLivraison;
@@ -194,6 +195,8 @@ class BonLivraison extends Component
 
     public function updatedVille($value){
         $this->list_ville_zones = VilleZone::where('ville_id', $value)->get();
+        $ville_livraison = Livraison::where('ville_id', $value)->first();
+        $this->frais_livraison = isset($ville_livraison->frais_livraison) ? $ville_livraison->frais_livraison : '';
 
     }
 
@@ -215,6 +218,7 @@ class BonLivraison extends Component
             $this->nom_produit = [];
             $this->nom_tranche = [];
             $this->nbr_piece = [];
+
         }else if(!empty($this->filter['recherche_produit'])){
 
             $collection = Stock::when($this->filter['recherche_produit'], function ($query) {
@@ -270,9 +274,11 @@ class BonLivraison extends Component
                                 $this->prix[$key] = $produit['prix_p'];
                                 break;
                         }
+
+                        $nbr_pc = LotTranche::where('lot_num', $produit['lot_num'])->where('tranche_id', $tranche_uid)->first(['qte'])->qte;
+                        $this->nbr_piece[$produit_id][$tranche_uid] = $nbr_pc == 0 ?  $produit['qte'] :  $nbr_pc;
                     }
-                    $nbr_pc = LotTranche::where('lot_num', $produits[0]['lot_num'])->where('tranche_id', $tranche_uid)->first(['qte'])->qte;
-                    $this->nbr_piece[$produit_id][$tranche_uid] = LotTranche::where('lot_num', $produits[0]['lot_num'])->where('tranche_id', $tranche_uid)->first(['qte'])->qte;
+
                 }
             }
 
@@ -765,6 +771,8 @@ class BonLivraison extends Component
 
                 Livreur::where('id', $this->livreur)
                         ->update(['solde' => $this->totalMt]);
+
+                Stock::find($this->produitId[$key])->update(['qte' => $this->qtestock[$key] - $this->qte[$key]]);
 
             //}
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Parametrage;
 
+use App\Models\Livraison as ModelsLivraison;
 use App\Models\Ville;
 use Livewire\Component;
 
@@ -10,8 +11,11 @@ class Livraison extends Component
     public $liste_villes = [];
     public $ville;
     public $heure;
+    public $seuil_commande;
+    public $frais_livraison;
     public $jours=[];
-    public $jour_livraison = [];
+    public $jours_livraison = [];
+    public $active = false;
 
     public function renderData()
     {
@@ -21,7 +25,14 @@ class Livraison extends Component
 
     public function createLivraison()
     {
-        dd($this->jour_livraison);
+        $livraison = new ModelsLivraison();
+        $livraison->seuil_commande = $this->seuil_commande;
+        $livraison->frais_livraison = $this->frais_livraison;
+        $livraison->heure = $this->heure;
+        $livraison->jours_livraison = $this->jours_livraison;
+        $livraison->ville_id = $this->ville;
+        $livraison->active = $this->active;
+        $livraison->save();
     }
 
     public function render()
