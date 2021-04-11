@@ -210,61 +210,76 @@ class BonLivraison extends Component
     public function loadList()
     {
 
-        $collection = Stock::when($this->filter['recherche_produit'], function ($query) {
-            $query->where(function ($q) {
-                $q->where(
-                    function ($q) {
-                        $q->select('nom')
-                            ->from('produits')
-                            ->whereColumn('produits.id', 'stocks.produit_id');
-                    },
-                    'ILIKE',
-                    strtolower($this->filter['recherche_produit'] . '%')
+        if ($this->filter['recherche_produit'] === '') {
+            $this->list_produits = [];
+            $this->nom_produit = [];
+            $this->nom_tranche = [];
+            $this->nbr_piece = [];
+        }else if(!empty($this->filter['recherche_produit'])){
 
-                );
-            });
-        })
-        ->when($this->filter['categorie'], function ($query) {
-            $query->where('categorie_id', $this->filter['categorie']);
-        })
-        ->when($this->filter['depot'], function ($query) {
-            $query->where('depot_id', $this->filter['depot']);
-        })
-        ->whereNotIn('produit_id', $this->produitId)
+            $collection = Stock::when($this->filter['recherche_produit'], function ($query) {
+                $query->where(function ($q) {
+                    $q->where(
+                        function ($q) {
+                            $q->select('nom')
+                                ->from('produits')
+                                ->whereColumn('produits.id', 'stocks.produit_id');
+                        },
+                        'ILIKE',
+                        strtolower($this->filter['recherche_produit'] . '%')
 
-        ->with('depot')
-        ->with('produit')
-        ->with('categorie')
-        ->with('sousCategorie')
-        ->with('unite')
-        ->with('qualite')
-        ->get();
+                    );
+                });
+            })
+                ->when($this->filter['categorie'], function ($query) {
+                    $query->where('categorie_id', $this->filter['categorie']);
+                })
+                ->when($this->filter['depot'], function ($query) {
+                    $query->where('depot_id', $this->filter['depot']);
+                })
+                ->when($this->filter['poids'], function ($query) {
+                    $query->where('poids', $this->filter['poids']);
+                })
+                ->whereNotIn('produit_id', $this->produitId)
 
-        $this->list_produits = $collection->groupBy(['produit_id', 'tranche_id'])->toArray();
-        foreach ($this->list_produits as $produit_id => $tranches) {
-            //     //dd($this->list_produits);
-            $this->nom_produit[$produit_id] = Produit::where('id', $produit_id)->first()->nom;
-            foreach ($tranches as $tranche_uid => $produits) {
+                ->with('depot')
+                ->with('produit')
+                ->with('categorie')
+                ->with('sousCategorie')
+                ->with('unite')
+                ->with('qualite')
+                ->get();
 
-                $this->nom_tranche[$produit_id][$tranche_uid] = Tranche::where('uid', $tranche_uid)->first()->nom;
-                foreach ($produits as $key => $produit) {
+            $this->list_produits = $collection->groupBy(['produit_id', 'tranche_id'])->toArray();
+            foreach ($this->list_produits as $produit_id => $tranches) {
+                //     //dd($this->list_produits);
+                $this->nom_produit[$produit_id] = Produit::where('id', $produit_id)->first()->nom;
+                foreach ($tranches as $tranche_uid => $produits) {
 
-                    switch ($this->profile) {
-                        case "Normal":
-                            $this->prix[$key] = $produit['prix_n'];
-                            break;
-                        case "Fidèle":
-                            $this->prix[$key] = $produit['prix_f'];
-                            break;
-                        case "Business":
-                            $this->prix[$key] = $produit['prix_p'];
-                            break;
+                    $this->nom_tranche[$produit_id][$tranche_uid] = Tranche::where('uid', $tranche_uid)->first()->nom;
+                    foreach ($produits as $key => $produit) {
+
+                        switch ($this->profile) {
+                            case "Normal":
+                                $this->prix[$key] = $produit['prix_n'];
+                                break;
+                            case "Fidèle":
+                                $this->prix[$key] = $produit['prix_f'];
+                                break;
+                            case "Business":
+                                $this->prix[$key] = $produit['prix_p'];
+                                break;
+                        }
                     }
+                    $nbr_pc = LotTranche::where('lot_num', $produits[0]['lot_num'])->where('tranche_id', $tranche_uid)->first(['qte'])->qte;
+                    $this->nbr_piece[$produit_id][$tranche_uid] = LotTranche::where('lot_num', $produits[0]['lot_num'])->where('tranche_id', $tranche_uid)->first(['qte'])->qte;
                 }
-                $nbr_pc = LotTranche::where('lot_num', $produits[0]['lot_num'])->where('tranche_id', $tranche_uid)->first(['qte'])->qte;
-                $this->nbr_piece[$produit_id][$tranche_uid] = LotTranche::where('lot_num', $produits[0]['lot_num'])->where('tranche_id', $tranche_uid)->first(['qte'])->qte;
             }
+
         }
+
+
+
 
     }
 
@@ -669,7 +684,7 @@ class BonLivraison extends Component
 
     }
 
-    public function updatedFilterPoids($value)
+    public function updatedFilterPoids()
     {
         //$this->list_produits = [];
         $this->loadList();
@@ -785,7 +800,7 @@ class BonLivraison extends Component
 
         $this->updateData($this->linenumber);
 
-        //$this->updatedRechercheProduit();
+        $this->loadList();
     }
 
     public function updateData($i)
