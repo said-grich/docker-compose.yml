@@ -96,11 +96,10 @@ class ListeCommandes extends Component
     {
 
         $items= Commande::query()
+        ->where('etat', 'Reçue')
         ->where('ref','ilike','%'.$this->search.'%')
         ->orderBy($this->sortBy, $this->sortDirection)
         //->get();
-        //dd($items);
-        //
         ->paginate($this->perPage);
 
         return view('livewire.vente.liste-commandes',[

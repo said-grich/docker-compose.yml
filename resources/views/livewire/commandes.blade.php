@@ -51,7 +51,7 @@
                                     @livewire('vente.liste-commandes')
                                 </div>
                                 <div class="tab-pane fade" id="validees-tab" role="tabpanel">
-                                    @livewire('vente.liste-commandes')
+                                    @livewire('vente.liste-commande-validee')
                                 </div>
                                 <div class="tab-pane fade" id="pretes-tab" role="tabpanel">
                                     @livewire('vente.liste-commandes')
