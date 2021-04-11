@@ -58,7 +58,7 @@
 
                                                         </select>
                                                     </div>
-                                                    @error('type')
+                                                    @error('ville')
                                                         <span class="form-text text-danger">{{ $message }}</span>
                                                     @enderror
                                                 </div>
@@ -76,42 +76,58 @@
                                                 <div class="form-group  col-md-6"">
                                                     <label>Jours de livraison</label>
                                                     <div class="checkbox-inline">
+
+                                                    @foreach($jours as $key => $checkbox)
                                                         <label class="checkbox">
-                                                            <input type="checkbox" checked="checked" name="Checkboxes3"/>
+                                                            <input type="checkbox" value="{{ $checkbox  }}" wire:model="jour_livraison.{{ $key  }}"/>
+                                                            <span></span>
+                                                            {{ $checkbox }}
+                                                        </label>
+                                                            {{-- <div class="mt-1">
+                                                                <label class="inline-flex items-center">
+                                                                <input type="checkbox" value="{{ $checkbox  }}" wire:model="jour_livraison.{{ $key  }}" class="form-checkbox h-6 w-6">
+                                                                    <span class="ml-3 text-sm">{{ $checkbox }}</span>
+                                                                </label>
+                                                            </div> --}}
+                                                    @endforeach
+                                                    </div>
+                                                    {{-- <div class="checkbox-inline">
+                                                        <label class="checkbox">
+                                                            <input type="checkbox" checked="checked" name="Checkboxes3" wire:model="jours" wire:click="jourClicked"/>
                                                             <span></span>
                                                             Lundi
                                                         </label>
                                                         <label class="checkbox">
-                                                            <input type="checkbox" name="Checkboxes3"/>
+                                                            <input type="checkbox" name="Checkboxes3" wire:model="jours" wire:click="jourClicked"/>
                                                             <span></span>
                                                             Mardi
                                                         </label>
                                                         <label class="checkbox">
-                                                            <input type="checkbox" checked="checked" name="Checkboxes3"/>
+                                                            <input type="checkbox" checked="checked" name="Checkboxes3" wire:model="jours" wire:click="jourClicked"/>
                                                             <span></span>
                                                             Mercredi
                                                         </label>
                                                         <label class="checkbox">
-                                                            <input type="checkbox" checked="checked" name="Checkboxes3"/>
+                                                            <input type="checkbox" checked="checked" name="Checkboxes3" wire:model="jours" wire:click="jourClicked"/>
                                                             <span></span>
                                                             Jeudi
                                                         </label>
                                                         <label class="checkbox">
-                                                            <input type="checkbox" checked="checked" name="Checkboxes3"/>
+                                                            <input type="checkbox" checked="checked" name="Checkboxes3" wire:model="jours" wire:click="jourClicked"/>
                                                             <span></span>
                                                             Vendredi
                                                         </label>
                                                         <label class="checkbox">
-                                                            <input type="checkbox" checked="checked" name="Checkboxes3"/>
+                                                            <input type="checkbox" checked="checked" name="Checkboxes3" wire:model="jours" wire:click="jourClicked"/>
                                                             <span></span>
                                                             Samedi
                                                         </label>
                                                         <label class="checkbox">
-                                                            <input type="checkbox" checked="checked" name="Checkboxes3"/>
+                                                            <input type="checkbox" checked="checked" name="Checkboxes3" wire:model="jours" wire:click="jourClicked"/>
                                                             <span></span>
                                                             Dimanche
                                                         </label>
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
                                                 <div class="form-group col-md-6"">
                                                     <label class="col-form-label text-right col-lg-3 col-sm-12">Heure de livraison</label>
