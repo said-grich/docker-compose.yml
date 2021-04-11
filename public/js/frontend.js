@@ -1,15 +1,15 @@
 /* JavaScript Code */
 
 // Popover
-$('[data-toggle="popover"]').popover({
-	trigger: 'focus'
-});
+// $('[data-toggle="popover"]').popover({
+// 	trigger: 'focus'
+// });
 $(function(){
 	// Tooltip
 	$('[data-toggle="tooltip"]').tooltip();
 	
-	// Tooltip Modal
-	$('[data-toggle="modal"]').tooltip();
+	// // Tooltip Modal
+	// $('[data-toggle="modal"]').tooltip();
 });
 
 $(document).ready(function(){

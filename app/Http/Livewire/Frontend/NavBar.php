@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Frontend;
 
-use App\Models\Produit;
 use Livewire\Component;
 use App\Facades\Cart;
 
@@ -24,7 +23,6 @@ class NavBar extends Component
     public function updateCartTotal()
     {
         $this->cartTotal = count(Cart::get()['products']);
-      //  dump($this->cartTotal);
         request()->session()->put('cartTotal', $this->cartTotal);
     }
 

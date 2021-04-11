@@ -6,15 +6,15 @@
 				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
 					<div class="info">
 						<ul class="list-unstyled list-inline">
-							<li><span><i class="fa fa-map-marker-alt"></i></span>Marrakech - Maroc</li>
+							<li><span></span><button class="btn" data-toggle="modal" data-target="#livraison-localisation"><i class="fa fa-map-marker-alt"></i> Zone Livraison</button></li>
 							<li><span><i class="fa fa-phone-alt"></i></span>+212 6 19 82 65 01</li>
 						</ul>
 					</div>
 				</div>
-				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 d-none-m">
 					<span class="note">Livraison gratuite partout au Maroc à partir de 400 DH</span>
 				</div>
-				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 d-none-m">
 					<span class="text-bar">Partagez sur :</span>
 					<ul class="links">
 						<li><a rel="nofollow" href="https://www.facebook.com/sharer/sharer.php?u=http://flouka.ma/" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a></li>

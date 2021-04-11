@@ -3,7 +3,8 @@
 
 @push('styles')
     <link rel="stylesheet" href="css/add-to-cart.css"/>
-    <link rel="stylesheet" href="css/select2.min.css"/>
+    <link rel="stylesheet" href="css/ribbons.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap-select.css"/>
 @endpush
 
 {{-- Start Main --}}
@@ -21,6 +22,9 @@
 		<section class="container">
 			<section class="product-content row">
 				<div class="product-pic col-md-6">
+                    <div class="ribbon left-top">
+                        {{ $items[0]->categorie->nom }} <i class="fa fa-fish"></i>
+                    </div>
 					<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 						<div class="carousel-inner">
 							<div class="carousel-item active">
@@ -68,99 +72,104 @@
 						</div>
 					</section>
 					<section class="typical-section">
-							<div class="form-group">
-								{{-- <label class="form-label" for="product-size"><i class="fa fa-ruler"></i>Tranches</label> --}}
-                                @foreach (Arr::sort($tranches) as $tranche_id => $tranche)
-                                    <div class="tranche-info">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="tranche"><span>{{ $tranche["nom"] }} kg</span></div>
-                                                <div class="tranche-prix"><span class="prix">{{ $tranche["prix"] }}</span> Dh/{{ $items[0]->produit->unite->nom }}</div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="input-group">
-                                                    <span class="input-group-btn"><button wire:click="decrement('{{$tranche_id}}')" class="btn btn-default-outline" type="button">-</button></span>
-                                                    <input class="form-control" type="test" placeholder="Qte" value="{{ Session::has($produit_id.'-'.$tranche_id) ? count(Session::get($produit_id.'-'.$tranche_id)) : 0}}" readonly>
-                                                    <span class="input-group-addon">Pcs</span>
-                                                    <span class="input-group-btn"><button wire:click="increment('{{$tranche_id}}')" class="btn btn-default-outline" type="button">+</button></span>
-                                                </div>
+                        <div class="form-group">
+                            {{-- <label class="form-label" for="product-size"><i class="fa fa-ruler"></i>Tranches</label> --}}
+                            @foreach (Arr::sort($tranches) as $tranche_id => $tranche)
+                                <div class="tranche-info">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="tranche"><span>{{ $tranche["nom"] }} KG</span></div>
+                                            <div class="tranche-prix"><span class="prix">{{ $tranche["prix"] }}</span> DH/{{ $items[0]->produit->unite->nom }}</div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="input-group">
+                                                <span class="input-group-btn"><button wire:click="decrement('{{$tranche_id}}')" class="btn btn-default-outline" type="button">-</button></span>
+                                                <input class="form-control" type="test" placeholder="Qte" value="{{ Session::has($produit_id.'-'.$tranche_id) ? count(Session::get($produit_id.'-'.$tranche_id)) : 0}}" readonly>
+                                                <span class="input-group-addon">Pcs</span>
+                                                <span class="input-group-btn"><button wire:click="increment('{{$tranche_id}}')" class="btn btn-default-outline" type="button">+</button></span>
                                             </div>
                                         </div>
-                                        <table class="table table-bordered table-hover">
-                                            @if(Session::has($produit_id.'-'.$tranche_id))
-                                                @foreach (Session::get($produit_id.'-'.$tranche_id) as $i => $item)
-                                                @php $prix_total += $item['prix_n']*$item['poids']; @endphp
-                                                <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            <div>{{ $item['poids'] }} {{ $items[0]->produit->unite->nom }}</div>
-                                                            <div>{{ $item['prix_n']*$item['poids'] }} DH</div>
-                                                        </td>
-                                                        <td>
-                                                            <div x-data="{ open{{$tranche_id}}:false }">
-                                                                <div class="d-flex mode-preparation">
-                                                                    <div class="radio">
-                                                                        <input @click="open{{$tranche_id}} = 1" type="radio" name="mode{{$tranche_id}}-{{$i}}" id="radio-1-{{$tranche_id}}-{{$i}}" value="option1">
-                                                                        <label for="radio-1-{{$tranche_id}}-{{$i}}">Mode Cuisine</label>
-                                                                    </div>
-                                                                    <div class="radio">
-                                                                        <input @click="open{{$tranche_id}} = 2" type="radio" name="mode{{$tranche_id}}-{{$i}}" id="radio-2-{{$tranche_id}}-{{$i}}" value="option2">
-                                                                        <label for="radio-2-{{$tranche_id}}-{{$i}}">Mode Nettoyage</label>
-                                                                    </div>
-                                                                </div>
-                                                                <select x-show="open{{$tranche_id}} == 1" class="form-control preparation">
-                                                                    <option>Mode Cuisine</option>
-                                                                    <option>Four</option>
-                                                                    <option>Friture</option>
-                                                                    <option>Grillade</option>
-                                                                    <option>Plancha</option>
-                                                                    <option>Tajine</option>
-                                                                </select>
-                                                                <select x-show="open{{$tranche_id}} == 2" class="form-control preparation" multiple>
-                                                                    <option>Mode Nettoyage</option>
-                                                                    @foreach ( $item->produit->preparations as $preparations )
-                                                                        <option>{{ $preparations->preparation->nom }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                        </td>
-                                                        <td><button wire:click="deletePcs('{{$tranche_id}}','{{$i}}')" class="btn btn-danger" type="button"><i class="fa fa-times"></i></button></td>
-                                                    </tr>
-                                                </tbody>
-                                                @endforeach
-                                            @endif
-                                        </table>
                                     </div>
-                                @endforeach
-                                {{-- <div class="poids-total">Poids Total : <span>{{ $poids_total }} kg</span></div> --}}
-                                <div class="prix-total">Prix Total <span>{{ !empty($prix_total) ? $prix_total : 0 }} DH</span></div>
-							</div>
+                                    <table class="table table-hover">
+                                        <tbody>
+                                            @if(Session::has($produit_id.'-'.$tranche_id))
+                                            @foreach (Session::get($produit_id.'-'.$tranche_id) as $i => $item)
+                                            @php $prix_total += $item['prix_n']*$item['poids']; $pcs .= $item['id'].','; @endphp
+                                                <tr>
+                                                    <td>
+                                                        <div class="pcs-poids">{{ $item['poids'] }} {{ $items[0]->produit->unite->nom }}</div>
+                                                        <div class="pcs-prix">{{ $item['prix_n']*$item['poids'] }} DH</div>
+                                                    </td>
+                                                    <td>
+                                                        <div x-data="{ open{{$tranche_id}}:false }">
+                                                            <div class="d-flex mode-preparation">
+                                                                <div class="radio">
+                                                                    <input @click="open{{$tranche_id}} = 1" type="radio" name="mode{{$tranche_id}}-{{$i}}" id="radio-1-{{$tranche_id}}-{{$i}}" value="option1">
+                                                                    <label for="radio-1-{{$tranche_id}}-{{$i}}">Cuisine</label>
+                                                                </div>
+                                                                <div class="radio">
+                                                                    <input @click="open{{$tranche_id}} = 2" type="radio" name="mode{{$tranche_id}}-{{$i}}" id="radio-2-{{$tranche_id}}-{{$i}}" value="option2">
+                                                                    <label for="radio-2-{{$tranche_id}}-{{$i}}">Nettoyage</label>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <div x-show="open{{$tranche_id}} == 1" class="preparations">
+                                                                @livewire('frontend.multi-select', ['selectId' => 'c'.$tranche_id.'-'.$i, 'selectTitle' => 'Mode Cuisine', 'selectType' => '', 'selectOptions' => $item->produit->preparations], key('c'.$tranche_id.'-'.$i))
+                                                            </div>
+                                                            <div x-show="open{{$tranche_id}} == 2" class="preparations">
+                                                                @livewire('frontend.multi-select', ['selectId' => 'n'.$tranche_id.'-'.$i, 'selectTitle' => 'Mode Nettoyage', 'selectType' => 'multiple', 'selectOptions' => $item->produit->preparations], key('n'.$tranche_id.'-'.$i))
+                                                            </div>
+                                                            {{-- <select x-show="open{{$tranche_id}} == 1" class="preparations">
+                                                                <option>Mode Cuisine</option>
+                                                                <option>Four</option>
+                                                                <option>Friture</option>
+                                                                <option>Grillade</option>
+                                                                <option>Plancha</option>
+                                                                <option>Tajine</option>
+                                                            </select> --}}
+                                                            {{-- <select x-show="open{{$tranche_id}} == 2" id="select" class="preparations" multiple>
+                                                                <option>Mode Nettoyage</option>
+                                                                @foreach($item->produit->preparations as $preparations)
+                                                                    <option>{{ $preparations->preparation->nom }}</option>
+                                                                @endforeach
+                                                            </select> --}}
+                                                        </div>
+                                                    </td>
+                                                    <td><button wire:click="deletePcs('{{$tranche_id}}','{{$i}}')" type="button" class="tabledit-delete-button btn btn-sm btn-danger" title="Supprimer"><i class="fa fa-trash-alt"></i></button></td>
+                                                </tr>
+                                            @endforeach
+                                            @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @endforeach
+                            {{-- <div class="poids-total">Poids Total : <span>{{ $poids_total }} kg</span></div> --}}
+                            <div class="prix-total">Total : <span>{{ !empty($prix_total) ? $prix_total : 0 }} DH</span></div>
+                        </div>
 					</section>
+                    {{-- @php dd($pcs); @endphp --}}
 					<section class="typical-section">
-						<a wire:click="addToCart({{ $items[0]->produit->id }})" class="add-to-cart cd-add-to-cart js-cd-add-to-cart" data-id="" data-title="" data-price="" data-pic="" data-color="" data-size="">
+						<a wire:click="addToCart('{{$pcs}}')" class="add-to-cart cd-add-to-cart js-cd-add-to-cart" data-id="" data-title="" data-price="" data-pic="" data-color="" data-size="">
 							<em>Ajouter au Panier</em>
 							<svg x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32">
 								<path stroke-dasharray="19.79 19.79" stroke-dashoffset="19.79" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9,17l3.9,3.9c0.1,0.1,0.2,0.1,0.3,0L23,11" style="stroke-dashoffset: 19.79;"></path>
 							</svg>
 						</a>
-                        <button wire:click="clear()" class="btn">Clear Cart</button>
 					</section>
 					<section class="typical-section">
-						<div class="notes">
+						{{-- <div class="notes">
 							<p>Temps de Traitement : <span>Votre article sera expédié dans les 3 jours ouvrables.</span></p>
-							{{-- <p>Shipping : <span>Free standard shipping on orders over 400 DH.</span></p> --}}
-						</div>
+							<p>Shipping : <span>Free standard shipping on orders over 400 DH.</span></p>
+						</div> --}}
 						<div class="social-media">
+                            <span>Partagé sur :</span>
 							<ul class="links">
+                                <li><a rel="nofollow" href="https://wa.me/?text=http://espace-bebe.ma/product.php?id=<? echo $product->id; ?>" target="_blank" title="Whatsapp"><i class="fab fa-whatsapp"></i></a></li>
 								<li><a rel="nofollow" href="https://facebook.com/sharer/sharer.php?u=http://espace-bebe.ma/product.php?id=<? echo $product->id; ?>" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a></li>
-								<li><a rel="nofollow" href="https://twitter.com/share?url=http://espace-bebe.ma/product.php?id=<? echo $product->id; ?>" target="_blank"><i class="fab fa-twitter" title="Twitter"></i></a></li>
-								<li><a rel="nofollow" href="https://plus.google.com/share?url=http://espace-bebe.ma/product.php?id=<? echo $product->id; ?>" target="_blank" title="Google +"><i class="fab fa-google-plus-g"></i></a></li>
-								<li><a rel="nofollow" href="https://pinterest.com/pin/create/button/?url=http://espace-bebe.ma/product.php?id=<? echo $product->id; ?>&amp;media=http://espace-bebe.ma/data/uploads/<? echo array_key_first($product_colors); ?>&amp;description=<? echo $product->description; ?>" target="_blank" title="Pinterest"><i class="fab fa-pinterest-p"></i></a></li>
+                                <li><a rel="nofollow" href="https://facebook.com/sharer/sharer.php?u=http://espace-bebe.ma/product.php?id=<? echo $product->id; ?>" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a></li>
 								<li><a rel="nofollow" href="https://linkedin.com/shareArticle?mini=true&amp;url=http://espace-bebe.ma/product.php?id=<? echo $product->id; ?>" target="_blank" title="Linked In"><i class="fab fa-linkedin-in"></i></a></li>
-								<li><a rel="nofollow" href="https://digg.com/submit?url=http://espace-bebe.ma/product.php?id=<? echo $product->id; ?>&amp;title=<? echo $product->name; ?>" target="_blank" title="Digg"><i class="fab fa-digg"></i></a></li>
-								<li><a rel="nofollow" href="https://reddit.com/submit?url=http://espace-bebe.ma/product.php?id=<? echo $product->id; ?>&amp;title=<? echo $product->name; ?>" target="_blank" title="Reddit"><i class="fab fa-reddit-alien"></i></a></li>
-								<li><a rel="nofollow" href="https://tumblr.com/share?v=3&amp;u=http://espace-bebe.ma/product.php?id=<? echo $product->id; ?>&amp;t=<? echo $product->name; ?>" target="_blank" title="Tumblr"><i class="fab fa-tumblr"></i></a></li>
-								<li><a rel="nofollow" href="https://wa.me/?text=http://espace-bebe.ma/product.php?id=<? echo $product->id; ?>" target="_blank" title="Whatsapp"><i class="fab fa-whatsapp"></i></a></li>
+                                <li><a rel="nofollow" href="https://twitter.com/share?url=http://espace-bebe.ma/product.php?id=<? echo $product->id; ?>" target="_blank"><i class="fab fa-twitter" title="Twitter"></i></a></li>
+                                <li><a rel="nofollow" href="https://plus.google.com/share?url=http://espace-bebe.ma/product.php?id=<? echo $product->id; ?>" target="_blank" title="Google +"><i class="fab fa-google-plus-g"></i></a></li>
 							</ul>
 						</div>
 					</section>
@@ -173,14 +182,11 @@
 <!-- End Main -->
 
 @push('scripts')
-    <script src="js/select2.full.min.js"></script>
     <script src="js/jquery.zoom.min.js"></script>
+    <script src="js/bootstrap-select.js"></script>
     <script>
         $(document).ready(function(){
             $('.carousel-item').zoom({url: $('.carousel-item img').attr('data-BigImgSrc')});
-        });
-        $(document).ready(function() {
-            $('.select2').select2();
         });
     </script>
 @endpush

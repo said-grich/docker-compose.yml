@@ -226,7 +226,7 @@
 		<script src="assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
 		<script src="assets/js/scripts.bundle.js"></script> --}}
 		<script src="js/jquery.min.js"></script>
-		<script src="js/bootstrap.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.bundle.min.js"></script>
 		<script src="js/jquery.nicescroll.min.js"></script>
 	    <script src="js/wow.js"></script>
 	    <script src="js/owl.carousel.min.js"></script>

@@ -10,6 +10,7 @@ use App\Models\StockKgPc;
 use App\Models\StockPoidsPc;
 use App\Models\TranchesPoidsPc;
 use App\Models\TranchesKgPc;
+use Illuminate\Contracts\Session\Session as SessionSession;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Arr;
@@ -27,6 +28,11 @@ class ProduitInfo extends Component
     public $tranches = [];
     public $prix_total;
     public $val;
+    public $pcs;
+
+    protected $listeners = [
+        'test' => 'testadd',
+    ];
     
     public function mount(){
         $this->produit_id = request()->produit;
@@ -69,19 +75,19 @@ class ProduitInfo extends Component
         $this->updateQte($this->val,$tranche_id);
     }
     
-    public function updateQte($value,$index){
+    public function updateQte($value,$tranche_id){
         //dump(Session::all());
         if($this->produit[0]->mode_vente_id === 1){
-            $this->tranches_stock = StockPoidsPc::select()->where('produit_id', $this->produit_id)->where('tranche_id', $index)->limit($value)->get();
+            $this->tranches_stock = StockPoidsPc::select()->where('produit_id', $this->produit_id)->where('tranche_id', $tranche_id)->limit($value)->get();
         }
         else if($this->produit[0]->mode_vente_id === 2){
-            $this->tranches_stock = StockKgPc::select()->where('produit_id', $this->produit_id)->where('tranche_id', $index)->limit($value)->get();
+            $this->tranches_stock = StockKgPc::select()->where('produit_id', $this->produit_id)->where('tranche_id', $tranche_id)->limit($value)->get();
         }
 
-        if(Session::has($this->produit_id.'-'.$index)){
-            Session::pull($this->produit_id.'-'.$index);
+        if(Session::has($this->produit_id.'-'.$tranche_id)){
+            Session::pull($this->produit_id.'-'.$tranche_id);
         }elseif($value <= 0){
-            Session::pull($this->produit_id.'-'.$index);
+            Session::pull($this->produit_id.'-'.$tranche_id);
         }
 
         foreach ($this->tranches_stock as $item){
@@ -90,24 +96,20 @@ class ProduitInfo extends Component
     }
 
     public function deletePcs($tranche_id,$pcs_id){
-        foreach (Session::get($this->produit_id.'-'.$tranche_id) as $i => $item){
-            if($pcs_id == $i){
-                Session::forget($i);
-            }
+        $session_name = $this->produit_id.'-'.$tranche_id.'.'.$pcs_id;
+        Session::forget($session_name);
+    }
+
+    public function addToCart($productId){
+        // dd(Session::all());
+        $productId = explode(",", $productId);
+        array_pop($productId);
+
+        foreach($productId as $pcsId){
+            $pcsId = (int)$pcsId;
+            Cart::add(StockPoidsPc::where('id', $pcsId)->first());
+            $this->emit('productAdded');
         }
-    }
-
-    public function addToCart(int $productId)
-    {
-        Cart::add(Produit::where('id', $productId)->first());
-        $this->emit('productAdded');
-    }
-
-    public function clear()
-    {
-        Cart::clear();
-        $this->emit('clearCart');
-        $this->cart = Cart::get();
     }
 
     public function render(){
