@@ -176,7 +176,7 @@ class Stock extends Component
 
 
     public function updatedProduit($value,$index){
-        $uniqueNumLot =  random_int(100, 999);
+        //$uniqueNumLot =  random_int(100, 999);
         $fournisseur = Fournisseur::where('id',$this->fournisseur)->first(['nom'])->nom;
 
         $produit = Produit::where('id',$value)->first();
@@ -184,7 +184,7 @@ class Stock extends Component
         $this->mode_vente_produit[$index] = $produit->modeVente->id;
         $mode_vente = $produit->modeVente->id;
         $this->mode_vente_produit[$index] == 1 || $this->mode_vente_produit[$index] == 2 ? $this->unite[$index] =  Unite::where('nom', "Kg")->first()->nom : $this->unite[$index] =  Unite::where('nom', "Pièce")->first()->nom;
-        $this->lot_num[$index] = strtoupper(substr($fournisseur, 0, 3)) . strtoupper(substr($produit->nom, 0, 3)). $uniqueNumLot;
+        //$this->lot_num[$index] = strtoupper(substr($fournisseur, 0, 3)) . strtoupper(substr($produit->nom, 0, 3)). $uniqueNumLot;
 
         foreach($produit_tranches as $key=>$value){
             //$kg_pc = TranchesKgPc::where('uid',$value->tranche_id)->first()->toArray();

@@ -212,7 +212,7 @@
                                                     <div class="input-group input-group-prepend">
                                                         <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
                                                         <select class="form-control" wire:model="filter.categorie">
-                                                            <option>{{ __('Choisir une catégorie') }}</option>
+                                                            <option value="">{{ __('Choisir une catégorie') }}</option>
                                                             @foreach ($list_categorie as $item)
                                                                 <option value="{{$item->id }}">{{$item->nom }}</option>
                                                             @endforeach
@@ -228,7 +228,7 @@
                                                     <div class="input-group input-group-prepend">
                                                         <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
                                                         <select class="form-control" wire:model="filter.depot">
-                                                            <option>{{ __('Choisir un dépôt') }}</option>
+                                                            <option value="">{{ __('Choisir un dépôt') }}</option>
                                                             @foreach ($list_depots as $item)
                                                                 <option value="{{$item->id }}">{{$item->nom }}</option>
                                                             @endforeach
