@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RegionSeeder::class);
         $this->call(VilleSeeder::class);
         $this->call(VilleZoneSeeder::class);
+        $this->call(VilleQuartierSeeder::class);
         $this->call(DepotSeeder::class);
         $this->call(FamilleSeeder::class);
         $this->call(CategorieSeeder::class);
@@ -31,8 +32,10 @@ class DatabaseSeeder extends Seeder
         $this->call(ProfilClientSeeder::class);
         $this->call(PreparationSeeder::class);
         $this->call(UniteSeeder::class);
-        $this->call(TrancheKgPcSeeder::class);
-        $this->call(TranchePoidsPcSeeder::class);
+        $this->call(TrancheSeeder::class);
+        /* $this->call(TrancheKgPcSeeder::class);
+        $this->call(TranchePoidsPcSeeder::class); */
+        $this->call(LivreurSeeder::class);
 
         // \App\Models\User::factory(10)->create();
     }

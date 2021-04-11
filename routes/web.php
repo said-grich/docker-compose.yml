@@ -58,6 +58,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/tranches', \App\Http\Live
 Route::middleware(['auth:sanctum', 'verified'])->get('/qualite', \App\Http\Livewire\Parametrage\Qualite::class)->name('qualite');
 Route::middleware(['auth:sanctum', 'verified'])->get('/fournisseurs', \App\Http\Livewire\Parametrage\Fournisseurs::class)->name('fournisseurs');
 Route::middleware(['auth:sanctum', 'verified'])->get('/clients', \App\Http\Livewire\Parametrage\Clients::class)->name('clients');
+Route::middleware(['auth:sanctum', 'verified'])->get('/livraison', \App\Http\Livewire\Parametrage\Livraison::class)->name('livraison');
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/bon-reception', \App\Http\Livewire\GestionAchat\ListeBonReception::class)->name('bon-reception');
 Route::middleware(['auth:sanctum', 'verified'])->get('/designation-prix', \App\Http\Livewire\Vente\DesignationPrix::class)->name('designation-prix');
 Route::middleware(['auth:sanctum', 'verified'])->get('/bon-livraison', \App\Http\Livewire\Vente\BonLivraison::class)->name('bon-livraison');

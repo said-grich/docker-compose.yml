@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ModeLivraison extends Model
+class Livraison extends Model
 {
     use HasFactory;
 
-    public function commandes()
-    {
-        return $this->hasMany(Commande::class);
-    }
+    protected $guarded = [];
+    protected $casts = [
+        'jours_livraison' => 'array'
+    ];
 }

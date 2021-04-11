@@ -135,7 +135,7 @@
                             <div class="modal-dialog modal-xxl modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">{{ __('Bon de livraison') }}</h5>
+                                        <h5 class="modal-title">{{ __('Bon de livraison') }} - {{$ref_bl}}</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <i aria-hidden="true" class="ki ki-close"></i>
                                         </button>
@@ -145,16 +145,16 @@
 
 
                                             <div class="form row">
-                                                <div class="form-group col">
+                                                {{-- <div class="form-group col">
                                                     <label>{{ __('Réf. bon de livraison') }}</label>
                                                     <div class="input-group input-group-prepend">
                                                         <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-hashtag icon-lg"></i></span></div>
-                                                        <input type="text" class="form-control" placeholder=" " wire:model.defer="ref_bl"/>
+                                                        <input type="text" class="form-control" placeholder=" " wire:model.defer="ref_bl" disabled/>
                                                 </div>
                                                     @error('ref_bl')
                                                         <span class="form-text text-danger">{{ $message }}</span>
                                                     @enderror
-                                                </div>
+                                                </div> --}}
                                                 <div class="form-group col">
                                                     <label>{{ __('Client') }}</label>
                                                     <div class="input-group input-group-prepend">
@@ -194,32 +194,25 @@
                                                     @enderror
                                                 </div>
 
-                                                <div class="form-group col">
-                                                    <label>{{ __("Dépôt") }}</label>
-                                                    <div class="input-group input-group-prepend">
-                                                        <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
-                                                        <select class="form-control" wire:model.defer="depot">
-                                                            <option>{{ __('Choisir un dépôt') }}</option>
-                                                            @foreach ($list_depots as $item)
-                                                                <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                            @endforeach
-
-                                                        </select>
-                                                    </div>
-                                                    @error('depot')
-                                                        <span class="form-text text-danger">{{ $message }}</span>
-                                                    @enderror
-                                                </div>
-
                                             </div>
 
                                             <div class="form row">
                                                 <div class="form-group col-lg-4">
+                                                    <label>{{ __('Rechercher un produit') }}</label>
+                                                    <div class="input-group input-group-prepend">
+                                                        <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-hashtag icon-lg"></i></span></div>
+                                                        <input type="text" class="form-control" placeholder=" " wire:model="filter.recherche_produit"/>
+                                                </div>
+                                                    @error('recherche_produit')
+                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                                <div class="form-group col-lg-4">
                                                     <label>{{ __('Catégorie') }}</label>
                                                     <div class="input-group input-group-prepend">
                                                         <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
-                                                        <select class="form-control" wire:model="categorie">
-                                                            <option>{{ __('Choisir une catégorie') }}</option>
+                                                        <select class="form-control" wire:model="filter.categorie">
+                                                            <option value="">{{ __('Choisir une catégorie') }}</option>
                                                             @foreach ($list_categorie as $item)
                                                                 <option value="{{$item->id }}">{{$item->nom }}</option>
                                                             @endforeach
@@ -230,21 +223,28 @@
                                                         <span class="form-text text-danger">{{ $message }}</span>
                                                     @enderror
                                                 </div>
-                                                <div class="form-group col-lg-4">
-                                                    <label>{{ __('Rechercher un produit') }}</label>
+                                                <div class="form-group col">
+                                                    <label>{{ __("Dépôt") }}</label>
                                                     <div class="input-group input-group-prepend">
-                                                        <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-hashtag icon-lg"></i></span></div>
-                                                        <input type="text" class="form-control" placeholder=" " wire:model="recherche_produit"/>
-                                                </div>
-                                                    @error('recherche_produit')
+                                                        <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
+                                                        <select class="form-control" wire:model="filter.depot">
+                                                            <option value="">{{ __('Choisir un dépôt') }}</option>
+                                                            @foreach ($list_depots as $item)
+                                                                <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                            @endforeach
+
+                                                        </select>
+                                                    </div>
+                                                    @error('depot')
                                                         <span class="form-text text-danger">{{ $message }}</span>
                                                     @enderror
                                                 </div>
-
                                             </div>
 
                                             @if (count($list_produits) > 0)
-                                                <table class="table table-vertical-center" id="kt_advance_table_widget_4">
+
+                                                <div>
+                                                    <table class="table table-vertical-center" id="kt_advance_table_widget_4">
                                                     <thead>
                                                         <tr class="text-left">
                                                             <th class="pl-0">Article</th>
@@ -293,7 +293,8 @@
                                                                 <th>Sous catégorie</th>
                                                                 <th>Code</th>
                                                                 <th>Poids
-                                                                    <input type="text" class="form-control" placeholder=" " wire:model="recherche_poids"/>
+                                                                    <input type="text" class="form-control" placeholder=" " wire:model="filter.poids"/>
+
                                                                 </th>
                                                                 {{-- <th>Quantité</th> --}}
                                                                 <th>Unité</th>
@@ -308,34 +309,15 @@
                                                                     <th>Prix de vente business</th>
                                                                 @endif
                                                                 <th>Lot</th>
-                                                                <th>Qualité</th>
+                                                                <th>Quantité</th>
                                                                 <th>Pas</th>
+                                                                <th>Depot</th>
                                                                 <th></th>
                                                             </tr>
                                                             @foreach ($item as $tranche_uid => $produits)
-
                                                                 @foreach ( $produits as $key => $produit)
-                                                                    <tr {{--class="collapse" id="{{$tranche_uid}}"--}}>
-                                                                        {{-- <td>{{$nom_tranche[$i][$tranche_uid]}}</td> --}}
-                                                                        {{-- @php
-                                                                        //dd($produit);
-                                                                            switch ($profile) {
-                                                                                case "Normal":
-                                                                                    $prix = $produit['prix_n'];
-                                                                                    break;
-                                                                                case "Fidèle":
-                                                                                    $prix = $produit['prix_f'];
-                                                                                    break;
-                                                                                case "Business":
-                                                                                        $prix = $produit['prix_p'];
-                                                                                    break;
-                                                                            }
-
-                                                                        @endphp --}}
-                                                                        {{-- <td>{{$produit->categorie->nom}}</td> --}}
-                                                                        {{-- <td>{{$produit->sousCategorie->nom}}</td> --}}
+                                                                    <tr>
                                                                         <td>{{$produit['categorie']['nom']}}</td>
-
                                                                         <td>
                                                                             @if (isset($produit['code']))
                                                                                 {{$produit['code']}}
@@ -349,141 +331,111 @@
                                                                             @else
                                                                                 -
                                                                             @endif
-
                                                                         </td>
-                                                                        <td>@isset($produit['unite']['nom'])
-                                                                            {{$produit['unite']['nom']}}
-
-                                                                        @endisset</td>
-                                                                        {{-- <td>{{$produit->qte}}</td> --}}
-                                                                        {{-- <td>{{$produit->unite->nom}}</td> --}}
+                                                                        <td>
+                                                                            @isset($produit['unite']['nom'])
+                                                                                {{$produit['unite']['nom']}}
+                                                                            @endisset
+                                                                        </td>
                                                                         <td>
                                                                             @isset($produit['prix_achat'])
-                                                                            {{$produit['prix_achat']}}
-
+                                                                                {{$produit['prix_achat']}}
                                                                             @endisset</td>
                                                                         <td>
                                                                             @isset($prix[$key])
-                                                                            {{$prix[$key]}}
-
-                                                                            @endisset</td>
-                                                                        {{-- <td>{{$produit->prix_n}}</td>
-                                                                        <td>{{$produit->prix_f}}</td>
-                                                                        <td>{{$produit->prix_p}}</td>  --}}
-                                                                        {{-- @if($profile === "Normal")
-                                                                            <td>{{$produit->prix_n}}</td>
-                                                                        @endif
-                                                                        @if($profile == "Fidèle")
-                                                                            <td>{{$produit->prix_f}}</td>
-                                                                        @endif
-                                                                        @if($profile == "Business")
-                                                                            <td>{{$produit->prix_p}}</td>
-                                                                        @endif --}}
+                                                                                {{$prix[$key]}}
+                                                                            @endisset
+                                                                        </td>
                                                                         <td>{{$produit['lot_num']}}</td>
                                                                         <td>{{$produit['qte']}}</td>
-                                                                        {{-- <td>
-                                                                            @isset($produit->qualite->nom)
-                                                                                {{$produit->qualite->nom}}
-                                                                            @endisset
-                                                                            @isset($produit->lot->qualite->nom)
-                                                                                {{$produit->lot->qualite->nom}}
-                                                                            @endisset
-                                                                        </td> --}}
-                                                                        {{-- <td>{{$produit->pas}}</td> --}}
+                                                                        <td>{{$produit['pas']}}</td>
                                                                         <td>
-
-                                                                            <div x-data="{ 'isDialogOpen': false, qte: null,tranche:'{{$tranche_uid}}',code:'{{$produit['code']}}', prix:{{$prix[$key]}},lot:'{{$produit['lot_num']}}', qmax:{{$produit['qte']}},categorie:{{$produit['categorie']['id']}} }"
-                                                                                @keydown.escape="isDialogOpen = false">
+                                                                            @isset($produit['depot']['nom'])
+                                                                                {{$produit['depot']['nom']}}
+                                                                            @endisset
+                                                                        </td>
+                                                                        <td>
+                                                                            <div x-data="{ 'isDialogOpen': false, qte: null,tranche:'{{$tranche_uid}}', prix:{{$prix[$key]}}, qmax:{{$produit['qte']}},categorie:{{$produit['categorie']['id']}} }" @keydown.escape="isDialogOpen = false">
                                                                                 @if (!isset($produit['code']))
                                                                                     <button type="button" @click="isDialogOpen = true" class="btn btn-outline-primary">Ajouter</button>
 
+                                                                                    <div class=" overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="isDialogOpen" :class="{ 'fixed inset-0 z-10 flex items-start justify-center': isDialogOpen }">
+                                                                                        <div class="bg-white shadow-2xl m-auto" x-show="isDialogOpen">
 
-                                                                                    <div class=" overflow-auto"
-                                                                                    style="background-color: rgba(0,0,0,0.5)"
-                                                                                    x-show="isDialogOpen"
-                                                                                    :class="{ 'fixed inset-0 z-10 flex items-start justify-center': isDialogOpen }">
+                                                                                            <div class="flex align-middle justify-between items-center border-b p-2 text-xl">
+                                                                                                <h6 class="text-xl font-bold">Entrer La quantité:
+                                                                                                </h6>
+                                                                                                <button type="button" @click="isDialogOpen = false">✖</button>
+                                                                                            </div>
 
-
-                                                                                    <div class="bg-white shadow-2xl m-auto"
-                                                                                        x-show="isDialogOpen">
-
-                                                                                        <div
-                                                                                            class="flex align-middle justify-between items-center border-b p-2 text-xl">
-                                                                                            <h6 class="text-xl font-bold">Entrer La quantité:
-                                                                                            </h6>
-                                                                                            <button type="button"
-                                                                                                @click="isDialogOpen = false">✖</button>
-                                                                                        </div>
-
-                                                                                        <div class="pl-0">
-                                                                                            <div>
+                                                                                            <div class="pl-0">
                                                                                                 <div>
-                                                                                                    <div class="grid grid-cols-2 gap-4 p-4 mb-8">
-
-                                                                                                        <label class="block">
-                                                                                                            <span class="text-gray-700">QTE</span><span
-                                                                                                                class="text-red-500">*</span>
-                                                                                                            <input type="number" x-model="qte"
-                                                                                                                class="block w-full mt-1 form-input"
-                                                                                                                placeholder="">
-                                                                                                            <span class="text-red-500"
-                                                                                                                x-show="qte>qmax">La quantité
-                                                                                                                doit être inférieure à
-                                                                                                                {{$produit['qte']}}</span>
-                                                                                                        </label>
-
-                                                                                                    </div>
-                                                                                                    <div class="text-right pt-3 pr-4" x-show="qte>0 && qte<=qmax">
-                                                                                                        <button type="button" class="btn btn-outline-primary" @click="$wire.add({{ $loop->index }},{{$i}},qte,prix,lot,code,tranche,categorie);isDialogOpen = false">Valider</button>
+                                                                                                    <div>
+                                                                                                        <div class="grid grid-cols-2 gap-4 p-4 mb-8">
+                                                                                                            <label class="block">
+                                                                                                                <span class="text-gray-700">QTE</span><span
+                                                                                                                    class="text-red-500">*</span>
+                                                                                                                <input type="number" x-model="qte"
+                                                                                                                    class="block w-full mt-1 form-input"
+                                                                                                                    placeholder="">
+                                                                                                                <span class="text-red-500"
+                                                                                                                    x-show="qte>qmax">La quantité
+                                                                                                                    doit être inférieure à
+                                                                                                                    {{$produit['qte']}}</span>
+                                                                                                            </label>
+                                                                                                        </div>
+                                                                                                        <div class="text-right pt-3 pr-4" x-show="qte>0 && qte<=qmax">
+                                                                                                            <button type="button" class="btn btn-outline-primary" @click="$wire.add({{ $loop->index }},{{$i}},qte,prix,tranche,categorie);isDialogOpen = false">Valider</button>
+                                                                                                        </div>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
-
-                                                                                    </div>
                                                                                     @else
-                                                                                    <button type="button" class="btn btn-outline-primary" @click="$wire.add({{ $loop->index }},{{$i}},1,prix,lot,code,tranche,categorie);isDialogOpen = false">Ajouter</button>
+                                                                                    <button type="button" class="btn btn-outline-primary" @click="$wire.add({{ $loop->index }},{{$i}},1,prix,tranche,categorie);isDialogOpen = false">Ajouter</button>
 
 
                                                                                 @endif
                                                                             </div>
-
                                                                         </td>
-
                                                                     </tr>
 
                                                                 @endforeach
-
                                                             @endforeach
                                                         </tbody>
                                                     @endforeach
 
                                                 </table>
-                                            @endif
+                                                </div>
 
 
 
-                                                <table class="table table-vertical-center" id="kt_advance_table_widget_4">
-                                                    <thead>
-                                                        <tr class="text-left">
-                                                            <th class="pl-0">Article</th>
-                                                            {{-- <th class="pl-0">Tranches</th> --}}
-                                                            <th class="pl-0">Code</th>
-                                                            <th class="pl-0">Poids</th>
-                                                            <th class="pl-0">Quantité à livrée</th>
-                                                            <th class="pl-0">Prix</th>
-                                                            <th class="pl-0">Montant</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @if (count($produitId) > 0)
+
+                                            <table class="table table-vertical-center" id="kt_advance_table_widget_4">
+                                                <thead>
+                                                    <tr class="text-left">
+                                                        <th class="pl-0">Article</th>
+                                                        <th class="pl-0">Dépôt</th>
+                                                        <th class="pl-0">Code</th>
+                                                        <th class="pl-0">Poids</th>
+                                                        <th class="pl-0">Quantité à livrée</th>
+                                                        <th class="pl-0">Prix</th>
+                                                        <th class="pl-0">Montant</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
                                                         @foreach ($produitId as $key => $val)
                                                             <tr>
-
                                                                 <td class="pl-0">
                                                                     @isset($produitNom[$key])
                                                                         {{ $produitNom[$key] }}
+                                                                    @endisset
+                                                                </td>
+                                                                <td class="pl-0">
+                                                                    @isset($depotNom[$key])
+                                                                        {{ $depotNom[$key] }}
                                                                     @endisset
                                                                 </td>
                                                                 <td class="pl-0">
@@ -515,26 +467,26 @@
                                                             </tr>
                                                         @endforeach
 
-                                                    </tbody>
-
-
-                                                </table>
-
-                                                <table class="table table-vertical-center" id="kt_advance_table_widget_4">
-                                                    <tbody>
-                                                        <tr>
-                                                            <th class="pl-0" colspan="6">
-                                                                Total
-                                                            </th>
-                                                            <td class="pl-0">
-                                                                {{ number_format($totalMt, 2, ',', ' ') }}
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                                </tbody>
+                                            </table>
                                             @endif
-                                            <!--Modal-->
+                                            @if (count($produitId) > 0)
 
+                                            <table class="table table-vertical-center" id="kt_advance_table_widget_4">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="pl-0" colspan="6">
+                                                            Total
+                                                        </th>
+                                                        <td class="pl-0">
+                                                            {{ number_format($totalMt, 2, ',', ' ') }}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            @endif
+
+                                            <!--Modal-->
 
                                             <!--Info livraison-->
                                             <div class="card card-custom card-stretch gutter-b">
@@ -544,6 +496,23 @@
 
                                                 <div class="card-body">
                                                     <div class="form-group row mt-3">
+
+                                                        <div class="form-group col">
+                                                            <label>{{ __("Dépôt de la livraison") }}</label>
+                                                            <div class="input-group input-group-prepend">
+                                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
+                                                                <select class="form-control" wire:model.defer="depot_livraison">
+                                                                    <option>{{ __('Choisir un dépôt') }}</option>
+                                                                    @foreach ($list_depots as $item)
+                                                                        <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                    @endforeach
+
+                                                                </select>
+                                                            </div>
+                                                            @error('depot')
+                                                                <span class="form-text text-danger">{{ $message }}</span>
+                                                            @enderror
+                                                        </div>
 
                                                         <div class="col">
                                                             <label>{{ __('Téléphone de livraison') }}</label>
@@ -632,7 +601,6 @@
 
                                             </div>
                                             <!--end Info livraison-->
-
 
                                         </form>
                                     </div>

@@ -21,8 +21,8 @@ class CreateDepotsTable extends Migration
             $table->unsignedBigInteger('ville_id');
             $table->foreign('ville_id')->references('id')->on('villes');
 
-            $table->unsignedBigInteger('zone_id');
-            $table->foreign('zone_id')->references('id')->on('ville_zones');
+            $table->unsignedBigInteger('ville_zone_id');
+            $table->foreign('ville_zone_id')->references('id')->on('ville_zones');
             $table->timestamps();
         });
     }

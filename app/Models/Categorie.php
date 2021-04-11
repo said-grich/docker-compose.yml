@@ -15,15 +15,10 @@ class Categorie extends Model
 
     }
 
-    public function stockPoidsPiece(){
+    public function stock(){
 
-        return $this->hasMany(StockPoidsPc::class);
-
-    }
-
-    public function stockKgPiece(){
-
-        return $this->hasMany(stockKgPiece::class);
+        return $this->hasMany(Stock::class);
 
     }
+
 }

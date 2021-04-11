@@ -29,14 +29,9 @@ class BonReception extends Model
         return $this->belongsTo(StockPoidsPc::class,'br_num','ref');
     } */
 
-    public function stockPoidsPc()
+    public function stock()
     {
-        return $this->hasMany(StockPoidsPc::class,'br_num','ref');
-    }
-
-    public function stockKgPc()
-    {
-        return $this->hasMany(StockKgPc::class,'br_num','ref');
+        return $this->hasMany(Stock::class,'br_num','ref');
     }
 
     public function bonReceptionLignes()

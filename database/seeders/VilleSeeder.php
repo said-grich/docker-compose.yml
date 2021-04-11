@@ -15,9 +15,25 @@ class VilleSeeder extends Seeder
     public function run()
     {
         Ville::create([
-            'nom' => 'Casablance',
+            'nom' => 'Casablanca',
             'region_id'=> 1,
         ]);
+
+        Ville::create([
+            'nom' => 'Dar Bouazza',
+            'region_id' => 1,
+        ]);
+
+        Ville::create([
+            'nom' => 'Deroua / Nouaceur',
+            'region_id' => 1,
+        ]);
+
+        Ville::create([
+            'nom' => 'Bouskoura',
+            'region_id' => 1,
+        ]);
+
         Ville::create([
             'nom' => 'Marrakech',
             'region_id'=> 2,
@@ -31,6 +47,11 @@ class VilleSeeder extends Seeder
         Ville::create([
             'nom' => 'Rabat',
             'region_id'=> 3,
+        ]);
+
+        Ville::create([
+            'nom' => 'Témara',
+            'region_id' => 3,
         ]);
 
         /* Ville::create([

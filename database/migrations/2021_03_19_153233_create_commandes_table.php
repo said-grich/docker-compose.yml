@@ -22,6 +22,9 @@ class CreateCommandesTable extends Migration
             $table->string('tel_livraison');
             $table->string('contact_livraison');
             $table->string('adresse_livraison');
+
+            //$table->enum('etat', ['easy', 'hard','Validée,'Prête,'En Expédition','Livrée']);
+            $table->string('etat');
            // $table->string('frais_livraison');
             $table->double('frais_livraison');
 

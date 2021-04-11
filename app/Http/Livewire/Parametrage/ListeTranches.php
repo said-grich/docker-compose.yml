@@ -23,14 +23,14 @@ class ListeTranches extends Component
     public function render()
     {
 
-        $tranchePoidsPc = DB::table('tranches_poids_pcs')
+        /* $tranchePoidsPc = DB::table('tranches_poids_pcs')
             ->select(['uid','id','nom']);
 
         $list = DB::table('tranches_kg_pcs')
                     ->select(['uid','id','nom'])
-                    ->union($tranchePoidsPc);
+                    ->union($tranchePoidsPc); */
 
-        $items = $list->where('nom','ilike','%'.$this->search.'%')
+        $items = Tranche::where('nom','ilike','%'.$this->search.'%')
         ->orderBy($this->sortBy, $this->sortDirection)
         ->paginate($this->perPage);
 
@@ -53,9 +53,10 @@ class ListeTranches extends Component
     public function deleteTranche($uid)
     {
         $this->render();
-        $tranche = TranchesKgPc::where('uid',$uid)->first();
+        /* $tranche = TranchesKgPc::where('uid',$uid)->first();
 
-        $tranche == null ? $tranche = TranchesPoidsPc::where('uid',$uid)->first() : '';
+        $tranche == null ? $tranche = TranchesPoidsPc::where('uid',$uid)->first() : ''; */
+        $tranche = Tranche::where('uid',$uid)->first();
 
         $tranche->delete();
     }

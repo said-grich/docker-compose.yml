@@ -49,18 +49,14 @@ class Produit extends Model
         return $this->belongsTo(ModePreparation::class);
     }
 
-    public function stockPoidsPiece()
+    public function stock()
     {
-        return $this->hasMany(StockPoidsPc::class);
-    }
-
-    public function stockKgsPiece()
-    {
-        return $this->hasMany(StockKgsPc::class);
+        return $this->hasMany(Stock::class);
     }
 
     public function unite()
     {
         return $this->belongsTo(Unite::class);
     }
+
 }

@@ -15,6 +15,11 @@ class Ville extends Model
         return $this->hasMany(Depot::class);
     }
 
+    public function zones(){
+
+        return $this->hasMany(VilleZone::class);
+    }
+
     public function livreurs(){
 
         return $this->hasMany(Livreur::class);

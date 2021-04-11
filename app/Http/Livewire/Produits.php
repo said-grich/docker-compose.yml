@@ -11,6 +11,7 @@ use App\Models\PreparationType;
 use App\Models\Produit;
 use App\Models\ProduitPhoto;
 use App\Models\ProduitTranche;
+use App\Models\Tranche;
 use App\Models\TranchesKgPc;
 use App\Models\TranchesPoidsPc;
 use App\Models\Unite;
@@ -46,8 +47,9 @@ class Produits extends Component
     public $active = false;
 
     public function updatedModeVente($value){
-
-        $value == 1 ?  $this->list_tranches = TranchesPoidsPc::get() : $this->list_tranches = TranchesKgPc::get();
+        /* $mode_vente_nom = ModeVente::where('id',$value)->first()->nom;
+        $this->list_tranches = Tranche::where('type',$mode_vente_nom)->get(); */
+        $value == 1 ?  $this->list_tranches = Tranche::where('type',"Poids par pièce")->get() :  $this->list_tranches = Tranche::where('type',"Kg/Pièce")->get();
     }
 
     public function updatedModePreparation($value){
@@ -80,7 +82,6 @@ class Produits extends Component
     public function createTranche()
     {
         //$this->validate();
-        dd("here");
 
         $item = new Preparation();
         $item->nom = $this->preparation_nom;

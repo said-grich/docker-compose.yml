@@ -19,14 +19,9 @@ class Lot extends Model
         return $this->belongsTo(Qualite::class);
     }
 
-    public function stockPoidPC()
+    public function stock()
     {
-        return $this->hasMany(StockPoidsPc::class, 'lot_num', 'lot_num');
-    }
-
-    public function stockKgPc()
-    {
-        return $this->hasMany(StockKgPc::class, 'lot_num', 'lot_num');
+        return $this->hasMany(Stock::class, 'lot_num', 'lot_num');
     }
 
     public function bonReception()

@@ -11,6 +11,9 @@ class ListeModePreparation extends Component
 {
     use WithPagination;
 
+    public $mode_preparation_id;
+    public $nom;
+
     public $sortBy = 'nom';
     public $sortDirection = 'asc';
     public $perPage = 5;
@@ -40,13 +43,29 @@ class ListeModePreparation extends Component
         return $this->sortBy = $field;
     }
 
+    public function edit($id){
+
+        $item = ModePreparation::where('id',$id)->firstOrFail();
+        $this->mode_preparation_id =$item->id;
+        $this->nom =$item->nom;
+    }
+
+    public function editModePreparation(){
+
+        ModePreparation::where('id', $this->mode_preparation_id)
+            ->update([
+                'nom' => $this->nom,
+            ]);
+
+        session()->flash('message', 'Mode préparation "'.$this->nom.'" à été modifié');
+    }
+
     public function deleteModePreparation($id)
     {
 
         $mode = ModePreparation::findOrFail($id);
-        DB::table("mode_preparations")->where('id', $id)->delete();
-
         $mode->delete();
+
         session()->flash('message', 'Le mode de préparation "'.$mode->nom.'" à été supprimée');
 
 

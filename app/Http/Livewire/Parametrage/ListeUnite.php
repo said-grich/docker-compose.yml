@@ -11,6 +11,9 @@ class ListeUnite extends Component
 {
     use WithPagination;
 
+    public $unite_id;
+    public $nom;
+
     public $sortBy = 'nom';
     public $sortDirection = 'asc';
     public $perPage = 5;
@@ -38,6 +41,23 @@ class ListeUnite extends Component
         }
 
         return $this->sortBy = $field;
+    }
+
+    public function edit($id){
+
+        $item = Unite::where('id',$id)->firstOrFail();
+        $this->unite_id =$item->id;
+        $this->nom =$item->nom;
+    }
+
+    public function editUnite(){
+
+        Unite::where('id', $this->unite_id)
+            ->update([
+                'nom' => $this->nom,
+            ]);
+
+        session()->flash('message', 'Unité "'.$this->nom.'" à été modifiée');
     }
 
     public function deleteUnite($id)
