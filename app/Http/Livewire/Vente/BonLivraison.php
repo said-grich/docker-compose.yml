@@ -291,7 +291,8 @@ class BonLivraison extends Component
             $this->nbr_piece = [];
 
         } else if (!empty($this->filter['recherche_produit'])) {
-            $collection = Stock::where(function ($query) {
+            $collection = Stock::where('categorie_id', intval($this->filter['categorie']))
+            ->where(function ($query) {
                 $query->where(
                     function ($query) {
                         $query->select('nom')
@@ -311,7 +312,8 @@ class BonLivraison extends Component
                 ->with('categorie')
                 ->with('sousCategorie')
                 ->with('unite')
-                ->with('qualite')->get();
+                ->with('qualite')
+                ->get();
 
 
             $this->list_produits = $collection->groupBy(['produit_id', 'tranche_id']);
@@ -340,10 +342,10 @@ class BonLivraison extends Component
 
                 }
             }
-                    }
-            else {
+        }
+        else {
 
-            }
+        }
     }
 
 
@@ -473,11 +475,13 @@ class BonLivraison extends Component
 
     public function updatedFilterPoids($value)
     {
+        //$this->list_produits = [];
         $this->loadList();
     }
 
     public function updatedFilterDepot()
     {
+        //$this->list_produits = [];
         $this->loadList();
     }
 
