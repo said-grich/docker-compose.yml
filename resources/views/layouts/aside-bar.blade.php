@@ -321,6 +321,12 @@
                                 </a>
                             </li>
                             <li class="menu-item" aria-haspopup="true">
+                                <a href="{{ route('livraison') }}" class="menu-link">
+                                    <i class="fa fa-shipping-fast"></i>
+                                    <span class="menu-text">{{ __('Livraison') }}</span>
+                                </a>
+                            </li>
+                            <li class="menu-item" aria-haspopup="true">
                                 <a href="{{ route('livreurs') }}" class="menu-link">
                                     <i class="fa fa-shipping-fast"></i>
                                     <span class="menu-text">{{ __('Livreurs') }}</span>
