@@ -282,6 +282,7 @@ class Stock extends Component
                                     $item->prix_n = 0;
                                     $item->prix_f = 0;
                                     $item->prix_p = 0;
+                                    $item->qte_vendue = 0;
                                     $item->save();
 
                                 }
@@ -312,6 +313,7 @@ class Stock extends Component
                     $item->prix_n = 0;
                     $item->prix_f = 0;
                     $item->prix_p = 0;
+                    $item->qte_vendue = 0;
                     $item->pas = $this->pas[$key];
                     $item->unite_id = Unite::where('nom', $this->unite[$key])->first()->id;
                     $item->save();
