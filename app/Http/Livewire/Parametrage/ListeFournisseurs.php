@@ -16,6 +16,10 @@ class ListeFournisseurs extends Component
     public $search = '';
     protected $listeners = ['saved'];
 
+    public $fournisseur_id;
+    public $nom;
+    public $tel;
+
     public function render()
     {
         $fournisseur = Fournisseur::query()
@@ -36,6 +40,24 @@ class ListeFournisseurs extends Component
         }
 
         return $this->sortBy = $field;
+    }
+    public function edit($id){
+
+        $item = Fournisseur::where('id',$id)->firstOrFail();
+        $this->fournisseur_id =$item->id;
+        $this->nom =$item->nom;
+        $this->tel =$item->tel;
+    }
+
+    public function editFournisseur(){
+
+        Fournisseur::where('id', $this->fournisseur_id)
+            ->update([
+                'nom' => $this->nom,
+                'tel' => $this->tel,
+            ]);
+
+        session()->flash('message', 'Fournisseur "'.$this->nom.'" à été modifiée');
     }
 
     public function deleteFournisseur($id)

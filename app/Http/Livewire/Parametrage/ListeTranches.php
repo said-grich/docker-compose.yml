@@ -20,6 +20,13 @@ class ListeTranches extends Component
     public $search = '';
     protected $listeners = ['saved'];
 
+    public $tranche_id;
+    public $type;
+    public $min_poids;
+    public $max_poids;
+    public $uid;
+    public $nom;
+
     public function render()
     {
 
@@ -50,6 +57,30 @@ class ListeTranches extends Component
         return $this->sortBy = $field;
     }
 
+    public function edit($id){
+
+        $item = Tranche::where('id',$id)->firstOrFail();
+        $this->tranche_id =$item->id;
+        $this->nom =$item->nom;
+        $this->type =$item->type;
+        $this->min_poids =$item->min_poids;
+        $this->max_poids =$item->max_poids;
+        $this->uid =$item->uid;
+    }
+
+    public function editTranche(){
+
+        Tranche::where('id', $this->tranche_id)
+            ->update([
+                'nom' => $this->nom,
+                'type' => $this->type,
+                'min_poids' => $this->min_poids,
+                'max_poids' => $this->max_poids,
+                'uid' => $this->uid,
+            ]);
+
+        session()->flash('message', 'Tranche "'.$this->nom.'" à été modifiée');
+    }
     public function deleteTranche($uid)
     {
         $this->render();

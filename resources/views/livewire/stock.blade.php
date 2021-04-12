@@ -71,7 +71,7 @@
                                             </td>
 
                                             <td class="pr-0 text-right">
-                                                <a href="#" wire:click="show({{$item->ref}})" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#show">
+                                                <a href="#" wire:click="show('{{$item->ref}}')" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#show">
                                                     <span class="svg-icon svg-icon-md svg-icon-primary">
                                                         {{--begin::Svg Icon--}}
                                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -85,7 +85,7 @@
                                                     </span>
                                                 </a>
 
-                                                <a href="#" wire:click="edit({{$item->ref}})" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#edit">
+                                                <a href="#" wire:click="edit('{{$item->ref}}')" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#edit">
                                                     <span class="svg-icon svg-icon-md svg-icon-primary">
                                                         {{--begin::Svg Icon--}}
                                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -137,7 +137,7 @@
                                                 <label>{{ __('Réf. bon de réception') }}</label>
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-hashtag icon-lg"></i></span></div>
-                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="ref_br"/>
+                                                    <input type="text" class="form-control bg-gray-300" placeholder=" " wire:model.defer="ref_br" disabled/>
                                                </div>
                                                 @error('ref_br')
                                                     <span class="form-text text-danger">{{ $message }}</span>
@@ -898,7 +898,7 @@
                                                 Poids par pièce
                                             </div>
                                         </div>
-                                        <div id="collapseOne1" class="collapse" data-parent="#accordionExample1">
+                                        <div id="collapseOne1" class="collapse show" data-parent="#accordionExample1">
                                             <div class="card-body">
                                                 <table class="table table-striped table-bordered">
                                                     <thead>

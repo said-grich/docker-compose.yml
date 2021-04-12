@@ -16,6 +16,8 @@ class ListeQualites extends Component
     public $search = '';
     protected $listeners = ['saved'];
 
+    public $qualite_id;
+    public $nom;
     public function render()
     {
         $items = Qualite::query()
@@ -36,6 +38,22 @@ class ListeQualites extends Component
         }
 
         return $this->sortBy = $field;
+    }
+    public function edit($id){
+
+        $item = Qualite::where('id',$id)->firstOrFail();
+        $this->qualite_id =$item->id;
+        $this->nom =$item->nom;
+    }
+
+    public function editQualite(){
+
+        Qualite::where('id', $this->qualite_id)
+            ->update([
+                'nom' => $this->nom,
+            ]);
+
+        session()->flash('message', 'Famille "'.$this->nom.'" à été modifiée');
     }
 
     public function deleteQualite($id)
