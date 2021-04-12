@@ -71,11 +71,11 @@
 
                                                 <td class="pr-0 text-right">
                                                     @if ($item->valide == false)
-                                                        <button wire:click="designationPrix({{$item->ref}})" class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#stock">
+                                                        <button wire:click="designationPrix('{{$item->ref}}')" class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#stock">
                                                             <i class="flaticon-plus"></i> {{ __('Désignation des prix') }}
                                                         </button>
                                                         @else
-                                                        <a href="#" wire:click="show({{$item->ref}})" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#show">
+                                                        <a href="#" wire:click="show('{{$item->ref}}')" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#show">
                                                             <span class="svg-icon svg-icon-md svg-icon-primary">
                                                                 {{--begin::Svg Icon--}}
                                                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -166,7 +166,7 @@
                                                                     Poids par pièce
                                                                 </div>
                                                             </div>
-                                                            <div id="collapseOne1" class="collapse" data-parent="#accordionExample1">
+                                                            <div id="collapseOne1" class="collapse show" data-parent="#accordionExample1">
                                                                 <div class="card-body">
                                                                     @foreach ($liste_poids_pc as $key => $lot )
                                                                         <table class="table table-striped table-bordered">

@@ -56,18 +56,20 @@
                     <td class="pl-0">
                         <span class="label label-lg label-light-primary label-inline">{{ $item->etat}}</span>
 
-                        <select class="form-control" wire:model="etat.{{ $item->ref }}" wire:change="edit('{{ $item->ref }}')" >
+                        {{-- <select class="form-control" wire:model="etat.{{ $item->ref }}" wire:change="edit('{{ $item->ref }}')" >
                             <option value="Reçue">Reçue</option>
                             <option value="Validée">Validée</option>
                             <option value="Prête">Prête</option>
                             <option value="En Expédition">En Expédition</option>
                             <option value="Livrée">Livrée</option>
 
-                        </select>
-
+                        </select> --}}
                     </td>
 
+
                     <td class="pr-0 text-right">
+                        <a href="#" wire:click="valider('{{ $item->ref }}')" class="btn btn-light-primary font-weight-bold mr-2">Valider</a>
+                        
                         <a href="#" wire:click="show('{{$item->ref}}')" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#show">
                             <span class="svg-icon svg-icon-md svg-icon-primary">
                                 {{--begin::Svg Icon--}}
