@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Parametrage;
 
 use App\Models\Categorie;
 use App\Models\Famille;
@@ -35,6 +35,10 @@ class Produits extends Component
     public $code_analytique;
 
     public $mode_vente;
+    public $mode_cuisine;
+    public $list_cuisine = [];
+    public $mode_nettoyage = [];
+    public $list_nettoyage = [];
     public $mode_preparation;
     public $nom;
     public $famille;
@@ -52,11 +56,11 @@ class Produits extends Component
         $value == 1 ?  $this->list_tranches = Tranche::where('type',"Poids par pièce")->get() :  $this->list_tranches = Tranche::where('type',"Kg/Pièce")->get();
     }
 
-    public function updatedModePreparation($value){
+    // public function updatedModePreparation($value){
 
-        $mode = ModePreparation::find($value);
-        $this->list_preparations = $mode->preparations;
-    }
+    //     $mode = ModePreparation::find($value);
+    //     $this->list_preparations = $mode->preparations;
+    // }
 
 
     public function updatedPhoto()
@@ -70,7 +74,10 @@ class Produits extends Component
     public function renderData()
     {
         $this->list_categories = Categorie::all()->sortBy('nom');
-        $this->list_modes_preparation = ModePreparation::all()->sortBy('nom');
+        $modea = ModePreparation::find(1);
+        $this->list_cuisine = $modea->preparations;
+        $modeb = ModePreparation::find(2);
+        $this->list_nettoyage = $modeb->preparations;
         $this->list_modes_vente = ModeVente::all()->sortBy('nom');
         $this->list_unite = Unite::all()->sortBy('nom');
         $this->list_familles = Famille::all()->sortBy('nom');
@@ -116,7 +123,8 @@ class Produits extends Component
             $item->nom = $this->nom;
             //$item->sous_categorie_id = $this->sous_categorie;
             $item->mode_vente_id = $this->mode_vente;
-            $item->mode_preparation_id = $this->mode_preparation;
+            $item->mode_cuisine_id = 1;
+            $item->mode_nettoyage_id = 2;
             $item->famille_id = $this->famille;
             $item->unite_id = $this->unite;
             $item->code_comptable = $this->code_comptable;
@@ -133,10 +141,15 @@ class Produits extends Component
                 ]);
             }
 
-            foreach ($this->preparations as $key => $value) {
+            PreparationType::create([
+                'produit_id' => $item->id,
+                'preparation_id' => $this->mode_cuisine,
+            ]);
+
+            foreach ($this->mode_nettoyage as $key => $value) {
                 PreparationType::create([
                     'produit_id' => $item->id,
-                    'preparation_id' => $this->preparations[$key],
+                    'preparation_id' => $this->mode_nettoyage[$key],
                 ]);
             }
 
@@ -157,6 +170,6 @@ class Produits extends Component
     public function render()
     {
         $this->renderData();
-        return view('livewire.produits');
+        return view('livewire.parametrage.produits');
     }
 }

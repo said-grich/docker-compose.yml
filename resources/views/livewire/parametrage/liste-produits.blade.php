@@ -60,9 +60,9 @@
                     <td class="pl-0">
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->modeVente->nom }}</a>
                     </td>
-                    <td class="pl-0">
+                    {{-- <td class="pl-0">
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->modePreparation->nom }}</a>
-                    </td>
+                    </td> --}}
                     <td class="pl-0">
                         {{-- <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#preparations">{{ __('Préparations') }}</button> --}}
 
