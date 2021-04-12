@@ -387,7 +387,7 @@
                                     <div class="modal-body">
                                         <form id="tranches-form" class="form" wire:submit.prevent="createTranche">
                                             <div x-data="{ open: false }">
-                                                <div class="mb-6">
+                                                {{-- <div class="mb-6">
                                                     <div class="radio-inline">
                                                         @foreach ($list_modes_vente as $mode)
                                                             <label class="radio radio-primary">
@@ -399,51 +399,57 @@
                                                             </label>
                                                         @endforeach
                                                     </div>
-                                                </div>
-                                                <div class="row" x-show="open === 1">
-                                                    <div class="form-group col-md-6">
-                                                        <div class="input-group input-group-prepend">
-                                                            <div class="input-group-prepend"><span
-                                                                    class="input-group-text"><i
-                                                                        class="fa fa-sliders-h icon-lg"></i></span>
+                                                </div> --}}
+                                                <div x-data="{'showPoids': @entangle('showPoids')}">
+                                                    <div class="row" x-show="showPoids">
+
+                                                        <div class="form-group col-md-6">
+                                                            <div class="input-group input-group-prepend">
+                                                                <div class="input-group-prepend"><span
+                                                                        class="input-group-text"><i
+                                                                            class="fa fa-sliders-h icon-lg"></i></span>
+                                                                </div>
+                                                                <input type="text" class="form-control" placeholder=" "
+                                                                        wire:model.defer="minPoids"/>
+                                                                <label>{{ __('Poids Minimal') }}</label>
                                                             </div>
-                                                            <input type="text" class="form-control" placeholder=" "
-                                                                   wire:model.defer="minPoids"/>
-                                                            <label>{{ __('Poids Minimal') }}</label>
+                                                            @error('minPoids')
+                                                            <span class="form-text text-danger">{{ $message }}</span>
+                                                            @enderror
                                                         </div>
-                                                        @error('minPoids')
-                                                        <span class="form-text text-danger">{{ $message }}</span>
-                                                        @enderror
+                                                        <div class="form-group col-md-6">
+                                                            <div class="input-group input-group-prepend">
+                                                                <div class="input-group-prepend"><span
+                                                                        class="input-group-text"><i
+                                                                            class="fa fa-sliders-h icon-lg"></i></span>
+                                                                </div>
+                                                                <input type="text" class="form-control" placeholder=" "
+                                                                        wire:model.defer="maxPoids"/>
+                                                                <label>{{ __('Poids Maximal') }}</label>
+                                                            </div>
+                                                            @error('maxPoids')
+                                                            <span class="form-text text-danger">{{ $message }}</span>
+                                                            @enderror
+                                                        </div>
                                                     </div>
-                                                    <div class="form-group col-md-6">
-                                                        <div class="input-group input-group-prepend">
-                                                            <div class="input-group-prepend"><span
-                                                                    class="input-group-text"><i
-                                                                        class="fa fa-sliders-h icon-lg"></i></span>
-                                                            </div>
-                                                            <input type="text" class="form-control" placeholder=" "
-                                                                   wire:model.defer="maxPoids"/>
-                                                            <label>{{ __('Poids Maximal') }}</label>
-                                                        </div>
-                                                        @error('maxPoids')
-                                                        <span class="form-text text-danger">{{ $message }}</span>
-                                                        @enderror
-                                                    </div>
                                                 </div>
-                                                <div x-show="open > 1">
-                                                    <div class="form-group">
-                                                        <div class="input-group input-group-prepend">
-                                                            <div class="input-group-prepend"><span
-                                                                    class="input-group-text"><i
-                                                                        class="fa fa-weight-hanging icon-lg"></i></span>
+                                                <div x-data="{'showKgPiece': @entangle('showKgPiece')}">
+                                                    <div x-show="showKgPiece">
+                                                        {{-- <label>{{ __('Kg/Pièce') }}</label> --}}
+                                                        <div class="form-group">
+                                                            <div class="input-group input-group-prepend">
+                                                                <div class="input-group-prepend"><span
+                                                                        class="input-group-text"><i
+                                                                            class="fa fa-weight-hanging icon-lg"></i></span>
+                                                                </div>
+                                                                <input type="text" class="form-control" placeholder=" "
+                                                                    wire:model.defer="nomTranche"/>
+                                                                <label>{{ __('Kg/Pièce') }}</label>
                                                             </div>
-                                                            <input type="text" class="form-control" placeholder=" "
-                                                                   wire:model.defer="nom"/>
-                                                            <label>{{ __('Nom') }}</label>
+                                                            @error('nom')
+                                                            <span class="form-text text-danger">{{ $message }}</span>
+                                                            @enderror
                                                         </div>
-                                                        @error('nom')
-                                                        <span class="form-text text-danger">{{ $message }}</span>
-                                                        @enderror
                                                     </div>
                                                 </div>
                                             </div>
@@ -488,18 +494,18 @@
             <div class="modal-body">
                 <form id="sous-categorie-form" class="form" wire:submit.prevent="createSousCategorie">
                     <div class="form-group">
-                        <div class="input-group input-group-prepend">
+                        {{-- <div class="input-group input-group-prepend">
                             <div class="input-group-prepend"><span class="input-group-text"><i
                                         class="fa fa-sitemap icon-lg"></i></span></div>
                             <input type="text" class="form-control" placeholder=" "
                                    wire:model.defer="sous_categorie_name"/>
                             <label>{{ __('Nom') }}</label>
-                        </div>
+                        </div> --}}
                         @error('sous_categorie_name')
                         <span class="form-text text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-                    <div wire:ignore class="form-group">
+                    {{-- <div wire:ignore class="form-group">
                         <div class="input-group input-group-prepend">
                             <div class="input-group-prepend"><span class="input-group-text"><i
                                         class="fa fa-sitemap icon-lg"></i></span></div>
@@ -513,7 +519,7 @@
                         @error('categorie_id')
                         <span class="form-text text-danger">{{ $message }}</span>
                         @enderror
-                    </div>
+                    </div> --}}
                 </form>
             </div>
             <div class="modal-footer">
