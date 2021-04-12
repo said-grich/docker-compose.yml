@@ -55,4 +55,9 @@ class Stock extends Model
     {
         return $this->belongsTo(Qualite::class);
     }
+
+    public function commandeLignes()
+    {
+        return $this->hasMany(CommandeLigne::class);
+    }
 }

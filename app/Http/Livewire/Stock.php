@@ -126,6 +126,20 @@ class Stock extends Component
         'pas.required' => "Le pas ne peut pas être vide.",
     ];
 
+
+    public function mount(){
+
+
+        $latest_br = BonReception::latest()->first();
+        if (! $latest_br) {
+            $this->ref_br  = 'BR'.'0001';
+        }else{
+            $string = preg_replace("/[^0-9\.]/", '', $latest_br->ref);
+            $this->ref_br = 'BR' . sprintf('%04d', $string + 1);
+        }
+
+    }
+
     public function add()
     {
         $this->i++;
@@ -177,7 +191,7 @@ class Stock extends Component
 
     public function updatedProduit($value,$index){
         //$uniqueNumLot =  random_int(100, 999);
-        $fournisseur = Fournisseur::where('id',$this->fournisseur)->first(['nom'])->nom;
+        //$fournisseur = Fournisseur::where('id',$this->fournisseur)->first(['nom'])->nom;
 
         $produit = Produit::where('id',$value)->first();
         $produit_tranches = ProduitTranche::where('produit_id', $value)->get();
@@ -264,7 +278,7 @@ class Stock extends Component
 
                                     $item = new ModelsStock();
                                     $item->type = $produit->modeVente->nom;
-                                    $item->qte = $this->qte[$key];
+                                    $item->qte = 1;
                                     $item->lot_num = $this->lot_num[$key];
                                     $item->produit_id = $this->produit[$key];
                                     $item->categorie_id = $this->categorie[$key];
@@ -320,8 +334,11 @@ class Stock extends Component
                 }
 
             }
+
             session()->flash('message', 'Bon de réception réf "' . $this->ref_br . '" a été crée');
-            //$this->reset(['lot_num', 'fournisseur', 'date_entree', 'qualite', 'pas', 'fournisseur', 'qualite', 'produit', 'active', 'qte', 'prix_achat', 'tranches']);
+            $this->reset(['ref_br','lot_num', 'fournisseur', 'date_entree', 'qualite', 'pas', 'fournisseur', 'qualite', 'produit', 'active', 'qte', 'prix_achat', 'tranches','qualite_globale','depot','produit','categorie','sous_categorie','unite']);
+
+            return redirect()->to('/entree-stock');
 
            // $this->emit('saved');
         });
