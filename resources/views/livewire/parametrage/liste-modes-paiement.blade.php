@@ -82,7 +82,6 @@
                             <div class="form-group col-md-6">
                                 <div class="input-group input-group-prepend">
                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tag icon-lg"></i></span></div>
-                                    <input type="hidden" class="form-control" placeholder=" " wire:model.defer="mode_livraison_id"/>
                                     <input type="text" class="form-control" placeholder=" " wire:model.defer="nom"/>
                                     <label>{{ __('Nom') }}</label>
                                 </div>
@@ -93,7 +92,7 @@
                         </form>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
-                            <button type="submit" wire:click="editModeLivraison" class="btn btn-primary font-weight-bold" form="edit-livreur-form" >{{ __('Enregistrer') }}</button>
+                            <button type="submit" wire:click="editModePaiement" class="btn btn-primary font-weight-bold" form="edit-livreur-form" >{{ __('Enregistrer') }}</button>
                         </div>
                     </div>
 
