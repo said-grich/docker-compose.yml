@@ -15,8 +15,9 @@ class CreateLivraisonsTable extends Migration
     {
         Schema::create('livraisons', function (Blueprint $table) {
             $table->id();
-            $table->string('seuil_commande');
-            $table->string('frais_livraison');
+            $table->decimal('seuil_commande');
+            $table->decimal('seuil_livraison_gratuite');
+            $table->decimal('frais_livraison');
             $table->time('heure', $precision = 0);
             $table->json('jours_livraison');
             // $table->boolean('lundi')->default(false);

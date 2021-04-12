@@ -16,20 +16,6 @@
                     </div>
                     <div class="card-body">
 
-                        <!--begin::Flash message-->
-                        @if (session()->has('message'))
-                            <div class="alert alert-custom alert-light-success shadow fade show mb-5" role="alert">
-                                <div class="alert-icon"><i class="flaticon-interface-10"></i></div>
-                                <div class="alert-text">{{ session('message') }}</div>
-                                <div class="alert-close">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true"><i class="ki ki-close"></i></span>
-                                    </button>
-                                </div>
-                            </div>
-                        @endif
-                        <!--end::Flash message-->
-
                         <!--Button trigger modal-->
                         <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#livraison">
                             <i class="flaticon-plus"></i> {{ __('Ajouter livraison') }}
@@ -38,6 +24,21 @@
                         <div wire:ignore.self class="modal fade" id="livraison" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="livraison" aria-hidden="true">
                             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                 <div class="modal-content">
+
+                                    <!--begin::Flash message-->
+                                        @if (session()->has('message'))
+                                            <div class="alert alert-custom alert-light-success shadow fade show mb-5" role="alert">
+                                                <div class="alert-icon"><i class="flaticon-interface-10"></i></div>
+                                                <div class="alert-text">{{ session('message') }}</div>
+                                                <div class="alert-close">
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true"><i class="ki ki-close"></i></span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    <!--end::Flash message-->
+
                                     <div class="modal-header">
                                         <h5 class="modal-title">{{ __('Nouvelle Livraison') }}</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -75,6 +76,9 @@
                                                             </label>
                                                         @endforeach
                                                     </div>
+                                                    @error('jours_livraison')
+                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                         <label>{{ __('Frais de livraison') }}</label>
@@ -88,11 +92,24 @@
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label>Heure de livraison</label>
-                                                    <input class="form-control" id="kt_timepicker_1" type="time" wire:model.defer="heure"/>
+                                                    <input class="form-control" type="time" wire:model.defer="heure"/>
+                                                    @error('heure')
+                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label>Seuil commande</label>
                                                     <input class="form-control" type="text" wire:model.defer="seuil_commande"/>
+                                                    @error('seuil_commande')
+                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label>Seuil livraison gratuite</label>
+                                                    <input class="form-control" type="text" wire:model.defer="seuil_livraison_gratuite"/>
+                                                    @error('seuil_livraison_gratuite')
+                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
                                                 <div class="form-group col-md-6 row">
                                                     <label class="col-3 col-form-label">Active</label>
@@ -119,7 +136,7 @@
                         </div>
                         <!--Table-->
                         <div class="mt-5">
-                            {{-- @livewire('parametrage.liste-qualites') --}}
+                            @livewire('parametrage.liste-livraison')
                         </div>
                     </div>
                 </div>
