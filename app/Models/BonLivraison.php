@@ -19,4 +19,13 @@ class BonLivraison extends Model
     {
         return $this->belongsTo(Depot::class);
     }
+
+    public function bonLivraisonLignes()
+    {
+        return $this->hasMany(BonLivraisonLigne::class,'bon_livraison_ref','ref');
+    }
+    public function geMontantTotal()
+    {
+        return $this->bonLivraisonLignes()->sum('montant');
+    }
 }
