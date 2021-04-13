@@ -35,7 +35,7 @@
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{$item->mode->nom}}</a>
                     </td> --}}
                     <td class="pr-0 text-right">
-                        <a href="#" wire:click="edit({{$item->id}})" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#edit">
+                        <a href="#" wire:click="edit({{$item->id}})" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#edit1">
                             <span class="svg-icon svg-icon-md svg-icon-primary">
                                 {{--begin::Svg Icon--}}
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -48,7 +48,7 @@
                                 {{--end::Svg Icon--}}
                             </span>
                         </a>
-                        <a href="#" class="btn btn-icon btn-light btn-hover-primary btn-sm" wire:click="deleteModePreparation('{{$item->id}}')">
+                        <a href="#" class="btn btn-icon btn-light btn-hover-primary btn-sm" wire:click.prevent="deleteModePreparation('{{$item->id}}')">
                             <span class="svg-icon svg-icon-md svg-icon-primary">
                                 {{--begin::Svg Icon--}}
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -68,7 +68,7 @@
         </table>
         {{ $items->links('layouts.partials.custom-pagination') }}
 
-        <div wire:ignore.self class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+        <div wire:ignore.self class="modal fade" id="edit1" tabindex="-1" role="dialog" aria-labelledby="edit1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">

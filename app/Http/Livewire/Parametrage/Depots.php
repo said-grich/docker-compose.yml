@@ -33,7 +33,7 @@ class Depots extends Component
         $item->nom = $this->nom;
         $item->ville_id = $this->ville;
         $item->order_priorite = $this->order_priorite;
-        $item->zone_ville_id = $this->zone_ville;
+        $item->ville_zone_id = $this->zone_ville;
         $item->save();
 
 

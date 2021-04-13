@@ -60,6 +60,8 @@
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-map-marker-alt icon-lg"></i></span></div>
                                                     <select class="form-control selectpicker" wire:model="order_priorite">
                                                         <option>{{ __('Order de priorité') }}</option>
+                                                        <option value=1>1</option>
+                                                        <option  value=2>2</option>
                                                         {{-- @foreach ($list_villes as $ville)
                                                             <option value="{{$ville->id}}">{{$ville->nom}}</option>
                                                         @endforeach --}}
@@ -86,7 +88,7 @@
                                             <div class="form-group">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-map-marker-alt icon-lg"></i></span></div>
-                                                    <select class="form-control" wire:model.defer="ville">
+                                                    <select class="form-control" wire:model.defer="zone_ville">
                                                         <option>{{ __('Choisir une zone') }}</option>
                                                         @if (!empty($list_zones_ville))
                                                             @foreach ($list_zones_ville as $zone)
@@ -95,7 +97,7 @@
                                                         @endif
                                                     </select>
                                                 </div>
-                                                @error('zone-ville')
+                                                @error('zone_ville')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>

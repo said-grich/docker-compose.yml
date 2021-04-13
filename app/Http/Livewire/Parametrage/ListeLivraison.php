@@ -19,12 +19,15 @@ class ListeLivraison extends Component
     public $frais_livraison;
     public $jours_livraison = [];
     public $active = false;
+    public $jours=[];
 
+    public $Livraison_id;
     public $liste_villes = [];
+
 
     public $sortBy = 'ville_id';
     public $sortDirection = 'asc';
-    public $perPage = 5;
+    public $perPage = 10;
     public $search = '';
     protected $listeners = ['saved'];
 
@@ -54,45 +57,39 @@ class ListeLivraison extends Component
     }
     public function  mount(){
         $this->liste_villes = Ville::all();
+        $this->jours = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
     }
 
     public function edit($id){
         $item = Livraison::where('id',$id)->firstOrFail();
-        /* $this->ville=$item->ville;
-        foreach ((array)$this->ville as  $key => $value) {
-         dd($this->ville , $key ,$value );
-           $this->indemenite[$index2]=$key;
 
-
-           $index2++;
-        } */
-
-
-        $this->Livraison =$item->id;
+        $this->Livraison_id =$item->id;
         $this->frais_livraison =$item->frais_livraison;
         $this->seuil_livraison_gratuite =$item->seuil_livraison_gratuite;
         $this->seuil_commande =$item->seuil_commande;
         $this->heure =$item->heure;
         $this->jours_livraison =$item->jours_livraison;
         $this->ville =$item->ville_id;
-        //dd($item->ville_id);
         $this->active =$item->active;
+
     }
+
     public function editLivraison(){
 
-        Livraison::where('id', $this->Livraison)
+        Livraison::where('id', $this->Livraison_id)
             ->update([
                 'frais_livraison' => $this->frais_livraison,
                 'seuil_livraison_gratuite' => $this->seuil_livraison_gratuite,
                 'seuil_commande' => $this->seuil_commande,
                 'heure' => $this->heure,
                 'jours_livraison' => $this->jours_livraison,
-                'ville' => $this->ville,
+                'ville_id' => $this->ville,
                 'active' => $this->active,
             ]);
 
-        session()->flash('message', 'Tranche "'.$this->nom.'" à été modifiée');
-    }
+            session()->flash('message', 'Livraison a éte crée');
+
+        }
 
 
     public function deleteLivraison($id)
