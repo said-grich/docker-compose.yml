@@ -416,7 +416,8 @@
                                                                             <th style="min-width: 120px">Quantité à livrer</th>
                                                                             <th style="min-width: 120px">Prix</th>
                                                                             <th style="min-width: 120px">Montant</th>
-                                                                            <th style="min-width: 120px">Préparations</th>
+                                                                            <th style="min-width: 120px">Préparation cuisine</th>
+                                                                            <th style="min-width: 120px">Préparations nettoyage</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
@@ -476,6 +477,11 @@
                                                                                         </select>
                                                                                     @endisset
 
+
+                                                                                </td>
+                                                                                <td>
+
+
                                                                                     @isset($preparations_nettoyage[$val])
                                                                                         <select class="form-control" wire:model.defer="commande_preparation_nettoyage.{{$val}}" multiple>
                                                                                             <option value="">{{ __('Choisir les préparations cuisine') }}</option>
@@ -491,7 +497,7 @@
                                                                     </tbody>
                                                                     <tfoot>
                                                                         <tr>
-                                                                            <th colspan="6">
+                                                                            <th colspan="8">
                                                                                 Total
                                                                             </th>
                                                                             <th>
