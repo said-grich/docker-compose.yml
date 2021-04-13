@@ -51,7 +51,7 @@
                                 {{--end::Svg Icon--}}
                             </span>
                         </a>
-                        <a href="#" class="btn btn-icon btn-light btn-hover-primary btn-sm" wire:click="deleteModePreparation('{{$item->id}}')">
+                        <a href="#" class="btn btn-icon btn-light btn-hover-primary btn-sm" wire:click="deletePreparation('{{$item->id}}')">
                             <span class="svg-icon svg-icon-md svg-icon-primary">
                                 {{--begin::Svg Icon--}}
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -70,48 +70,43 @@
             </tbody>
         </table>
         {{ $items->links('layouts.partials.custom-pagination') }}
-
         <div wire:ignore.self class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">{{ __('Modification sous mode de préparation') }}</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">{{ __('Modification Sous Mode Prepartion') }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <i aria-hidden="true" class="ki ki-close"></i>
                         </button>
                     </div>
-                    <div class="modal-body">
+                    <div wire:ignore class="modal-body">
                         <form id="edit-form" class="form row">
-                            <div class="form-group col">
-                                <div class="input-group input-group-prepend">
-                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tag icon-lg"></i></span></div>
-                                    <input type="hidden" class="form-control" placeholder=" " wire:model.defer="preparation_id"/>
-                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="nom"/>
-                                    <label>{{ __('Nom') }}</label>
-                                </div>
-                                @error('nom')
-                                    <span class="form-text text-danger">{{ $message }}</span>
-                                @enderror
+                            <div class="input-group input-group-prepend">
+                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tag icon-lg"></i></span></div>
+                                <input type="text" class="form-control" placeholder=" " wire:model.defer="nom"/>
+                                <label>{{ __('Nom') }}</label>
                             </div>
-                            <div wire:ignore class="form-group col">
-                                <div class="input-group input-group-prepend">
-                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-tools icon-lg"></i></span></div>
-                                    <select class="form-control selectpicker" wire:model="mode_preparation">
-                                        <option>{{ __('Mode Préparation') }}</option>
-                                        @foreach ($list_mode_preparations as $mode)
-                                            <option value="{{$mode->id}}">{{$mode->nom}}</option>
+                            @error('nom')
+                                <span class="form-text text-danger">{{ $message }}</span>
+                            @enderror
+
+                            <label>{{ __('Mode Préparation') }}</label>
+                            <div class="input-group input-group-prepend">
+                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-people-carry icon-lg"></i></span></div>
+                                <select class="form-control" wire:model="mode_preparation">
+                                    <option>{{ __('Mode Préparation') }}</option>
+                                    @foreach ($list_mode_preparations as $mode)
+                                            <option value="{{$mode->id}}" @if($mode_preparation == $mode->id) {{'selected'}} @endif>{{$mode->nom}}</option>
                                         @endforeach
-                                    </select>
-                                </div>
-                                @error('mode_preparation_id')
-                                    <span class="form-text text-danger">{{ $message }}</span>
-                                @enderror
+                                </select>
                             </div>
-                            {{-- <input type="text" class="form-control" placeholder=" " wire:model.defer="mode_preparation"/> --}}
+                            @error('mode_preparation_id')
+                                <span class="form-text text-danger">{{ $message }}</span>
+                            @enderror
                         </form>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
-                            <button type="submit" wire:click="editPreparation" class="btn btn-primary font-weight-bold" form="edit-form" >{{ __('Enregistrer') }}</button>
+                            <button type="submit" wire:click.prevent="editPreparation" class="btn btn-primary font-weight-bold" form="edit-form" >{{ __('Enregistrer') }}</button>
                         </div>
                     </div>
 

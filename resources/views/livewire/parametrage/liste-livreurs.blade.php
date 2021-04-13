@@ -96,7 +96,7 @@
                             <i aria-hidden="true" class="ki ki-close"></i>
                         </button>
                     </div>
-                    <div class="modal-body">
+                    <div wire:ignore class="modal-body">
                         <form id="edit-livreur-form" class="form row">
                             <div class="form-group col-md-6">
                                 <div class="input-group input-group-prepend">
@@ -129,26 +129,26 @@
                                     <span class="form-text text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div wire:ignore class="form-group col-md-6">
+                            <div  class="form-group col-md-6">
                                 <div class="input-group input-group-prepend">
                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-people-carry icon-lg"></i></span></div>
                                     <select class="form-control" wire:model.defer="type">
                                         <option>{{ __('Choisir un type') }}</option>
-                                        <option value="interne">Interne</option>
-                                        <option value="externe">Externe</option>
+                                        <option value="Interne">Interne</option>
+                                        <option value="Externe"}>Externe</option>
                                     </select>
                                 </div>
                                 @error('type')
                                     <span class="form-text text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div wire:ignore class="form-group col-md-6">
+                            <div  class="form-group col-md-6">
                                 <div class="input-group input-group-prepend">
                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-map-marker-alt icon-lg"></i></span></div>
                                     <select class="form-control " wire:model.defer="ville_id">
                                         <option>{{ __('Choisir une ville') }}</option>
                                         @foreach ($list_villes as $ville)
-                                            <option value="{{$ville->id}}">{{$ville->nom}}</option>
+                                            <option value="{{$ville->id}}"  @if($ville_id == $item->id) {{'selected'}} @endif>{{$ville->nom}}</option>
                                         @endforeach
                                     </select>
                                 </div>
