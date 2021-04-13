@@ -6,6 +6,7 @@ use App\Models\Famille;
 use App\Models\ModePreparation;
 use App\Models\ModeVente;
 use App\Models\Produit;
+use App\Models\ProduitPhoto;
 use App\Models\ProduitTranche;
 use App\Models\Tranche;
 use App\Models\Unite;
@@ -35,6 +36,7 @@ class ListeProduits extends Component
     public $tranches=[];
     public $list_tranches = [];
     public $active ;
+    public $photos = [];
 
     public $sortBy = 'nom';
     public $sortDirection = 'asc';
@@ -52,6 +54,7 @@ class ListeProduits extends Component
         $this->list_modes_vente = ModeVente::all()->sortBy('nom');
         $this->list_unite = Unite::all()->sortBy('nom');
         $this->list_familles = Famille::all()->sortBy('nom');
+        $this->mode_vente  == 1 ?  $this->list_tranches = Tranche::where('type',"Poids par pièce")->get() :  $this->list_tranches = Tranche::where('type',"Kg/Pièce")->get();
        /*  $p = Produit::where('id',1)->first(); */
         // dd($p->preparations->first()->preparation->nom);
 
@@ -70,7 +73,7 @@ class ListeProduits extends Component
         foreach ($items as &$item) {
             $item['photo_url'] = Storage::url($item->photo_principale);
         }
-        $this->list_familles = Famille::all()->sortBy('nom');
+
         $this->renderData();
         return view('livewire.Parametrage.liste-produits',[
             'items' => $items
@@ -94,18 +97,38 @@ class ListeProduits extends Component
         $this->famille = $item->famille_id;
         $this->code_comptable = $item->code_comptable ;
         $this->code_analytique = $item->code_analytique ;
-        // $this->photo_principale = $item->photo_principale ;
         $this->unite = $item->unite_id;
         $this->mode_vente = $item->mode_vente_id ;
         $this->active = $item->active ;
         $this->mode_cuisine = $item->mode_cuisine_id ;
+
+        $this->photo_principale = $item->photo_principale ;
+
         $this->mode_nettoyage = $item->mode_nettoyage_id ;
-        
         //dd($this->mode_nettoyage);
-       /*  $this->type  == 1 ?  $this->list_tranches = Tranche::where('type',"Poids par pièce")->get() :  $this->list_tranches = Tranche::where('type',"Kg/Pièce")->get(); */
+
+        $item = ProduitTranche::where('produit_id', $id)->get();
+        foreach ($item as $key => $value) {
+            $this->tranches[ $key] = $value->tranche_id ;
+        }
+
+        /* $itemb = ProduitTranche::where('produit_id',$id)->get();
+        foreach ($itemb as $key => $value) {
+            $mode_nettoyage_id[ $key] = $value->preparation_id ;
+        } */
+
+        //$paths = [];
+
+        $iteme = ProduitPhoto::where('produit_id',$id)->get();
+        foreach ($iteme as $key => $value) {
+            $this->photos [$key] = $value->photo ;
+        }
+        //dump($this->photos [$key] );
+
     }
 
     public function editProduit(){
+
 
         Produit::where('id', $this->produit_id)
             ->update([
@@ -113,7 +136,7 @@ class ListeProduits extends Component
                 'famille_id' => $this->famille,
                 'code_comptable' => $this->code_comptable,
                 'code_analytique' => $this->code_analytique,
-                //'photo_principale' => $this->photo_principale,
+                'photo_principale' => $this->photo_principale,
                 'unite_id' => $this->unite,
                 'mode_vente_id' => $this->mode_vente,
                 'active' => $this->active,
@@ -121,6 +144,13 @@ class ListeProduits extends Component
                 'mode_nettoyage_id' => $this->mode_nettoyage,
 
             ]);
+            foreach ($this->tranches as $key => $value) {
+                ProduitTranche::where('produit_id', $this->produit_id)
+                ->update([
+
+                    'tranche_id' => $this->tranches[$key],
+                ]);
+            }
             /* foreach ($this->tranches as $key => $value) {
                 ProduitTranche::where('produit_id', $this->produit_id)
                 ->update([
