@@ -187,14 +187,14 @@
                             <label><b>{{ __('Famille') }}</b></label>
                             <div wire:ignore class="input-group input-group-prepend">
                                 <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sitemap icon-lg"></i></span></div>
-                                @livewire('multi-select', ['selectId' => 'testselect', 'selectTitle' => '', 'selectType' => '', 'selected' => $famille, 'selectOptions' => $list_familles])
-                                {{-- <select  class="form-control "
+                                {{-- @livewire('multi-select', ['selectId' => 'testselect', 'selectTitle' => '', 'selectType' => '', 'selected' => $famille, 'selectOptions' => $list_familles]) --}}
+                                <select  class="form-control "
                                         wire:model="famille">
                                     <option>{{ __('Choisir une famille') }}</option>
                                     @foreach ($list_familles as $item)
                                         <option value="{{$item->id}}" @if($famille == $item->id) {{'selected'}} @endif>{{$item->nom}}</option>
                                     @endforeach
-                                </select> --}}
+                                </select>
                                 <div class="input-group-append" data-toggle="modal"
                                      data-target="#famille">
                                     <button class="btn btn-primary" type="button"
@@ -207,15 +207,16 @@
                             <span class="form-text text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div wire:ignore class="form-group col-md-6">
+                        <div  class="form-group col-md-6">
                             <label><b>{{ __('Unité Affichée') }}</b></label>
                             <div class="input-group input-group-prepend">
                                 <div class="input-group-prepend"><span class="input-group-text"><i
                                             class="fa fa-weight-hanging icon-lg"></i></span></div>
-                                <select class="form-control selectpicker" wire:model.defer="unite">
+                                            {{-- @livewire('multi-select', ['selectId' => 'testselect', 'selectTitle' => '', 'selectType' => '', 'selected' => $unite, 'selectOptions' => $list_unite]) --}}
+                                <select class="form-control " wire:model.defer="unite">
                                     <option>{{ __('Choisir une unité') }}</option>
                                     @foreach ($list_unite as $item)
-                                        <option value="{{$item->id}}">{{$item->nom}}</option>
+                                        <option value="{{$item->id}}" @if($unite == $item->id) {{'selected'}} @endif>{{$item->nom}}</option>
                                     @endforeach
                                 </select>
                                 <div class="input-group-append" data-toggle="modal"
@@ -230,15 +231,16 @@
                             <span class="form-text text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div wire:ignore class="form-group col-md-6">
+                        <div class="form-group col-md-6">
                             <label><b>{{ __('Mode Vente') }}</b></label>
                             <div class="input-group input-group-prepend">
                                 <div class="input-group-prepend"><span class="input-group-text"><i
                                             class="fa fa-money-check-alt icon-lg"></i></span></div>
-                                <select class="form-control selectpicker" wire:model="mode_vente">
+                                            {{-- @livewire('multi-select', ['selectId' => 'testselect', 'selectTitle' => '', 'selectType' => '', 'selected' => $mode_vente, 'selectOptions' => $list_modes_vente]) --}}
+                                <select class="form-control " wire:model="mode_vente">
                                     <option>{{ __('Mode Vente') }}</option>
                                     @foreach ($list_modes_vente as $item)
-                                        <option value="{{$item->id}}">{{$item->nom}}</option>
+                                        <option value="{{$item->id}}" @if($mode_vente == $item->id) {{'selected'}} @endif>{{$item->nom}}</option>
                                     @endforeach
                                 </select>
 
@@ -277,37 +279,16 @@
                             <span class="form-text text-danger">{{ $message }}</span>
                             @enderror
                         </div> --}}
-                        <div class="form-group col-md-6">
-                            <label><b>{{ __('Tranches') }}</b></label>
-                            <div class="input-group input-group-prepend">
-                                <div class="input-group-prepend"><span class="input-group-text"><i
-                                            class="fa fa-sliders-h icon-lg"></i></span></div>
-                                <select class="form-control" wire:model="tranches" multiple>
-                                    <option>{{ __('Choisir une tranche') }}</option>
-                                    @foreach ($list_tranches as $tranche)
-                                        <option value="{{$tranche->uid}}">{{$tranche->nom}}</option>
-                                    @endforeach
-                                </select>
-                                <div class="input-group-append" data-toggle="modal"
-                                     data-target="#tranches">
-                                    <button class="btn btn-primary" type="button"
-                                            data-toggle="tooltip" data-theme="dark"
-                                            title="Ajouter Tranche"><i
-                                            class="fa fa-plus-circle"></i></button>
-                                </div>
-                            </div>
-                            @error('tranches')
-                            <span class="form-text text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
+
                         <div wire:ignore class="form-group col-md-6">
                             <label><b>{{ __('Mode Cuisine ') }}</b></label>
                             <div class="input-group input-group-prepend">
                                 <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-tools icon-lg"></i></span></div>
-                                <select class="form-control selectpicker" wire:model="mode_cuisine">
+                                {{-- @livewire('multi-select', ['selectId' => 'testselect', 'selectTitle' => '', 'selectType' => '', 'selected' => $mode_cuisine, 'selectOptions' => $list_cuisine]) --}}
+                                <select class="form-control " wire:model="mode_cuisine">
                                     <option>{{ __('Choisir un mode de préparation') }}</option>
                                         @foreach ($list_cuisine as $mode)
-                                            <option value="{{$mode->id}}">{{$mode->nom}}</option>
+                                            <option value="{{$mode->id}}" @if($mode_cuisine == $item->id) {{'selected'}} @endif>{{$mode->nom}}</option>
                                         @endforeach
                                 </select>
                                 <div class="input-group-append" data-toggle="modal" data-target="#mode-preparation"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Mode Préparation"><i class="fa fa-plus-circle"></i></button></div>
@@ -320,10 +301,10 @@
                            <label><b>{{ __('Mode Nettoyage ') }}</b></label>
                            <div class="input-group input-group-prepend">
                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-tools icon-lg"></i></span></div>
-                               <select class="form-control" wire:model="mode_nettoyage" multiple>
+                               <select class="form-control " wire:model="mode_nettoyage" multiple>
                                    <option>{{ __('Choisir un mode de préparation') }}</option>
                                        @foreach ($list_nettoyage as $mode)
-                                           <option value="{{$mode->id}}">{{$mode->nom}}</option>
+                                           <option value="{{$mode->id}}" @if($mode_nettoyage == $item->id) {{'selected'}} @endif>{{$mode->nom}}</option>
                                        @endforeach
                                </select>
                                <div class="input-group-append" data-toggle="modal" data-target="#mode-preparation"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Mode Préparation"><i class="fa fa-plus-circle"></i></button></div>
@@ -356,14 +337,14 @@
                             <span class="form-text text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div class="form-group col-md-6">
+                        {{-- <div class="form-group col-md-6">
                             <label><b>{{ __('Photo Principale') }}</b></label>
                             <div class="input-group input-group-prepend">
                                 <input type="file" wire:model.defer="photo_principale"/>
 
                             </div>
                             @error('photo') <span class="error">{{ $message }}</span> @enderror
-                        </div>
+                        </div> --}}
                         <div class="form-group col-md-6 row">
                             <label
                                 class="col-8 col-form-label">{{ __('Activé / Désactivé le produit') }}</label>

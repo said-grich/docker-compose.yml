@@ -16,7 +16,7 @@ class ListeUnite extends Component
 
     public $sortBy = 'nom';
     public $sortDirection = 'asc';
-    public $perPage = 5;
+    public $perPage = 10;
     public $search = '';
     protected $listeners = ['saved'];
 
@@ -51,7 +51,7 @@ class ListeUnite extends Component
     }
 
     public function editUnite(){
-
+        
         Unite::where('id', $this->unite_id)
             ->update([
                 'nom' => $this->nom,
