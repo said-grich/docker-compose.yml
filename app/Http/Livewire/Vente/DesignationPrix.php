@@ -275,7 +275,10 @@ class DesignationPrix extends Component
             BonReception::where('ref', $this->bon_reception_ref) ->update(['valide' => true]);
 
             session()->flash('message', 'Les prix du BR "' . $this->bon_reception_ref . '" sont désignés');
+            //$this->reset(['uid_tranche_kc_pc', 'produit_id_kg_pc','id_kc_pc','depot','client']);
         });
+
+
 
     }
 

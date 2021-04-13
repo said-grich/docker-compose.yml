@@ -7,13 +7,12 @@ use App\Models\Commande;
 use App\Models\Livreur;
 use App\Models\ModeLivraison;
 use App\Models\ModePaiement;
-use App\Models\Produit;
 use App\Models\Stock;
 use App\Models\VilleQuartier;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class ListeCommandes extends Component
+class ListeCommandesLivrees extends Component
 {
 
     use WithPagination;
@@ -50,34 +49,33 @@ class ListeCommandes extends Component
     public $search = '';
     protected $listeners = ['saved'];
 
-    public function edit($ref){
+
+    public function edit($ref)
+    {
         Commande::where('ref', $ref)->update(['etat' => $this->etat[$ref]]);
     }
 
-    public function valider($ref){
-        Commande::where('ref', $ref)->update(['etat' => "Validée"]);
-    }
 
-
-    public function show($ref){
-        $commande = Commande::where('ref',$ref)->firstOrFail();
+    public function show($ref)
+    {
+        $commande = Commande::where('ref', $ref)->firstOrFail();
         $this->commande_ref = $ref;
         $this->etat_commande = $commande->etat;
-        $this->date =$commande->date;
-        $this->client =$commande->client_id;
-        $this->date_livraison =$commande->date_livraison;
-        $this->quartier =$commande->ville_quartier_id;
-        $this->livreur = Livreur::where('id',$commande->livreur_id)->first()->nom ;
-        $quartie =  VilleQuartier::where('id',$commande->ville_quartie_id)->first();
-        $this->ville_quartie_id = $quartie->nom ;
+        $this->date = $commande->date;
+        $this->client = $commande->client_id;
+        $this->date_livraison = $commande->date_livraison;
+        $this->quartier = $commande->ville_quartier_id;
+        $this->livreur = Livreur::where('id', $commande->livreur_id)->first()->nom;
+        $quartie =  VilleQuartier::where('id', $commande->ville_quartie_id)->first();
+        $this->ville_quartie_id = $quartie->nom;
         $this->ville_zone = $quartie->zone->nom;
         $this->ville = $quartie->zone->ville->nom;
-        $this->adresse_livraison =$commande->adresse_livraison;
-        $this->contact_livraison =$commande->contact_livraison;
-        $this->tel_livraison =$commande->tel_livraison;
-        $this->mode_paiement = ModePaiement::where('id',$commande->mode_paiement_id)->first()->nom;
-        $this->mode_livraison_id = ModeLivraison::where('id',$commande->mode_livraison_id)->first()->nom ;
-        $this->frais_livraison =$commande->frais_livraison;
+        $this->adresse_livraison = $commande->adresse_livraison;
+        $this->contact_livraison = $commande->contact_livraison;
+        $this->tel_livraison = $commande->tel_livraison;
+        $this->mode_paiement = ModePaiement::where('id', $commande->mode_paiement_id)->first()->nom;
+        $this->mode_livraison_id = ModeLivraison::where('id', $commande->mode_livraison_id)->first()->nom;
+        $this->frais_livraison = $commande->frais_livraison;
         $this->montant_total = $commande->geMontantTotal();
 
 
@@ -87,30 +85,27 @@ class ListeCommandes extends Component
 
         foreach ($this->commande_lignes as $categorie_id => $items) {
 
-            $this->categories[$categorie_id] = Categorie::where('id',$categorie_id)->first()->nom;
+            $this->categories[$categorie_id] = Categorie::where('id', $categorie_id)->first()->nom;
 
             foreach ($items as $key => $value) {
 
                 $this->produits[$categorie_id][$key] = Stock::where('id',$value['piece_id'])->first()->produit->nom;
-
-                //$this->produits[$categorie_id][$key] = Produit::where('id',$value['produit_id'])->first()->nom;
             }
         }
-
     }
 
     public function render()
     {
 
-        $items= Commande::query()
-        ->where('etat', 'Reçue')
-        ->where('ref','ilike','%'.$this->search.'%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        //->get();
-        ->paginate($this->perPage);
+        $items = Commande::query()
+            ->where('etat', 'Livrée')
+            ->where('ref', 'ilike', '%' . $this->search . '%')
+            ->orderBy($this->sortBy, $this->sortDirection)
+            //->get();
+            ->paginate($this->perPage);
 
-        return view('livewire.vente.liste-commandes',[
-            'items'=> $items
+        return view('livewire.vente.liste-commandes-livrees', [
+            'items' => $items
         ]);
     }
     public function sortBy($field)

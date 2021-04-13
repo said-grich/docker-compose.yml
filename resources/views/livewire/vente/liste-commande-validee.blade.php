@@ -69,6 +69,9 @@
                     </td>
 
                     <td class="pr-0 text-right">
+
+                        <a href="#" wire:click="prete('{{ $item->ref }}')" class="btn btn-light-primary font-weight-bold mr-2">Prête</a>
+
                         <a href="#" wire:click="show('{{$item->ref}}')" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#show">
                             <span class="svg-icon svg-icon-md svg-icon-primary">
                                 {{--begin::Svg Icon--}}

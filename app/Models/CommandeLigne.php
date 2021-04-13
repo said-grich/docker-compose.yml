@@ -15,9 +15,14 @@ class CommandeLigne extends Model
         return $this->belongsTo(Commande::class);
     }
 
-    public function produit()
+    /* public function produit()
     {
         return $this->belongsTo(Produit::class);
+    } */
+
+    public function produit()
+    {
+        return $this->belongsTo(Stock::class);
     }
 
     public function categorie()
