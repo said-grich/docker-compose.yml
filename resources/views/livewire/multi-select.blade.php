@@ -8,6 +8,6 @@
 
 <script>
 $(document).ready(function(){
-    $('.selectpicker#{{$selectId}}').select2();
+    $('.selectpicker#{{$selectId}}').selectpicker();
 });
 </script>
