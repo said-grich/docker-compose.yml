@@ -132,6 +132,8 @@
 
                             {{-- Stock Modal --}}
 
+                            <
+
 
                             {{-- Edit Modal --}}
                             <div wire:ignore.self class="modal fade" id="stock" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="stock" aria-hidden="true">

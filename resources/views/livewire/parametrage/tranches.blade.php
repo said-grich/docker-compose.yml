@@ -37,7 +37,7 @@
                             <i class="flaticon-plus"></i> {{ __('Ajouter tranche') }}
                         </button>
                         <!--Modal-->
-                        <div wire:ignore.self class="modal fade" id="mode-vente" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="mode-vente" aria-hidden="true">
+                        <div wire:ignore.self class="modal fade" id="mode_vente" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="mode_vente" aria-hidden="true">
                             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">

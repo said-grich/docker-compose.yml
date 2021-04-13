@@ -16,7 +16,7 @@ class ListeModePreparation extends Component
 
     public $sortBy = 'nom';
     public $sortDirection = 'asc';
-    public $perPage = 5;
+    public $perPage = 10;
     public $search = '';
     protected $listeners = ['saved'];
 

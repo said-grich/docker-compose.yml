@@ -52,11 +52,13 @@
                                                 </label>
                                             </th>
                                             <th class="pl-0" wire:click="sortBy('lot_num')" style="cursor: pointer;">Numéro de lot @include('layouts.partials._sort-icon',['field'=>'lot_num'])</th>
-                                            <th class="pl-0" wire:click="sortBy('lot_num')" style="cursor: pointer;">Produit @include('layouts.partials._sort-icon',['field'=>'lot_num'])</th>
-                                            <th class="pl-0" wire:click="sortBy('date_capture')" style="cursor: pointer;">Tranche @include('layouts.partials._sort-icon',['field'=>'date_capture'])</th>
-                                            <th class="pl-0" wire:click="sortBy('date_capture')" style="cursor: pointer;">Code @include('layouts.partials._sort-icon',['field'=>'date_capture'])</th>
-                                            <th class="pl-0" wire:click="sortBy('date_capture')" style="cursor: pointer;">Poids @include('layouts.partials._sort-icon',['field'=>'date_capture'])</th>
-                                            <th class="pl-0" wire:click="sortBy('qte')" style="cursor: pointer;">Quantité @include('layouts.partials._sort-icon',['field'=>'qte'])</th>
+                                            <th class="pl-0" wire:click="sortBy('produit_id')" style="cursor: pointer;">Produit @include('layouts.partials._sort-icon',['field'=>'produit_id'])</th>
+                                            <th class="pl-0" wire:click="sortBy('tranche_id')" style="cursor: pointer;">Tranche @include('layouts.partials._sort-icon',['field'=>'tranche_id'])</th>
+                                            <th class="pl-0" wire:click="sortBy('code')" style="cursor: pointer;">Code @include('layouts.partials._sort-icon',['field'=>'code'])</th>
+                                            <th class="pl-0" wire:click="sortBy('poids')" style="cursor: pointer;">Poids @include('layouts.partials._sort-icon',['field'=>'poids'])</th>
+                                            <th class="pl-0" wire:click="sortBy('qte')" style="cursor: pointer;">Quantité initiale @include('layouts.partials._sort-icon',['field'=>'qte'])</th>
+                                            <th class="pl-0" wire:click="sortBy('qte_vendue')" style="cursor: pointer;">Quantité vendue @include('layouts.partials._sort-icon',['field'=>'qte_vendue'])</th>
+                                            <th class="pl-0" wire:click="sortBy('qte_restante')" style="cursor: pointer;">Quantité restante @include('layouts.partials._sort-icon',['field'=>'qte_restante'])</th>
                                             <th class="pl-0" wire:click="sortBy('prix_achat')" style="cursor: pointer;">Prix d'achat @include('layouts.partials._sort-icon',['field'=>'prix_achat'])</th>
                                             <th class="pl-0" wire:click="sortBy('cr')" style="cursor: pointer;">CR @include('layouts.partials._sort-icon',['field'=>'cr'])</th>
                                             <th class="pl-0" wire:click="sortBy('prix_n')" style="cursor: pointer;">Prix client normal @include('layouts.partials._sort-icon',['field'=>'prix_n'])</th>
@@ -104,6 +106,12 @@
                                                 </td>
                                                 <td class="pl-0">
                                                     <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->qte }}</a>
+                                                </td>
+                                                <td class="pl-0">
+                                                    <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->qte_vendue }}</a>
+                                                </td>
+                                                <td class="pl-0">
+                                                    <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->qte_restante }}</a>
                                                 </td>
                                                 <td class="pl-0">
                                                     <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->prix_achat }}</a>

@@ -19,6 +19,9 @@ class CreateCommandeLignesTable extends Migration
             $table->decimal('prix');
             $table->decimal('montant');
 
+            $table->json('preparations_cuisine');
+            $table->json('preparations_nettoyage');
+
             $table->string('commande_ref');
             $table->foreign('commande_ref')->references('ref')->on('commandes')->onUpdate('cascade')->onDelete('cascade');;
 
