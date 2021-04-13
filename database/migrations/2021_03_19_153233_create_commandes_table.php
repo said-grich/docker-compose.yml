@@ -24,6 +24,12 @@ class CreateCommandesTable extends Migration
             $table->string('adresse_livraison');
             //$table->enum('etat', ['Validée,'Prête,'En Expédition','Livrée']);
             $table->string('etat');
+
+            $table->dateTime('date_validee')->nullable();
+            $table->dateTime('date_prete')->nullable();
+            $table->dateTime('date_expedition')->nullable();
+            $table->dateTime('date_livree')->nullable();
+
             $table->decimal('frais_livraison');
             $table->decimal('total');
 

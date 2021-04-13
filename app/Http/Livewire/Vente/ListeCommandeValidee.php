@@ -10,6 +10,7 @@ use App\Models\ModePaiement;
 use App\Models\Produit;
 use App\Models\Stock;
 use App\Models\VilleQuartier;
+use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -51,7 +52,10 @@ class ListeCommandeValidee extends Component
 
     public function prete($ref){
 
-        Commande::where('ref', $ref)->update(['etat' => "Prêtes"]);
+        Commande::where('ref', $ref)->update([
+            'etat' => "Prêtes",
+            'date_prete' => Carbon::now()->toDateTimeString(),
+            ]);
     }
 
     public function edit($ref)

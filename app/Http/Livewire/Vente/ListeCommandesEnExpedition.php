@@ -9,6 +9,7 @@ use App\Models\ModeLivraison;
 use App\Models\ModePaiement;
 use App\Models\Stock;
 use App\Models\VilleQuartier;
+use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -51,7 +52,10 @@ class ListeCommandesEnExpedition extends Component
 
     public function livree($ref){
 
-        Commande::where('ref', $ref)->update(['etat' => "Livrée"]);
+        Commande::where('ref', $ref)->update([
+            'etat' => "Livrée",
+            'date_livree' => Carbon::now()->toDateTimeString(),
+            ]);
     }
 
     public function edit($ref)

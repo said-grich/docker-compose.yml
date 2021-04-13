@@ -345,4 +345,5 @@ select.form-control:valid ~ label {
 
 .card.bl.card-custom > .card-header .card-title, .card.bl.card-custom > .card-header .card-title .card-label {
     font-size: 1.700rem;
+    text-decoration: underline;
 }

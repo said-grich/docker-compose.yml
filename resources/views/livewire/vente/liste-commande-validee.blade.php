@@ -134,6 +134,7 @@
                                     <div class="md-step-title">Validée</div>
                                     <div class="md-step-bar-left"></div>
                                     <div class="md-step-bar-right"></div>
+                                   {{--  {{$date_validee}} --}}
                                 </div>
                                 <div class="md-step {{$etat_commande === 'Prête' ? "active" : "done"}}">
                                     <div class="md-step-circle"><span>3</span></div>

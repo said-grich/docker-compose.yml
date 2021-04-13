@@ -100,7 +100,8 @@ class BonLivraison extends Component
     public $region_depots = [];
     public $depotNom = [];
     public $depotId = [];
-    public $preparations = [];
+    public $preparations_cuisine = [];
+    public $preparations_nettoyage = [];
 
     public $totalMts = [];
     public $totalTtcs = [];
@@ -131,6 +132,8 @@ class BonLivraison extends Component
     public $depot_livraison;
     public $seuil_livraison_gratuite;
     public $seuil_commande;
+    public $commande_preparation_nettoyage = [];
+    public $commande_preparation_cuisine = [];
 
 
     public $filter = [
@@ -296,14 +299,23 @@ class BonLivraison extends Component
                         $nbr_pc = LotTranche::where('lot_num', $produit['lot_num'])->where('tranche_id', $tranche_uid)->first(['qte'])->qte;
                         $this->nbr_piece[$produit_id][$tranche_uid] = $nbr_pc == 0 ?  $produit['qte_restante'] :  $nbr_pc;
                         if($produit['categorie_id'] == 2){
-                            $this->preparations[ $produit['id']] = PreparationType::where('produit_id',$produit['produit_id'])->with('preparation')->get();
+
+                            $this->preparations_cuisine[ $produit['id']] = PreparationType::where('produit_id',$produit['produit_id'])->whereHas('preparation', function (Builder $query) {
+                                $query->where('preparations.mode_preparation_id', 1);
+                            })->with('preparation')->get();
+
+                            $this->preparations_nettoyage[ $produit['id']] = PreparationType::where('produit_id',$produit['produit_id'])->whereHas('preparation', function (Builder $query) {
+                                $query->where('preparations.mode_preparation_id', 2);
+                            })->with('preparation')->get();
+
+                            //$this->preparations_nettoyage[ $produit['id']] = PreparationType::where('produit_id',$produit['produit_id'])->with('preparation')->get();
                         }
 
                     }
 
                 }
             }
-            //dd($this->preparations[2]->first()->preparation->nom);
+            //dd($this->preparations_cuisine,$this->preparations_nettoyage);
 
         }
 
@@ -346,6 +358,7 @@ class BonLivraison extends Component
 
 
     public function save(){
+        //dd($this->commande_preparation_cuisine,$this->commande_preparation_nettoyage,$this->pieceId );
 
         $this->validate([
             'client' => 'required',
@@ -410,13 +423,16 @@ class BonLivraison extends Component
                         $bl_ligne->montant= $this->montant[$key];
                         $bl_ligne->save();
 
+
                         CommandeLigne::create([
                             'commande_ref' => $commande->ref,
                             'piece_id' => $this->pieceId[$key],
                             'categorie_id' => $this->categorieId[$key],
                             'qte' => $this->qte[$key],
                             'prix' => $this->prix_vente[$key],
-                            'montant' => $this->montant[$key]
+                            'montant' => $this->montant[$key],
+                            'preparations_cuisine' => isset($this->commande_preparation_cuisine[$value]) ? $this->commande_preparation_cuisine[$value] : '',
+                            'preparations_nettoyage' => isset($this->commande_preparation_nettoyage[$value]) ? $this->commande_preparation_nettoyage[$value] : '' ,
                         ]);
 
 
@@ -425,7 +441,11 @@ class BonLivraison extends Component
                             'qte_restante' => DB::raw('qte_restante - ' .$this->qte[$key]),
                             ]);
 
-                        LotTranche::where('lot_num', $this->pieceLot[$key])->where('tranche_id', $this->pieceTranche[$key])->update(['qte' =>  DB::raw('qte - ' .$this->qte[$key])]);
+                        $qte_tranche = LotTranche::where('lot_num', $this->pieceLot[$key])->where('tranche_id', $this->pieceTranche[$key])->first();
+
+                        $qte_tranche->qte > 0 ? $qte_tranche->update(['qte' =>  DB::raw('qte - ' .$this->qte[$key])]) : '';
+
+                        //->update(['qte' =>  DB::raw('qte - ' .$this->qte[$key])]);
 
                     }
 

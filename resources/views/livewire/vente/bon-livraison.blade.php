@@ -259,7 +259,7 @@
                                                                     @foreach ($list_produits as $i => $item)
 
                                                                         <thead class="bg-white">
-                                                                            <th colspan="11">
+                                                                            <th colspan="12">
                                                                                 <span class="text-dark-75 font-weight-bolder font-size-lg pr-6">{{$nom_produit[$i]}}</span>
                                                                                 <span class="text-muted font-weight-bold">
                                                                                     @foreach ($item as $tranche_uid => $produits)
@@ -274,6 +274,7 @@
                                                                         </thead>
 
                                                                         <thead style="padding-top: 20px">
+                                                                            <th>Catégorie</th>
                                                                             <th>Sous catégorie</th>
                                                                             <th>Code</th>
                                                                             <th>
@@ -300,6 +301,7 @@
                                                                         @foreach ($item as $tranche_uid => $produits)
                                                                             @foreach ( $produits as $key => $produit)
                                                                                 <tr class="collapse" id="{{$tranche_uid}}">
+                                                                                    <td>{{$produit['categorie']['nom']}}</td>
                                                                                     <td>{{$produit['sous_categorie']['nom']}}</td>
                                                                                     <td>
                                                                                         @if (isset($produit['code']))
@@ -414,6 +416,7 @@
                                                                             <th style="min-width: 120px">Quantité à livrer</th>
                                                                             <th style="min-width: 120px">Prix</th>
                                                                             <th style="min-width: 120px">Montant</th>
+                                                                            <th style="min-width: 120px">Préparations</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
@@ -457,21 +460,31 @@
                                                                                     @endisset
                                                                                 </td>
                                                                                 <td>
-                                                                                   {{--  @php
-                                                                                        dd($preparations[$val]);
-                                                                                    @endphp --}}
-                                                                                    @isset($preparations[$val])
-                                                                                        <select class="form-control" wire:model="preparation.{{$val}}" multiple>
-                                                                                            <option value="">{{ __('Choisir les préparations') }}</option>
+                                                                                    @isset($preparations_cuisine[$val])
 
-                                                                                            @foreach ($preparations[$val] as $key => $item)
-                                                                                                <option value="">{{$item['preparation']['nom'] }}</option>
-                                                                                                {{-- @foreach ($item as $key=>$p)
-                                                                                                    <option value="">{{$p->preparation->nom }}</option>
-                                                                                                @endforeach --}}
+                                                                                        {{-- <select class="selectpicker form-control" id="preparation" title="" data-live-search="true" data-hide-disabled="true" multiple>
+                                                                                            @foreach($preparations_cuisine[$val] as $item)
+                                                                                                <option value="{{$item['preparation_id']}}">{{$item['preparation']['nom'] }}</option>
+                                                                                            @endforeach
+                                                                                        </select> --}}
+
+                                                                                        <select class="form-control" wire:model.defer="commande_preparation_cuisine.{{$val}}">
+                                                                                            <option value="">{{ __('Choisir les préparations cuisine') }}</option>
+                                                                                            @foreach ($preparations_cuisine[$val] as  $item)
+                                                                                                <option value="{{$item['preparation_id'] }}">{{$item['preparation']['nom'] }}</option>
                                                                                             @endforeach
                                                                                         </select>
                                                                                     @endisset
+
+                                                                                    @isset($preparations_nettoyage[$val])
+                                                                                        <select class="form-control" wire:model.defer="commande_preparation_nettoyage.{{$val}}" multiple>
+                                                                                            <option value="">{{ __('Choisir les préparations cuisine') }}</option>
+                                                                                            @foreach ($preparations_nettoyage[$val] as  $item)
+                                                                                                <option value="{{$item['preparation_id'] }}">{{$item['preparation']['nom'] }}</option>
+                                                                                            @endforeach
+                                                                                        </select>
+                                                                                    @endisset
+                                                                                </td>
                                                                             </tr>
                                                                         @endforeach
 
@@ -751,9 +764,15 @@
 
 @push('scripts')
 
-    <script>
+    {{-- <script>
         window.addEventListener('contentChanged', event => {
             $('.selectpicker').selectpicker();
+        });
+    </script> --}}
+
+    <script>
+        $(document).ready(function(){
+            $('.selectpicker#preparation').select2();
         });
     </script>
 
