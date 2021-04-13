@@ -15,6 +15,7 @@ use App\Models\LivreurCommande;
 use App\Models\LotTranche;
 use App\Models\ModeLivraison;
 use App\Models\ModePaiement;
+use App\Models\PreparationType;
 use App\Models\Produit;
 use App\Models\Region;
 use App\Models\Stock;
@@ -88,6 +89,8 @@ class BonLivraison extends Component
     public $pieceId = [];
     public $produitId = [];
     public $produitNom = [];
+    public $pieceLot = [];
+    public $pieceTranche = [];
     public $nbr_piece = [];
     public $client;
     public $profile;
@@ -97,6 +100,7 @@ class BonLivraison extends Component
     public $region_depots = [];
     public $depotNom = [];
     public $depotId = [];
+    public $preparations = [];
 
     public $totalMts = [];
     public $totalTtcs = [];
@@ -196,8 +200,8 @@ class BonLivraison extends Component
         })->get();
         $this->region_depots = $this->list_depots->pluck('id');
 
-      /*   $this->recherche_produit === '';
-        $this->list_produits = []; */
+        $this->recherche_produit === '';
+        $this->list_produits = [];
 
     }
 
@@ -207,8 +211,6 @@ class BonLivraison extends Component
         $this->frais_livraison = isset($ville_livraison->frais_livraison) ? $ville_livraison->frais_livraison : '';
         $this->seuil_commande = Livraison::where('ville_id', $value)->first()->seuil_commande;
         $this->seuil_livraison_gratuite = Livraison::where('ville_id', $value)->first()->seuil_livraison_gratuite;
-        //dd($ville_livraison,$seuil_commande,$seuil_livraison_gratuite);
-
         //dd(Carbon::now()->locale('fr_FR')->dayName );
         if($this->totalMt >= $this->seuil_livraison_gratuite){
             $this->frais_livraison = 0;
@@ -260,6 +262,7 @@ class BonLivraison extends Component
                 })
                 ->whereIn('depot_id', $this->region_depots)
                 ->whereNotIn('id', $this->pieceId)
+                ->where('qte_restante', '!=',0)
 
                 ->with('depot')
                 ->with('produit')
@@ -291,11 +294,16 @@ class BonLivraison extends Component
                         }
 
                         $nbr_pc = LotTranche::where('lot_num', $produit['lot_num'])->where('tranche_id', $tranche_uid)->first(['qte'])->qte;
-                        $this->nbr_piece[$produit_id][$tranche_uid] = $nbr_pc == 0 ?  $produit['qte'] :  $nbr_pc;
+                        $this->nbr_piece[$produit_id][$tranche_uid] = $nbr_pc == 0 ?  $produit['qte_restante'] :  $nbr_pc;
+                        if($produit['categorie_id'] == 2){
+                            $this->preparations[ $produit['id']] = PreparationType::where('produit_id',$produit['produit_id'])->with('preparation')->get();
+                        }
+
                     }
 
                 }
             }
+            //dd($this->preparations[2]->first()->preparation->nom);
 
         }
 
@@ -339,14 +347,24 @@ class BonLivraison extends Component
 
     public function save(){
 
-        // $this->validate([
-        //     'ref_bl' => 'required|unique:bon_livraisons,ref',
-        //     'date' => 'required',
-        //     'depot' => 'required',
-        //     'client' => 'required',
+        $this->validate([
+            'client' => 'required',
+            'region_livraison' => 'required',
+            'depot_livraison' => 'required',
+            'tel_livraison' => 'required',
+            'contact_livraison' => 'required',
+            'adresse_livraison' => 'required',
+            'ville' => 'required',
+            'ville_zone' => 'required',
+            'ville' => 'required',
+            'ville_quartie_id' => 'required',
+            'mode_paiement' => 'required',
+            'mode_livraison_id' => 'required',
+            'frais_livraison' => 'required',
+            'date_livraison' => 'required',
+            'livreur' => 'required',
 
-        //     //'nbr_pc' => 'exclude_if:mode_vente_produit,1|required',
-        // ]);
+        ]);
 
         if($this->totalMt >= $this->seuil_commande){
             DB::transaction(function () {
@@ -384,7 +402,7 @@ class BonLivraison extends Component
 
                         $bl_ligne = new BonLivraisonLigne();
                         $bl_ligne->bon_livraison_ref = $bl->ref;
-                        $bl_ligne->produit_id = $this->produitId[$key];
+                        $bl_ligne->piece_id = $this->pieceId[$key];
                         $bl_ligne->categorie_id = $this->categorieId[$key];
                         $bl_ligne->code = isset($this->code[$key]) ? $this->code[$key] : '';
                         $bl_ligne->qte = $this->qte[$key];
@@ -402,7 +420,12 @@ class BonLivraison extends Component
                         ]);
 
 
-                        Stock::find($value)->update(['qte_vendue' => DB::raw('qte_vendue +' .$this->qte[$key])]);
+                        Stock::find($value)->update([
+                            'qte_vendue' => DB::raw('qte_vendue +' .$this->qte[$key]),
+                            'qte_restante' => DB::raw('qte_restante - ' .$this->qte[$key]),
+                            ]);
+
+                        LotTranche::where('lot_num', $this->pieceLot[$key])->where('tranche_id', $this->pieceTranche[$key])->update(['qte' =>  DB::raw('qte - ' .$this->qte[$key])]);
 
                     }
 
@@ -417,9 +440,6 @@ class BonLivraison extends Component
 
                     /* Livreur::where('id', $this->livreur)
                             ->update(['solde' => $this->totalMt]); */
-
-
-
                 //}
 
             });
@@ -444,10 +464,12 @@ class BonLivraison extends Component
         $this->pieceId[$this->linenumber] = $pieceId;
 
         $this->produitId[$this->linenumber] = $this->list_produits[$productId][$tranche][$i]['produit_id'];
+        $this->pieceLot[$this->linenumber] = $this->list_produits[$productId][$tranche][$i]['lot_num'];
         $this->produitNom[$this->linenumber] = Produit::where('id', $this->list_produits[$productId][$tranche][$i]['produit_id'])->first()->nom;
         $this->code[$this->linenumber] = isset($this->list_produits[$productId][$tranche][$i]['code']) ? $this->list_produits[$productId][$tranche][$i]['code'] : '';
         $this->poids[$this->linenumber] = isset($this->list_produits[$productId][$tranche][$i]['poids']) ?  $this->list_produits[$productId][$tranche][$i]['poids'] : '';
         $this->categorieId[$this->linenumber] = $categorie;
+        $this->pieceTranche[$this->linenumber] = $tranche;
 
         $this->depotId[$this->linenumber] = $this->list_produits[$productId][$tranche][$i]['depot_id'];
         $this->depotNom[$this->linenumber] = $this->list_produits[$productId][$tranche][$i]['depot']['nom'];

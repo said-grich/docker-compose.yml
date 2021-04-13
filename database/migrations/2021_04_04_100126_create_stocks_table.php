@@ -17,8 +17,9 @@ class CreateStocksTable extends Migration
             $table->id();
 
             $table->string('type',80);
-            $table->integer('qte');
-            $table->integer('qte_vendue');
+            $table->double('qte');
+            $table->double('qte_vendue');
+            $table->double('qte_restante');
             $table->decimal('prix_achat');
             $table->string('code')->nullable();
             $table->double('poids')->nullable();
