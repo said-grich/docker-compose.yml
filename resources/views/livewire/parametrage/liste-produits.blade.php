@@ -231,7 +231,7 @@
                             <span class="form-text text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div class="form-group col-md-6">
+                        <div wire:ignore class="form-group col-md-6">
                             <label><b>{{ __('Mode Vente') }}</b></label>
                             <div class="input-group input-group-prepend">
                                 <div class="input-group-prepend"><span class="input-group-text"><i
