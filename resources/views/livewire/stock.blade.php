@@ -1077,110 +1077,118 @@
                             </div>
                         </div>
                         @endif
-                        <form id="edit-form" class="form row" wire:submit.prevent="editStock">
+                        <form id="edit-form" class="form row" >
                             <div class="form-group col-md-12">
                                 <div class="accordion accordion-toggle-arrow" id="accordionExample1">
-                                   @if (count($liste_poids_pc)>0)
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <div class="card-title" data-toggle="collapse" data-target="#collapseOne1">
-                                                Poids par pièce
+                                    @if (count($liste_poids_pc)>0)
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <div class="card-title" data-toggle="collapse" data-target="#collapseOne1">
+                                                    Poids par pièce
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div id="collapseOne1" class="collapse" data-parent="#accordionExample1">
-                                            <div class="card-body">
-                                                <table class="table table-striped table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="pl-0">Lot</th>
-                                                            <th class="pl-0">Article</th>
-                                                            <th class="pl-0">Catégorie</th>
-                                                            <th class="pl-0">Sous catégorie</th>
-                                                            <th class="pl-0">Code</th>
-                                                            <th class="pl-0">Poids</th>
-                                                            <th class="pl-0">Tranches</th>
-                                                            <th class="pl-0">Quantité</th>
-                                                            <th class="pl-0">Unité</th>
-                                                            <th class="pl-0">Prix Achat</th>
-                                                            <th class="pl-0">Qualité</th>
-                                                            <th class="pl-0">Pas</th>
-
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach ($liste_poids_pc as $key => $lot )
+                                            <div id="collapseOne1" class="collapse" data-parent="#accordionExample1">
+                                                <div class="card-body">
+                                                    <table class="table table-striped table-bordered">
+                                                        <thead>
                                                             <tr>
-                                                                <td>
-                                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num.{{$key}}" />
-                                                                </td>
-                                                                <td>
-                                                                    <input type="hidden" class="form-control" placeholder=" " wire:model.defer="produit_id.{{$key}}" />
-                                                                    <input type="hidden" class="form-control" placeholder=" " wire:model.defer="code.{{$key}}" />
-                                                                    {{--<input type="text" class="form-control" placeholder=" " wire:model.defer="article.{{$key}}" />--}}
-                                                                    <select class="form-control" wire:model="article.{{$key}}">
-                                                                        <option>{{ __('Choisir un produit') }}</option>
-                                                                        @foreach ($list_produits as $item)
-                                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </td>
-                                                                <td>
-                                                                    {{--<input type="text" class="form-control" placeholder="" wire:model.defer="categorie.{{$key}}" />--}}
-                                                                    <select class="form-control" wire:model.defer="categorie.{{$key}}">
-                                                                        <option>{{ __('Choisir une catégorie') }}</option>
-                                                                        @foreach ($list_categories as $item)
-                                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </td>
-                                                                <td>
-                                                                    {{--<input type="text" class="form-control" placeholder="" wire:model.defer="sous_categorie.{{$key}}" />--}}
-                                                                    <select class="form-control" wire:model.defer="sous_categorie.{{$key}}">
-                                                                        <option>{{ __('Choisir une sous catégorie') }}</option>
-                                                                        @foreach ($list_sous_categories as $item)
-                                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" placeholder="" wire:model.defer="code.{{$key}}" />
-                                                                </td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" placeholder="" wire:model.defer="poids.{{$key}}" />
-                                                                </td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" placeholder="" wire:model.defer="nom_tranche.{{$key}}" />
+                                                                <th class="pl-0">Lot</th>
+                                                                <th class="pl-0">Article</th>
+                                                                <th class="pl-0">Catégorie</th>
+                                                                <th class="pl-0">Sous catégorie</th>
+                                                                <th class="pl-0">Code</th>
+                                                                <th class="pl-0">Poids</th>
+                                                                <th class="pl-0">Tranches</th>
+                                                                <th class="pl-0">Quantité</th>
+                                                                <th class="pl-0">Unité</th>
+                                                                <th class="pl-0">Prix Achat</th>
+                                                                <th class="pl-0">Qualité</th>
+                                                                <th class="pl-0">Pas</th>
 
-                                                                </td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" placeholder="" wire:model.defer="qte.{{$key}}" />
-                                                                </td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" placeholder="" wire:model.defer="unite.{{$key}}" />
-                                                                </td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" placeholder="" wire:model.defer="prix_achat.{{$key}}" />
-                                                                </td>
-
-                                                                <td>
-                                                                    {{--<input type="text" class="form-control" placeholder="" wire:model.defer="qualite.{{$key}}" />--}}
-                                                                    <select class="form-control" wire:model.defer="qualite.{{$key}}">
-                                                                        <option>{{ __('Choisir une qualite') }}</option>
-                                                                        @foreach ($list_qualites as $item)
-                                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" placeholder="" wire:model.defer="pas.{{$key}}" />
-                                                                </td>
                                                             </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($liste_poids_pc as $key => $lot )
+                                                                <tr>
+                                                                    <td>
+                                                                        <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num.{{$key}}" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="hidden" class="form-control" placeholder=" " wire:model.defer="produit_id.{{$key}}" />
+                                                                        <input type="hidden" class="form-control" placeholder=" " wire:model.defer="code.{{$key}}" />
+                                                                        {{--<input type="text" class="form-control" placeholder=" " wire:model.defer="article.{{$key}}" />--}}
+                                                                        <select class="form-control" wire:model.defer="article.{{$key}}">
+                                                                            <option>{{ __('Choisir un produit') }}</option>
+                                                                            @foreach ($list_produits as $item)
+                                                                                <option value="{{$item->id }}" @if($produit_id == $item->id){{'selected'}}@endif>{{$item->nom }}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </td>
+                                                                    <td>
+                                                                        {{--<input type="text" class="form-control" placeholder="" wire:model.defer="categorie.{{$key}}" />--}}
+                                                                        <select class="form-control" wire:model.defer="categorie.{{$key}}">
+                                                                            <option>{{ __('Choisir une catégorie') }}</option>
+                                                                            @foreach ($list_categories as $item)
+                                                                                <option value="{{$item->id }}" @if($categorie == $item->id){{'selected'}}@endif>{{$item->nom }}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </td>
+                                                                    <td>
+                                                                        {{--<input type="text" class="form-control" placeholder="" wire:model.defer="sous_categorie.{{$key}}" />--}}
+                                                                        <select class="form-control" wire:model.defer="sous_categorie.{{$key}}">
+                                                                            <option>{{ __('Choisir une sous catégorie') }}</option>
+                                                                            @foreach ($list_sous_categories as $item)
+                                                                                <option value="{{$item->id }}" @if($sous_categorie == $item->id){{'selected'}}@endif>{{$item->nom }}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" class="form-control" placeholder="" wire:model.defer="code.{{$key}}" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" class="form-control" placeholder="" wire:model.defer="poids.{{$key}}" />
+                                                                    </td>
+                                                                    <td>
+                                                                        {{--<input type="text" class="form-control" placeholder="" wire:model.defer="nom_tranche.{{$key}}" />--}}
+                                                                        <select class="form-control" wire:model="nom_tranche.{{$key}}" >
+                                                                            @foreach ($list_piece as $item)
+                                                                                <option value="{{$item->id }}" @if($item->tranche_id == $item->id){{'selected'}}@endif>{{$item->nom }}</option>
+                                                                            @endforeach
+                                                                        </select>
+
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" class="form-control" placeholder="" wire:model.defer="qte.{{$key}}" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" class="form-control" placeholder="" wire:model.defer="unite.{{$key}}" disabled/>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" class="form-control" placeholder="" wire:model.defer="prix_achat.{{$key}}" />
+                                                                    </td>
+
+                                                                    <td>
+                                                                        {{--<input type="text" class="form-control" placeholder="" wire:model.defer="qualite.{{$key}}" />--}}
+                                                                        <select class="form-control" wire:model="qualite.{{$key}}">
+                                                                            <option>{{ __('Choisir une qualite') }}</option>
+                                                                            @foreach ($list_qualites as $item)
+                                                                                <option value="{{$item->id }}" @if($qualite == $item->id){{'selected'}}@endif> {{$item->nom }} </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" class="form-control" placeholder="" wire:model.defer="pas.{{$key}}" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <button type="button" class="btn btn-outline-danger"  wire:click="delete({{$key}})">X</button>
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
                                     @endif
                                     @if (count($liste_kg_pc)>0)
 
@@ -1248,9 +1256,8 @@
                                                                             <td>
                                                                                 {{--<input type="text" class="form-control" placeholder="{{ __('Tranche') }}" wire:model.defer="nom_tranche_kg_pc.{{$key}}" />--}}
                                                                                 <select class="form-control" wire:model="nom_tranche_kg_pc.{{$key}}" >
-                                                                                    <option>{{ __('Choisir une tranche') }}</option>
-                                                                                    @foreach ($nom_tranche_kg_pc as $item)
-                                                                                        <option value="{{$item->id }}" @if($item->tranche_id == $item->id){{'selected'}}@endif>{{$item->nom }}</option>
+                                                                                    @foreach ($list as $item)
+                                                                                        <option value="{{$item->id }}" >{{$item->nom }}</option>
                                                                                     @endforeach
                                                                                 </select>
                                                                             </td>
@@ -1259,7 +1266,7 @@
                                                                                 <input type="text" class="form-control" placeholder="" wire:model.defer="qte_kg_pc.{{$key}}" />
                                                                             </td>
                                                                             <td>
-                                                                                <input type="text" class="form-control" placeholder="" wire:model.defer="unite_kg_pc.{{$key}}" />
+                                                                                <input type="text" class="form-control" placeholder="" wire:model.defer="unite_kg_pc.{{$key}}" disabled/>
                                                                             </td>
                                                                             <td>
                                                                                 <input type="text" class="form-control" placeholder="" wire:model.defer="prix_achat_kg_pc.{{$key}}" />
@@ -1275,6 +1282,9 @@
                                                                             </td>
                                                                             <td>
                                                                                 <input type="text" class="form-control" placeholder="" wire:model.defer="pas_kg_pc.{{$key}}" />
+                                                                            </td>
+                                                                            <td>
+                                                                                <button type="button" class="btn btn-outline-danger"  wire:click="delete({{$key}})">X</button>
                                                                             </td>
                                                                         </tr>
                                                                 </tbody>
@@ -1292,7 +1302,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
-                        <button type="submit" class="btn btn-primary font-weight-bold" form="edit-form">{{ __('Enregistrer') }}</button>
+                        <button type="submit" wire:click="editStock()" class="btn btn-primary font-weight-bold" form="edit-form">{{ __('Enregistrer') }}</button>
                     </div>
                 </div>
             </div>

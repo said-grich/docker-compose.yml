@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Stock extends Model
 {
     use HasFactory;
-    
-    protected $guarded = [];
 
+    protected $guarded = [];
+    protected $table = "stocks";
+    
     public function tranche()
     {
         return $this->belongsTo(Tranche::class, 'tranche_id', 'uid');
