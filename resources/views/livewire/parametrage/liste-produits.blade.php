@@ -128,9 +128,9 @@
                         </div>
                     </td>
                     <td class="pr-0 text-right">
-                        <a  {{-- href="{{ route('edit-fournisseur', ['ida' => $item->id]) }}" --}} class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">
+                        <a href="#" wire:click="edit({{$item->id}})" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#edit">
                             <span class="svg-icon svg-icon-md svg-icon-primary">
-
+                                {{--begin::Svg Icon--}}
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                         <rect x="0" y="0" width="24" height="24" />
@@ -138,7 +138,7 @@
                                         <path d="M12.9,2 C13.4522847,2 13.9,2.44771525 13.9,3 C13.9,3.55228475 13.4522847,4 12.9,4 L6,4 C4.8954305,4 4,4.8954305 4,6 L4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,13 C20,12.4477153 20.4477153,12 21,12 C21.5522847,12 22,12.4477153 22,13 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 L2,6 C2,3.790861 3.790861,2 6,2 L12.9,2 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
                                     </g>
                                 </svg>
-
+                                {{--end::Svg Icon--}}
                             </span>
                         </a>
                         <a href="#" class="btn btn-icon btn-light btn-hover-primary btn-sm" wire:click="deleteFournisseur('{{ $item->id }}')">
@@ -161,4 +161,211 @@
         </tbody>
     </table>
     {{-- {{ $items->links('layouts.partials.custom-pagination') }} --}}
+    <div wire:ignore.self class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{ __('Modification unité') }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-form" class="form row">
+                        <div class="form-group col-md-12">
+                            <div class="input-group input-group-prepend">
+                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tag icon-lg"></i></span></div>
+                                <input type="hidden" class="form-control" placeholder=" " wire:model.defer="categorie_id"/>
+                                <input type="text" class="form-control" placeholder=" " wire:model.defer="nom"/>
+                                <label>{{ __('Nom') }}</label>
+                            </div>
+                            @error('nom')
+                                <span class="form-text text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label><b>{{ __('Famille') }}</b></label>
+                            <div wire:ignore class="input-group input-group-prepend">
+                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sitemap icon-lg"></i></span></div>
+                                {{-- @livewire('multi-select', ['selectId' => 'testselect', 'selectTitle' => '', 'selectType' => '', 'selected' => $famille, 'selectOptions' => $list_familles]) --}}
+                                <select  class="form-control "
+                                        wire:model="famille">
+                                    <option>{{ __('Choisir une famille') }}</option>
+                                    @foreach ($list_familles as $item)
+                                        <option value="{{$item->id}}" @if($famille == $item->id) {{'selected'}} @endif>{{$item->nom}}</option>
+                                    @endforeach
+                                </select>
+                                <div class="input-group-append" data-toggle="modal"
+                                     data-target="#famille">
+                                    <button class="btn btn-primary" type="button"
+                                            data-toggle="tooltip" data-theme="dark"
+                                            title="Ajouter une famille"><i
+                                            class="fa fa-plus-circle"></i></button>
+                                </div>
+                            </div>
+                            @error('famille')
+                            <span class="form-text text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div  class="form-group col-md-6">
+                            <label><b>{{ __('Unité Affichée') }}</b></label>
+                            <div class="input-group input-group-prepend">
+                                <div class="input-group-prepend"><span class="input-group-text"><i
+                                            class="fa fa-weight-hanging icon-lg"></i></span></div>
+                                            {{-- @livewire('multi-select', ['selectId' => 'testselect', 'selectTitle' => '', 'selectType' => '', 'selected' => $unite, 'selectOptions' => $list_unite]) --}}
+                                <select class="form-control " wire:model.defer="unite">
+                                    <option>{{ __('Choisir une unité') }}</option>
+                                    @foreach ($list_unite as $item)
+                                        <option value="{{$item->id}}" @if($unite == $item->id) {{'selected'}} @endif>{{$item->nom}}</option>
+                                    @endforeach
+                                </select>
+                                <div class="input-group-append" data-toggle="modal"
+                                     data-target="#unite">
+                                    <button class="btn btn-primary" type="button"
+                                            data-toggle="tooltip" data-theme="dark"
+                                            title="Ajouter Unite"><i class="fa fa-plus-circle"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            @error('unite')
+                            <span class="form-text text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label><b>{{ __('Mode Vente') }}</b></label>
+                            <div class="input-group input-group-prepend">
+                                <div class="input-group-prepend"><span class="input-group-text"><i
+                                            class="fa fa-money-check-alt icon-lg"></i></span></div>
+                                            {{-- @livewire('multi-select', ['selectId' => 'testselect', 'selectTitle' => '', 'selectType' => '', 'selected' => $mode_vente, 'selectOptions' => $list_modes_vente]) --}}
+                                <select class="form-control " wire:model="mode_vente">
+                                    <option>{{ __('Mode Vente') }}</option>
+                                    @foreach ($list_modes_vente as $item)
+                                        <option value="{{$item->id}}" @if($mode_vente == $item->id) {{'selected'}} @endif>{{$item->nom}}</option>
+                                    @endforeach
+                                </select>
+
+                                <div class="input-group-append" data-toggle="modal"
+                                     data-target="#mode-vente">
+                                    <button class="btn btn-primary" type="button"
+                                            data-toggle="tooltip" data-theme="dark"
+                                            title="Ajouter Mode Vente"><i
+                                            class="fa fa-plus-circle"></i></button>
+                                </div>
+                            </div>
+                            @error('mode_vente')
+                            <span class="form-text text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        {{-- <div class="form-group col-md-6">
+                            <label><b>{{ __('Tranches') }}</b></label>
+                            <div class="input-group input-group-prepend">
+                                <div class="input-group-prepend"><span class="input-group-text"><i
+                                            class="fa fa-sliders-h icon-lg"></i></span></div>
+                                <select class="form-control" wire:model="tranches" multiple>
+                                    <option>{{ __('Choisir une tranche') }}</option>
+                                    @foreach ($list_tranches as $tranche)
+                                        <option value="{{$tranche->uid}}">{{$tranche->nom}}</option>
+                                    @endforeach
+                                </select>
+                                <div class="input-group-append" data-toggle="modal"
+                                     data-target="#tranches">
+                                    <button class="btn btn-primary" type="button"
+                                            data-toggle="tooltip" data-theme="dark"
+                                            title="Ajouter Tranche"><i
+                                            class="fa fa-plus-circle"></i></button>
+                                </div>
+                            </div>
+                            @error('tranches')
+                            <span class="form-text text-danger">{{ $message }}</span>
+                            @enderror
+                        </div> --}}
+
+                        <div wire:ignore class="form-group col-md-6">
+                            <label><b>{{ __('Mode Cuisine ') }}</b></label>
+                            <div class="input-group input-group-prepend">
+                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-tools icon-lg"></i></span></div>
+                                {{-- @livewire('multi-select', ['selectId' => 'testselect', 'selectTitle' => '', 'selectType' => '', 'selected' => $mode_cuisine, 'selectOptions' => $list_cuisine]) --}}
+                                <select class="form-control " wire:model="mode_cuisine">
+                                    <option>{{ __('Choisir un mode de préparation') }}</option>
+                                        @foreach ($list_cuisine as $mode)
+                                            <option value="{{$mode->id}}" @if($mode_cuisine == $item->id) {{'selected'}} @endif>{{$mode->nom}}</option>
+                                        @endforeach
+                                </select>
+                                <div class="input-group-append" data-toggle="modal" data-target="#mode-preparation"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Mode Préparation"><i class="fa fa-plus-circle"></i></button></div>
+                            </div>
+                            @error('mode_preparation')
+                                <span class="form-text text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div wire:ignore class="form-group col-md-6">
+                           <label><b>{{ __('Mode Nettoyage ') }}</b></label>
+                           <div class="input-group input-group-prepend">
+                               <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-tools icon-lg"></i></span></div>
+                               <select class="form-control " wire:model="mode_nettoyage" multiple>
+                                   <option>{{ __('Choisir un mode de préparation') }}</option>
+                                       @foreach ($list_nettoyage as $mode)
+                                           <option value="{{$mode->id}}" @if($mode_nettoyage == $item->id) {{'selected'}} @endif>{{$mode->nom}}</option>
+                                       @endforeach
+                               </select>
+                               <div class="input-group-append" data-toggle="modal" data-target="#mode-preparation"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Mode Préparation"><i class="fa fa-plus-circle"></i></button></div>
+                           </div>
+                           @error('mode_preparation')
+                               <span class="form-text text-danger">{{ $message }}</span>
+                           @enderror
+                       </div>
+                        <div class="form-group col-md-6">
+                            <div class="input-group input-group-prepend">
+                                <div class="input-group-prepend"><span class="input-group-text"><i
+                                            class="fa fa-calculator icon-lg"></i></span></div>
+                                <input type="text" class="form-control" placeholder=" "
+                                       wire:model.defer="code_comptable"/>
+                                <label>{{ __('Code Comptable') }}</label>
+                            </div>
+                            @error('code-comptable')
+                            <span class="form-text text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="input-group input-group-prepend">
+                                <div class="input-group-prepend"><span class="input-group-text"><i
+                                            class="fa fa-chart-pie icon-lg"></i></span></div>
+                                <input type="text" class="form-control" placeholder=" "
+                                       wire:model.defer="code_analytique"/>
+                                <label>{{ __('Code Analytique') }}</label>
+                            </div>
+                            @error('code-analytique')
+                            <span class="form-text text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        {{-- <div class="form-group col-md-6">
+                            <label><b>{{ __('Photo Principale') }}</b></label>
+                            <div class="input-group input-group-prepend">
+                                <input type="file" wire:model.defer="photo_principale"/>
+
+                            </div>
+                            @error('photo') <span class="error">{{ $message }}</span> @enderror
+                        </div> --}}
+                        <div class="form-group col-md-6 row">
+                            <label
+                                class="col-8 col-form-label">{{ __('Activé / Désactivé le produit') }}</label>
+                            <div class="col-4">
+                                <span class="switch switch-outline switch-icon switch-primary">
+                                    <label>
+                                    <input type="checkbox" checked="checked"
+                                           wire:model.defer="active" name="active"/>
+                                    <span></span>
+                                    </label>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
+                        <button type="submit" wire:click="editProduit" class="btn btn-primary font-weight-bold" form="edit-form" >{{ __('Enregistrer') }}</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>

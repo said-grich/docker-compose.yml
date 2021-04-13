@@ -14,4 +14,9 @@ class ProduitTranche extends Model
     {
         return $this->belongsTo(Produit::class);
     }
+
+    public function tranche()
+    {
+        return $this->belongsTo(Tranche::class);
+    }
 }

@@ -104,6 +104,8 @@ class BonLivraison extends Component
     public $totalMt;
     public $totalTtc;
     public $totalTva;
+    public $bl_lignes = [];
+    public $client_bl;
 
     //// commande
     public $mode_paiement;
@@ -323,6 +325,16 @@ class BonLivraison extends Component
         $this->loadList();
     }
 
+    public function show($ref){
+        $bon_livraison = ModelBonLivraison::where('ref',$ref)->first();
+        $this->ref_bl =$ref;
+        $this->date = $bon_livraison->date;
+        $this->client_bl =$bon_livraison->client->nom;
+        $this->depot =$bon_livraison->depot->nom;
+        $this->bl_lignes = $bon_livraison->bonLivraisonLignes;
+        $this->montant_total = $bon_livraison->geMontantTotal();
+    }
+
 
 
     public function save(){
@@ -417,8 +429,6 @@ class BonLivraison extends Component
         }else{
             session()->flash('error-commande', 'La commande doit déppaser le seuil de livraison : '.$this->seuil_commande);
         }
-
-
 
         //$this->emit('saved');
 
