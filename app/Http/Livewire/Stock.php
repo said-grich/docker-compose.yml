@@ -181,7 +181,7 @@ class Stock extends Component
         $this->validate([
             'nbr_pc' => 'required',
         ]);
-        
+
         $this->details_index = $i;
         $this->nom_produit =$this->produit[$i];
         $this->count_rows = $this->details[$i];

@@ -35,7 +35,7 @@ class Produits extends Component
     public $code_analytique;
 
     public $mode_vente;
-    public $mode_cuisine;
+    public $mode_cuisine = [];
     public $list_cuisine = [];
     public $mode_nettoyage = [];
     public $list_nettoyage = [];
@@ -171,10 +171,12 @@ class Produits extends Component
                 ]);
             }
 
-            PreparationType::create([
-                'produit_id' => $item->id,
-                'preparation_id' => $this->mode_cuisine,
-            ]);
+            foreach ($this->mode_cuisine as $key => $value) {
+                PreparationType::create([
+                    'produit_id' => $item->id,
+                    'preparation_id' => $this->mode_cuisine[$key],
+                ]);
+            }
 
             foreach ($this->mode_nettoyage as $key => $value) {
                 PreparationType::create([

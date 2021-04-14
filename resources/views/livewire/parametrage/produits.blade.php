@@ -202,7 +202,7 @@
                                                  <label><b>{{ __('Mode Cuisine ') }}</b></label>
                                                  <div class="input-group input-group-prepend">
                                                      <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-tools icon-lg"></i></span></div>
-                                                     <select class="form-control selectpicker" wire:model="mode_cuisine">
+                                                     <select class="form-control " wire:model="mode_cuisine" multiple>
                                                          <option>{{ __('Choisir un mode de préparation') }}</option>
                                                              @foreach ($list_cuisine as $mode)
                                                                  <option value="{{$mode->id}}">{{$mode->nom}}</option>
@@ -210,7 +210,7 @@
                                                      </select>
                                                      <div class="input-group-append" data-toggle="modal" data-target="#mode-preparation"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Mode Préparation"><i class="fa fa-plus-circle"></i></button></div>
                                                  </div>
-                                                 @error('mode_preparation')
+                                                 @error('mode_cuisine')
                                                      <span class="form-text text-danger">{{ $message }}</span>
                                                  @enderror
                                              </div>
@@ -226,7 +226,7 @@
                                                     </select>
                                                     <div class="input-group-append" data-toggle="modal" data-target="#mode-preparation"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Mode Préparation"><i class="fa fa-plus-circle"></i></button></div>
                                                 </div>
-                                                @error('mode_preparation')
+                                                @error('mode_nettoyage')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>

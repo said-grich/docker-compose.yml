@@ -95,7 +95,7 @@
                          </div>
 
                         <!--Modal-->
-                        <div class="modal fade" id="preparations" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="preparations" aria-hidden="true">
+                        {{-- <div class="modal fade" id="preparations" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="preparations" aria-hidden="true">
                             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -125,7 +125,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </td>
                     <td class="pr-0 text-right">
                         <a href="#" wire:click="edit({{$item->id}})" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#edit">
@@ -263,7 +263,7 @@
                                             class="fa fa-sliders-h icon-lg"></i></span></div>
                                 <select class="form-control" wire:model="tranches" multiple>
                                     <option>{{ __('Choisir une tranche') }}</option>
-                                    @foreach ($list_tranches as $tranche)
+                                    @foreach ($list_tranches as  $tranche)
                                         <option value="{{$tranche->uid}}">{{$tranche->nom}}</option>
                                     @endforeach
                                 </select>
@@ -285,7 +285,7 @@
                             <div class="input-group input-group-prepend">
                                 <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-tools icon-lg"></i></span></div>
                                 {{-- @livewire('multi-select', ['selectId' => 'testselect', 'selectTitle' => '', 'selectType' => '', 'selected' => $mode_cuisine, 'selectOptions' => $list_cuisine]) --}}
-                                <select class="form-control " wire:model="mode_cuisine">
+                                <select class="form-control " wire:model="mode_cuisine" multiple>
                                     <option>{{ __('Choisir un mode de préparation') }}</option>
                                         @foreach ($list_cuisine as $mode)
                                             <option value="{{$mode->id}}" @if($mode_cuisine == $item->id) {{'selected'}} @endif>{{$mode->nom}}</option>
@@ -341,16 +341,23 @@
                             <label><b>{{ __('Photo Principale') }}</b></label>
                             <div class="input-group input-group-prepend">
                                 <input type="file" wire:model="photo_principale"/>
+                                <img style="max-width: 10%;" alt="Pic" src="{{ Storage::url($photo_principale)}}"/>
 
                             </div>
                             @error('photo') <span class="error">{{ $message }}</span> @enderror
                         </div>
-                        <div class="form-group col-md-6">
+
+                        <div class="form-group col-md-6" >
                             <label><b>{{ __('Autres Photos') }}</b></label>
                             <div class="input-group input-group-prepend">
                                 <input type="file" wire:model="photos" multiple/>
+                                @foreach ($iteme as $key => $item)
+                                {{-- @php dd($item->photos) @endphp --}}
+                                <img style="max-width: 10%;" alt="Pic" src="{{ Storage::url($item->photo) }}"/>
+                                @endforeach
                             </div>
                         </div>
+
                         <div class="form-group col-md-6 row">
                             <label
                                 class="col-8 col-form-label">{{ __('Activé / Désactivé le produit') }}</label>

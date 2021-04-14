@@ -19,7 +19,7 @@ class CreateProduitTranchesTable extends Migration
             $table->unsignedBigInteger('produit_id');
             $table->string('tranche_id');
 
-            $table->foreign('produit_id')->references('id')->on('produits');
+            $table->foreign('produit_id')->references('id')->on('produits')->onDelete('cascade')->onUpdate('cascade');
             //$table->foreign('tranche_id')->references('id')->on('tranches');
             $table->timestamps();
         });
