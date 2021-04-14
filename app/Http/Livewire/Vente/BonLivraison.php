@@ -156,7 +156,6 @@ class BonLivraison extends Component
         $this->list_clients = Client::all()->sortBy('nom');
         $this->list_categorie = Categorie::all()->sortBy('nom');
         $this->list_mode_paiement = ModePaiement::all()->sortBy('nom');
-        $this->list_livreurs = Livreur::where('solde',null)->where('active',true)->get()->sortBy('nom');
         $this->list_mode_livraison = ModeLivraison::all()->sortBy('nom');
         $this->list_region = Region::all()->sortBy('nom');
     }
@@ -235,6 +234,7 @@ class BonLivraison extends Component
     }
 
     public function updatedVille($value){
+        $this->list_livreurs = Livreur::where('active',true)->where('ville_id',$value)->get()->sortBy('nom');
         $this->list_ville_zones = VilleZone::where('ville_id', $value)->get();
         $ville_livraison = Livraison::where('ville_id', $value)->first();
         $this->frais_livraison = isset($ville_livraison->frais_livraison) ? $ville_livraison->frais_livraison : '';
@@ -476,7 +476,7 @@ class BonLivraison extends Component
                     }
 
                     $livreur = Livreur::find($this->livreur);
-                    $livreur->solde = $commande->total;
+                    $livreur->solde = $livreur->solde + $commande->total;
                     $livreur->save();
 
                     LivreurCommande::create([

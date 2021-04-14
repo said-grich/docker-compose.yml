@@ -690,7 +690,7 @@
                                                                     <select class="form-control" wire:model.defer="livreur">
                                                                         <option value="">{{ __('Choisir un livreur') }}</option>
                                                                         @foreach ($list_livreurs as $item)
-                                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                            <option value="{{$item->id }}" {{$item->solde >= $item->plafond ? 'disabled' : ''}}>{{$item->nom }} | {{$item->solde == null ? 0 : $item->solde}}</option>
                                                                         @endforeach
                                                                     </select>
                                                                     @error('livreur')
