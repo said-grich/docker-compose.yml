@@ -10,6 +10,7 @@ use App\Models\ModePaiement;
 use App\Models\Produit;
 use App\Models\Stock;
 use App\Models\VilleQuartier;
+use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -41,6 +42,7 @@ class ListeCommandes extends Component
     public $etat = [];
     public $etat_commande;
     public $ref;
+    public $date_recue;
 
 
 
@@ -48,14 +50,17 @@ class ListeCommandes extends Component
     public $sortDirection = 'asc';
     public $perPage = 5;
     public $search = '';
-    protected $listeners = ['saved'];
 
     public function edit($ref){
         Commande::where('ref', $ref)->update(['etat' => $this->etat[$ref]]);
     }
 
     public function valider($ref){
-        Commande::where('ref', $ref)->update(['etat' => "Validée"]);
+        Commande::where('ref', $ref)->update([
+            'etat' => "Validée",
+            'date_validee' => Carbon::now()->toDateTimeString(),
+            ]);
+        $this->emit('saved');
     }
 
 
@@ -78,18 +83,20 @@ class ListeCommandes extends Component
         $this->mode_paiement = ModePaiement::where('id',$commande->mode_paiement_id)->first()->nom;
         $this->mode_livraison_id = ModeLivraison::where('id',$commande->mode_livraison_id)->first()->nom ;
         $this->frais_livraison =$commande->frais_livraison;
-        $this->montant_total = $commande->geMontantTotal();
-
+        $this->montant_total = $commande->total;
+        $this->date_recue =$commande->created_at;
 
         $this->commande_lignes = $commande->commandeLignes->groupBy(function ($commande_ligne) {
             return $commande_ligne->categorie_id;
         })->toArray();
+
 
         foreach ($this->commande_lignes as $categorie_id => $items) {
 
             $this->categories[$categorie_id] = Categorie::where('id',$categorie_id)->first()->nom;
 
             foreach ($items as $key => $value) {
+                //dd($value['preparations_cuisine'],$value['preparations_cuisine']);
 
                 $this->produits[$categorie_id][$key] = Stock::where('id',$value['piece_id'])->first()->produit->nom;
 

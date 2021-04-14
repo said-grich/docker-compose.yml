@@ -9,6 +9,7 @@ use App\Models\ModeLivraison;
 use App\Models\ModePaiement;
 use App\Models\Stock;
 use App\Models\VilleQuartier;
+use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -40,6 +41,9 @@ class ListeCommandePretes extends Component
     public $etat = [];
     public $etat_commande;
     public $ref;
+    public $date_recue;
+    public $date_validee;
+    public $date_prete;
 
 
 
@@ -51,7 +55,11 @@ class ListeCommandePretes extends Component
 
     public function enExpedition($ref){
 
-        Commande::where('ref', $ref)->update(['etat' => "En Expédition"]);
+        Commande::where('ref', $ref)->update([
+            'etat' => "En Expédition",
+            'date_expedition' => Carbon::now()->toDateTimeString(),
+            ]);
+            $this->emit('saved');
     }
 
     public function edit($ref)
@@ -80,7 +88,10 @@ class ListeCommandePretes extends Component
         $this->mode_paiement = ModePaiement::where('id', $commande->mode_paiement_id)->first()->nom;
         $this->mode_livraison_id = ModeLivraison::where('id', $commande->mode_livraison_id)->first()->nom;
         $this->frais_livraison = $commande->frais_livraison;
-        $this->montant_total = $commande->geMontantTotal();
+        $this->montant_total = $commande->total;
+        $this->date_recue =$commande->created_at;
+        $this->date_validee =$commande->date_validee;
+        $this->date_prete =$commande->date_prete;
 
 
         $this->commande_lignes = $commande->commandeLignes->groupBy(function ($commande_ligne) {
@@ -102,7 +113,7 @@ class ListeCommandePretes extends Component
     {
 
         $items = Commande::query()
-            ->where('etat', 'Prêtes')
+            ->where('etat', 'Prête')
             ->where('ref', 'ilike', '%' . $this->search . '%')
             ->orderBy($this->sortBy, $this->sortDirection)
             //->get();

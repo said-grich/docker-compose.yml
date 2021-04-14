@@ -39,8 +39,8 @@
 
                             <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_4">
                                 <thead>
-                                    <tr class="text-left">
-                                        <th class="pl-0" style="width: 30px">
+                                    <tr class="pl-0" class="text-left">
+                                        <th style="width: 30px">
                                             <label class="checkbox checkbox-lg checkbox-inline mr-2">
                                                 <input type="checkbox" value="1" />
                                                 <span></span>
@@ -157,11 +157,21 @@
 
                                                 <div class="form row">
                                                     <div class="form-group col">
+                                                        <label>{{ __("Date") }}</label>
+                                                        <div class="input-group input-group-prepend">
+                                                            <div class="input-group-prepend"><span class="input-group-text bg-gray-400"><i class="fa fa-calendar-plus icon-lg"></i></span></div>
+                                                            <input id="date" type="text" class="form-control datepicker bg-gray-400" placeholder=" " wire:model.defer="date" autocomplete="off" disabled/>
+                                                        </div>
+                                                        @error('date')
+                                                            <span class="form-text text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="form-group col">
                                                         <label>{{ __('Client') }}</label>
                                                         <div class="input-group input-group-prepend">
                                                             <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
                                                             <select class="form-control" wire:model="client">
-                                                                <option>{{ __('Choisir un client') }}</option>
+                                                                <option value="">{{ __('Choisir un client') }}</option>
                                                                 @foreach ($list_clients as $item)
                                                                     <option value="{{$item->id }}">{{$item->nom }}</option>
                                                                 @endforeach
@@ -172,20 +182,11 @@
                                                             <span class="form-text text-danger">{{ $message }}</span>
                                                         @enderror
                                                     </div>
-                                                    <div class="form-group col">
-                                                        <label>{{ __("Date") }}</label>
-                                                        <div class="input-group input-group-prepend">
-                                                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar-plus icon-lg"></i></span></div>
-                                                            <input id="date" type="text" class="form-control datepicker" placeholder=" " wire:model.defer="date" autocomplete="off"/>
-                                                        </div>
-                                                        @error('date')
-                                                            <span class="form-text text-danger">{{ $message }}</span>
-                                                        @enderror
-                                                    </div>
+
                                                     <div class="form-group col">
                                                         <label>{{ __("Région de livraison") }}</label>
                                                         <select class="form-control" wire:model="region_livraison">
-                                                            <option>{{ __('Choisir un mode de paiement') }}</option>
+                                                            <option value="">{{ __('Choisir la région de livraison') }}</option>
                                                             @foreach ($list_region as $item)
                                                                 <option value="{{$item->id }}">{{$item->nom }}</option>
                                                             @endforeach
@@ -195,10 +196,7 @@
                                                         @enderror
                                                     </div>
 
-                                                </div>
-
-                                                <div class="form row">
-                                                    <div class="form-group col-lg-4">
+                                                    <div class="form-group col">
                                                         <label>{{ __('Rechercher un produit') }}</label>
                                                         <div class="input-group input-group-prepend">
                                                             <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-hashtag icon-lg"></i></span></div>
@@ -208,7 +206,7 @@
                                                             <span class="form-text text-danger">{{ $message }}</span>
                                                         @enderror
                                                     </div>
-                                                    <div class="form-group col-lg-4">
+                                                    <div class="form-group col">
                                                         <label>{{ __('Catégorie') }}</label>
                                                         <div class="input-group input-group-prepend">
                                                             <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
@@ -244,220 +242,309 @@
 
                                                 @if (count($list_produits) > 0)
                                                     <div>
-                                                        <table class="table table-vertical-center" id="kt_advance_table_widget_4">
-                                                            <thead>
-                                                                <tr class="text-left">
-                                                                    <th class="pl-0">Article</th>
-                                                                    <th class="pl-0">Tranches</th>
-                                                                </tr>
-                                                            </thead>
-                                                            @foreach ($list_produits as $i => $item)
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td class="pl-0">{{$nom_produit[$i]}} </td>
-                                                                        <td class="pl-0">
-                                                                            @foreach ($item as $tranche_uid => $produits)
-                                                                                <a class="btn btn-outline-primary" data-toggle="collapse" href="#{{$tranche_uid}}" role="button" aria-expanded="false" aria-controls="{{$tranche_uid}}">
-                                                                                    <span class="label label-primary label-inline mr-2">{{$nom_tranche[$i][$tranche_uid]}}</span>
-                                                                                    <span class="label label-primary mr-2">{{$nbr_piece[$i][$tranche_uid]}}</span>
-                                                                                </a>
-                                                                            @endforeach
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
+                                                        <div class="card card-custom card-stretch gutter-b bl bg-primary-o-40">
+                                                            <div class="card-header">
+                                                                <h3 class="card-title">Stock</h3>
+                                                            </div>
 
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <th>Sous catégorie</th>
-                                                                        <th>Code</th>
-                                                                        <th>Poids
-                                                                            <input type="text" class="form-control" wire:model.debounce.1000ms="filter.poids"/>
-                                                                        </th>
-                                                                        <th>Unité</th>
-                                                                        <th>Prix Achat</th>
-                                                                        @if($profile === "Normal")
-                                                                            <th>Prix de vente normal</th>
-                                                                        @endif
-                                                                        @if($profile === 'Fidèle')
-                                                                            <th>Prix de vente fidèle</th>
-                                                                        @endif
-                                                                        @if($profile === 'Business')
-                                                                            <th>Prix de vente business</th>
-                                                                        @endif
-                                                                        <th>Lot</th>
-                                                                        <th>Quantité</th>
-                                                                        <th>Pas</th>
-                                                                        <th>Depot</th>
-                                                                        <th></th>
-                                                                    </tr>
-                                                                    @foreach ($item as $tranche_uid => $produits)
-                                                                        @foreach ( $produits as $key => $produit)
-                                                                            <tr class="collapse" id="{{$tranche_uid}}">
-                                                                                <td>{{$produit['categorie']['nom']}}</td>
-                                                                                <td>
-                                                                                    @if (isset($produit['code']))
-                                                                                        {{$produit['code']}}
-                                                                                    @else
-                                                                                        -
-                                                                                    @endif
-                                                                                </td>
-                                                                                <td>
-                                                                                    @if (isset($produit['poids']))
-                                                                                        {{$produit['poids']}}
-                                                                                    @else
-                                                                                        -
-                                                                                    @endif
-                                                                                </td>
-                                                                                <td>
-                                                                                    @isset($produit['unite']['nom'])
-                                                                                        {{$produit['unite']['nom']}}
-                                                                                    @endisset
-                                                                                </td>
-                                                                                <td>
-                                                                                    @isset($produit['prix_achat'])
-                                                                                        {{$produit['prix_achat']}}
-                                                                                    @endisset</td>
-                                                                                <td>
-                                                                                    @isset($prix[$key])
-                                                                                        {{$prix[$key]}}
-                                                                                    @endisset
-                                                                                </td>
-                                                                                <td>{{$produit['lot_num']}}</td>
-                                                                                <td>{{$produit['qte']}}</td>
-                                                                                <td>{{$produit['pas']}}</td>
-                                                                                <td>
-                                                                                    @isset($produit['depot']['nom'])
-                                                                                        {{$produit['depot']['nom']}}
-                                                                                    @endisset
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div x-data="{ 'isDialogOpen': false, qte: null,tranche:'{{$tranche_uid}}', prix:{{$prix[$key]}}, qmax:{{$produit['qte']}},categorie:{{$produit['categorie']['id']}},pieceId:{{$produit['id']}} }" @keydown.escape="isDialogOpen = false">
-                                                                                        @if (!isset($produit['code']))
-                                                                                            <button type="button" x-on:click="isDialogOpen = true" class="btn btn-outline-primary">Ajouter</button>
+                                                            <div class="card-body">
+                                                                <table class="table table-striped">
+                                                                    {{-- <thead class="bg-primary-o-40">
+                                                                        <tr class="text-left">
+                                                                            <th>Article</th>
+                                                                            <th colspan="10">Tranches</th>
+                                                                        </tr>
+                                                                    </thead> --}}
+                                                                    <tbody>
+                                                                    @foreach ($list_produits as $i => $item)
 
-                                                                                            <div class=" overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="isDialogOpen" :class="{ 'fixed inset-0 z-10 flex items-start justify-center': isDialogOpen }">
-                                                                                                <div class="bg-white shadow-2xl m-auto" x-show="isDialogOpen">
+                                                                        <thead class="bg-white">
+                                                                            <th colspan="12">
+                                                                                <span class="text-dark-75 font-weight-bolder font-size-lg pr-6">{{$nom_produit[$i]}}</span>
+                                                                                <span class="text-muted font-weight-bold">
+                                                                                    @foreach ($item as $tranche_uid => $produits)
+                                                                                        <a class="btn btn-outline-primary" data-toggle="collapse" href="#{{$tranche_uid}}" role="button" aria-expanded="false" aria-controls="{{$tranche_uid}}">
+                                                                                            <span class="label label-primary label-inline mr-2">{{$nom_tranche[$i][$tranche_uid]}}</span>
+                                                                                            <span class="label label-primary mr-2">{{$nbr_piece[$i][$tranche_uid]}}</span>
+                                                                                        </a>
+                                                                                    @endforeach
+                                                                                </span>
+                                                                            </th>
 
-                                                                                                    <div class="flex align-middle justify-between items-center border-b p-2 text-xl">
-                                                                                                        <h6 class="text-xl font-bold">Entrer La quantité:
-                                                                                                        </h6>
-                                                                                                        <button type="button" x-on:click="isDialogOpen = false">✖</button>
-                                                                                                    </div>
+                                                                        </thead>
 
-                                                                                                    <div class="pl-0">
+                                                                        <thead style="padding-top: 20px">
+                                                                            <th>Catégorie</th>
+                                                                            <th>Sous catégorie</th>
+                                                                            <th>Code</th>
+                                                                            <th>
+                                                                                <span>Poids</span>
+                                                                                <input type="number" class="form-control col-md-4" {{-- step="0.01" --}} wire:model.debounce.1000ms="filter.poids">
+                                                                            </th>
+                                                                            <th>Unité</th>
+                                                                            <th>Prix Achat</th>
+                                                                            @if($profile === "Normal")
+                                                                                <th>Prix de vente normal</th>
+                                                                            @endif
+                                                                            @if($profile === 'Fidèle')
+                                                                                <th>Prix de vente fidèle</th>
+                                                                            @endif
+                                                                            @if($profile === 'Business')
+                                                                                <th>Prix de vente business</th>
+                                                                            @endif
+                                                                            <th>Lot</th>
+                                                                            <th>Quantité</th>
+                                                                            <th>Pas</th>
+                                                                            <th>Dépôt</th>
+                                                                            <th></th>
+                                                                        </thead>
+                                                                        @foreach ($item as $tranche_uid => $produits)
+                                                                            @foreach ( $produits as $key => $produit)
+                                                                                <tr class="collapse" id="{{$tranche_uid}}">
+                                                                                    <td>{{$produit['categorie']['nom']}}</td>
+                                                                                    <td>{{$produit['sous_categorie']['nom']}}</td>
+                                                                                    <td>
+                                                                                        @if (isset($produit['code']))
+                                                                                            {{$produit['code']}}
+                                                                                        @else
+                                                                                            -
+                                                                                        @endif
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        @if (isset($produit['poids']))
+                                                                                            {{$produit['poids']}}
+                                                                                        @else
+                                                                                            -
+                                                                                        @endif
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        @isset($produit['unite']['nom'])
+                                                                                            {{$produit['unite']['nom']}}
+                                                                                        @endisset
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        @isset($produit['prix_achat'])
+                                                                                            {{$produit['prix_achat']}}
+                                                                                        @endisset</td>
+                                                                                    <td>
+                                                                                        @isset($prix[$key])
+                                                                                            {{$prix[$key]}}
+                                                                                        @endisset
+                                                                                    </td>
+                                                                                    <td>{{$produit['lot_num']}}</td>
+                                                                                    <td>{{$produit['qte_restante']}}</td>
+                                                                                    <td>{{$produit['pas']}}</td>
+                                                                                    <td>
+                                                                                        @isset($produit['depot']['nom'])
+                                                                                            {{$produit['depot']['nom']}}
+                                                                                        @endisset
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div x-data="{ 'isDialogOpen': false, qte: null,tranche:'{{$tranche_uid}}', prix:{{$prix[$key]}}, qmax:{{$produit['qte_restante']}},categorie:{{$produit['categorie']['id']}},pieceId:{{$produit['id']}} }" @keydown.escape="isDialogOpen = false">
+                                                                                            @if (!isset($produit['code']))
+                                                                                                <button type="button" x-on:click="isDialogOpen = true" class="btn btn-outline-primary">Ajouter</button>
+
+                                                                                                <div class=" overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="isDialogOpen" :class="{ 'fixed inset-0 z-10 flex items-start justify-center': isDialogOpen }">
+                                                                                                    <div class="bg-white shadow-2xl m-auto" x-show="isDialogOpen">
+
+                                                                                                        <div class="flex align-middle justify-between items-center border-b p-2 text-xl">
+                                                                                                            <h6 class="text-xl font-bold">Entrer La quantité:
+                                                                                                            </h6>
+                                                                                                            <button type="button" x-on:click="isDialogOpen = false">✖</button>
+                                                                                                        </div>
+
                                                                                                         <div>
                                                                                                             <div>
-                                                                                                                <div class="grid grid-cols-2 gap-4 p-4 mb-8">
-                                                                                                                    <label class="block">
-                                                                                                                        <span class="text-gray-700">QTE</span><span
-                                                                                                                            class="text-red-500">*</span>
-                                                                                                                        <input type="number" x-model="qte"
-                                                                                                                            class="block w-full mt-1 form-input"
-                                                                                                                            placeholder="">
-                                                                                                                        <span class="text-red-500"
-                                                                                                                            x-show="qte>qmax">La quantité
-                                                                                                                            doit être inférieure à
-                                                                                                                            {{$produit['qte']}}</span>
-                                                                                                                    </label>
-                                                                                                                </div>
-                                                                                                                <div class="text-right pt-3 pr-4" x-show="qte>0 && qte<=qmax">
-                                                                                                                    <button type="button" class="btn btn-outline-primary" x-on:click="$wire.add({{ $loop->index }},{{$i}},qte,prix,tranche,categorie,pieceId);isDialogOpen = false">Valider</button>
+                                                                                                                <div>
+                                                                                                                    <div class="grid grid-cols-2 gap-4 p-4 mb-8">
+                                                                                                                        <label class="block">
+                                                                                                                            <span class="text-gray-700">QTE</span><span
+                                                                                                                                class="text-red-500">*</span>
+                                                                                                                            <input type="number" x-model="qte"
+                                                                                                                                class="block w-full mt-1 form-input"
+                                                                                                                                placeholder="">
+                                                                                                                            <span class="text-red-500"
+                                                                                                                                x-show="qte>qmax">La quantité
+                                                                                                                                doit être inférieure à
+                                                                                                                                {{$produit['qte_restante']}}</span>
+                                                                                                                        </label>
+                                                                                                                    </div>
+                                                                                                                    <div class="text-right pt-3 pr-4" x-show="qte>0 && qte<=qmax">
+                                                                                                                        <button type="button" class="btn btn-outline-primary" x-on:click="$wire.add({{ $loop->index }},{{$i}},qte,prix,tranche,categorie,pieceId);isDialogOpen = false">Valider</button>
+                                                                                                                    </div>
                                                                                                                 </div>
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
-                                                                                            </div>
-                                                                                            @else
-                                                                                            <button type="button" class="btn btn-outline-primary" x-on:click="$wire.add({{ $loop->index }},{{$i}},1,prix,tranche,categorie,pieceId);isDialogOpen = false">Ajouter</button>
-                                                                                        @endif
-                                                                                    </div>
-                                                                                </td>
-                                                                            </tr>
-
+                                                                                                @else
+                                                                                                <button type="button" class="btn btn-outline-primary" x-on:click="$wire.add({{ $loop->index }},{{$i}},1,prix,tranche,categorie,pieceId);isDialogOpen = false">Ajouter</button>
+                                                                                            @endif
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            @endforeach
                                                                         @endforeach
                                                                     @endforeach
-                                                                </tbody>
-                                                            @endforeach
-                                                        </table>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+
+                                                        </div>
                                                     </div>
                                                 @endif
 
                                                 {{-- begin commande table --}}
                                                 @if (count($produitId) > 0)
-                                                    <div class="card card-custom gutter-b">
+                                                    <div class="card card-custom card-stretch gutter-b bl bg-info-o-40">
                                                         <!--begin::Header-->
-                                                        <div class="card-header border-0 py-5">
-                                                            <h3 class="card-title align-items-start flex-column">
-                                                                <span class="card-label font-weight-bolder text-dark">Commande</span>
-                                                            </h3>
+                                                        <div class="card-header">
+                                                            <h3 class="card-title">Commande</h3>
                                                         </div>
                                                         <!--end::Header-->
                                                         <!--begin::Body-->
-                                                        <div class="card-body py-0">
+                                                        <div class="card-body">
                                                             <!--begin::Table-->
                                                             <div class="table-responsive">
-                                                                <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_4">
+                                                                <table class="table table-bordered">
                                                                     <thead>
                                                                         <tr class="text-left">
-                                                                            <th class="pl-0" style="min-width: 120px">Article</th>
+                                                                            <th style="min-width: 120px">Article</th>
                                                                             <th style="min-width: 110px">Dépôt</th>
                                                                             <th style="min-width: 110px">Code</th>
                                                                             <th style="min-width: 120px">Poids</th>
-                                                                            <th style="min-width: 120px">Quantité à livrée</th>
+                                                                            <th style="min-width: 120px">Quantité à livrer</th>
                                                                             <th style="min-width: 120px">Prix</th>
                                                                             <th style="min-width: 120px">Montant</th>
+                                                                            <th style="min-width: 120px">Préparations</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
                                                                         @foreach ($pieceId as $key => $val)
+
                                                                             <tr>
-                                                                                <td class="pl-0">
+                                                                                <td>
                                                                                     @isset($produitNom[$key])
                                                                                         {{ $produitNom[$key] }}
                                                                                     @endisset
                                                                                 </td>
-                                                                                <td class="pl-0">
+                                                                                <td>
                                                                                     @isset($depotNom[$key])
                                                                                         {{ $depotNom[$key] }}
                                                                                     @endisset
                                                                                 </td>
-                                                                                <td class="pl-0">
+                                                                                <td>
                                                                                     @isset($code[$key])
                                                                                         {{ $code[$key] }}
                                                                                     @endisset
                                                                                 </td>
-                                                                                <td class="pl-0">
+                                                                                <td>
                                                                                     @isset($poids[$key])
                                                                                         {{ $poids[$key] }}
                                                                                     @endisset
                                                                                 </td>
-                                                                                <td class="pl-0">
+                                                                                <td>
                                                                                     @isset($qte[$key])
                                                                                         {{ $qte[$key] }}
                                                                                     @endisset
                                                                                 </td>
-                                                                                <td class="pl-0">
+                                                                                <td>
                                                                                     @isset($prix_vente[$key])
                                                                                         {{ $prix_vente[$key] }}
                                                                                     @endisset
                                                                                 </td>
 
-                                                                                <td class="pl-0">
+                                                                                <td>
                                                                                     @isset($montant[$key])
                                                                                         {{ number_format($montant[$key], 2, ',', ' ') }}
                                                                                     @endisset
                                                                                 </td>
+                                                                                <td>
+
+                                                                                    <div x-data="{ open{{$val}}: false }">
+
+                                                                                        <div class="mt-4">
+                                                                                           <div class="mt-2">
+                                                                                              <label class="inline-flex items-center">
+                                                                                                <input type="radio" class="form-radio" name="type" value="1" @click="open{{$val}} = 1">
+                                                                                                <span class="ml-2">Cuisine</span>
+                                                                                              </label>
+                                                                                              <label class="inline-flex items-center ml-6">
+                                                                                                <input type="radio" class="form-radio" name="type" value="2" @click="open{{$val}} = 2">
+                                                                                                <span class="ml-2">Nettoyage</span>
+                                                                                              </label>
+                                                                                            </div>
+                                                                                        </div>
+
+
+                                                                                        <div class="w-full pt-4">
+                                                                                            <div x-show="open{{$val}} === 1">
+                                                                                                @isset($preparations_cuisine[$val])
+                                                                                                    <select class="form-control" wire:model.defer="commande_preparations.{{$val}}">
+                                                                                                        <option value="">{{ __('Choisir les préparations de la commande') }}</option>
+                                                                                                        @foreach ($preparations_cuisine[$val] as  $item)
+                                                                                                            <option value="{{$item['preparation']['nom'] }}">{{$item['preparation']['nom'] }}</option>
+                                                                                                        @endforeach
+                                                                                                    </select>
+                                                                                                @endisset
+
+                                                                                            </div>
+                                                                                            <div x-show="open{{$val}} === 2">
+                                                                                                @isset($preparations_nettoyage[$val])
+                                                                                                    <select class="form-control" wire:model.defer="commande_preparations.{{$val}}" multiple>
+                                                                                                        <option value="">{{ __('Choisir les préparations cuisine') }}</option>
+                                                                                                        @foreach ($preparations_nettoyage[$val] as  $item)
+                                                                                                            <option value="{{$item['preparation']['nom'] }}">{{$item['preparation']['nom'] }}</option>
+                                                                                                        @endforeach
+                                                                                                    </select>
+                                                                                                @endisset
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    {{-- @isset($preparations_nettoyage[$val])
+                                                                                        <select class="form-control" wire:model.defer="commande_preparation_nettoyage.{{$val}}" multiple>
+                                                                                            <option value="">{{ __('Choisir les préparations cuisine') }}</option>
+                                                                                            @foreach ($preparations_nettoyage[$val] as  $item)
+                                                                                                <option value="{{$item['preparation_id'] }}">{{$item['preparation']['nom'] }}</option>
+                                                                                            @endforeach
+                                                                                        </select>
+                                                                                    @endisset --}}
+                                                                                    {{--@isset($preparations_cuisine[$val])
+
+                                                                                         <select class="selectpicker form-control" id="preparation" title="" data-live-search="true" data-hide-disabled="true" multiple>
+                                                                                            @foreach($preparations_cuisine[$val] as $item)
+                                                                                                <option value="{{$item['preparation_id']}}">{{$item['preparation']['nom'] }}</option>
+                                                                                            @endforeach
+                                                                                        </select>
+
+                                                                                        <select class="form-control" wire:model.defer="commande_preparations.{{$val}}">
+                                                                                            <option value="">{{ __('Choisir les préparations de la commande') }}</option>
+                                                                                            @foreach ($preparations_cuisine[$val] as  $item)
+                                                                                                <option value="{{$item['preparation_id'] }}">{{$item['preparation']['nom'] }}</option>
+                                                                                            @endforeach
+                                                                                        </select>
+                                                                                    @endisset--}}
+                                                                                </td>
+                                                                                {{-- <td>
+                                                                                    @isset($preparations_nettoyage[$val])
+                                                                                        <select class="form-control" wire:model.defer="commande_preparation_nettoyage.{{$val}}" multiple>
+                                                                                            <option value="">{{ __('Choisir les préparations cuisine') }}</option>
+                                                                                            @foreach ($preparations_nettoyage[$val] as  $item)
+                                                                                                <option value="{{$item['preparation_id'] }}">{{$item['preparation']['nom'] }}</option>
+                                                                                            @endforeach
+                                                                                        </select>
+                                                                                    @endisset
+                                                                                </td> --}}
                                                                             </tr>
                                                                         @endforeach
 
                                                                     </tbody>
                                                                     <tfoot>
                                                                         <tr>
-                                                                            <th class="pl-0" colspan="6">
+                                                                            <th colspan="8">
                                                                                 Total
                                                                             </th>
-                                                                            <th class="pl-0">
+                                                                            <th>
                                                                                 {{ number_format($totalMt, 2, ',', ' ') }}
                                                                             </th>
                                                                         </tr>
@@ -468,123 +555,155 @@
                                                         </div>
                                                         <!--end::Body-->
                                                     </div>
-                                                @endif
-                                                {{-- end commande table --}}
 
+                                                    <!--Info livraison-->
+                                                    <div class="card card-custom card-stretch gutter-b bl bg-warning-o-40">
+                                                        <div class="card-header">
+                                                            <h3 class="card-title">Info livraison</h3>
+                                                        </div>
 
-                                                <!--Info livraison-->
-                                                <div class="card card-custom card-stretch gutter-b">
-                                                    <div class="card-header">
-                                                        <h3 class="card-title">Info livraison</h3>
-                                                    </div>
+                                                        <div class="card-body">
+                                                            <div class="form-group row mt-3">
 
-                                                    <div class="card-body">
-                                                        <div class="form-group row mt-3">
+                                                                <div class="form-group col">
+                                                                    <label>{{ __("Dépôt de la livraison") }}</label>
+                                                                    <div class="input-group input-group-prepend">
+                                                                        <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
+                                                                        <select class="form-control" wire:model.defer="depot_livraison">
+                                                                            <option>{{ __('Choisir un dépôt') }}</option>
+                                                                            @foreach ($list_depots as $item)
+                                                                                <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                            @endforeach
 
-                                                            <div class="form-group col">
-                                                                <label>{{ __("Dépôt de la livraison") }}</label>
-                                                                <div class="input-group input-group-prepend">
-                                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
-                                                                    <select class="form-control" wire:model.defer="depot_livraison">
-                                                                        <option>{{ __('Choisir un dépôt') }}</option>
-                                                                        @foreach ($list_depots as $item)
+                                                                        </select>
+                                                                    </div>
+                                                                    @error('depot_livraison')
+                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                    @enderror
+                                                                </div>
+
+                                                                <div class="col">
+                                                                    <label>{{ __('Téléphone de livraison') }}</label>
+                                                                    <input type="text" class="form-control" placeholder="Téléphone de livraison" wire:model.defer="tel_livraison"/>
+                                                                    @error('tel_livraison')
+                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                    @enderror
+                                                                </div>
+                                                                <div class="col">
+                                                                    <label>{{ __('Contact de livraison') }}</label>
+                                                                    <input type="text" class="form-control" placeholder="Contact de livraison" wire:model.defer="contact_livraison"/>
+                                                                    @error('contact_livraison')
+                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                    @enderror
+                                                                </div>
+
+                                                                <div class="col">
+                                                                    <label>{{ __('Adresse de livraison') }}</label>
+                                                                    <input type="text" class="form-control" placeholder="Adresse de livraison" wire:model.defer="adresse_livraison"/>
+                                                                    @error('adresse_livraison')
+                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                    @enderror
+                                                                </div>
+                                                                <div class="col">
+                                                                    <label>{{ __('Ville de livraison') }}</label>
+                                                                    <select class="form-control" wire:model="ville">
+                                                                        <option value="">{{ __('Choisir une ville de livraison') }}</option>
+                                                                        @foreach ($list_villes as $item)
                                                                             <option value="{{$item->id }}">{{$item->nom }}</option>
                                                                         @endforeach
-
                                                                     </select>
+                                                                    @error('ville')
+                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                    @enderror
                                                                 </div>
-                                                                @error('depot')
-                                                                    <span class="form-text text-danger">{{ $message }}</span>
-                                                                @enderror
+                                                                <div class="col">
+                                                                    <label>{{ __('Ville zone') }}</label>
+                                                                    <select class="form-control" wire:model="ville_zone">
+                                                                        <option value="">{{ __('Choisir une zone') }}</option>
+                                                                        @foreach ($list_ville_zones as $item)
+                                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                    @error('ville_zone')
+                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                    @enderror
+                                                                </div>
+                                                                <div class="col">
+                                                                    <label>{{ __('Quartier') }}</label>
+                                                                    <select class="form-control" wire:model="ville_quartie_id">
+                                                                        <option>{{ __('Choisir un quartier') }}</option>
+                                                                        @foreach ($list_quartiers as $item)
+                                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                    @error('ville_quartie_id')
+                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                    @enderror
+                                                                </div>
                                                             </div>
 
-                                                            <div class="col">
-                                                                <label>{{ __('Téléphone de livraison') }}</label>
-                                                                <input type="text" class="form-control" placeholder="Téléphone de livraison" wire:model.defer="tel_livraison"/>
-                                                            </div>
-                                                            <div class="col">
-                                                                <label>{{ __('Contact de livraison') }}</label>
-                                                                <input type="text" class="form-control" placeholder="Contact de livraison" wire:model.defer="contact_livraison"/>
-                                                            </div>
+                                                            <div class="separator separator-dashed my-10"></div>
 
-                                                            <div class="col">
-                                                                <label>{{ __('Adresse de livraison') }}</label>
-                                                                <input type="text" class="form-control" placeholder="Adresse de livraison" wire:model.defer="adresse_livraison"/>
-                                                            </div>
-                                                            <div class="col">
-                                                                <label>{{ __('Ville de livraison') }}</label>
-                                                                <select class="form-control" wire:model="ville">
-                                                                    <option>{{ __('Choisir une ville de livraison') }}</option>
-                                                                    @foreach ($list_villes as $item)
-                                                                        <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                            <div class="col">
-                                                                <label>{{ __('Ville zone') }}</label>
-                                                                <select class="form-control" wire:model="ville_zone">
-                                                                    <option>{{ __('Choisir une zone') }}</option>
-                                                                    @foreach ($list_ville_zones as $item)
-                                                                        <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                            <div class="col">
-                                                                <label>{{ __('Quartier') }}</label>
-                                                                <select class="form-control" wire:model="ville_quartie_id">
-                                                                    <option>{{ __('Choisir un quartier') }}</option>
-                                                                    @foreach ($list_quartiers as $item)
-                                                                        <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                                    @endforeach
-                                                                </select>
+                                                            <div class="form-group row">
+                                                                <div class="col">
+                                                                    <label>{{ __('Mode de paiement') }}</label>
+                                                                    <select class="form-control" wire:model.defer="mode_paiement">
+                                                                        <option>{{ __('Choisir un mode de paiement') }}</option>
+                                                                        @foreach ($list_mode_paiement as $item)
+                                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                    @error('mode_paiement')
+                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                    @enderror
+                                                                </div>
+                                                                <div class="col">
+                                                                    <label>{{ __('Mode de livraison') }}</label>
+                                                                    <select class="form-control" wire:model.defer="mode_livraison_id">
+                                                                        <option>{{ __('Choisir un mode de livraison') }}</option>
+                                                                        @foreach ($list_mode_livraison as $item)
+                                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                    @error('mode_livraison_id')
+                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                    @enderror
+                                                                </div>
+                                                                <div class="col">
+                                                                    <label>{{ __('Frais de livraison') }}</label>
+                                                                    <input type="text" class="form-control" placeholder="Frais de livraison" wire:model.defer="frais_livraison"/>
+                                                                    @error('frais_livraison')
+                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                    @enderror
+                                                                </div>
+
+                                                                <div class="col">
+                                                                    <label>{{ __('Date de livraison') }}</label>
+                                                                    <input type="date" class="form-control" placeholder="Date de livraison" wire:model.defer="date_livraison"/>
+                                                                    @error('date_livraison')
+                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                    @enderror
+                                                                </div>
+
+                                                                <div class="col">
+                                                                    <label>{{ __('Livreur') }}</label>
+                                                                    <select class="form-control" wire:model.defer="livreur">
+                                                                        <option value="">{{ __('Choisir un livreur') }}</option>
+                                                                        @foreach ($list_livreurs as $item)
+                                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                    @error('livreur')
+                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                    @enderror
+                                                                </div>
                                                             </div>
                                                         </div>
 
-                                                        <div class="separator separator-dashed my-10"></div>
-
-                                                        <div class="form-group row">
-                                                            <div class="col">
-                                                                <label>{{ __('Mode de paiement') }}</label>
-                                                                <select class="form-control" wire:model.defer="mode_paiement">
-                                                                    <option>{{ __('Choisir un mode de paiement') }}</option>
-                                                                    @foreach ($list_mode_paiement as $item)
-                                                                        <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                            <div class="col">
-                                                                <label>{{ __('Mode de livraison') }}</label>
-                                                                <select class="form-control" wire:model.defer="mode_livraison_id">
-                                                                    <option>{{ __('Choisir un mode de livraison') }}</option>
-                                                                    @foreach ($list_mode_livraison as $item)
-                                                                        <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                            <div class="col">
-                                                                <label>{{ __('Frais de livraison') }}</label>
-                                                                <input type="text" class="form-control" placeholder="Frais de livraison" wire:model.defer="frais_livraison"/>
-                                                            </div>
-
-                                                            <div class="col">
-                                                                <label>{{ __('Date de livraison') }}</label>
-                                                                <input type="date" class="form-control" placeholder="Date de livraison" wire:model.defer="date_livraison"/>
-                                                            </div>
-
-                                                            <div class="col">
-                                                                <label>{{ __('Livreur') }}</label>
-                                                                <select class="form-control" wire:model.defer="livreur">
-                                                                    <option>{{ __('Choisir un livreur') }}</option>
-                                                                    @foreach ($list_livreurs as $item)
-                                                                        <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                        </div>
                                                     </div>
-
-                                                </div>
-                                                <!--end Info livraison-->
+                                                    <!--end Info livraison-->
+                                                @endif
+                                                {{-- end commande table --}}
 
                                             </form>
                                         </div>
@@ -597,7 +716,7 @@
                             </div>
 
 
-                            {{-- show Modal --}}
+                            {{-- show bl Modal --}}
                             <div wire:ignore.self class="modal fade" id="show" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="show" aria-hidden="true">
                                 <div class="modal-dialog modal-xxl modal-dialog-centered" role="document">
                                     <div class="modal-content">
@@ -644,23 +763,23 @@
                                                     <table class="table table-vertical-center" id="kt_advance_table_widget_4">
                                                         <thead>
                                                             <tr class="text-left">
-                                                                <th class="pl-0">Article</th>
-                                                                <th class="pl-0">Quantité</th>
-                                                                <th class="pl-0">Prix Achat</th>
-                                                                <th class="pl-0">Montant</th>
+                                                                <th>Article</th>
+                                                                <th>Quantité</th>
+                                                                <th>Prix Achat</th>
+                                                                <th>Montant</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             @foreach ($bl_lignes as $ligne)
                                                                 <tr>
-                                                                    <td class="pl-0">{{$ligne->produit->nom}}</td>
-                                                                    <td class="pl-0">{{$ligne->qte}}</td>
-                                                                    <td class="pl-0">{{$ligne->prix_achat}}</td>
-                                                                    <td class="pl-0">{{$ligne->montant}}</td>
+                                                                    <td>{{$ligne->piece->produit->nom}}</td>
+                                                                    <td>{{$ligne->qte}}</td>
+                                                                    <td>{{$ligne->prix_achat}}</td>
+                                                                    <td>{{$ligne->montant}}</td>
                                                                 </tr>
                                                             @endforeach
                                                             <tr>
-                                                                <th colspan="3" class="pl-0">Total</th>
+                                                                <th colspan="3">Total</th>
                                                                 <td class="pl-0 text-left">{{$montant_total}}</td>
                                                             </tr>
 
@@ -678,7 +797,7 @@
                                     </div>
                                 </div>
                             </div>
-                            {{-- End show Modal --}}
+                            {{-- End show bl Modal --}}
 
                         </div>
                     </div>
@@ -695,9 +814,15 @@
 
 @push('scripts')
 
-    <script>
+    {{-- <script>
         window.addEventListener('contentChanged', event => {
             $('.selectpicker').selectpicker();
+        });
+    </script> --}}
+
+    <script>
+        $(document).ready(function(){
+            $('.selectpicker#preparation').select2();
         });
     </script>
 

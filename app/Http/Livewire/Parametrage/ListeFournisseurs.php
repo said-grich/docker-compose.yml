@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Parametrage;
 
 use App\Models\Fournisseur;
+use App\Models\FournisseurContact;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -41,12 +42,27 @@ class ListeFournisseurs extends Component
 
         return $this->sortBy = $field;
     }
+   
     public function edit($id){
 
         $item = Fournisseur::where('id',$id)->firstOrFail();
         $this->fournisseur_id =$item->id;
         $this->nom =$item->nom;
         $this->tel =$item->tel;
+
+        /* $contacts = FournisseurContact::where( 'fournisseur_id',  $this->fournisseur_id)
+                                     ->get();
+                                     dd( $contacts); */
+        /* foreach ($this->contact_tel as $key => $value) {
+            FournisseurContact::create([
+                'nom'=> $this->contact_nom[$key],
+                'tel'=> $this->contact_tel[$key],
+                'email'=> $this->contact_email[$key],
+                'fonction'=> $this->contact_fonction[$key],
+                'fournisseur_id'=> $item->id,
+            ]);
+        } */
+
     }
 
     public function editFournisseur(){

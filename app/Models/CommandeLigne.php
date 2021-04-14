@@ -10,6 +10,10 @@ class CommandeLigne extends Model
     use HasFactory;
     protected $guarded = [];
 
+    protected $casts = [
+        'preparations' => 'array',
+    ];
+
     public function commande()
     {
         return $this->belongsTo(Commande::class);

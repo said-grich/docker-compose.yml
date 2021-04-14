@@ -11,8 +11,13 @@ class BonLivraisonLigne extends Model
 
     protected $guarded = [];
 
-    public function produit()
+    /* public function produit()
     {
         return $this->belongsTo(Produit::class);
+    } */
+
+    public function piece()
+    {
+        return $this->belongsTo(Stock::class,'piece_id','id');
     }
 }

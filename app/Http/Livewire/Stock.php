@@ -177,6 +177,11 @@ class Stock extends Component
 
      public function setCodePoids($i){
         //$this->reset(['code','poids']);
+
+        $this->validate([
+            'nbr_pc' => 'required',
+        ]);
+        
         $this->details_index = $i;
         $this->nom_produit =$this->produit[$i];
         $this->count_rows = $this->details[$i];
@@ -285,6 +290,7 @@ class Stock extends Component
                                     $item = new ModelsStock();
                                     $item->type = $produit->modeVente->nom;
                                     $item->qte = 1;
+                                    $item->qte_restante = 1;
                                     $item->lot_num = $this->lot_num[$key];
                                     $item->produit_id = $this->produit[$key];
                                     $item->categorie_id = $this->categorie[$key];
@@ -320,6 +326,7 @@ class Stock extends Component
                     $item = new ModelsStock();
                     $item->type = $produit->modeVente->nom;
                     $item->qte = $this->qte[$key];
+                    $item->qte_restante = $this->qte[$key];
                     $item->lot_num = $this->lot_num[$key];
                     $item->produit_id = $this->produit[$key];
                     $item->categorie_id = $this->categorie[$key];

@@ -21,9 +21,13 @@ class CreateBonLivraisonLignesTable extends Migration
             $table->double('montant');
 
             $table->string('bon_livraison_ref');
-            $table->foreign('bon_livraison_ref')->references('ref')->on('bon_livraisons')->onUpdate('cascade')->onDelete('cascade');;
-            $table->unsignedBigInteger('produit_id');
-            $table->foreign('produit_id')->references('id')->on('produits');
+            $table->foreign('bon_livraison_ref')->references('ref')->on('bon_livraisons')->onUpdate('cascade')->onDelete('cascade');
+
+            $table->unsignedBigInteger('piece_id');
+            $table->foreign('piece_id')->references('id')->on('stocks');
+
+            /* $table->unsignedBigInteger('produit_id');
+            $table->foreign('produit_id')->references('id')->on('produits'); */
             $table->unsignedBigInteger('categorie_id');
             $table->foreign('categorie_id')->references('id')->on('categories');
 

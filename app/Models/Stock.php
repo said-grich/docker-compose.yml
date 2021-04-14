@@ -57,6 +57,11 @@ class Stock extends Model
         return $this->belongsTo(Qualite::class);
     }
 
+    public function bonLivraisonLignes()
+    {
+        return $this->hasMany(BonLivraisonLigne::class);
+    }
+
     public function commandeLignes()
     {
         return $this->hasMany(CommandeLigne::class);
