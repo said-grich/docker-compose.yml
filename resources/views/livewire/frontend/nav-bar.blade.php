@@ -35,8 +35,8 @@
 		<nav class="cd-nav">
 		<ul id="cd-primary-nav" class="cd-primary-nav is-fixed">
 			<li><a href="{{ route('index') }}">Accueil</a></li>
-			<li><a href="{{ route('boutique') }}">Poissons Frais</a></li>
-			<li><a href="{{ route('boutique') }}">Poissons Congelés</a></li>
+			<li><a href="{{ route('boutique', ['cat' => '2']) }}">Poissons Frais</a></li>
+			<li><a href="{{ route('boutique', ['cat' => '1']) }}">Poissons Congelés</a></li>
 			{{-- <li class="has-children">
 				<a href="#">Produits</a>
 				<ul class="cd-secondary-nav is-hidden">
@@ -124,7 +124,7 @@
 					</li>
 				</ul>
 			</li> --}}
-			<li><a href="{{ route('boutique') }}">Épicerie</a></li>
+			<li><a href="{{ route('boutique', ['cat' => '3']) }}">Épicerie</a></li>
 			<li><a href="{{ route('apropos') }}">À Propos</a></li>
 			<li><a href="{{ route('contact') }}">Contact</a></li>
 		</ul> <!-- primary-nav -->

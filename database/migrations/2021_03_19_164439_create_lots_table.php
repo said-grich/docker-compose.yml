@@ -24,7 +24,7 @@ class CreateLotsTable extends Migration
             $table->boolean('active')->default(false);
 
             $table->string('bon_reception_ref');
-            $table->foreign('bon_reception_ref')->references('ref')->on('bon_receptions');
+            $table->foreign('bon_reception_ref')->references('ref')->on('bon_receptions')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('fournisseur_id');
             $table->foreign('fournisseur_id')->references('id')->on('fournisseurs');
             $table->unsignedBigInteger('qualite_id');

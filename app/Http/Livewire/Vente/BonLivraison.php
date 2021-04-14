@@ -28,6 +28,7 @@ use App\Models\Ville;
 use App\Models\VilleQuartier;
 use App\Models\VilleZone;
 use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use DateTime;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
@@ -132,7 +133,7 @@ class BonLivraison extends Component
     public $depot_livraison;
     public $seuil_livraison_gratuite;
     public $seuil_commande;
-    public $commande_preparation_nettoyage = [];
+    public $commande_preparations = [];
     public $commande_preparation_cuisine = [];
 
 
@@ -155,7 +156,6 @@ class BonLivraison extends Component
         $this->list_clients = Client::all()->sortBy('nom');
         $this->list_categorie = Categorie::all()->sortBy('nom');
         $this->list_mode_paiement = ModePaiement::all()->sortBy('nom');
-        $this->list_livreurs = Livreur::where('solde',null)->where('active',true)->get()->sortBy('nom');
         $this->list_mode_livraison = ModeLivraison::all()->sortBy('nom');
         $this->list_region = Region::all()->sortBy('nom');
     }
@@ -173,6 +173,31 @@ class BonLivraison extends Component
     } */
 
     public function mount(){
+
+        //dd(Carbon::now()->locale('fr_FR')->dayName );
+
+        /* $count = 7;
+        $dates = [];
+        $dates_names = [];
+        $date = Carbon::now()->locale('fr_FR');
+        //$fr = CarbonImmutable::now()->locale('fr_FR');
+        for ($i = 0; $i < $count; $i++) {
+            $dates[] = $date->addDay()->format('d-m-Y');
+            $dates_names[] = $date->addDay()->format('l');
+        }
+
+        // Show me what you got
+        dd($date,$dates,$dates_names);
+
+
+        $now = Carbon::now();
+        $start = $now->startOfWeek(Carbon::MONDAY);
+        $end = $now->endOfWeek(Carbon::SUNDAY);
+
+        $fr = CarbonImmutable::now()->locale('fr_FR');
+
+        dd($fr->firstWeekDay,$fr->lastWeekDay,$fr->startOfWeek()->format('Y-m-d H:i'),$fr->endOfWeek()->format('Y-m-d H:i'));
+        dd($start,$end,$now); */
 
         $latest_bl = ModelBonLivraison::latest()->first();
         if (! $latest_bl) {
@@ -209,6 +234,7 @@ class BonLivraison extends Component
     }
 
     public function updatedVille($value){
+        $this->list_livreurs = Livreur::where('active',true)->where('ville_id',$value)->get()->sortBy('nom');
         $this->list_ville_zones = VilleZone::where('ville_id', $value)->get();
         $ville_livraison = Livraison::where('ville_id', $value)->first();
         $this->frais_livraison = isset($ville_livraison->frais_livraison) ? $ville_livraison->frais_livraison : '';
@@ -358,7 +384,7 @@ class BonLivraison extends Component
 
 
     public function save(){
-        //dd($this->commande_preparation_cuisine,$this->commande_preparation_nettoyage,$this->pieceId );
+        //dd($this->commande_preparations,$this->pieceId );
 
         $this->validate([
             'client' => 'required',
@@ -390,7 +416,7 @@ class BonLivraison extends Component
                 $commande->mac_address = $MAC;
                 $commande->date = $this->date;
                 $commande->etat = "Reçue";
-                $commande->total = $this->totalMt;
+                $commande->total = $this->totalMt + $this->frais_livraison;
                 $commande->date_livraison = $this->date_livraison;
                 $commande->tel_livraison = $this->tel_livraison;
                 $commande->contact_livraison = $this->contact_livraison;
@@ -431,8 +457,8 @@ class BonLivraison extends Component
                             'qte' => $this->qte[$key],
                             'prix' => $this->prix_vente[$key],
                             'montant' => $this->montant[$key],
-                            'preparations_cuisine' => isset($this->commande_preparation_cuisine[$value]) ? $this->commande_preparation_cuisine[$value] : '',
-                            'preparations_nettoyage' => isset($this->commande_preparation_nettoyage[$value]) ? $this->commande_preparation_nettoyage[$value] : '' ,
+                            'preparations' => isset($this->commande_preparations[$value]) ? $this->commande_preparations[$value] : [],
+                            //'preparations' => isset($this->commande_preparation_nettoyage[$value]) ? $this->commande_preparation_nettoyage[$value] : '' ,
                         ]);
 
 
@@ -450,7 +476,7 @@ class BonLivraison extends Component
                     }
 
                     $livreur = Livreur::find($this->livreur);
-                    $livreur->solde = $this->totalMt;
+                    $livreur->solde = $livreur->solde + $commande->total;
                     $livreur->save();
 
                     LivreurCommande::create([

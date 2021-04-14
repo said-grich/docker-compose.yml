@@ -125,13 +125,13 @@
 
                                 <div class="md-step {{$etat_commande === 'Reçue' ? "active" : "done"}}">
                                     <div class="md-step-circle"><span>1</span></div>
-                                    <div class="md-step-title">Reçue</div>
+                                    <div class="md-step-title">Reçue <br> {{$date_recue}}</div>
                                     <div class="md-step-bar-left"></div>
                                     <div class="md-step-bar-right"></div>
                                 </div>
                                 <div class="md-step {{$etat_commande === 'Validée' ? "active" : "done"}}">
                                     <div class="md-step-circle"><span>2</span></div>
-                                    <div class="md-step-title">Validée</div>
+                                    <div class="md-step-title">Validée <br> {{$date_validee}}</div>
                                     <div class="md-step-bar-left"></div>
                                     <div class="md-step-bar-right"></div>
                                    {{--  {{$date_validee}} --}}
@@ -232,16 +232,19 @@
                                             </th>
                                         </tr>
                                         <tr class="text-left">
-                                            <th style="min-width: 250px">
+                                            <th>
                                                 <span class="text-dark-75">Produit</span>
                                             </th>
-                                            <th style="min-width: 100px">
+                                            <th>
+                                                <span class="text-dark-75">Préparation</span>
+                                            </th>
+                                            <th>
                                                 <span class="text-dark-75">Quantité</span>
                                             </th>
-                                            <th style="min-width: 100px">
+                                            <th>
                                                 <span class="text-dark-75">Prix</span>
                                             </th>
-                                            <th style="min-width: 100px">
+                                            <th>
                                                 <span class="text-dark-75">Montant</span>
                                             </th>
                                         </tr>
@@ -249,16 +252,26 @@
                                     <tbody>
                                         @foreach ($items as $key=>$item)
                                             <tr>
-                                                <td class="pl-0">
+                                                <td>
                                                     {{$produits[$categorie_id][$key]}}
                                                 </td>
-                                                <td class="pl-0">
+                                                <td>
+                                                    @if (is_array($item['preparations']))
+                                                        @foreach ($item['preparations'] as $value)
+                                                            {{ $loop->first ? '' : ', ' }} {{ $value }}
+                                                        @endforeach
+                                                    @else
+                                                        {{isset($item['preparations']) ? $item['preparations'] : "Sans préparation"}}
+                                                    @endif
+
+                                                </td>
+                                                <td>
                                                     {{$item['qte']}}
                                                 </td>
-                                                <td class="pl-0">
+                                                <td>
                                                     {{$item['prix']}}
                                                 </td>
-                                                <td class="pl-0">
+                                                <td>
                                                     {{$item['montant']}}
                                                 </td>
                                             </tr>
@@ -275,6 +288,13 @@
                                         <th></th>
                                         <th></th>
                                         <th>{{$montant_total}}</th>
+                                    </tr>
+                                    <tr>
+                                        <th><span class="text-dark-75">Montant total è payer</span></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th>{{$montant_total_a_payer}}</th>
                                     </tr>
                                 </tfoot>
                             </table>

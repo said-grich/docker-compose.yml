@@ -2641,7 +2641,7 @@ main {
   background: #fff;
   overflow: hidden;
   box-shadow: 0 20px 25px -5px rgb(0 0 0 / 10%), 0 10px 10px -5px rgb(0 0 0 / 4%) !important;
-  border-radius: 3rem;
+  border-radius: 1rem;
 }
 .product .product-content .product-pic {
   margin-top: -1rem;
@@ -2652,14 +2652,14 @@ main {
   display: none;
 }
 .product .product-content .product-pic .ribbon {
-  top: 20px;
+  top: 10px;
   left: 10px;
   border-radius: 1rem;
   background: #54a0ff;
 }
-.product .product-content .carousel-inner {
+/* .product .product-content .carousel-inner {
   border-radius: 0 0 3rem 0;
-}
+} */
 .product .product-content .carousel-inner,
 .product .product-content .carousel-item {
   height: 600px;
@@ -3189,11 +3189,10 @@ main {
   padding: 2rem 0;
 }
 .cart .cart-content {
-  padding: 1rem 0;
   background: #fff;
   overflow: hidden;
   box-shadow: 0 20px 25px -5px rgb(0 0 0 / 10%), 0 10px 10px -5px rgb(0 0 0 / 4%) !important;
-  border-radius: 3rem;
+  border-radius: 1rem;
 }
 .cart .cart-content .card-header {
   text-align: center;
@@ -3204,6 +3203,9 @@ main {
 }
 .cart .cart-content .card-block .table-details {
   margin-bottom: 1rem;
+}
+.cart .cart-content .card-block .btn.btn-primary {
+  min-width: 8rem;
 }
 .cart .cart-content .card-block .total-amount {
   float: right;

@@ -90,6 +90,7 @@ class ListeTranches extends Component
         $tranche = Tranche::where('uid',$uid)->first();
 
         $tranche->delete();
+        
     }
 
     public function saved()

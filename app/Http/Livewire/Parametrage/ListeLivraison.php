@@ -6,7 +6,7 @@ use App\Models\Livraison;
 use App\Models\Ville;
 use Livewire\Component;
 use Livewire\WithPagination;
-
+use Illuminate\Support\Facades\DB;
 class ListeLivraison extends Component
 {
 
@@ -43,6 +43,8 @@ class ListeLivraison extends Component
         return view('livewire.parametrage.liste-livraison',[
             'items'=> $items
         ]);
+
+      
     }
 
     public function sortBy($field)

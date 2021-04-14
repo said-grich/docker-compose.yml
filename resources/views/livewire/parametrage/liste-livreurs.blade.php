@@ -21,6 +21,7 @@
                 <th class="pl-0" wire:click="sortBy('tel')" style="cursor: pointer;">Téléphone @include('layouts.partials._sort-icon',['field'=>'tel'])</th>
                 <th class="pl-0" wire:click="sortBy('type')" style="cursor: pointer;">Type @include('layouts.partials._sort-icon',['field'=>'type'])</th>
                 <th class="pl-0" wire:click="sortBy('type')" style="cursor: pointer;">Ville @include('layouts.partials._sort-icon',['field'=>'type'])</th>
+                <th class="pl-0" wire:click="sortBy('plafond')" style="cursor: pointer;">Plafond @include('layouts.partials._sort-icon',['field'=>'plafond'])</th>
                 <th class="pl-0" wire:click="sortBy('active')" style="cursor: pointer;">Statut @include('layouts.partials._sort-icon',['field'=>'active'])</th>
                 <th class="pr-0 text-right" style="min-width: 160px">Actions</th>
             </tr>
@@ -47,6 +48,9 @@
                     </td>
                     <td class="pl-0">
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->ville->nom }}</a>
+                    </td>
+                    <td class="pl-0">
+                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->plafond }}</a>
                     </td>
                     <td class="pl-0">
                         <span class="label {{ $item->active == true ? 'label-primary' : 'label-danger' }} label-pill label-inline mr-2">{{ $item->active == true ? 'Activé' : 'Désactivé' }} </span>

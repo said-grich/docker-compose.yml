@@ -43,6 +43,7 @@ class ListeCommandes extends Component
     public $etat_commande;
     public $ref;
     public $date_recue;
+    public $montant_total_a_payer;
 
 
 
@@ -50,7 +51,6 @@ class ListeCommandes extends Component
     public $sortDirection = 'asc';
     public $perPage = 5;
     public $search = '';
-    protected $listeners = ['saved'];
 
     public function edit($ref){
         Commande::where('ref', $ref)->update(['etat' => $this->etat[$ref]]);
@@ -61,6 +61,7 @@ class ListeCommandes extends Component
             'etat' => "Validée",
             'date_validee' => Carbon::now()->toDateTimeString(),
             ]);
+        $this->emit('saved');
     }
 
 
@@ -84,8 +85,8 @@ class ListeCommandes extends Component
         $this->mode_livraison_id = ModeLivraison::where('id',$commande->mode_livraison_id)->first()->nom ;
         $this->frais_livraison =$commande->frais_livraison;
         $this->montant_total = $commande->geMontantTotal();
+        $this->montant_total_a_payer = $commande->total;
         $this->date_recue =$commande->created_at;
-
 
         $this->commande_lignes = $commande->commandeLignes->groupBy(function ($commande_ligne) {
             return $commande_ligne->categorie_id;

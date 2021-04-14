@@ -63,6 +63,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/livraison', \App\Http\Liv
 Route::middleware(['auth:sanctum', 'verified'])->get('/bon-reception', \App\Http\Livewire\GestionAchat\ListeBonReception::class)->name('bon-reception');
 Route::middleware(['auth:sanctum', 'verified'])->get('/designation-prix', \App\Http\Livewire\Vente\DesignationPrix::class)->name('designation-prix');
 Route::middleware(['auth:sanctum', 'verified'])->get('/bon-livraison', \App\Http\Livewire\Vente\BonLivraison::class)->name('bon-livraison');
+Route::middleware(['auth:sanctum', 'verified'])->get('/reglement', \App\Http\Livewire\Vente\Reglement::class)->name('reglement');
 
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/etat-stock', \App\Http\Livewire\Stock\EtatStock::class)->name('etat-stock');
@@ -82,3 +83,5 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/panier', \App\Http\Livewi
 Route::middleware(['auth:sanctum', 'verified'])->get('/blog', \App\Http\Livewire\Frontend\Blog::class)->name('blog');
 Route::middleware(['auth:sanctum', 'verified'])->get('/apropos', \App\Http\Livewire\Frontend\Apropos::class)->name('apropos');
 Route::middleware(['auth:sanctum', 'verified'])->get('/contact', \App\Http\Livewire\Frontend\Contact::class)->name('contact');
+Route::middleware(['auth:sanctum', 'verified'])->get('/sinscrire', \App\Http\Livewire\Frontend\Sinscrire::class)->name('sinscrire');
+Route::middleware(['auth:sanctum', 'verified'])->get('/connexion', \App\Http\Livewire\Frontend\Connexion::class)->name('connexion');

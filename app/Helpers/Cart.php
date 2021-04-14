@@ -3,8 +3,8 @@
 
 namespace App\Helpers;
 
-use App\Models\Produit;
-use App\Models\StockPoidsPc;
+use App\Models\Stock;
+use Session;
 
 class Cart
 {
@@ -15,7 +15,7 @@ class Cart
             $this->set($this->empty());
     }
 
-    public function add(StockPoidsPc $product): void
+    public function add(Stock $product): void
     {
         $cart = $this->get();
         // $cartProductsIds = array_column($cart['product-'.$product->id], 'id');
@@ -26,8 +26,14 @@ class Cart
         //     $this->set($cart);
         //     return;
         // }
+        foreach(Session::get($product->produit_id.'-'.$product->tranche_id) as $item){
+            if($item['id'] == $product->id){
+                array_push($cart['products'], array('pcs-'.$product->id => [$product, 'preparations' => $item[0]['preparations']]));
+            }
+        }
 
-        array_push($cart['products'], ['pcs-'.$product->id => $product]);
+        // dd($cart);
+
         $this->set($cart);
     }
 
