@@ -22,7 +22,7 @@ class CreateBonReceptionLignesTable extends Migration
             $table->unsignedBigInteger('produit_id');
             $table->foreign('produit_id')->references('id')->on('produits');
             $table->string('bon_reception_ref');
-            $table->foreign('bon_reception_ref')->references('ref')->on('bon_receptions');
+            $table->foreign('bon_reception_ref')->references('ref')->on('bon_receptions')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

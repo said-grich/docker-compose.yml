@@ -98,7 +98,7 @@
                                                         {{--end::Svg Icon--}}
                                                     </span>
                                                 </a>
-                                                <a href="#" class="btn btn-icon btn-light btn-hover-primary btn-sm" wire:click="deleteLivreur('{{$item->id}}')">
+                                                <a href="#" class="btn btn-icon btn-light btn-hover-primary btn-sm" wire:click="delete('{{$item->id}}')">
                                                     <span class="svg-icon svg-icon-md svg-icon-primary">
                                                         {{--begin::Svg Icon--}}
                                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -822,7 +822,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form id="unite-form" class="form" wire:submit.prevent="saveCodePoids">
+                        <form id="poids-form" class="form" wire:submit.prevent="saveCodePoids">
                             {{--  <input type="text" class="form-control" placeholder=" " wire:model="details_index"/> --}}
                             <table class="table">
                                 <thead>
@@ -859,7 +859,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
-                        <button type="submit" class="btn btn-primary font-weight-bold" form="unite-form">{{ __('Enregistrer') }}</button>
+                        <button type="submit" class="btn btn-primary font-weight-bold" form="poids-form">{{ __('Enregistrer') }}</button>
                     </div>
                 </div>
             </div>
@@ -1150,12 +1150,12 @@
                                                                     </td>
                                                                     <td>
                                                                         {{--<input type="text" class="form-control" placeholder="" wire:model.defer="nom_tranche.{{$key}}" />--}}
-                                                                        <select class="form-control" wire:model="nom_tranche.{{$key}}" >
+                                                                        <select class="form-control" wire:model.defer="uid_tranche.{{$key}}" >
+                                                                            <option>{{ __('Choisir une tranche') }}</option>
                                                                             @foreach ($list_piece as $item)
-                                                                                <option value="{{$item->id }}" @if($item->tranche_id == $item->id){{'selected'}}@endif>{{$item->nom }}</option>
+                                                                                <option value="{{$item->uid }}" @if($uid_tranche == $item->uid){{'selected'}}@endif>{{$item->nom }}</option>
                                                                             @endforeach
                                                                         </select>
-
                                                                     </td>
                                                                     <td>
                                                                         <input type="text" class="form-control" placeholder="" wire:model.defer="qte.{{$key}}" />
@@ -1180,7 +1180,7 @@
                                                                         <input type="text" class="form-control" placeholder="" wire:model.defer="pas.{{$key}}" />
                                                                     </td>
                                                                     <td>
-                                                                        <button type="button" class="btn btn-outline-danger"  wire:click="delete({{$key}})">X</button>
+                                                                        <button type="submit" class="btn btn-outline-danger"  wire:click="supp('{{$lot->id}}')">X</button>
                                                                     </td>
                                                                 </tr>
                                                             @endforeach
@@ -1255,9 +1255,10 @@
 
                                                                             <td>
                                                                                 {{--<input type="text" class="form-control" placeholder="{{ __('Tranche') }}" wire:model.defer="nom_tranche_kg_pc.{{$key}}" />--}}
-                                                                                <select class="form-control" wire:model="nom_tranche_kg_pc.{{$key}}" >
+                                                                                <select class="form-control" wire:model.defer="uid_tranche_kg_pc.{{$key}}" >
+                                                                                    <option>{{ __('Choisir une tranche') }}</option>
                                                                                     @foreach ($list as $item)
-                                                                                        <option value="{{$item->id }}" >{{$item->nom }}</option>
+                                                                                        <option value="{{$item->uid }}" @if($uid_tranche_kg_pc == $item->uid){{'selected'}}@endif>{{$item->nom }}</option>
                                                                                     @endforeach
                                                                                 </select>
                                                                             </td>
@@ -1284,7 +1285,7 @@
                                                                                 <input type="text" class="form-control" placeholder="" wire:model.defer="pas_kg_pc.{{$key}}" />
                                                                             </td>
                                                                             <td>
-                                                                                <button type="button" class="btn btn-outline-danger"  wire:click="delete({{$key}})">X</button>
+                                                                                <button type="submit" class="btn btn-outline-danger"  wire:click="supp('{{$lot->id}}')">X</button>
                                                                             </td>
                                                                         </tr>
                                                                 </tbody>

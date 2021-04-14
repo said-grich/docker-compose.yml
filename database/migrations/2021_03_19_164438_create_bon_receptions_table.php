@@ -15,7 +15,7 @@ class CreateBonReceptionsTable extends Migration
     {
         Schema::create('bon_receptions', function (Blueprint $table) {
             $table->id();
-            $table->string('ref')->unique();
+            $table->string('ref')->unique()->onDelete('cascade')->onUpdate('cascade');
             $table->date('date');
             $table->boolean('valide')->default(false);
             //$table->decimal('total')->nullable();

@@ -32,7 +32,7 @@ class CreateStocksTable extends Migration
             $table->foreign('unite_id')->references('id')->on('unites');
 
             $table->string('br_num');
-            $table->foreign('br_num')->references('ref')->on('bon_receptions');
+            $table->foreign('br_num')->references('ref')->on('bon_receptions')->onDelete('cascade')->onUpdate('cascade');
 
             $table->string('lot_num');
             //$table->foreign('lot_num')->references('lot_num')->on('lots');
