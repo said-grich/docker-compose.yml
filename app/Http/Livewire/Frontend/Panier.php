@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Frontend;
 
 use Livewire\Component;
 use App\Facades\Cart;
-use Illuminate\Contracts\Session\Session as SessionSession;
 use Session;
 
 class Panier extends Component

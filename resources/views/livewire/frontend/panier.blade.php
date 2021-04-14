@@ -21,32 +21,42 @@
 				</header>
 				<div class="card-block">
 					<div class="table-details">
-                        <table class="table table-bordered">
+                        <table class="table">
                             <thead>
                                 <tr>
-                                    <th width="10">#</th>
 									<th>Photo</th>
 									<th>Produit</th>
                                     <th>Poids</th>
                                     <th>Prix</th>
                                     <th>Total</th>
+									<th>Preparations</th>
 									<th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach(Cart::get()['products'] as $t => $item1)
-								@foreach($item1 as $key => $item)
+                                @foreach(Cart::get()['products'] as $key => $item1)
+								@foreach($item1 as $item2)
+								@foreach($item2 as $item)
 								@php $total += $item['prix_n']*$item['poids']; @endphp
-								{{-- @php dd($items); @endphp --}}
                                 <tr>
-                                    <td>{{ $item['id'] }}</td>
 									<td class="table-photo"><img src="{{ asset(Storage::url($item->produit->photo_principale)) }}" alt="Preview Image"></td>
                                     <td>{{ $item->produit->nom }}</td>
                                     <td>{{ $item['poids'] }} {{ $item->produit->unite->nom }}</td>
                                     <td>{{ $item['prix_n'] }} DH/{{ $item->produit->unite->nom }}</td>
                                     <td>{{ $item['prix_n']*$item['poids'] }} DH</td>
-									<td><button wire:click="removeFromCart('{{ $t }}')" type="button" class="tabledit-delete-button btn btn-sm btn-danger rounded-circle" title="Supprimer"><i class="fa fa-trash"></i></button></td>
+									<td>
+										@if(gettype($item2['preparations']) == "array")
+											@foreach($item2['preparations'] as $pre)
+												{{ $pre.', ' }}
+											@endforeach
+										@elseif(gettype($item2['preparations']) == "string")
+											{{ $item2['preparations'] }}
+										@endif
+									</td>
+									<td><button wire:click="removeFromCart('{{ $key }}')" type="button" class="tabledit-delete-button btn btn-sm btn-danger rounded-circle" title="Supprimer"><i class="fa fa-trash"></i></button></td>
                                 </tr>
+								@php break; @endphp
+                                @endforeach
                                 @endforeach
                                 @endforeach
                             </tbody>
@@ -57,8 +67,8 @@
 						<div>VAT: $35</div> --}}
 						<div class="amount">Total : <span class="colored">{{ $total }} DH</span></div>
 						<div class="actions">
-							<button class="btn btn-rounded btn-inline">Checkout</button>
-							<button wire:click="clear()" class="btn btn-inline btn-secondary btn-rounded">Clear</button>
+							<a href="{{ route('sinscrire') }}"><button class="btn btn-inline btn-primary">Checkout</button>
+							<button wire:click="clear()" class="btn btn-inline btn-primary">Clear</button></a>
 							{{-- <button class="btn btn-inline btn-secondary btn-rounded">Print</button> --}}
 						</div>
 					</div>

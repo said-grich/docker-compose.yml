@@ -82,3 +82,5 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/panier', \App\Http\Livewi
 Route::middleware(['auth:sanctum', 'verified'])->get('/blog', \App\Http\Livewire\Frontend\Blog::class)->name('blog');
 Route::middleware(['auth:sanctum', 'verified'])->get('/apropos', \App\Http\Livewire\Frontend\Apropos::class)->name('apropos');
 Route::middleware(['auth:sanctum', 'verified'])->get('/contact', \App\Http\Livewire\Frontend\Contact::class)->name('contact');
+Route::middleware(['auth:sanctum', 'verified'])->get('/sinscrire', \App\Http\Livewire\Frontend\Sinscrire::class)->name('sinscrire');
+Route::middleware(['auth:sanctum', 'verified'])->get('/connexion', \App\Http\Livewire\Frontend\Connexion::class)->name('connexion');
