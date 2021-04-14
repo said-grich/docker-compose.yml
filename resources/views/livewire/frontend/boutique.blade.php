@@ -17,7 +17,7 @@
 		<header class="header-shop">
 			<div class="overlay"></div>
 			<div class="container">
-				<h1 class="wow bounceInDown">test</h1>
+				<h1 class="wow bounceInDown">{{ $title }}</h1>
 			</div>
 		</header>
 
@@ -75,13 +75,13 @@
 						</div> <!-- cd-item-info -->
 					</li>
 					@endforeach --}}
-                    @foreach ($items as $item)
+                    @foreach ($produits as $produit)
                         <li class="mix col-sm-6 col-md-4 col-lg-3 cd-item">
                             <div class="ribbon left-top">
-								{{ $item->categorie->nom }}
+								{{ $produit->categorie->nom }}
 							</div>
-                            <img src="{{ asset(Storage::url($item->produit->photo_principale)) }}" alt="Item Preview">
-                            <a href="{{ route('produit',['produit' => $item->produit->id]) }}" class="cd-trigger">{{ $item->produit->nom }}</a>
+                            <img src="{{ asset(Storage::url($produit->produit->photo_principale)) }}" alt="Item Preview">
+                            <a href="{{ route('produit',['produit' => $produit->produit->id]) }}" class="cd-trigger">{{ $produit->produit->nom }}</a>
                         </li> <!-- cd-item -->
                     @endforeach
 				</ul>

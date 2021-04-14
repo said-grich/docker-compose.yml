@@ -68,6 +68,9 @@
                                             <tbody>
                                                 @foreach ($item->contacts as $contact)
                                                     <tr>
+                                                        @php
+                                                            dd($contact->nom);
+                                                        @endphp
                                                         <td>{{ $contact->nom}}</td>
                                                         <td>{{ $contact->fonction}}</td>
                                                         <td>{{ $contact->tel }}</td>

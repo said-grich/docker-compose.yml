@@ -16,7 +16,7 @@
                         <span></span>
                     </label>
                 </th>
-                <th class="pl-0" wire:click="sortBy('nom')" style="cursor: pointer;">Famille @include('layouts.partials._sort-icon',['field'=>'nom'])</th>
+                <th class="pl-0" wire:click="sortBy('nom')" style="cursor: pointer;">Mode @include('layouts.partials._sort-icon',['field'=>'nom'])</th>
                 <th class="pr-0 text-right" style="min-width: 160px">Actions</th>
             </tr>
         </thead>

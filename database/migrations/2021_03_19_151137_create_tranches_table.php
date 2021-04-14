@@ -20,6 +20,8 @@ class CreateTranchesTable extends Migration
             $table->string('type',80);
             $table->float('min_poids')->nullable();
             $table->float('max_poids')->nullable();
+           /*  $table->unsignedBigInteger('mode_vente_id');
+            $table->foreign('mode_vente_id')->references('id')->on('categories')->onDelete('cascade'); */
             $table->timestamps();
         });
     }

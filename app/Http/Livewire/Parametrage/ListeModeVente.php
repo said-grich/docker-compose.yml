@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Parametrage;
 use App\Models\ModeVente;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\DB;
 
 class ListeModeVente extends Component
 {
@@ -58,9 +59,17 @@ class ListeModeVente extends Component
     }
     public function deleteModeVente($id)
     {
+        /* $this->render();
+        $unite = ModeVente::findOrFail($id);
+        $unite->delete(); */
+
         $this->render();
         $unite = ModeVente::findOrFail($id);
+        DB::table("mode_ventes")->where('id', $id)->delete();
         $unite->delete();
+
+        session()->flash('message', 'Catégorie "'.$this->nom.' à été supprimer');
+        return redirect()->to('/categories');
     }
 
     public function saved()

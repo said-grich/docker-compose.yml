@@ -23,6 +23,7 @@ class ListeSousCategorie extends Component
     public $sous_categorie_name;
     public $sous_categorie_id;
     public $categorie_id;
+    public $egalite;
 
     public function render()
     {
@@ -65,24 +66,49 @@ class ListeSousCategorie extends Component
         foreach ($souscategorie_nom as $key => $value) {
           if (( $souscategorie_nom[$key]->nom == $this->sous_categorie_name) && ($souscategorie_nom[$key]->categorie_id == $this->categorie_id )) {
 
-               // dd( 'egaux',$souscategorie_nom[$key]->nom  ,$this->sous_categorie_name, $souscategorie_nom[$key]->categorie_id, $this->categorie_id);
+               // dump( 'egaux',$souscategorie_nom[$key]->nom  ,$this->sous_categorie_name, $souscategorie_nom[$key]->categorie_id, $this->categorie_id);
                $this->egalite ="true";
+
+               if ( $this->egalite == "true") {
+
+                session()->flash('message', 'Sous categorie existe déja');
+                return redirect()->to('/categories');
+
+             }
+
           }elseif (( $souscategorie_nom[$key]->nom <> $this->sous_categorie_name) && ($souscategorie_nom[$key]->categorie_id <> $this->categorie_id )) {
             //dd( 'different',$souscategorie_nom[$key]->nom  ,$this->sous_categorie_name, $souscategorie_nom[$key]->categorie_id, $this->categorie_id);
+            /* SousCategorie::where('id', $this->sous_categorie_id)
+            ->update([
+                'nom' => $this->sous_categorie_name,
+                'categorie_id' => $this->categorie_id,
+
+            ]); */
+           // dump( 'different',$souscategorie_nom[$key]->nom  ,$this->sous_categorie_name, $souscategorie_nom[$key]->categorie_id, $this->categorie_id);
             $this->egalite ="false";
 
             }
 
         }
-        if ( $this->egalite == "false") {
-                SousCategorie::where('id', $this->sous_categorie_id)
-                ->update([
-                    'nom' => $this->sous_categorie_name,
-                    'categorie_id' => $this->categorie_id,
+        //dump($this->egalite);
 
-                ]);
-             //   session()->flash('message', 'Livraison a éte crée');
-            }
+        if ( $this->egalite == "false") {
+            SousCategorie::where('id', $this->sous_categorie_id)
+            ->update([
+                'nom' => $this->sous_categorie_name,
+                'categorie_id' => $this->categorie_id,
+
+            ]);
+            session()->flash('message', 'Sous categorie a éte Modifiée');
+            return redirect()->to('/categories');
+        }
+       /*  SousCategorie::where('id', $this->sous_categorie_id)
+        ->update([
+            'nom' => $this->sous_categorie_name,
+            'categorie_id' => $this->categorie_id,
+
+        ]); */
+
     }
 
     public function deleteSousCategorie($id)

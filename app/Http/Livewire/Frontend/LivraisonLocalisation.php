@@ -18,6 +18,7 @@ class LivraisonLocalisation extends Component
         $this->villes = Ville::select()->where('livraison', true)->get();
         $this->ville = Session::has('villeLivraison') ? Session::get('villeLivraison') : '';
         $this->zone = Session::has('zoneLivraison') ? Session::get('zoneLivraison') : '';
+        $this->zones = !empty($this->ville) ? VilleZone::select()->where('ville_id', $this->ville)->get() : '';
     }
 
     public function updatedVille($value,$index){
@@ -27,6 +28,8 @@ class LivraisonLocalisation extends Component
     public function saveZoneLivraison(){
         Session::put('villeLivraison', $this->ville);
         Session::put('zoneLivraison', $this->zone);
+
+        $this->emit('villeRefrish');
     }
 
     public function render()

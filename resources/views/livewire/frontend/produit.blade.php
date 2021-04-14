@@ -1,3 +1,5 @@
+<?php use App\Models\Stock; ?>
+
 @section('title', 'Produit - Flouka')
 @section('header_title', 'Produit - Flouka')
 
@@ -74,7 +76,7 @@
 					<section class="typical-section">
                         <div class="form-group">
                             {{-- <label class="form-label" for="product-size"><i class="fa fa-ruler"></i>Tranches</label> --}}
-                            @foreach (Arr::sort($tranches) as $tranche_id => $tranche)
+                            @foreach(Arr::sort($tranches) as $tranche_id => $tranche)
                                 <div class="tranche-info">
                                     <div class="row">
                                         <div class="col-6">
@@ -93,11 +95,14 @@
                                     <table class="table table-hover">
                                         <tbody>
                                             @if(Session::has($produit_id.'-'.$tranche_id))
-                                            @foreach (Session::get($produit_id.'-'.$tranche_id) as $i => $item)
+                                            @foreach(Session::get($produit_id.'-'.$tranche_id) as $i => $items)
+                                            @php $items = Stock::select()->where('id', $items['id'])->get(); @endphp
+                                            @foreach($items as $item)
                                             @php $prix_total += $item['prix_n']*$item['poids']; $pcs .= $item['id'].','; @endphp
                                                 <tr>
                                                     <td>
                                                         <div class="pcs-poids">{{ $item['poids'] }} {{ $items[0]->produit->unite->nom }}</div>
+                                                        {{-- {{ dd($item) }} --}}
                                                         <div class="pcs-prix">{{ $item['prix_n']*$item['poids'] }} DH</div>
                                                     </td>
                                                     <td>
@@ -114,10 +119,10 @@
                                                             </div>
                                                             
                                                             <div x-show="open{{$tranche_id}} == 1" class="preparations">
-                                                                @livewire('frontend.multi-select', ['selectId' => 'c'.$tranche_id.'-'.$i, 'selectTitle' => 'Mode Cuisine', 'selectType' => '', 'selectOptions' => $item->produit->preparations], key('c'.$tranche_id.'-'.$i))
+                                                                @livewire('frontend.multi-select', ['selectId' => 'C_'.$tranche_id.'_'.$i, 'selectTitle' => 'Mode Cuisine', 'selectType' => '', 'selectOptions' => $item->produit->preparations, 'key' => $produit_id.'-'.$tranche_id.'_'.$i], key('C-'.$tranche_id.'-'.$i))
                                                             </div>
                                                             <div x-show="open{{$tranche_id}} == 2" class="preparations">
-                                                                @livewire('frontend.multi-select', ['selectId' => 'n'.$tranche_id.'-'.$i, 'selectTitle' => 'Mode Nettoyage', 'selectType' => 'multiple', 'selectOptions' => $item->produit->preparations], key('n'.$tranche_id.'-'.$i))
+                                                                @livewire('frontend.multi-select', ['selectId' => 'N_'.$tranche_id.'_'.$i, 'selectTitle' => 'Mode Nettoyage', 'selectType' => 'multiple', 'selectOptions' => $item->produit->preparations, 'key' => $produit_id.'-'.$tranche_id.'_'.$i], key('N-'.$tranche_id.'-'.$i))
                                                             </div>
                                                             {{-- <select x-show="open{{$tranche_id}} == 1" class="preparations">
                                                                 <option>Mode Cuisine</option>
@@ -137,6 +142,7 @@
                                                     </td>
                                                     <td><button wire:click="deletePcs('{{$tranche_id}}','{{$i}}')" type="button" class="tabledit-delete-button btn btn-sm btn-danger" title="Supprimer"><i class="fa fa-trash-alt"></i></button></td>
                                                 </tr>
+                                            @endforeach
                                             @endforeach
                                             @endif
                                         </tbody>
