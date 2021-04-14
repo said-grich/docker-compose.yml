@@ -35,7 +35,7 @@ class Livraison extends Component
             'jours_livraison' => 'required',
             'ville' => 'required',
         ]);
-        
+
         $livraison = new ModelsLivraison();
         $livraison->seuil_commande = $this->seuil_commande;
         $livraison->seuil_livraison_gratuite = $this->seuil_livraison_gratuite;
@@ -45,6 +45,8 @@ class Livraison extends Component
         $livraison->ville_id = $this->ville;
         $livraison->active = $this->active;
         $livraison->save();
+
+        $this->emit('saved');
 
         session()->flash('message', 'Livraison a éte crée');
         $this->reset(['seuil_commande','seuil_livraison_gratuite', 'frais_livraison', 'heure', 'jours_livraison', 'ville', 'active']);

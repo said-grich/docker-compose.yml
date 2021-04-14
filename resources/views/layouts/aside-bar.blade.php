@@ -439,6 +439,12 @@
                                 </a>
                             </li>
                             <li class="menu-item" aria-haspopup="true">
+                                <a href="{{ route('reglement') }}" class="menu-link">
+                                    <i class="fa fa-shopping-bag"></i>
+                                    <span class="menu-text">{{ __('Réglement') }}</span>
+                                </a>
+                            </li>
+                            <li class="menu-item" aria-haspopup="true">
                                 <a href="{{ route('designation-prix') }}" class="menu-link">
                                     <i class="fa fa-shopping-bag"></i>
                                     <span class="menu-text">{{ __('Désignation des prix') }}</span>

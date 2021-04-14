@@ -56,23 +56,13 @@
                     </td>
                     <td class="pl-0">
                         <span class="label label-lg label-light-primary label-inline">{{ $item->etat}}</span>
-
-                        <select class="form-control" wire:model="etat.{{ $item->ref }}" wire:change="edit('{{ $item->ref }}')" >
-                            <option value="Reçue">Reçue</option>
-                            <option value="Validée">Validée</option>
-                            <option value="Prête">Prête</option>
-                            <option value="En Expédition">En Expédition</option>
-                            <option value="Livrée">Livrée</option>
-
-                        </select>
-
                     </td>
 
                     <td class="pr-0 text-right">
 
                         <a href="#" wire:click="prete('{{ $item->ref }}')" class="btn btn-light-primary font-weight-bold mr-2">Prête</a>
 
-                        <a href="#" wire:click="show('{{$item->ref}}')" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#show">
+                        <a href="#" wire:click="show('{{$item->ref}}')" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#show-validee">
                             <span class="svg-icon svg-icon-md svg-icon-primary">
                                 {{--begin::Svg Icon--}}
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -119,7 +109,7 @@
         {{ $items->links('layouts.partials.custom-pagination') }}
 
         {{-- Show Modal --}}
-        <div wire:ignore.self class="modal fade" id="show" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="show" aria-hidden="true">
+        <div wire:ignore.self class="modal fade" id="show-validee" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="show-validee" aria-hidden="true">
             <div class="modal-dialog modal-xxl modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -135,15 +125,16 @@
 
                                 <div class="md-step {{$etat_commande === 'Reçue' ? "active" : "done"}}">
                                     <div class="md-step-circle"><span>1</span></div>
-                                    <div class="md-step-title">Reçue</div>
+                                    <div class="md-step-title">Reçue <br> {{$date_recue}}</div>
                                     <div class="md-step-bar-left"></div>
                                     <div class="md-step-bar-right"></div>
                                 </div>
                                 <div class="md-step {{$etat_commande === 'Validée' ? "active" : "done"}}">
                                     <div class="md-step-circle"><span>2</span></div>
-                                    <div class="md-step-title">Validée</div>
+                                    <div class="md-step-title">Validée <br> {{$date_validee}}</div>
                                     <div class="md-step-bar-left"></div>
                                     <div class="md-step-bar-right"></div>
+                                   {{--  {{$date_validee}} --}}
                                 </div>
                                 <div class="md-step {{$etat_commande === 'Prête' ? "active" : "done"}}">
                                     <div class="md-step-circle"><span>3</span></div>

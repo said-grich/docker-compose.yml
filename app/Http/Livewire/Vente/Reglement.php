@@ -2,17 +2,11 @@
 
 namespace App\Http\Livewire\Vente;
 
-use App\Models\Categorie;
-use App\Models\Commande;
-use App\Models\Livreur;
-use App\Models\ModeLivraison;
-use App\Models\ModePaiement;
-use App\Models\Stock;
-use App\Models\VilleQuartier;
+use App\Models\LivreurCommande;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class ListeCommandesLivrees extends Component
+class Reglement extends Component
 {
 
     use WithPagination;
@@ -40,28 +34,24 @@ class ListeCommandesLivrees extends Component
     public $etat = [];
     public $etat_commande;
     public $ref;
-    public $date_recue;
-    public $date_validee;
-    public $date_prete;
-    public $date_expedition;
-    public $date_livree;
 
 
 
-    public $sortBy = 'ref';
+    public $sortBy = 'commande_id';
     public $sortDirection = 'asc';
     public $perPage = 5;
     public $search = '';
     protected $listeners = ['saved'];
 
+    public function valider($commande,$livreur){
 
-    public function edit($ref)
-    {
-        Commande::where('ref', $ref)->update(['etat' => $this->etat[$ref]]);
+        LivreurCommande::where('commande_id', $commande)->where('livreur_id', $livreur)->update([
+            'valide' => true,
+            ]);
     }
 
 
-    public function show($ref)
+    /* public function show($ref)
     {
         $commande = Commande::where('ref', $ref)->firstOrFail();
         $this->commande_ref = $ref;
@@ -82,11 +72,6 @@ class ListeCommandesLivrees extends Component
         $this->mode_livraison_id = ModeLivraison::where('id', $commande->mode_livraison_id)->first()->nom;
         $this->frais_livraison = $commande->frais_livraison;
         $this->montant_total = $commande->geMontantTotal();
-        $this->date_recue =$commande->created_at;
-        $this->date_validee =$commande->date_validee;
-        $this->date_prete =$commande->date_prete;
-        $this->date_expedition =$commande->date_expedition;
-        $this->date_livree =$commande->date_livree;
 
 
         $this->commande_lignes = $commande->commandeLignes->groupBy(function ($commande_ligne) {
@@ -102,19 +87,19 @@ class ListeCommandesLivrees extends Component
                 $this->produits[$categorie_id][$key] = Stock::where('id',$value['piece_id'])->first()->produit->nom;
             }
         }
-    }
+    } */
 
     public function render()
     {
 
-        $items = Commande::query()
-            ->where('etat', 'Livrée')
-            ->where('ref', 'ilike', '%' . $this->search . '%')
+        $items = LivreurCommande::query()
+            ->where('commande_id', 'ilike', '%' . $this->search . '%')
             ->orderBy($this->sortBy, $this->sortDirection)
             //->get();
             ->paginate($this->perPage);
+            //dd($items);
 
-        return view('livewire.vente.liste-commandes-livrees', [
+        return view('livewire.vente.reglement', [
             'items' => $items
         ]);
     }

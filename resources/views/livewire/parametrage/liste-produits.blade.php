@@ -141,7 +141,7 @@
                                 {{--end::Svg Icon--}}
                             </span>
                         </a>
-                        <a href="#" class="btn btn-icon btn-light btn-hover-primary btn-sm" wire:click="deleteFournisseur('{{ $item->id }}')">
+                        <a href="#" class="btn btn-icon btn-light btn-hover-primary btn-sm" wire:click="deleteProduit('{{ $item->id }}')">
                             <span class="svg-icon svg-icon-md svg-icon-primary">
                                 {{--begin::Svg Icon--}}
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -231,7 +231,7 @@
                             <span class="form-text text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div class="form-group col-md-6">
+                        <div wire:ignore class="form-group col-md-6">
                             <label><b>{{ __('Mode Vente') }}</b></label>
                             <div class="input-group input-group-prepend">
                                 <div class="input-group-prepend"><span class="input-group-text"><i
@@ -256,7 +256,7 @@
                             <span class="form-text text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        {{-- <div class="form-group col-md-6">
+                        <div  class="form-group col-md-6">
                             <label><b>{{ __('Tranches') }}</b></label>
                             <div class="input-group input-group-prepend">
                                 <div class="input-group-prepend"><span class="input-group-text"><i
@@ -278,7 +278,7 @@
                             @error('tranches')
                             <span class="form-text text-danger">{{ $message }}</span>
                             @enderror
-                        </div> --}}
+                        </div>
 
                         <div wire:ignore class="form-group col-md-6">
                             <label><b>{{ __('Mode Cuisine ') }}</b></label>
@@ -304,7 +304,7 @@
                                <select class="form-control " wire:model="mode_nettoyage" multiple>
                                    <option>{{ __('Choisir un mode de préparation') }}</option>
                                        @foreach ($list_nettoyage as $mode)
-                                           <option value="{{$mode->id}}" @if($mode_nettoyage == $item->id) {{'selected'}} @endif>{{$mode->nom}}</option>
+                                           <option value="{{$mode->id}}" @if($mode_cuisine == $item->id) {{'selected'}} @endif>{{$mode->nom}}</option>
                                        @endforeach
                                </select>
                                <div class="input-group-append" data-toggle="modal" data-target="#mode-preparation"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Mode Préparation"><i class="fa fa-plus-circle"></i></button></div>
@@ -337,14 +337,20 @@
                             <span class="form-text text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        {{-- <div class="form-group col-md-6">
+                        <div class="form-group col-md-6">
                             <label><b>{{ __('Photo Principale') }}</b></label>
                             <div class="input-group input-group-prepend">
-                                <input type="file" wire:model.defer="photo_principale"/>
+                                <input type="file" wire:model="photo_principale"/>
 
                             </div>
                             @error('photo') <span class="error">{{ $message }}</span> @enderror
-                        </div> --}}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label><b>{{ __('Autres Photos') }}</b></label>
+                            <div class="input-group input-group-prepend">
+                                <input type="file" wire:model="photos" multiple/>
+                            </div>
+                        </div>
                         <div class="form-group col-md-6 row">
                             <label
                                 class="col-8 col-form-label">{{ __('Activé / Désactivé le produit') }}</label>
