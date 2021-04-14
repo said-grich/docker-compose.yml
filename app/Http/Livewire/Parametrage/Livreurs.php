@@ -11,6 +11,7 @@ class Livreurs extends Component
 
     public $nom;
     public $cin;
+    public $plafond;
     public $phone;
     public $type;
     public $ville_id;
@@ -26,6 +27,7 @@ class Livreurs extends Component
     protected $rules = [
         'nom' => 'required',
         'cin' => 'required',
+        'plafond' => 'required',
         'phone' => 'required',
         'ville_id' => 'required',
         'type' => 'required',
@@ -38,6 +40,7 @@ class Livreurs extends Component
         $item = new Livreur();
         $item->nom = $this->nom;
         $item->cin = $this->cin;
+        $item->plafond = $this->plafond;
         $item->tel = $this->phone;
         $item->type = $this->type;
         $item->ville_id = $this->ville_id;
