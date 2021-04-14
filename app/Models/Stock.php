@@ -11,7 +11,7 @@ class Stock extends Model
 
     protected $guarded = [];
     protected $table = "stocks";
-    
+
     public function tranche()
     {
         return $this->belongsTo(Tranche::class, 'tranche_id', 'uid');
@@ -29,7 +29,7 @@ class Stock extends Model
 
     public function produit()
     {
-        return $this->belongsTo(Produit::class);
+        return $this->belongsTo(Produit::class,'produit_id','id');
     }
 
     public function sousCategorie()
