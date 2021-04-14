@@ -135,25 +135,25 @@
 
                                         <div class="md-step {{$etat_commande === 'Reçue' ? "active" : "done"}}">
                                             <div class="md-step-circle"><span>1</span></div>
-                                            <div class="md-step-title">Reçue</div>
+                                            <div class="md-step-title">Reçue <br> {{$date_recue}}</div>
                                             <div class="md-step-bar-left"></div>
                                             <div class="md-step-bar-right"></div>
                                         </div>
                                         <div class="md-step {{$etat_commande === 'Validée' ? "active" : "done"}}">
                                             <div class="md-step-circle"><span>2</span></div>
-                                            <div class="md-step-title">Validée</div>
+                                            <div class="md-step-title">Validée <br> {{$date_validee}}</div>
                                             <div class="md-step-bar-left"></div>
                                             <div class="md-step-bar-right"></div>
                                         </div>
                                         <div class="md-step {{$etat_commande === 'Prête' ? "active" : "done"}}">
                                             <div class="md-step-circle"><span>3</span></div>
-                                            <div class="md-step-title">Prête</div>
+                                            <div class="md-step-title">Prête <br> {{$date_prete}}</div>
                                             <div class="md-step-bar-left"></div>
                                             <div class="md-step-bar-right"></div>
                                         </div>
                                         <div class="md-step {{$etat_commande === 'En Expédition' ? "active" : "done"}}">
                                             <div class="md-step-circle"><span>4</span></div>
-                                            <div class="md-step-title">En Expédition</div>
+                                            <div class="md-step-title">En Expédition <br> {{$date_expedition}}</div>
                                             <div class="md-step-bar-left"></div>
                                             <div class="md-step-bar-right"></div>
                                         </div>

@@ -41,6 +41,8 @@ class ListeCommandeValidee extends Component
     public $etat = [];
     public $etat_commande;
     public $ref;
+    public $date_recue;
+    public $date_validee;
 
 
 
@@ -53,9 +55,10 @@ class ListeCommandeValidee extends Component
     public function prete($ref){
 
         Commande::where('ref', $ref)->update([
-            'etat' => "Prêtes",
+            'etat' => "Prête",
             'date_prete' => Carbon::now()->toDateTimeString(),
             ]);
+            $this->emit('saved');
     }
 
     public function edit($ref)
@@ -85,6 +88,8 @@ class ListeCommandeValidee extends Component
         $this->mode_livraison_id = ModeLivraison::where('id', $commande->mode_livraison_id)->first()->nom;
         $this->frais_livraison = $commande->frais_livraison;
         $this->montant_total = $commande->geMontantTotal();
+        $this->date_recue =$commande->created_at;
+        $this->date_validee =$commande->date_validee;
 
 
         $this->commande_lignes = $commande->commandeLignes->groupBy(function ($commande_ligne) {

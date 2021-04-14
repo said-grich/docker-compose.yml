@@ -41,6 +41,10 @@ class ListeCommandesEnExpedition extends Component
     public $etat = [];
     public $etat_commande;
     public $ref;
+    public $date_recue;
+    public $date_validee;
+    public $date_prete;
+    public $date_expedition;
 
 
 
@@ -56,6 +60,7 @@ class ListeCommandesEnExpedition extends Component
             'etat' => "Livrée",
             'date_livree' => Carbon::now()->toDateTimeString(),
             ]);
+        $this->emit('saved');
     }
 
     public function edit($ref)
@@ -85,6 +90,10 @@ class ListeCommandesEnExpedition extends Component
         $this->mode_livraison_id = ModeLivraison::where('id', $commande->mode_livraison_id)->first()->nom;
         $this->frais_livraison = $commande->frais_livraison;
         $this->montant_total = $commande->geMontantTotal();
+        $this->date_recue =$commande->created_at;
+        $this->date_validee =$commande->date_validee;
+        $this->date_prete =$commande->date_prete;
+        $this->date_expedition =$commande->date_expedition;
 
 
         $this->commande_lignes = $commande->commandeLignes->groupBy(function ($commande_ligne) {

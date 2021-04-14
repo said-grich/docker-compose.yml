@@ -50,7 +50,6 @@ class ListeCommandes extends Component
     public $sortDirection = 'asc';
     public $perPage = 5;
     public $search = '';
-    protected $listeners = ['saved'];
 
     public function edit($ref){
         Commande::where('ref', $ref)->update(['etat' => $this->etat[$ref]]);
@@ -61,6 +60,7 @@ class ListeCommandes extends Component
             'etat' => "Validée",
             'date_validee' => Carbon::now()->toDateTimeString(),
             ]);
+        $this->emit('saved');
     }
 
 
@@ -85,6 +85,11 @@ class ListeCommandes extends Component
         $this->frais_livraison =$commande->frais_livraison;
         $this->montant_total = $commande->geMontantTotal();
         $this->date_recue =$commande->created_at;
+        /* $this->date_validee =$commande->date_validee;
+        $this->date_prete =$commande->date_prete;
+        $this->date_expedition =$commande->date_expedition;
+        $this->date_livree =$commande->date_livree; */
+
 
 
         $this->commande_lignes = $commande->commandeLignes->groupBy(function ($commande_ligne) {
