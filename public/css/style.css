@@ -333,3 +333,17 @@ select.form-control:valid ~ label {
 	right:50%;
 	margin-right:20px;
 }
+
+/* .card.bl {
+    box-shadow: 20px 20px 25px 25px rgb(0 0 0 / 10%), 0 53px 13px 56px rgb(0 0 0 / 4%) !important;
+    border-radius: 3rem;
+} */
+
+.bl .form-group label {
+    font-weight: 600;
+}
+
+.card.bl.card-custom > .card-header .card-title, .card.bl.card-custom > .card-header .card-title .card-label {
+    font-size: 1.700rem;
+    text-decoration: underline;
+}

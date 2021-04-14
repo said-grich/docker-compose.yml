@@ -17,6 +17,8 @@ class ListeModesPaiement extends Component
     public $search = '';
     protected $listeners = ['saved'];
 
+    public $modepaiment_id;
+    public $nom;
     public function render()
     {
         $items = ModePaiement::query()
@@ -38,6 +40,24 @@ class ListeModesPaiement extends Component
         }
 
         return $this->sortBy = $field;
+    }
+    public function edit($id){
+
+        $item = ModePaiement::where('id',$id)->firstOrFail();
+        $this->modepaiment_id =$item->id;
+        $this->nom =$item->nom;
+    }
+
+    public function editModePaiement(){
+
+        ModePaiement::where('id', $this->modepaiment_id)
+            ->update([
+                'nom' => $this->nom,
+            ]);
+
+
+        session()->flash('message', 'Le mode de paiement "'.$this->nom.'" à été modifiée');
+        return redirect()->to('/modes-paiement');
     }
 
     public function deleteModePaiement($id)

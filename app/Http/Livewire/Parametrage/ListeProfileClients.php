@@ -12,10 +12,12 @@ class ListeProfileClients extends Component
 
     public $sortBy = 'nom';
     public $sortDirection = 'asc';
-    public $perPage = 5;
+    public $perPage = 10;
     public $search = '';
     protected $listeners = ['saved'];
 
+    public $nom;
+    public $profil_id;
     public function render()
     {
 
@@ -39,7 +41,24 @@ class ListeProfileClients extends Component
 
         return $this->sortBy = $field;
     }
+    public function edit($id){
 
+        $item = ProfilClient::where('id',$id)->firstOrFail();
+        $this->profil_id =$item->id;
+        $this->nom =$item->nom;
+
+    }
+
+    public function editProfile(){
+//dd("test");
+        ProfilClient::where('id', $this->profil_id)
+            ->update([
+                'nom' => $this->nom,
+            ]);
+
+        session()->flash('message', 'Client "'.$this->nom.'" à été modifié');
+        /* return redirect()->to('/depots'); */
+    }
     public function deleteProfileClient($id)
     {
 

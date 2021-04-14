@@ -22,12 +22,16 @@ class CreateCommandesTable extends Migration
             $table->string('tel_livraison');
             $table->string('contact_livraison');
             $table->string('adresse_livraison');
-
-            //$table->enum('etat', ['easy', 'hard','Validée,'Prête,'En Expédition','Livrée']);
+            //$table->enum('etat', ['Validée,'Prête,'En Expédition','Livrée']);
             $table->string('etat');
-           // $table->string('frais_livraison');
-            $table->double('frais_livraison');
 
+            $table->dateTime('date_validee')->nullable();
+            $table->dateTime('date_prete')->nullable();
+            $table->dateTime('date_expedition')->nullable();
+            $table->dateTime('date_livree')->nullable();
+
+            $table->decimal('frais_livraison');
+            $table->decimal('total');
 
             $table->unsignedBigInteger('mode_livraison_id');
             $table->unsignedBigInteger('mode_paiement_id');

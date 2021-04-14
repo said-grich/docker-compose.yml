@@ -20,7 +20,7 @@ class ListeClients extends Component
 
     public $sortBy = 'nom';
     public $sortDirection = 'asc';
-    public $perPage = 5;
+    public $perPage = 10;
     public $search = '';
     protected $listeners = ['saved'];
 
@@ -58,21 +58,22 @@ class ListeClients extends Component
         $this->nom =$item->nom;
         $this->email =$item->email;
         $this->phone =$item->tel;
-        $this->profil_id =$item->profil_id;
+        $this->profil_id =$item->profil_client_id;
     }
 
     public function editClient(){
-
+//dd("test");
         Client::where('id', $this->client_id)
             ->update([
                 'nom' => $this->nom,
                 'email' => $this->email,
-                'tel' => $this->tel,
+                'tel' => $this->phone,
                 'profil_client_id' => $this->profil_id,
             ]);
 
-        session()->flash('message', 'Dépôt "'.$this->nom.'" à été modifié');
-        return redirect()->to('/depots');
+        session()->flash('message', 'Client "'.$this->nom.'" à été modifié');
+        /* return redirect()->to('/depots'); */
+        $this->emit('saved');
     }
 
     public function deleteClient($id)

@@ -15,10 +15,10 @@ class CreateStocksTable extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
-
             $table->string('type',80);
-            $table->integer('qte');
-            $table->integer('qte_vendue');
+            $table->double('qte');
+            $table->double('qte_vendue');
+            $table->double('qte_restante');
             $table->decimal('prix_achat');
             $table->string('code')->nullable();
             $table->double('poids')->nullable();
@@ -32,7 +32,7 @@ class CreateStocksTable extends Migration
             $table->foreign('unite_id')->references('id')->on('unites');
 
             $table->string('br_num');
-            $table->foreign('br_num')->references('ref')->on('bon_receptions');
+            $table->foreign('br_num')->references('ref')->on('bon_receptions')->onDelete('cascade')->onUpdate('cascade');
 
             $table->string('lot_num');
             //$table->foreign('lot_num')->references('lot_num')->on('lots');

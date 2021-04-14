@@ -19,11 +19,13 @@ class CreateCommandeLignesTable extends Migration
             $table->decimal('prix');
             $table->decimal('montant');
 
+            $table->json('preparations');
+
             $table->string('commande_ref');
             $table->foreign('commande_ref')->references('ref')->on('commandes')->onUpdate('cascade')->onDelete('cascade');;
 
-            $table->unsignedBigInteger('produit_id');
-            $table->foreign('produit_id')->references('id')->on('produits');
+            $table->unsignedBigInteger('piece_id');
+            $table->foreign('piece_id')->references('id')->on('stocks');
             $table->unsignedBigInteger('categorie_id');
             $table->foreign('categorie_id')->references('id')->on('categories');
             $table->timestamps();

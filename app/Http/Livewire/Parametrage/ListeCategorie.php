@@ -16,7 +16,7 @@ class ListeCategorie extends Component
 
     public $sortBy = 'nom';
     public $sortDirection = 'asc';
-    public $perPage = 5;
+    public $perPage = 10;
     public $search = '';
     protected $listeners = ['saved'];
 
@@ -60,7 +60,7 @@ class ListeCategorie extends Component
         session()->flash('message', 'Catégorie "'.$this->nom.'" à été modifiée');
     }
 
-    public function deleteUnite($id)
+    public function deleteCategorie($id)
     {
         $this->render();
         $unite = Categorie::findOrFail($id);

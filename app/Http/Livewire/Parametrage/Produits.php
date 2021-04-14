@@ -49,11 +49,28 @@ class Produits extends Component
     public $photo_principale;
     public $photos = [];
     public $active = false;
+    public $type;
+    public $minPoids;
+    public $maxPoids;
+    public $nomTranche;
+    public $showPoids = false;
+    public $showKgPiece = false;
+
 
     public function updatedModeVente($value){
         /* $mode_vente_nom = ModeVente::where('id',$value)->first()->nom;
         $this->list_tranches = Tranche::where('type',$mode_vente_nom)->get(); */
         $value == 1 ?  $this->list_tranches = Tranche::where('type',"Poids par pièce")->get() :  $this->list_tranches = Tranche::where('type',"Kg/Pièce")->get();
+
+       if($value == 1) {
+           $this->showPoids = true;
+           $this->showKgPiece = false;
+           //dd($this->minPoids );
+       }else{
+           $this->showKgPiece = true;
+           $this->showPoids = false;
+           //dd($this->showKgPiece );
+       }
     }
 
     // public function updatedModePreparation($value){
@@ -71,9 +88,9 @@ class Produits extends Component
     }
 
 
-    public function renderData()
+    public function mount()
     {
-        $this->list_categories = Categorie::all()->sortBy('nom');
+       // $this->list_categories = Categorie::all()->sortBy('nom');
         $modea = ModePreparation::find(1);
         $this->list_cuisine = $modea->preparations;
         $modeb = ModePreparation::find(2);
@@ -88,20 +105,33 @@ class Produits extends Component
 
     public function createTranche()
     {
-        //$this->validate();
+        $uniqueId = str_replace(".","",microtime(true)).rand(000,999);
+        /* $this->type == 1 ?
+            TranchesPoidsPc::create([
+                'nom' => $this->minPoids." - ".$this->maxPoids,
+                'min_poids' => $this->minPoids,
+                'max_poids' => $this->maxPoids,
+                'uid' => "PP".$uniqueId,
+            ])
+            :
+            TranchesKgPc::create([
+                'nom' => $this->nom,
+                'uid' => "KP".$uniqueId,
+            ]);
+        */
 
-        $item = new Preparation();
-        $item->nom = $this->preparation_nom;
-        $item->mode_preparation_id = $this->mode_preparation_id;
 
-        $item->save();
+        $this->type == 1 ? $this->nomTranche =  $this->minPoids." - ".$this->maxPoids : $this->nomTranche;
+        Tranche::create([
+            'nom' => $this->nomTranche,
+            'type' => $this->type == 1 ? "Poids par pièce" : "Kg/Pièce",
+            'min_poids' => $this->minPoids,
+            'max_poids' => $this->maxPoids,
+            'uid' => $this->type == 1 ? "PP".$uniqueId : "KP".$uniqueId,
+        ]);
+        $this->type  == 1 ?  $this->list_tranches = Tranche::where('type',"Poids par pièce")->get() :  $this->list_tranches = Tranche::where('type',"Kg/Pièce")->get();
+        $this->reset(['nom','minPoids','maxPoids']);
 
-        $mode = ModePreparation::findOrFail($this->mode_preparation_id);
-        session()->flash('message', 'La préparation "' . $this->preparation_nom . '" a été créée dans le mode ' . $mode->nom);
-
-        $this->reset(['preparation_nom', 'mode_preparation_id']);
-
-        $this->emit('saved');
     }
 
     public function createProduit()
@@ -169,7 +199,7 @@ class Produits extends Component
 
     public function render()
     {
-        $this->renderData();
+        //$this->renderData();
         return view('livewire.parametrage.produits');
     }
 }

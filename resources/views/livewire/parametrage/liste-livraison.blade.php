@@ -50,7 +50,10 @@
 
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">
                             @foreach ($item->jours_livraison as $value)
+
                                 {{ $loop->first ? '' : ', ' }} {{ $value }}
+
+                               {{--  {{ str_replace(",", "", $value) }} --}}
                             @endforeach
                         </a>
                     </td>
@@ -76,7 +79,7 @@
                                 {{--end::Svg Icon--}}
                             </span>
                         </a>
-                        <a href="#" class="btn btn-icon btn-light btn-hover-primary btn-sm" wire:click="deleteLivreur('{{$item->id}}')">
+                        <a href="#" class="btn btn-icon btn-light btn-hover-primary btn-sm" wire:click="deleteLivraison('{{$item->id}}')">
                             <span class="svg-icon svg-icon-md svg-icon-primary">
                                 {{--begin::Svg Icon--}}
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -95,5 +98,106 @@
             </tbody>
         </table>
         {{ $items->links('layouts.partials.custom-pagination') }}
+        <div wire:ignore.self class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{{ __('Modification Livraison') }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i aria-hidden="true" class="ki ki-close"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="edit-form" class="form row">
+                            <div class="form-group col-md-6">
+                                <label>{{ __('Ville') }}</label>
+                                <div class="input-group input-group-prepend">
+                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-people-carry icon-lg"></i></span></div>
+                                    <select class="form-control" wire:model.defer="ville">
+                                       <option>{{ __('Choisir une ville') }}</option>
+                                        @foreach ($liste_villes as $item)
+                                            <option value="{{$item->id}}" @if($ville == $item->id) {{'selected'}} @endif>{{$item->nom}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('ville')
+                                    <span class="form-text text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            {{-- <div class="form-group col-md-6">
+                                <div class="input-group input-group-prepend">
+                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tag icon-lg"></i></span></div>
+                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="jours_livraison"/>
+                                    <label>{{ __('jours_livraison') }}</label>
+                                </div>
+                                @error('jours_livraison')
+                                    <span class="form-text text-danger">{{ $message }}</span>
+                                @enderror
+                            </div> --}}
+                            <div class="form-group  col-md-6">
+                                <label>Jours de livraison</label>
+                                <div class="checkbox-inline">
+                                    @foreach($jours as $key => $jour)
+                                        <label class="checkbox">
+                                            <input type="checkbox" value="{{$jour}}" wire:model="jours_livraison.{{ $key  }}"/>
+                                            <span></span>
+                                            {{ $jour }}
+                                        </label>
+                                    @endforeach
+                                </div>
+                                @error('jours_livraison')
+                                    <span class="form-text text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="input-group input-group-prepend">
+                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tag icon-lg"></i></span></div>
+                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="frais_livraison"/>
+                                    <label>{{ __('frais_livraison') }}</label>
+                                </div>
+                                @error('frais_livraison')
+                                    <span class="form-text text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="input-group input-group-prepend">
+                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tag icon-lg"></i></span></div>
+                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="heure"/>
+                                    <label>{{ __('heure') }}</label>
+                                </div>
+                                @error('heure')
+                                    <span class="form-text text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="input-group input-group-prepend">
+                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tag icon-lg"></i></span></div>
+                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="seuil_commande"/>
+                                    <label>{{ __('seuil_commande') }}</label>
+                                </div>
+                                @error('seuil_commande')
+                                    <span class="form-text text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group col-md-6 row">
+                                <label class="col-3 col-form-label">Active</label>
+                                <div class="col-3">
+                                    <span class="switch switch-outline switch-icon switch-primary">
+                                        <label>
+                                        <input type="checkbox" checked="checked" wire:model.defer="active" name="active"/>
+                                        <span></span>
+                                        </label>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
+                            <button type="submit" wire:click.prevent="editLivraison" class="btn btn-primary font-weight-bold" form="edit-form" >{{ __('Enregistrer') }}</button>
+                        </div>
+                    </div>
 
+                </div>
+            </div>
+        </div>
     </div>

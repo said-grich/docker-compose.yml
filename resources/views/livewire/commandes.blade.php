@@ -41,7 +41,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#livree-tab">
+                                    <a class="nav-link" data-toggle="tab" href="#livrees-tab">
                                         <span class="nav-text">Livrée</span>
                                     </a>
                                 </li>
@@ -54,13 +54,13 @@
                                     @livewire('vente.liste-commande-validee')
                                 </div>
                                 <div class="tab-pane fade" id="pretes-tab" role="tabpanel">
-                                    @livewire('vente.liste-commandes')
+                                    @livewire('vente.liste-commande-pretes')
                                 </div>
                                 <div class="tab-pane fade" id="en-expedition-tab" role="tabpanel">
-                                    @livewire('vente.liste-commandes')
+                                    @livewire('vente.liste-commandes-en-expedition')
                                 </div>
                                 <div class="tab-pane fade" id="livrees-tab" role="tabpanel">
-                                    @livewire('vente.liste-commandes')
+                                    @livewire('vente.liste-commandes-livrees')
                                 </div>
                             </div>
                         </div>

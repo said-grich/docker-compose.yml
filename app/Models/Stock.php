@@ -10,6 +10,7 @@ class Stock extends Model
     use HasFactory;
 
     protected $guarded = [];
+    protected $table = "stocks";
 
     public function tranche()
     {
@@ -28,7 +29,7 @@ class Stock extends Model
 
     public function produit()
     {
-        return $this->belongsTo(Produit::class);
+        return $this->belongsTo(Produit::class,'produit_id','id');
     }
 
     public function sousCategorie()
@@ -54,5 +55,15 @@ class Stock extends Model
     public function qualite()
     {
         return $this->belongsTo(Qualite::class);
+    }
+
+    public function bonLivraisonLignes()
+    {
+        return $this->hasMany(BonLivraisonLigne::class);
+    }
+
+    public function commandeLignes()
+    {
+        return $this->hasMany(CommandeLigne::class);
     }
 }

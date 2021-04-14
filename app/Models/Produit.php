@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Produit extends Model
 {
     use HasFactory;
-
+    public $table="produits";
     protected $guarded =[];
     protected $casts = [
         'photos' => 'array',
@@ -21,7 +21,7 @@ class Produit extends Model
 
     public function tranches(){
 
-        return $this->hasMany(ProduitTranche::class);
+        return $this->hasMany(ProduitTranche::class,'produit_id','id');
     }
 
     public function lots(){

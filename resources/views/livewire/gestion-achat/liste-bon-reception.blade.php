@@ -94,7 +94,7 @@
                                                         <i class="flaticon-plus"></i> {{ __('Désignation des prix') }}
                                                     </button> --}}
 
-                                                    <a href="#" wire:click="show({{$item->ref}})" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#stock">
+                                                    <a href="#" wire:click="show('{{$item->ref}}')" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#stock">
                                                         <span class="svg-icon svg-icon-md svg-icon-primary">
                                                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -106,7 +106,7 @@
                                                             <!--end::Svg Icon-->
                                                         </span>
                                                     </a>
-                                                    <a href="#" wire:click="edit({{$item->ref}})" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#edit">
+                                                    <a href="#" wire:click="edit('{{$item->ref}}')" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#edit">
                                                         <span class="svg-icon svg-icon-md svg-icon-primary">
                                                             {{--begin::Svg Icon--}}
                                                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">

@@ -21,6 +21,7 @@
                 <th class="pl-0" wire:click="sortBy('tel')" style="cursor: pointer;">Téléphone @include('layouts.partials._sort-icon',['field'=>'tel'])</th>
                 <th class="pl-0" wire:click="sortBy('type')" style="cursor: pointer;">Type @include('layouts.partials._sort-icon',['field'=>'type'])</th>
                 <th class="pl-0" wire:click="sortBy('type')" style="cursor: pointer;">Ville @include('layouts.partials._sort-icon',['field'=>'type'])</th>
+                <th class="pl-0" wire:click="sortBy('plafond')" style="cursor: pointer;">Plafond @include('layouts.partials._sort-icon',['field'=>'plafond'])</th>
                 <th class="pl-0" wire:click="sortBy('active')" style="cursor: pointer;">Statut @include('layouts.partials._sort-icon',['field'=>'active'])</th>
                 <th class="pr-0 text-right" style="min-width: 160px">Actions</th>
             </tr>
@@ -47,6 +48,9 @@
                     </td>
                     <td class="pl-0">
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->ville->nom }}</a>
+                    </td>
+                    <td class="pl-0">
+                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->plafond }}</a>
                     </td>
                     <td class="pl-0">
                         <span class="label {{ $item->active == true ? 'label-primary' : 'label-danger' }} label-pill label-inline mr-2">{{ $item->active == true ? 'Activé' : 'Désactivé' }} </span>
@@ -96,7 +100,7 @@
                             <i aria-hidden="true" class="ki ki-close"></i>
                         </button>
                     </div>
-                    <div class="modal-body">
+                    <div wire:ignore class="modal-body">
                         <form id="edit-livreur-form" class="form row">
                             <div class="form-group col-md-6">
                                 <div class="input-group input-group-prepend">
@@ -129,26 +133,26 @@
                                     <span class="form-text text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div wire:ignore class="form-group col-md-6">
+                            <div  class="form-group col-md-6">
                                 <div class="input-group input-group-prepend">
                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-people-carry icon-lg"></i></span></div>
                                     <select class="form-control" wire:model.defer="type">
                                         <option>{{ __('Choisir un type') }}</option>
-                                        <option value="interne">Interne</option>
-                                        <option value="externe">Externe</option>
+                                        <option value="Interne">Interne</option>
+                                        <option value="Externe"}>Externe</option>
                                     </select>
                                 </div>
                                 @error('type')
                                     <span class="form-text text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div wire:ignore class="form-group col-md-6">
+                            <div  class="form-group col-md-6">
                                 <div class="input-group input-group-prepend">
                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-map-marker-alt icon-lg"></i></span></div>
                                     <select class="form-control " wire:model.defer="ville_id">
                                         <option>{{ __('Choisir une ville') }}</option>
                                         @foreach ($list_villes as $ville)
-                                            <option value="{{$ville->id}}">{{$ville->nom}}</option>
+                                            <option value="{{$ville->id}}"  @if($ville_id == $item->id) {{'selected'}} @endif>{{$ville->nom}}</option>
                                         @endforeach
                                     </select>
                                 </div>

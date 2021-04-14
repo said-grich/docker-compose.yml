@@ -8,7 +8,9 @@ use App\Models\Livreur;
 use App\Models\ModeLivraison;
 use App\Models\ModePaiement;
 use App\Models\Produit;
+use App\Models\Stock;
 use App\Models\VilleQuartier;
+use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -39,6 +41,8 @@ class ListeCommandeValidee extends Component
     public $etat = [];
     public $etat_commande;
     public $ref;
+    public $date_recue;
+    public $date_validee;
 
 
 
@@ -47,6 +51,15 @@ class ListeCommandeValidee extends Component
     public $perPage = 5;
     public $search = '';
     protected $listeners = ['saved'];
+
+    public function prete($ref){
+
+        Commande::where('ref', $ref)->update([
+            'etat' => "Prête",
+            'date_prete' => Carbon::now()->toDateTimeString(),
+            ]);
+            $this->emit('saved');
+    }
 
     public function edit($ref)
     {
@@ -74,7 +87,9 @@ class ListeCommandeValidee extends Component
         $this->mode_paiement = ModePaiement::where('id', $commande->mode_paiement_id)->first()->nom;
         $this->mode_livraison_id = ModeLivraison::where('id', $commande->mode_livraison_id)->first()->nom;
         $this->frais_livraison = $commande->frais_livraison;
-        $this->montant_total = $commande->geMontantTotal();
+        $this->montant_total = $commande->total;
+        $this->date_recue =$commande->created_at;
+        $this->date_validee =$commande->date_validee;
 
 
         $this->commande_lignes = $commande->commandeLignes->groupBy(function ($commande_ligne) {
@@ -87,7 +102,7 @@ class ListeCommandeValidee extends Component
 
             foreach ($items as $key => $value) {
 
-                $this->produits[$categorie_id][$key] = Produit::where('id', $value['produit_id'])->first()->nom;
+                $this->produits[$categorie_id][$key] = Stock::where('id',$value['piece_id'])->first()->produit->nom;
             }
         }
     }
