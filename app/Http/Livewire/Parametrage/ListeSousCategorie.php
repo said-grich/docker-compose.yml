@@ -60,38 +60,29 @@ class ListeSousCategorie extends Component
 
     public function editSousCategorie(){
 
-       /*  $souscategorie_nom = SousCategorie::all(['sous_categories.nom','sous_categories.categorie_id']);
+        $souscategorie_nom = SousCategorie::all(['sous_categories.nom','sous_categories.categorie_id']);
 
         foreach ($souscategorie_nom as $key => $value) {
           if (( $souscategorie_nom[$key]->nom == $this->sous_categorie_name) && ($souscategorie_nom[$key]->categorie_id == $this->categorie_id )) {
 
-                dump( 'egaux',$souscategorie_nom[$key]->nom  ,$this->sous_categorie_name, $souscategorie_nom[$key]->categorie_id, $this->categorie_id);
-
-            break;
+               // dd( 'egaux',$souscategorie_nom[$key]->nom  ,$this->sous_categorie_name, $souscategorie_nom[$key]->categorie_id, $this->categorie_id);
+               $this->egalite ="true";
           }elseif (( $souscategorie_nom[$key]->nom <> $this->sous_categorie_name) && ($souscategorie_nom[$key]->categorie_id <> $this->categorie_id )) {
-            dump( 'egaux',$souscategorie_nom[$key]->nom  ,$this->sous_categorie_name, $souscategorie_nom[$key]->categorie_id, $this->categorie_id);
-            SousCategorie::where('id', $this->sous_categorie_id)
-            ->update([
-                'nom' => $this->sous_categorie_name,
-                'categorie_id' => $this->categorie_id,
+            //dd( 'different',$souscategorie_nom[$key]->nom  ,$this->sous_categorie_name, $souscategorie_nom[$key]->categorie_id, $this->categorie_id);
+            $this->egalite ="false";
 
-            ]);
-          }
+            }
 
-        } */
+        }
+        if ( $this->egalite == "false") {
+                SousCategorie::where('id', $this->sous_categorie_id)
+                ->update([
+                    'nom' => $this->sous_categorie_name,
+                    'categorie_id' => $this->categorie_id,
 
-        SousCategorie::where('id', $this->sous_categorie_id)
-        ->update([
-            'nom' => $this->sous_categorie_name,
-            'categorie_id' => $this->categorie_id,
-
-        ]);
-
-
-            session()->flash('message', 'Livraison a éte crée');
-
-
-
+                ]);
+             //   session()->flash('message', 'Livraison a éte crée');
+            }
     }
 
     public function deleteSousCategorie($id)
