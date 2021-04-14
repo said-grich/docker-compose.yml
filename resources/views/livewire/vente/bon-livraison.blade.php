@@ -563,141 +563,163 @@
                                                         </div>
 
                                                         <div class="card-body">
-                                                            <div class="form-group row mt-3">
+                                                            <div class="row">
+                                                                <div class="col-lg-6">
+                                                                    <div class="card card-custom">
+                                                                        <div class="card-header">
+                                                                            <div class="card-title">
+                                                                                <h3 class="card-label">Adresse de livraison</h3>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="card-body">
+                                                                            <div class="form-group row mt-3">
+                                                                                <div class="col-lg-4 mb-6">
+                                                                                    <label>{{ __('Téléphone de livraison') }}</label>
+                                                                                    <input type="text" class="form-control" placeholder="Téléphone de livraison" wire:model.defer="tel_livraison"/>
+                                                                                    @error('tel_livraison')
+                                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                                    @enderror
+                                                                                </div>
+                                                                                <div class="col-lg-4 mb-6">
+                                                                                    <label>{{ __('Contact de livraison') }}</label>
+                                                                                    <input type="text" class="form-control" placeholder="Contact de livraison" wire:model.defer="contact_livraison"/>
+                                                                                    @error('contact_livraison')
+                                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                                    @enderror
+                                                                                </div>
 
-                                                                <div class="form-group col">
-                                                                    <label>{{ __("Dépôt de la livraison") }}</label>
-                                                                    <div class="input-group input-group-prepend">
-                                                                        <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
-                                                                        <select class="form-control" wire:model.defer="depot_livraison">
-                                                                            <option>{{ __('Choisir un dépôt') }}</option>
-                                                                            @foreach ($list_depots as $item)
-                                                                                <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                                            @endforeach
-
-                                                                        </select>
+                                                                                <div class="col-lg-4 mb-6">
+                                                                                    <label>{{ __('Adresse de livraison') }}</label>
+                                                                                    <input type="text" class="form-control" placeholder="Adresse de livraison" wire:model.defer="adresse_livraison"/>
+                                                                                    @error('adresse_livraison')
+                                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                                    @enderror
+                                                                                </div>
+                                                                                <div class="col-lg-4 mb-6">
+                                                                                    <label>{{ __('Ville de livraison') }}</label>
+                                                                                    <select class="form-control" wire:model="ville">
+                                                                                        <option value="">{{ __('Choisir une ville de livraison') }}</option>
+                                                                                        @foreach ($list_villes as $item)
+                                                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                                        @endforeach
+                                                                                    </select>
+                                                                                    @error('ville')
+                                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                                    @enderror
+                                                                                </div>
+                                                                                <div class="col-lg-4 mb-6">
+                                                                                    <label>{{ __('Ville zone') }}</label>
+                                                                                    <select class="form-control" wire:model="ville_zone">
+                                                                                        <option value="">{{ __('Choisir une zone') }}</option>
+                                                                                        @foreach ($list_ville_zones as $item)
+                                                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                                        @endforeach
+                                                                                    </select>
+                                                                                    @error('ville_zone')
+                                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                                    @enderror
+                                                                                </div>
+                                                                                <div class="col-lg-4 mb-6">
+                                                                                    <label>{{ __('Quartier') }}</label>
+                                                                                    <select class="form-control" wire:model="ville_quartie_id">
+                                                                                        <option>{{ __('Choisir un quartier') }}</option>
+                                                                                        @foreach ($list_quartiers as $item)
+                                                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                                        @endforeach
+                                                                                    </select>
+                                                                                    @error('ville_quartie_id')
+                                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                                    @enderror
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
-                                                                    @error('depot_livraison')
-                                                                        <span class="form-text text-danger">{{ $message }}</span>
-                                                                    @enderror
                                                                 </div>
+                                                                <div class="col-lg-6">
+                                                                    <div class="card card-custom">
+                                                                        <div class="card-header">
+                                                                            <div class="card-title">
+                                                                                <h3 class="card-label">Réglement</h3>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="card-body">
+                                                                            <div class="form-group row mt-3">
+                                                                                <div class="col-lg-4 mb-6">
+                                                                                    <label>{{ __("Dépôt de la livraison") }}</label>
+                                                                                    <div class="input-group input-group-prepend">
+                                                                                        <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
+                                                                                        <select class="form-control" wire:model.defer="depot_livraison">
+                                                                                            <option>{{ __('Choisir un dépôt') }}</option>
+                                                                                            @foreach ($list_depots as $item)
+                                                                                                <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                                            @endforeach
 
-                                                                <div class="col">
-                                                                    <label>{{ __('Téléphone de livraison') }}</label>
-                                                                    <input type="text" class="form-control" placeholder="Téléphone de livraison" wire:model.defer="tel_livraison"/>
-                                                                    @error('tel_livraison')
-                                                                        <span class="form-text text-danger">{{ $message }}</span>
-                                                                    @enderror
-                                                                </div>
-                                                                <div class="col">
-                                                                    <label>{{ __('Contact de livraison') }}</label>
-                                                                    <input type="text" class="form-control" placeholder="Contact de livraison" wire:model.defer="contact_livraison"/>
-                                                                    @error('contact_livraison')
-                                                                        <span class="form-text text-danger">{{ $message }}</span>
-                                                                    @enderror
-                                                                </div>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                    @error('depot_livraison')
+                                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                                    @enderror
+                                                                                </div>
+                                                                                <div class="col-lg-4 mb-6">
+                                                                                    <label>{{ __('Mode de paiement') }}</label>
+                                                                                    <select class="form-control" wire:model.defer="mode_paiement">
+                                                                                        <option>{{ __('Choisir un mode de paiement') }}</option>
+                                                                                        @foreach ($list_mode_paiement as $item)
+                                                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                                        @endforeach
+                                                                                    </select>
+                                                                                    @error('mode_paiement')
+                                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                                    @enderror
+                                                                                </div>
+                                                                                <div class="col-lg-4 mb-6">
+                                                                                    <label>{{ __('Mode de livraison') }}</label>
+                                                                                    <select class="form-control" wire:model.defer="mode_livraison_id">
+                                                                                        <option>{{ __('Choisir un mode de livraison') }}</option>
+                                                                                        @foreach ($list_mode_livraison as $item)
+                                                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                                        @endforeach
+                                                                                    </select>
+                                                                                    @error('mode_livraison_id')
+                                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                                    @enderror
+                                                                                </div>
+                                                                                <div class="col-lg-4 mb-6">
+                                                                                    <label>{{ __('Frais de livraison') }}</label>
+                                                                                    <input type="text" class="form-control" placeholder="Frais de livraison" wire:model.defer="frais_livraison"/>
+                                                                                    @error('frais_livraison')
+                                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                                    @enderror
+                                                                                </div>
 
-                                                                <div class="col">
-                                                                    <label>{{ __('Adresse de livraison') }}</label>
-                                                                    <input type="text" class="form-control" placeholder="Adresse de livraison" wire:model.defer="adresse_livraison"/>
-                                                                    @error('adresse_livraison')
-                                                                        <span class="form-text text-danger">{{ $message }}</span>
-                                                                    @enderror
-                                                                </div>
-                                                                <div class="col">
-                                                                    <label>{{ __('Ville de livraison') }}</label>
-                                                                    <select class="form-control" wire:model="ville">
-                                                                        <option value="">{{ __('Choisir une ville de livraison') }}</option>
-                                                                        @foreach ($list_villes as $item)
-                                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                    @error('ville')
-                                                                        <span class="form-text text-danger">{{ $message }}</span>
-                                                                    @enderror
-                                                                </div>
-                                                                <div class="col">
-                                                                    <label>{{ __('Ville zone') }}</label>
-                                                                    <select class="form-control" wire:model="ville_zone">
-                                                                        <option value="">{{ __('Choisir une zone') }}</option>
-                                                                        @foreach ($list_ville_zones as $item)
-                                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                    @error('ville_zone')
-                                                                        <span class="form-text text-danger">{{ $message }}</span>
-                                                                    @enderror
-                                                                </div>
-                                                                <div class="col">
-                                                                    <label>{{ __('Quartier') }}</label>
-                                                                    <select class="form-control" wire:model="ville_quartie_id">
-                                                                        <option>{{ __('Choisir un quartier') }}</option>
-                                                                        @foreach ($list_quartiers as $item)
-                                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                    @error('ville_quartie_id')
-                                                                        <span class="form-text text-danger">{{ $message }}</span>
-                                                                    @enderror
+                                                                                <div class="col-lg-4 mb-6">
+                                                                                    <label>{{ __('Date de livraison') }}</label>
+                                                                                    <input type="date" class="form-control" placeholder="Date de livraison" wire:model.defer="date_livraison"/>
+                                                                                    @error('date_livraison')
+                                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                                    @enderror
+                                                                                </div>
+
+                                                                                <div class="col-lg-4 mb-6">
+                                                                                    <label>{{ __('Livreur') }}</label>
+                                                                                    <select class="form-control" wire:model.defer="livreur">
+                                                                                        <option value="">{{ __('Choisir un livreur') }}</option>
+                                                                                        @foreach ($list_livreurs as $item)
+                                                                                            <option value="{{$item->id }}" {{$item->solde >= $item->plafond ? 'disabled' : ''}}>{{$item->nom }} | {{$item->solde == null ? 0 : $item->solde}}</option>
+                                                                                        @endforeach
+                                                                                    </select>
+                                                                                    @error('livreur')
+                                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                                    @enderror
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
 
-                                                            <div class="separator separator-dashed my-10"></div>
 
-                                                            <div class="form-group row">
-                                                                <div class="col">
-                                                                    <label>{{ __('Mode de paiement') }}</label>
-                                                                    <select class="form-control" wire:model.defer="mode_paiement">
-                                                                        <option>{{ __('Choisir un mode de paiement') }}</option>
-                                                                        @foreach ($list_mode_paiement as $item)
-                                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                    @error('mode_paiement')
-                                                                        <span class="form-text text-danger">{{ $message }}</span>
-                                                                    @enderror
-                                                                </div>
-                                                                <div class="col">
-                                                                    <label>{{ __('Mode de livraison') }}</label>
-                                                                    <select class="form-control" wire:model.defer="mode_livraison_id">
-                                                                        <option>{{ __('Choisir un mode de livraison') }}</option>
-                                                                        @foreach ($list_mode_livraison as $item)
-                                                                            <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                    @error('mode_livraison_id')
-                                                                        <span class="form-text text-danger">{{ $message }}</span>
-                                                                    @enderror
-                                                                </div>
-                                                                <div class="col">
-                                                                    <label>{{ __('Frais de livraison') }}</label>
-                                                                    <input type="text" class="form-control" placeholder="Frais de livraison" wire:model.defer="frais_livraison"/>
-                                                                    @error('frais_livraison')
-                                                                        <span class="form-text text-danger">{{ $message }}</span>
-                                                                    @enderror
-                                                                </div>
 
-                                                                <div class="col">
-                                                                    <label>{{ __('Date de livraison') }}</label>
-                                                                    <input type="date" class="form-control" placeholder="Date de livraison" wire:model.defer="date_livraison"/>
-                                                                    @error('date_livraison')
-                                                                        <span class="form-text text-danger">{{ $message }}</span>
-                                                                    @enderror
-                                                                </div>
-
-                                                                <div class="col">
-                                                                    <label>{{ __('Livreur') }}</label>
-                                                                    <select class="form-control" wire:model.defer="livreur">
-                                                                        <option value="">{{ __('Choisir un livreur') }}</option>
-                                                                        @foreach ($list_livreurs as $item)
-                                                                            <option value="{{$item->id }}" {{$item->solde >= $item->plafond ? 'disabled' : ''}}>{{$item->nom }} | {{$item->solde == null ? 0 : $item->solde}}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                    @error('livreur')
-                                                                        <span class="form-text text-danger">{{ $message }}</span>
-                                                                    @enderror
-                                                                </div>
-                                                            </div>
                                                         </div>
 
                                                     </div>
@@ -728,7 +750,7 @@
                                         </div>
                                         <div class="modal-body">
                                             <form id="show-form" class="form row">
-                                                    <div class="form-group col">
+                                                    <div class="form-group col-lg-4 mb-6">
                                                         <label>{{ __('Réf. bon de livraison') }}</label>
                                                         <div class="input-group input-group-prepend">
                                                             <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-hashtag icon-lg"></i></span></div>

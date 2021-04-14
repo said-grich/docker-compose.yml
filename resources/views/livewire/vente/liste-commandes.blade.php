@@ -295,6 +295,13 @@
                                         <th></th>
                                         <th>{{$montant_total}}</th>
                                     </tr>
+                                    <tr>
+                                        <th><span class="text-dark-75">Montant total è payer</span></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th>{{$montant_total_a_payer}}</th>
+                                    </tr>
                                 </tfoot>
                             </table>
                         </div>

@@ -89,7 +89,8 @@ class ListeCommandesEnExpedition extends Component
         $this->mode_paiement = ModePaiement::where('id', $commande->mode_paiement_id)->first()->nom;
         $this->mode_livraison_id = ModeLivraison::where('id', $commande->mode_livraison_id)->first()->nom;
         $this->frais_livraison = $commande->frais_livraison;
-        $this->montant_total = $commande->total;
+        $this->montant_total = $commande->geMontantTotal();
+        $this->montant_total_a_payer = $commande->total;
         $this->date_recue =$commande->created_at;
         $this->date_validee =$commande->date_validee;
         $this->date_prete =$commande->date_prete;

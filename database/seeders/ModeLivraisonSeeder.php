@@ -16,11 +16,11 @@ class ModeLivraisonSeeder extends Seeder
     public function run()
     {
         ModeLivraison::create([
-            'nom' => 'Express',
+            'nom' => 'À la livraison',
         ]);
 
         ModeLivraison::create([
-            'nom' => 'Economique à domicile',
+            'nom' => 'Sur place',
         ]);
 
     }
