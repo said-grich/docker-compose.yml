@@ -133,7 +133,7 @@ class BonLivraison extends Component
     public $depot_livraison;
     public $seuil_livraison_gratuite;
     public $seuil_commande;
-    public $commande_preparation_nettoyage = [];
+    public $commande_preparations = [];
     public $commande_preparation_cuisine = [];
 
 
@@ -384,7 +384,7 @@ class BonLivraison extends Component
 
 
     public function save(){
-        //dd($this->commande_preparation_cuisine,$this->commande_preparation_nettoyage,$this->pieceId );
+        //dd($this->commande_preparations,$this->pieceId );
 
         $this->validate([
             'client' => 'required',
@@ -457,8 +457,8 @@ class BonLivraison extends Component
                             'qte' => $this->qte[$key],
                             'prix' => $this->prix_vente[$key],
                             'montant' => $this->montant[$key],
-                            'preparations_cuisine' => isset($this->commande_preparation_cuisine[$value]) ? $this->commande_preparation_cuisine[$value] : '',
-                            'preparations_nettoyage' => isset($this->commande_preparation_nettoyage[$value]) ? $this->commande_preparation_nettoyage[$value] : '' ,
+                            'preparations' => isset($this->commande_preparations[$value]) ? $this->commande_preparations[$value] : [],
+                            //'preparations' => isset($this->commande_preparation_nettoyage[$value]) ? $this->commande_preparation_nettoyage[$value] : '' ,
                         ]);
 
 
