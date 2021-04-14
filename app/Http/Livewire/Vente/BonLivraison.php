@@ -28,6 +28,7 @@ use App\Models\Ville;
 use App\Models\VilleQuartier;
 use App\Models\VilleZone;
 use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use DateTime;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
@@ -173,6 +174,31 @@ class BonLivraison extends Component
     } */
 
     public function mount(){
+
+        //dd(Carbon::now()->locale('fr_FR')->dayName );
+
+        /* $count = 7;
+        $dates = [];
+        $dates_names = [];
+        $date = Carbon::now()->locale('fr_FR');
+        //$fr = CarbonImmutable::now()->locale('fr_FR');
+        for ($i = 0; $i < $count; $i++) {
+            $dates[] = $date->addDay()->format('d-m-Y');
+            $dates_names[] = $date->addDay()->format('l');
+        }
+
+        // Show me what you got
+        dd($date,$dates,$dates_names);
+
+
+        $now = Carbon::now();
+        $start = $now->startOfWeek(Carbon::MONDAY);
+        $end = $now->endOfWeek(Carbon::SUNDAY);
+
+        $fr = CarbonImmutable::now()->locale('fr_FR');
+
+        dd($fr->firstWeekDay,$fr->lastWeekDay,$fr->startOfWeek()->format('Y-m-d H:i'),$fr->endOfWeek()->format('Y-m-d H:i'));
+        dd($start,$end,$now); */
 
         $latest_bl = ModelBonLivraison::latest()->first();
         if (! $latest_bl) {
@@ -390,7 +416,7 @@ class BonLivraison extends Component
                 $commande->mac_address = $MAC;
                 $commande->date = $this->date;
                 $commande->etat = "Reçue";
-                $commande->total = $this->totalMt;
+                $commande->total = $this->totalMt + $this->frais_livraison;
                 $commande->date_livraison = $this->date_livraison;
                 $commande->tel_livraison = $this->tel_livraison;
                 $commande->contact_livraison = $this->contact_livraison;
@@ -450,7 +476,7 @@ class BonLivraison extends Component
                     }
 
                     $livreur = Livreur::find($this->livreur);
-                    $livreur->solde = $this->totalMt;
+                    $livreur->solde = $commande->total;
                     $livreur->save();
 
                     LivreurCommande::create([
