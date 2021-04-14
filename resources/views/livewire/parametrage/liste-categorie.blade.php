@@ -1,4 +1,4 @@
-{{--begin::Table--}}
+   {{--begin::Table--}}
 <div class="table-responsive">
     <div class="d-flex flex-row-reverse">
         <div class="input-icon">

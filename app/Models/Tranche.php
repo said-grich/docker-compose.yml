@@ -16,6 +16,11 @@ class Tranche extends Model
         return $this->hasMany(Stock::class, 'tranche_id', 'uid');
     }
 
+    /* public function modevente()
+    {
+        return $this->belongsTo(ModeVente::class);
+    } */
+
     public function produitTranche(){
         return $this->hasMany(ProduitTranche::class);
     }

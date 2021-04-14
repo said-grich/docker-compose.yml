@@ -73,6 +73,7 @@ class ListeClients extends Component
 
         session()->flash('message', 'Client "'.$this->nom.'" à été modifié');
         /* return redirect()->to('/depots'); */
+        $this->emit('saved');
     }
 
     public function deleteClient($id)

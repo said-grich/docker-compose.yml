@@ -21,6 +21,7 @@ class TrancheSeeder extends Seeder
             'type' => 'Kg/Pièce',
             'nom' => 'Mixte',
             'uid' => "KP".str_replace(".","",microtime(true)).rand(000,999),
+            /* 'mode_vente_id' => 1 */
         ]);
 
         Tranche::create([

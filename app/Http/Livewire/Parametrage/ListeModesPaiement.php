@@ -55,7 +55,9 @@ class ListeModesPaiement extends Component
                 'nom' => $this->nom,
             ]);
 
-        session()->flash('message', 'Tranche "'.$this->nom.'" à été modifiée');
+
+        session()->flash('message', 'Le mode de paiement "'.$this->nom.'" à été modifiée');
+        return redirect()->to('/modes-paiement');
     }
 
     public function deleteModePaiement($id)
