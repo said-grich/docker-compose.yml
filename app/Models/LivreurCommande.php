@@ -15,6 +15,11 @@ class LivreurCommande extends Model
         return $this->belongsTo(Livreur::class, 'livreur_id', 'id');
     }
 
+    public function mode_paiement()
+    {
+        return $this->belongsTo(ModePaiement::class, 'mode_paiement_id', 'id');
+    }
+
     public function commande()
     {
         return $this->belongsTo(Commande::class, 'commande_id', 'id');

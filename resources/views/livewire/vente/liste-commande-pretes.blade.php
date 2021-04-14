@@ -240,16 +240,19 @@
                                                 </th>
                                             </tr>
                                             <tr class="text-left">
-                                                <th style="min-width: 250px">
+                                                <th>
                                                     <span class="text-dark-75">Produit</span>
                                                 </th>
-                                                <th style="min-width: 100px">
+                                                <th>
+                                                    <span class="text-dark-75">Préparation</span>
+                                                </th>
+                                                <th>
                                                     <span class="text-dark-75">Quantité</span>
                                                 </th>
-                                                <th style="min-width: 100px">
+                                                <th>
                                                     <span class="text-dark-75">Prix</span>
                                                 </th>
-                                                <th style="min-width: 100px">
+                                                <th>
                                                     <span class="text-dark-75">Montant</span>
                                                 </th>
                                             </tr>
@@ -257,16 +260,26 @@
                                         <tbody>
                                             @foreach ($items as $key=>$item)
                                                 <tr>
-                                                    <td class="pl-0">
+                                                    <td>
                                                         {{$produits[$categorie_id][$key]}}
                                                     </td>
-                                                    <td class="pl-0">
+                                                    <td>
+                                                        @if (is_array($item['preparations']))
+                                                            @foreach ($item['preparations'] as $value)
+                                                                {{ $loop->first ? '' : ', ' }} {{ $value }}
+                                                            @endforeach
+                                                        @else
+                                                            {{isset($item['preparations']) ? $item['preparations'] : "Sans préparation"}}
+                                                        @endif
+
+                                                    </td>
+                                                    <td>
                                                         {{$item['qte']}}
                                                     </td>
-                                                    <td class="pl-0">
+                                                    <td>
                                                         {{$item['prix']}}
                                                     </td>
-                                                    <td class="pl-0">
+                                                    <td>
                                                         {{$item['montant']}}
                                                     </td>
                                                 </tr>

@@ -19,6 +19,10 @@ class CreateLivreurCommandesTable extends Migration
             $table->foreign('commande_id')->references('id')->on('commandes');
             $table->unsignedBigInteger('livreur_id');
             $table->foreign('livreur_id')->references('id')->on('livreurs');
+
+            $table->unsignedBigInteger('mode_paiement_id')->nullable();
+            $table->foreign('mode_paiement_id')->references('id')->on('mode_paiements');
+
             $table->boolean('valide')->default(false);
 
             $table->timestamps();

@@ -11,8 +11,7 @@ class CommandeLigne extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'preparations_cuisine' => 'array',
-        'preparations_nettoyage' => 'array',
+        'preparations' => 'array',
     ];
 
     public function commande()

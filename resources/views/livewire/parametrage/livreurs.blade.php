@@ -75,6 +75,16 @@
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
+                                            <div class="form-group col-md-6">
+                                                <div class="input-group input-group-prepend">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-level-up-alt icon-lg"></i></span></div>
+                                                    <input type="number" class="form-control" placeholder=" " wire:model.defer="plafond"/>
+                                                    <label>{{ __('Plafond') }}</label>
+                                                </div>
+                                                @error('plafond')
+                                                    <span class="form-text text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
                                             <div wire:ignore class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-people-carry icon-lg"></i></span></div>
