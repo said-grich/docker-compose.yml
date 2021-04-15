@@ -45,6 +45,7 @@ class ListeCommandesEnExpedition extends Component
     public $date_validee;
     public $date_prete;
     public $date_expedition;
+    public $montant_total_a_payer ;
 
 
 

@@ -7,7 +7,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use Livewire\Component;
 
-require '../vendor/autoload.php';
+// require '../vendor/autoload.php';
 
 class Sinscrire extends Component{
     public $form = [
@@ -38,12 +38,12 @@ class Sinscrire extends Component{
         $this->form['password'] = substr(str_shuffle($chars),0,10);
 
         $this->validate();
-        
+
         $mail = new PHPMailer();
         $mail->IsSMTP();
         $mail->Mailer = "smtp";
 
-        $mail->SMTPDebug  = SMTP::DEBUG_SERVER;  
+        $mail->SMTPDebug  = SMTP::DEBUG_SERVER;
         $mail->SMTPAuth   = TRUE;
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
@@ -62,7 +62,7 @@ class Sinscrire extends Component{
             'password' => $this->form['password'],
         ]);
 
-        $mail->MsgHTML($content); 
+        $mail->MsgHTML($content);
         if(!$mail->Send()){
             // dd($mail->ErrorInfo);
             var_dump($mail);

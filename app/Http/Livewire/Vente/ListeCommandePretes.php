@@ -44,6 +44,7 @@ class ListeCommandePretes extends Component
     public $date_recue;
     public $date_validee;
     public $date_prete;
+    public $montant_total_a_payer ;
 
 
 

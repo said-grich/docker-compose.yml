@@ -18,7 +18,7 @@ class Connexion extends Component{
 
     public function submit(){
         $this->validate();
-        dd($this->form);
+        //dd($this->form);
     }
 
     public function render(){

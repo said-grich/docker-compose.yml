@@ -213,7 +213,7 @@ class Stock extends Component
         foreach($produit_tranche as $val){
             $tranche = Tranche::where('uid',$val->tranche_id)->where('type',"Poids par pièce")->get();
         }
-        dd($produit_tranche);
+        // dd($produit_tranche);
         foreach ($this->code as $key => $value) {
             $code_poids[$value] = array( 'poids' =>$this->poids[$key], 'qualite' =>  $this->qualite_piece[$key]);
             $this->code_poids[$this->details_index] = $code_poids;
