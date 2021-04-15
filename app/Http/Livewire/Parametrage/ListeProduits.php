@@ -11,6 +11,7 @@ use App\Models\ProduitPhoto;
 use App\Models\ProduitTranche;
 use App\Models\Tranche;
 use App\Models\Unite;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -27,6 +28,7 @@ class ListeProduits extends Component
     public $code_comptable;
     public $code_analytique;
     public $photo_principale;
+    public $photo_principalea;
     public $unite;
     public $list_familles = [];
     public $list_cuisine = [];
@@ -40,6 +42,7 @@ class ListeProduits extends Component
     public $list_tranches = [];
     public $active ;
     public $photos =[] ;
+    public $photosa =[] ;
 
     public $sortBy = 'nom';
     public $sortDirection = 'asc';
@@ -106,7 +109,7 @@ class ListeProduits extends Component
         $this->active = $item->active ;
         //$this->mode_cuisine = $item->mode_cuisine_id ;
 
-        $this->photo_principale = $item->photo_principale;
+        $this->photo_principalea = $item->photo_principale;
 
         //$this->mode_nettoyage = $item->mode_nettoyage_id ;
         //dd($this->photo_principale);
@@ -116,12 +119,6 @@ class ListeProduits extends Component
             $this->tranches[ $key] = $value->tranche_id ;
         }
 
-        /* $itemb = ProduitTranche::where('produit_id',$id)->get();
-        foreach ($itemb as $key => $value) {
-            $mode_nettoyage_id[ $key] = $value->preparation_id ;
-        } */
-
-        //$paths = [];
         $itemb = PreparationType::where('produit_id', $id)->get();
         foreach ($itemb as $key => $value) {
             $this->mode_cuisine[ $key] = $value->preparation_id ;
@@ -129,12 +126,9 @@ class ListeProduits extends Component
 
         }
 
-
-
         $this->iteme = ProduitPhoto::where('produit_id',$id)->get();
-
         foreach ($this->iteme as $key => $value) {
-            $this->photos[$key]= Storage::url($value->photo) ;
+            $this->photosa[$key]= Storage::url($value->photo) ;
         }
 
 
@@ -143,92 +137,94 @@ class ListeProduits extends Component
     }
 
     public function editProduit(){
+        DB::transaction(function () {
 
-        if(!empty($photo_principale) && !empty($photo)){
+            if(!empty($photo_principale) && !empty($photo)){
+                    Produit::where('id', $this->produit_id)
+                        ->update([
+                            'nom' => $this->nom,
+                            'famille_id' => $this->famille,
+                            'code_comptable' => $this->code_comptable,
+                            'code_analytique' => $this->code_analytique,
+                            //'photo_principale' => $photo_principale,
+                            'unite_id' => $this->unite,
+                            'mode_vente_id' => $this->mode_vente,
+                            'active' => $this->active,
+                            //'mode_cuisine_id' => $this->mode_cuisine,
+                            //'mode_nettoyage_id' => $this->mode_nettoyage,
+
+                        ]);
+                        foreach ($this->tranches as $key => $value) {
+                            ProduitTranche::where('produit_id', $this->produit_id)
+                            ->update([
+
+                                'tranche_id' => $this->tranches[$key],
+                            ]);
+                        }
+                        /* foreach ($this->mode_cuisine as $key => $value) {
+                            ProduitTranche::where('produit_id', $this->produit_id)
+                            ->update([
+
+                                'preparation_id' => $this->mode_cuisine[$key],
+                            ]);
+                        } */
+
+            }elseif(empty($photo_principale) && empty($photo)){
+                $photo_principale = $this->photo_principale->storeAs('public/produits/' . $this->nom . '/principale', date("Y-m-d") . "-" . $this->nom . "." . $this->photo_principale->guessExtension());
                 Produit::where('id', $this->produit_id)
-                    ->update([
-                        'nom' => $this->nom,
-                        'famille_id' => $this->famille,
-                        'code_comptable' => $this->code_comptable,
-                        'code_analytique' => $this->code_analytique,
-                        //'photo_principale' => $photo_principale,
-                        'unite_id' => $this->unite,
-                        'mode_vente_id' => $this->mode_vente,
-                        'active' => $this->active,
-                        //'mode_cuisine_id' => $this->mode_cuisine,
-                        //'mode_nettoyage_id' => $this->mode_nettoyage,
+                ->update([
+                    'nom' => $this->nom,
+                    'famille_id' => $this->famille,
+                    'code_comptable' => $this->code_comptable,
+                    'code_analytique' => $this->code_analytique,
+                    'photo_principale' => $photo_principale,
+                    'unite_id' => $this->unite,
+                    'mode_vente_id' => $this->mode_vente,
+                    'active' => $this->active,
+                    //'mode_cuisine_id' => $this->mode_cuisine,
+                    //'mode_nettoyage_id' => $this->mode_nettoyage,
 
+                ]);
+                //dd($this->tranches);
+                foreach ($this->tranches as $key => $value) {
+
+                    ProduitTranche::where('produit_id', $this->produit_id)
+                    ->delete();
+                    ProduitTranche::create([
+                        'produit_id' => $this->produit_id,
+                        'tranche_id' => $this->tranches[$key],
                     ]);
-                    foreach ($this->tranches as $key => $value) {
-                        ProduitTranche::where('produit_id', $this->produit_id)
-                        ->update([
 
-                            'tranche_id' => $this->tranches[$key],
-                        ]);
-                    }
-                    /* foreach ($this->mode_cuisine as $key => $value) {
-                        ProduitTranche::where('produit_id', $this->produit_id)
-                        ->update([
+                }
+                /* foreach ($this->mode_cuisine as $key => $value) {
+                    ProduitTranche::where('produit_id', $this->produit_id)
+                    ->update([
 
-                            'preparation_id' => $this->mode_cuisine[$key],
-                        ]);
-                    } */
+                        'preparation_id' => $this->mode_cuisine[$key],
+                    ]);
+                } */
 
-        }elseif(empty($photo_principale) && empty($photo)){
-            $photo_principale = $this->photo_principale->storeAs('public/produits/' . $this->nom . '/principale', date("Y-m-d") . "-" . $this->nom . "." . $this->photo_principale->guessExtension());
-            Produit::where('id', $this->produit_id)
-            ->update([
-                'nom' => $this->nom,
-                'famille_id' => $this->famille,
-                'code_comptable' => $this->code_comptable,
-                'code_analytique' => $this->code_analytique,
-                'photo_principale' => $photo_principale,
-                'unite_id' => $this->unite,
-                'mode_vente_id' => $this->mode_vente,
-                'active' => $this->active,
-                //'mode_cuisine_id' => $this->mode_cuisine,
-                //'mode_nettoyage_id' => $this->mode_nettoyage,
-
-            ]);
-            //dd($this->tranches);
-            foreach ($this->tranches as $key => $value) {
-
-                ProduitTranche::where('produit_id', $this->produit_id)
-                ->delete();
-                ProduitTranche::create([
-                    'produit_id' => $this->produit_id,
-                    'tranche_id' => $this->tranches[$key],
-                ]);
+                $paths = [];
+                foreach ($this->photos as $key => $photo) {
+                    $extension = $photo->getClientOriginalExtension();
+                    $filename  = "photo-$key-" . time() . '.' . $extension;
+                    $paths[$key] = $photo->storeAs("public/produits/$this->nom/photos", $filename);
+                }
+                foreach ($paths as $key => $value) {
+                    ProduitPhoto::where('produit_id', $this->produit_id)
+                    ->update([
+                        'photo' => $paths[$key],
+                    ]);
+                }
 
             }
-            /* foreach ($this->mode_cuisine as $key => $value) {
-                ProduitTranche::where('produit_id', $this->produit_id)
-                ->update([
-
-                    'preparation_id' => $this->mode_cuisine[$key],
-                ]);
-            } */
-
-            $paths = [];
-            foreach ($this->photos as $key => $photo) {
-                $extension = $photo->getClientOriginalExtension();
-                $filename  = "photo-$key-" . time() . '.' . $extension;
-                $paths[$key] = $photo->storeAs("public/produits/$this->nom/photos", $filename);
-            }
-            foreach ($paths as $key => $value) {
-                ProduitPhoto::where('produit_id', $this->produit_id)
-                ->update([
-                    'photo' => $paths[$key],
-                ]);
-            }
-
-        }
             /* foreach ($this->tranches as $key => $value) {
                 ProduitTranche::where('produit_id', $this->produit_id)
                 ->update([
                     'tranche_id' => $this->tranches[$key],
                 ]);
             } */
+        });
 
         session()->flash('message', 'Unité "'.$this->nom.'" à été modifiée');
     }
