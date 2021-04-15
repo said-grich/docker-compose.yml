@@ -46,21 +46,33 @@ class Preparations extends Component
 
     public function createPreparation()
     {
-        //$this->validate();
+        $souspreparation = Preparation::where('nom', $this->nom)
+        ->where('mode_preparation_id', $this->mode_preparation)
+        ->first();
+            if ($souspreparation === null) {
+                //$this->validate();
 
-        $item = new Preparation();
-        $item->nom = $this->preparation_nom;
-        $item->mode_preparation_id = $this->mode_preparation_id;
+                $item = new Preparation();
+                $item->nom = $this->preparation_nom;
+                $item->mode_preparation_id = $this->mode_preparation_id;
 
-        $item->save();
+                $item->save();
 
-        $mode = ModePreparation::findOrFail($this->mode_preparation_id);
-        session()->flash('message', 'La préparation "'.$this->preparation_nom. '" a été créée dans le mode '.$mode->nom);
+                $mode = ModePreparation::findOrFail($this->mode_preparation_id);
+                session()->flash('message', 'La préparation "'.$this->preparation_nom. '" a été créée dans le mode '.$mode->nom);
 
-        $this->reset(['preparation_nom','mode_preparation_id']);
+                $this->reset(['preparation_nom','mode_preparation_id']);
 
-        $this->emit('saved');
+                $this->emit('saved');
+
+            }else {
+
+            session()->flash('message',  'Sous mode prépartion "'.$this->nom.'" est déja existe');
+            }
+
     }
+
+    
 
     public function render()
     {

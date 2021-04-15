@@ -58,6 +58,7 @@ class ListeCategorie extends Component
             ]);
 
         session()->flash('message', 'Catégorie "'.$this->nom.'" à été modifiée');
+        $this->emit('saved');
     }
 
     public function deleteCategorie($id)

@@ -16,8 +16,8 @@
                     <div class="card-body">
 
                         <!--begin::Alerts-->
-                    @include('layouts.partials.alerts')
-                    <!--end::Alerts-->
+                        @include('layouts.partials.alerts')
+                        <!--end::Alerts-->
 
                         <!--Button trigger modal-->
                         <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal"

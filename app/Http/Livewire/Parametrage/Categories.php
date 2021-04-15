@@ -48,17 +48,31 @@ class Categories extends Component
     public function createSousCategorie()
     {
         //$this->validate();
+        $souscategorie = SousCategorie::where('nom', $this->sous_categorie_name)
+                                        ->where('categorie_id', $this->categorie_id)
+                                        ->first();
+        if ($souscategorie === null) {
+            $item = new SousCategorie();
+            $item->nom = $this->sous_categorie_name;
+            $item->categorie_id = $this->categorie_id;
+            $item->save();
 
+            $categorie = Categorie::findOrFail($this->categorie_id);
+            session()->flash('message', 'Sous catégorie "' . $this->sous_categorie_name . '" a été créée dans la catégorie ' . $categorie->nom);
+            $this->reset(['sous_categorie_name','categorie_id']);
+
+            $this->emit('saved');
+
+        }else {
+            session()->flash('message', 'Sous catégorie "' . $this->sous_categorie_name . '" est déja existe ');
+        }
+/*
         $item = new SousCategorie();
         $item->nom = $this->sous_categorie_name;
         $item->categorie_id = $this->categorie_id;
-        $item->save();
+        $item->save(); */
 
-        $categorie = Categorie::findOrFail($this->categorie_id);
-        session()->flash('message', 'Sous catégorie "' . $this->sous_categorie_name . '" a été créée dans la catégorie ' . $categorie->nom);
-        $this->reset(['sous_categorie_name','categorie_id']);
 
-        $this->emit('saved');
     }
 
 
