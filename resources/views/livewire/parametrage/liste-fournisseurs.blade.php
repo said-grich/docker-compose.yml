@@ -1,4 +1,9 @@
 <div class="table-responsive">
+
+    <!--begin::Alerts-->
+    @include('layouts.partials.alerts')
+    <!--end::Alerts-->
+
     <div class="d-flex flex-row-reverse">
         <div class="input-icon">
             <input wire:model.debounce.300ms="search" class="form-control" type="text" placeholder="Search...">
@@ -159,7 +164,7 @@
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{ __('Modification famille') }}</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{ __('Fiche Fournisseur') }}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i aria-hidden="true" class="ki ki-close"></i>
                     </button>

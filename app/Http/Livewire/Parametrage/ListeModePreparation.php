@@ -58,6 +58,7 @@ class ListeModePreparation extends Component
             ]);
 
         session()->flash('message', 'Mode préparation "'.$this->nom.'" à été modifié');
+          $this->emit('saved');
     }
 
     public function deleteModePreparation($id)
@@ -69,7 +70,7 @@ class ListeModePreparation extends Component
         session()->flash('message', 'Le mode de préparation "'.$mode->nom.'" à été supprimée');
 
 
-        return redirect()->to('/preparations');
+        //return redirect()->to('/preparations');
 
     }
 

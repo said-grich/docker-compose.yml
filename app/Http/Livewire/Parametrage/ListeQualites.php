@@ -54,6 +54,7 @@ class ListeQualites extends Component
             ]);
 
         session()->flash('message', 'Famille "'.$this->nom.'" à été modifiée');
+        $this->emit('saved');
     }
 
     public function deleteQualite($id)

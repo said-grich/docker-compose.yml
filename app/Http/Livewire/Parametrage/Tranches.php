@@ -12,7 +12,7 @@ class Tranches extends Component
 {
     public $mode_vente_name;
     public $nom;
-    public $type;
+    public $mode_vente_id;
     public $type_nom;
     public $minPoids;
     public $maxPoids;
@@ -66,16 +66,17 @@ class Tranches extends Component
                 break;
         } */
 
-        $this->type == 1 ? $this->nom =  $this->minPoids." - ".$this->maxPoids : $this->nom;
+        $this->mode_vente_id == 1 ? $this->nom =  $this->minPoids." - ".$this->maxPoids : $this->nom;
         $this->validate();
 
 
         Tranche::create([
             'nom' => $this->nom,
-            'type' => $this->type == 1 ? "Poids par pièce" : "Kg/Pièce",
+            //'type' => $this->type == 1 ? "Poids par pièce" : "Kg/Pièce",
+            'mode_vente_id'=> $this->mode_vente_id,
             'min_poids' => $this->minPoids,
             'max_poids' => $this->maxPoids,
-            'uid' => $this->type == 1 ? "PP".$uniqueId : "KP".$uniqueId,
+            'uid' => $this->mode_vente_id == 1 ? "PP".$uniqueId : "KP".$uniqueId,
         ]);
 
 

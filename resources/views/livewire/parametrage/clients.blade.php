@@ -34,7 +34,7 @@
                             <i class="flaticon-plus"></i> {{ __('Ajouter Client') }}
                         </button>
                         <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#type-profile">
-                            <i class="flaticon-plus"></i> {{ __('Ajouter Profile Client') }}
+                            <i class="flaticon-plus"></i> {{ __('Ajouter Profil Client') }}
                         </button>
                         <!--Modal-->
                         <div wire:ignore.self class="modal fade" id="client" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="client" aria-hidden="true">
@@ -47,6 +47,17 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
+                                        @if (session()->has('emailalert'))
+                                        <div class="alert alert-custom alert-light-danger shadow fade show mb-5" role="alert">
+                                            <div class="alert-icon"><i class="flaticon-interface-10"></i></div>
+                                            <div class="alert-text">{{ session('emailalert') }}</div>
+                                            <div class="alert-close">
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true"><i class="ki ki-close"></i></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        @endif
                                         <form id="client-form" class="form row" wire:submit.prevent="createClient">
                                             <div class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
@@ -93,7 +104,7 @@
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-id-card-alt icon-lg"></i></span></div>
 
                                                     <select class="form-control selectpicker" wire:model.defer="profil_client">
-                                                        <option>{{ __('Choisir un profile') }}</option>
+                                                        <option>{{ __('Choisir un profil') }}</option>
                                                         @foreach ($list_profils as $item)
                                                              <option value="{{$item->id}}">{{$item->nom}}</option>
                                                         @endforeach
@@ -117,7 +128,7 @@
                             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">{{ __('Nouveau Profile Client') }}</h5>
+                                        <h5 class="modal-title">{{ __('Nouveau Profil Client') }}</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <i aria-hidden="true" class="ki ki-close"></i>
                                         </button>
@@ -153,7 +164,7 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" data-toggle="tab" href="#profiles-tab">
-                                        <span class="nav-text">Profiles</span>
+                                        <span class="nav-text">Profils</span>
                                     </a>
                                 </li>
                             </ul>

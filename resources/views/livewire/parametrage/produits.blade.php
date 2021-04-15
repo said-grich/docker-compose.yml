@@ -16,8 +16,8 @@
                     <div class="card-body">
 
                         <!--begin::Alerts-->
-                    @include('layouts.partials.alerts')
-                    <!--end::Alerts-->
+                        @include('layouts.partials.alerts')
+                        <!--end::Alerts-->
 
                         <!--Button trigger modal-->
                         <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal"
@@ -131,7 +131,7 @@
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i
                                                                 class="fa fa-weight-hanging icon-lg"></i></span></div>
-                                                    <select class="form-control selectpicker" wire:model.defer="unite">
+                                                    <select class="form-control selectpicker" wire:model="unite">
                                                         <option>{{ __('Choisir une unité') }}</option>
                                                         @foreach ($list_unite as $item)
                                                             <option value="{{$item->id}}">{{$item->nom}}</option>
@@ -669,7 +669,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="unite-form" class="form" wire:submit.prevent="createUnite">
+                <form id="unite-form" class="form" wire:submit.prevent="">
                     <div class="form-group">
                         <div class="input-group input-group-prepend">
                             <div class="input-group-prepend"><span class="input-group-text"><i
@@ -686,7 +686,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-light-primary font-weight-bold"
                         data-dismiss="modal">{{ __('Fermer') }}</button>
-                <button type="submit" class="btn btn-primary font-weight-bold"
+                <button type="submit" wire:click="createUnite()" class="btn btn-primary font-weight-bold"
                         form="unite-form">{{ __('Enregistrer') }}</button>
             </div>
         </div>

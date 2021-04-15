@@ -59,7 +59,8 @@ class ListeUnite extends Component
 
 
         session()->flash('message', 'Unité "'.$this->nom.'" à été modifiée');
-        return redirect()->to('/unites');
+
+        $this->emit('saved');
     }
 
     public function deleteUnite($id)
@@ -67,9 +68,11 @@ class ListeUnite extends Component
         $this->render();
         $unite = Unite::findOrFail($id);
         DB::table("unites")->where('id', $id)->delete();
+
         $unite->delete();
-        session()->flash('message', 'Unité "'.$this->nom.'" à été supprimée');
-        return redirect()->to('/unites');
+        session()->flash('message', 'Unité "'.$unite->nom.'" à été supprimée');
+
+       // return redirect()->to('/unites');
     }
 
     public function saved()

@@ -79,7 +79,9 @@ class ListeTranches extends Component
                 'uid' => $this->uid,
             ]);
 
+
         session()->flash('message', 'Tranche "'.$this->nom.'" à été modifiée');
+        $this->emit('saved');
     }
     public function deleteTranche($uid)
     {
@@ -90,7 +92,8 @@ class ListeTranches extends Component
         $tranche = Tranche::where('uid',$uid)->first();
 
         $tranche->delete();
-        
+        session()->flash('message', 'Tranche "'.$tranche->nom.'" est supprimée');
+
     }
 
     public function saved()

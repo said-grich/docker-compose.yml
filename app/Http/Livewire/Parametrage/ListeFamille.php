@@ -41,7 +41,7 @@ class ListeFamille extends Component
         }
 
         return $this->sortBy = $field;
-        
+
     }
 
     public function edit($id){
@@ -59,6 +59,7 @@ class ListeFamille extends Component
             ]);
 
         session()->flash('message', 'Famille "'.$this->nom.'" à été modifiée');
+        $this->emit('saved');
     }
 
     public function deleteFamille($id)
@@ -68,7 +69,7 @@ class ListeFamille extends Component
         $famille->delete();
 
         session()->flash('message', 'Famille "'.$famille->nom.'" à été supprimée');
-        return redirect()->to('/familles');
+       // return redirect()->to('/familles');
 
     }
 

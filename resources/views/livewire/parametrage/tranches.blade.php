@@ -84,7 +84,7 @@
                                                     <div class="radio-inline">
                                                         @foreach ($list_modes_vente as $mode)
                                                             <label class="radio radio-primary">
-                                                                <input type="radio" name="type" wire:model.defer="type" value="{{$mode->id}}" @click="open = {{$mode->id}}"/>
+                                                                <input type="radio" name="type" wire:model.defer="mode_vente_id" value="{{$mode->id}}" @click="open = {{$mode->id}}"/>
                                                                 <span></span>
                                                                 {{$mode->nom}}
                                                             </label>

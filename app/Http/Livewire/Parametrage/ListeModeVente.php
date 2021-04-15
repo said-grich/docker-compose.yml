@@ -56,6 +56,7 @@ class ListeModeVente extends Component
             ]);
 
         session()->flash('message', 'Mode Vente "'.$this->nom.'" à été modifiée');
+        $this->emit('saved');
     }
     public function deleteModeVente($id)
     {
@@ -69,7 +70,7 @@ class ListeModeVente extends Component
         $unite->delete();
 
         session()->flash('message', 'Catégorie "'.$this->nom.' à été supprimer');
-        return redirect()->to('/categories');
+       // return redirect()->to('/categories');
     }
 
     public function saved()

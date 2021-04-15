@@ -1,4 +1,9 @@
 <div class="table-responsive">
+
+    <!--begin::Alerts-->
+    @include('layouts.partials.alerts')
+    <!--end::Alerts-->
+
     <div class="d-flex flex-row-reverse">
         <div class="input-icon">
             <input wire:model.debounce.300ms="search" class="form-control" type="text" placeholder="Search...">
