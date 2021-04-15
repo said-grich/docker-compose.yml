@@ -525,6 +525,9 @@
                                                                                         </select>
                                                                                     @endisset--}}
                                                                                 </td>
+                                                                                <td>
+                                                                                    <button type="button" class="btn font-weight-bold btn-danger btn-icon" wire:click="remove({{ $key }})"><i class="la la-remove"></i></button>
+                                                                                </td>
                                                                                 {{-- <td>
                                                                                     @isset($preparations_nettoyage[$val])
                                                                                         <select class="form-control" wire:model.defer="commande_preparation_nettoyage.{{$val}}" multiple>
@@ -686,7 +689,7 @@
                                                                                 </div>
                                                                                 <div class="col-lg-4 mb-6">
                                                                                     <label>{{ __('Frais de livraison') }}</label>
-                                                                                    <input type="text" class="form-control" placeholder="Frais de livraison" wire:model.defer="frais_livraison"/>
+                                                                                    <input type="text" class="form-control" placeholder="Frais de livraison" wire:model.defer="frais_livraison" disabled/>
                                                                                     @error('frais_livraison')
                                                                                         <span class="form-text text-danger">{{ $message }}</span>
                                                                                     @enderror

@@ -302,8 +302,9 @@ class BonLivraison extends Component
                 ->get();
 
             $this->list_produits = $collection->groupBy(['produit_id', 'tranche_id'])->toArray();
+
             foreach ($this->list_produits as $produit_id => $tranches) {
-                //     //dd($this->list_produits);
+
                 $this->nom_produit[$produit_id] = Produit::where('id', $produit_id)->first()->nom;
                 foreach ($tranches as $tranche_uid => $produits) {
 
@@ -324,6 +325,7 @@ class BonLivraison extends Component
 
                         $nbr_pc = LotTranche::where('lot_num', $produit['lot_num'])->where('tranche_id', $tranche_uid)->first(['qte'])->qte;
                         $this->nbr_piece[$produit_id][$tranche_uid] = $nbr_pc == 0 ?  $produit['qte_restante'] :  $nbr_pc;
+
                         if($produit['categorie_id'] == 2){
 
                             $this->preparations_cuisine[ $produit['id']] = PreparationType::where('produit_id',$produit['produit_id'])->whereHas('preparation', function (Builder $query) {
@@ -348,7 +350,6 @@ class BonLivraison extends Component
     }
 
     public function updatedFilterCategorie(){
-        //$this->list_produits = [];
         $this->loadList();
     }
 
@@ -361,13 +362,11 @@ class BonLivraison extends Component
 
     public function updatedFilterPoids()
     {
-        //$this->list_produits = [];
         $this->loadList();
     }
 
     public function updatedFilterDepot()
     {
-        //$this->list_produits = [];
         $this->loadList();
     }
 
@@ -384,7 +383,6 @@ class BonLivraison extends Component
 
 
     public function save(){
-        //dd($this->commande_preparations,$this->pieceId );
 
         $this->validate([
             'client' => 'required',
@@ -503,8 +501,6 @@ class BonLivraison extends Component
 
     public function add($i,$productId, $qte, $prix, $tranche,$categorie,$pieceId)
     {
-         //dd($i, $this->list_produits, $productId, $qte, $prix, $lot, $tranche, $code, $this->list_produits[$productId][$tranche][$i]);
-         //dd($this->list_produits[$productId][$tranche][$i]['depot']['nom']);
         $this->linenumber++;
 
         $this->pieceId[$this->linenumber] = $pieceId;
@@ -520,14 +516,34 @@ class BonLivraison extends Component
         $this->depotId[$this->linenumber] = $this->list_produits[$productId][$tranche][$i]['depot_id'];
         $this->depotNom[$this->linenumber] = $this->list_produits[$productId][$tranche][$i]['depot']['nom'];
 
-
         $this->qte[$this->linenumber] = $qte;
         $this->prix_vente[$this->linenumber] = $prix;
-        //dd($this->produitNom);
-
 
         $this->updateData($this->linenumber);
 
+        $this->loadList();
+    }
+
+    public function remove($i)
+    {
+        $this->linenumber--;
+
+        array_splice($this->pieceId, $i, 1);
+        array_splice($this->produitId, $i, 1);
+        array_splice($this->pieceLot, $i, 1);
+        array_splice($this->produitNom, $i, 1);
+        array_splice($this->code, $i, 1);
+        array_splice($this->poids, $i, 1);
+        array_splice($this->categorieId, $i, 1);
+        array_splice($this->pieceTranche, $i, 1);
+
+        array_splice($this->depotId, $i, 1);
+        array_splice($this->depotNom, $i, 1);
+
+        array_splice($this->qte, $i, 1);
+        array_splice($this->prix_vente, $i, 1);
+
+        $this->updateData(0);
         $this->loadList();
     }
 
@@ -563,15 +579,12 @@ class BonLivraison extends Component
     public function render()
     {
         $this->renderData();
-        //$this->loadList();
 
         $items = ModelBonLivraison::query()
-            //->where('ref', $archived_lots_ids)
             ->where('ref', 'ilike', '%' . $this->search . '%')
             ->orderBy($this->sortBy, $this->sortDirection)
             ->paginate($this->perPage);
-        //$list_produits  =  $this->list_produits;
 
-        return view('livewire.vente.bon-livraison',compact(['items'/* , 'list_produits' */]));
+        return view('livewire.vente.bon-livraison',compact(['items']));
     }
 }
