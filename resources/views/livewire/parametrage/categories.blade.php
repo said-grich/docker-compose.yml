@@ -61,6 +61,7 @@
                         <div wire:ignore.self class="modal fade" id="sous-categorie" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="sous-categorie" aria-hidden="true">
                             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                 <div class="modal-content">
+
                                     <div class="modal-header">
                                         <h5 class="modal-title">{{ __('Nouvelle Sous Catégorie') }}</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -68,6 +69,17 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
+                                        @if (session()->has('alertcategorie'))
+                                        <div class="alert alert-custom alert-light-danger shadow fade show mb-5" role="alert">
+                                            <div class="alert-icon"><i class="flaticon-interface-10"></i></div>
+                                            <div class="alert-text">{{ session('alertcategorie') }}</div>
+                                            <div class="alert-close">
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true"><i class="ki ki-close"></i></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        @endif
                                         <form id="sous-categorie-form" class="form" wire:submit.prevent="createSousCategorie">
                                             <div class="form-group">
                                                 <div class="input-group input-group-prepend">

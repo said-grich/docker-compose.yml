@@ -77,7 +77,7 @@ class ListePreparation extends Component
                 Preparation::where('id', $this->preparation_id)
                     ->update([
                     'nom' => $this->nom,
-                    'mode_preparation_id' => $this->mode_preparation_id,
+                    'mode_preparation_id' => $this->mode_preparation,
                     ]);
                 $this->emit('saved');
                 session()->flash('message',  'Sous mode prépartion "'.$this->nom.'" à été modifié');
@@ -96,7 +96,7 @@ class ListePreparation extends Component
         session()->flash('message', 'Le mode de préparation "'.$preparation->nom.'" à été supprimée');
 
 
-        return redirect()->to('/preparations');
+        //return redirect()->to('/preparations');
 
     }
 

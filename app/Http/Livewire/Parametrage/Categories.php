@@ -64,7 +64,7 @@ class Categories extends Component
             $this->emit('saved');
 
         }else {
-            session()->flash('message', 'Sous catégorie "' . $this->sous_categorie_name . '" est déja existe ');
+            session()->flash('alertcategorie', 'Sous catégorie "' . $this->sous_categorie_name . '" est déja existe ');
         }
 /*
         $item = new SousCategorie();

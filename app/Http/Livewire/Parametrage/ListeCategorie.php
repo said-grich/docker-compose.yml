@@ -67,6 +67,7 @@ class ListeCategorie extends Component
         $unite = Categorie::findOrFail($id);
         DB::table("categories")->where('id', $id)->delete();
         $unite->delete();
+        session()->flash('message', 'Catégorie "'.$this->nom.'" à été supprimée');
     }
 
     public function saved()

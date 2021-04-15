@@ -46,8 +46,8 @@ class Preparations extends Component
 
     public function createPreparation()
     {
-        $souspreparation = Preparation::where('nom', $this->nom)
-        ->where('mode_preparation_id', $this->mode_preparation)
+        $souspreparation = Preparation::where('nom', $this->preparation_nom)
+        ->where('mode_preparation_id', $this->mode_preparation_id)
         ->first();
             if ($souspreparation === null) {
                 //$this->validate();
@@ -67,12 +67,12 @@ class Preparations extends Component
 
             }else {
 
-            session()->flash('message',  'Sous mode prépartion "'.$this->nom.'" est déja existe');
+            session()->flash('message',  'Sous mode prépartion "'.$this->preparation_nom.'" est déja existe');
             }
 
     }
 
-    
+
 
     public function render()
     {

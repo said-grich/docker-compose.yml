@@ -18,7 +18,7 @@
                     </label>
                 </th>
                 <th class="pl-0" wire:click="sortBy('nom')" style="cursor: pointer;">Nom @include('layouts.partials._sort-icon',['field'=>'nom'])</th>
-                <th class="pl-0" wire:click="sortBy('clients_count')" style="cursor: pointer;">Nombre clients @include('layouts.partials._sort-icon',['field'=>'clients_count'])</th>
+                <th class="pl-0" wire:click="sortBy('clients_count')" style="cursor: pointer;">Effectifs @include('layouts.partials._sort-icon',['field'=>'clients_count'])</th>
                 <th class="pr-0 text-right" style="min-width: 160px">Actions</th>
             </tr>
         </thead>
@@ -76,7 +76,7 @@
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{ __('Modification client') }}</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{ __('Modification profil') }}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i aria-hidden="true" class="ki ki-close"></i>
                     </button>
