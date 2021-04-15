@@ -114,27 +114,50 @@ class DesignationPrix extends Component
         $this->bon_reception_ref = $id;
 
 
-        foreach ($this->liste_poids_pc as $key => $value) {
+        foreach ($this->liste_poids_pc as $tranche => $produits) {
 
-            foreach ($value as $produit => $details){
-                $this->article[$key] = Produit::where('id', $produit)->first()->nom;
+            foreach ($produits as $produit => $lots){
+                $this->article[$tranche] = Produit::where('id', $produit)->first()->nom;
 
-                foreach ($details as $k => $v){
-                    dd($details);
-                    foreach ($details as $k => $v){
-                        $this->lot_num[$key] =$v->lot_num;
-                        $this->produit_id[$key]  =$v->produit_id;
-                        $this->nom_tranche[$key]  = Tranche::where('uid', $v->tranche_id)->first()->nom;
-                        $this->tranche_uid[$key]  = $v->tranche_id;
-                        $this->poids[$key] = $v->pas;
-                        $this->code[$key] = $v->code;
-                        $this->lot_num[$key] = $v->lot_num;
+                foreach ($lots as $lot => $details){
+
+                    foreach ($details as $key => $v){
+                        //$this->lot_num[$tranche][$lot] =$lot;
+                        $this->produit_id[$tranche]  =$v->produit_id;
+                        $this->nom_tranche[$tranche]  = Tranche::where('uid', $v->tranche_id)->first()->nom;
+                        $this->tranche_uid[$tranche]  = $v->tranche_id;
+                        $this->poids[$tranche] = $v->pas;
+                        $this->code[$tranche] = $v->code;
+                        //$this->lot_num[$tranche] = $v->lot_num;
                     }
 
                 }
             }
 
         }
+        //dd($this->lot_num);
+
+
+
+        /* foreach ($this->liste_poids_pc as $key => $value) {
+
+            foreach ($value as $produit => $details){
+                $this->article[$key] = Produit::where('id', $produit)->first()->nom;
+
+                foreach ($details as $k => $v){
+                    $this->lot_num[$key] =$v->lot_num;
+                    $this->produit_id[$key]  =$v->produit_id;
+                    $this->nom_tranche[$key]  = Tranche::where('uid', $v->tranche_id)->first()->nom;
+                    $this->tranche_uid[$key]  = $v->tranche_id;
+                    $this->poids[$key] = $v->pas;
+                    $this->code[$key] = $v->code;
+                    $this->lot_num[$key] = $v->lot_num;
+
+                }
+            }
+
+        } */
+
 
 
 
