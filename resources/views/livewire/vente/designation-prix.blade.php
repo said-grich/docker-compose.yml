@@ -174,8 +174,8 @@
                                                                         <table class="table table-striped table-bordered">
                                                                             <thead>
                                                                                 <tr>
-                                                                                    <th scope="col">Lot</th>
                                                                                     <th scope="col">Produit</th>
+                                                                                    <th scope="col">Lot</th>
                                                                                     <th scope="col">Tranche</th>
                                                                                     <th scope="col">CR</th>
                                                                                     <th scope="col">Prix Vente Normal</th>
@@ -187,15 +187,14 @@
                                                                             <tbody>
                                                                                     <tr>
                                                                                         <td>
-                                                                                            <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num.{{$key}}" disabled/>
-                                                                                        </td>
-                                                                                        <td>
                                                                                             <input type="hidden" class="form-control" placeholder=" " wire:model.defer="produit_id.{{$key}}" disabled/>
                                                                                             <input type="hidden" class="form-control" placeholder=" " wire:model.defer="code.{{$key}}" disabled/>
                                                                                             <input type="text" class="form-control" placeholder=" " wire:model.defer="article.{{$key}}" disabled/>
                                                                                         </td>
                                                                                         <td>
-
+                                                                                            <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num.{{$key}}" disabled/>
+                                                                                        </td>
+                                                                                        <td>
                                                                                             <input type="hidden" class="form-control" wire:model.defer="tranche_uid.{{$key}}" disabled/>
                                                                                             <input type="text" class="form-control" placeholder="{{ __('Tranche') }}" wire:model.defer="nom_tranche.{{$key}}" disabled/>
                                                                                         </td>
@@ -414,6 +413,7 @@
                                                                             <table class="table table-striped table-bordered">
                                                                                 <thead>
                                                                                     <tr>
+
                                                                                         <th scope="col">Produit</th>
                                                                                         <th scope="col">Lot</th>
                                                                                         <th scope="col">Tranche</th>
@@ -434,17 +434,19 @@
                                                                                         @foreach ($liste_kg_pc as $key => $lot )
 
                                                                                         <tr>
+
                                                                                             <td>
                                                                                                 <input type="hidden" class="form-control" placeholder=" " wire:model.defer="produit_id_kg_pc.{{$key}}" disabled/>
-                                                                                                <input type="hidden" class="form-control" placeholder=" " wire:model.defer="uid_tranche_kc_pc.{{$key}}" disabled/>
-                                                                                                <input type="hidden" class="form-control" placeholder=" " wire:model.defer="id_kc_pc.{{$key}}" disabled/>
+                                                                                                <input type="hidden" class="form-control" placeholder=" " wire:model.defer="uid_tranche_kg_pc.{{$key}}" disabled/>
+                                                                                                <input type="hidden" class="form-control" placeholder=" " wire:model.defer="id_kg_pc.{{$key}}" disabled/>
                                                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="article_kg_pc.{{$key}}" disabled/>
                                                                                             </td>
                                                                                             <td>
                                                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num_kg_pc.{{$key}}" disabled/>
                                                                                             </td>
+
                                                                                             <td>
-                                                                                                <input type="text" class="form-control" placeholder="{{ __('Tranche') }}" wire:model.defer="nom_tranche_kc_pc.{{$key}}" disabled/>
+                                                                                                <input type="text" class="form-control" placeholder="{{ __('Tranche') }}" wire:model.defer="nom_tranche_kg_pc.{{$key}}" disabled/>
                                                                                             </td>
                                                                                             {{-- <td>
                                                                                                 <input type="text" class="form-control" placeholder="{{ __('Tranche') }}" wire:model.defer="poids.{{$key}}" disabled/>
@@ -528,8 +530,8 @@
                                                                             <table class="table table-striped table-bordered">
                                                                                 <thead>
                                                                                     <tr>
-                                                                                        <th scope="col">Lot</th>
                                                                                         <th scope="col">Produit</th>
+                                                                                        <th scope="col">Lot</th>
                                                                                         <th scope="col">Tranche</th>
                                                                                         <th scope="col">CR</th>
                                                                                         <th scope="col">Prix Vente Normal</th>
@@ -541,15 +543,16 @@
                                                                                 <tbody>
                                                                                     @foreach ($liste_poids_pc as $key => $lot )
                                                                                         <tr>
-                                                                                            <td>
-                                                                                                {{$lot_num[$key]}}
-                                                                                                {{-- <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num.{{$key}}" disabled/> --}}
-                                                                                            </td>
+
                                                                                             <td>
                                                                                                 {{$article[$key]}}
                                                                                                 {{-- <input type="hidden" class="form-control" placeholder=" " wire:model.defer="produit_id.{{$key}}" disabled/>
                                                                                                 <input type="hidden" class="form-control" placeholder=" " wire:model.defer="code.{{$key}}" disabled/>
                                                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="article.{{$key}}" disabled/> --}}
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                {{$lot_num[$key]}}
+                                                                                                {{-- <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num.{{$key}}" disabled/> --}}
                                                                                             </td>
                                                                                             <td>
                                                                                                  {{$nom_tranche[$key]}}
@@ -625,8 +628,8 @@
                                                                                             <td>
                                                                                                 {{$article_kg_pc[$key]}}
                                                                                                 {{-- <input type="hidden" class="form-control" placeholder=" " wire:model.defer="produit_id_kg_pc.{{$key}}" disabled/>
-                                                                                                <input type="hidden" class="form-control" placeholder=" " wire:model.defer="uid_tranche_kc_pc.{{$key}}" disabled/>
-                                                                                                <input type="hidden" class="form-control" placeholder=" " wire:model.defer="id_kc_pc.{{$key}}" disabled/>
+                                                                                                <input type="hidden" class="form-control" placeholder=" " wire:model.defer="uid_tranche_kg_pc.{{$key}}" disabled/>
+                                                                                                <input type="hidden" class="form-control" placeholder=" " wire:model.defer="id_kg_pc.{{$key}}" disabled/>
                                                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="article_kg_pc.{{$key}}" disabled/> --}}
                                                                                             </td>
                                                                                             <td>
@@ -634,8 +637,8 @@
                                                                                                 {{-- <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num_kg_pc.{{$key}}" disabled/> --}}
                                                                                             </td>
                                                                                             <td>
-                                                                                                {{$nom_tranche_kc_pc[$key]}}
-                                                                                                {{-- <input type="text" class="form-control" placeholder="{{ __('Tranche') }}" wire:model.defer="nom_tranche_kc_pc.{{$key}}" disabled/> --}}
+                                                                                                {{$nom_tranche_kg_pc[$key]}}
+                                                                                                {{-- <input type="text" class="form-control" placeholder="{{ __('Tranche') }}" wire:model.defer="nom_tranche_kg_pc.{{$key}}" disabled/> --}}
                                                                                             </td>
                                                                                             <td>
                                                                                                 @isset($cr_kg_pc[$key])

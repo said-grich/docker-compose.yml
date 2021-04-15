@@ -174,6 +174,10 @@ class BonLivraison extends Component
 
     public function mount(){
 
+        //$sdate = Carbon::parse('this friday')->toDateString();
+        $edate = Carbon::parse('this thursday');
+        //dd($edate->locale('fr_FR')->format('l'));
+
         //dd(Carbon::now()->locale('fr_FR')->dayName );
 
         /* $count = 7;
@@ -258,13 +262,13 @@ class BonLivraison extends Component
     public function loadList()
     {
 
-        if ($this->filter['recherche_produit'] === '') {
+        /* if ($this->filter['recherche_produit'] === '') {
             $this->list_produits = [];
             $this->nom_produit = [];
             $this->nom_tranche = [];
             $this->nbr_piece = [];
 
-        }else if(!empty($this->filter['recherche_produit'])){
+        }else if(!empty($this->filter['recherche_produit'])){ */
 
             $collection = Stock::when($this->filter['recherche_produit'], function ($query) {
                 $query->where(function ($q) {
@@ -345,7 +349,7 @@ class BonLivraison extends Component
             }
             //dd($this->preparations_cuisine,$this->preparations_nettoyage);
 
-        }
+       /*  } */
 
     }
 

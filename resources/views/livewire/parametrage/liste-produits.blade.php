@@ -74,25 +74,53 @@
                                         <h5 class="modal-title">{{ __('Préparations associés au produit') }} <span class="label label-primary label-lg label-inline mr-2">{{ $item->nom }}</span> </h5>
                                         <button type="button" @click="isDialogOpen = false">✖</button>
                                     </div>
-                                    <div class="p-2">
-                                        <table class="table table-striped table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">Préparation</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($item->preparations as $key => $preparation)
+                                    <div class="p-2 row">
+                                        <div class="col-6">
+                                            <table class="table table-striped table-bordered">
+                                                <thead>
                                                     <tr>
-                                                        <td>{{$item->preparations[$key]->preparation->nom}}</td>
+                                                        <th scope="col">Mode Cuisine</th>
                                                     </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
+                                                </thead>
+                                                <tbody>
+                                                    {{-- @php
+                                                    dd($item->preparations);
+                                                    @endphp --}}
+                                                    @foreach ($item->preparations as $key => $preparation)
+                                                        <tr>
+                                                            @if($item->preparations[$key]->preparation->mode_preparation_id == 1)
+                                                                <td>{{$item->preparations[$key]->preparation->nom}}</td>
+                                                            @endif
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-6">
+                                            <table class="table table-striped table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Mode Nettoyage</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {{-- @php
+                                                    dd($item->preparations);
+                                                    @endphp --}}
+                                                    @foreach ($item->preparations as $key => $preparation)
+                                                        <tr>
+                                                            @if($item->preparations[$key]->preparation->mode_preparation_id == 2)
+                                                                <td>{{$item->preparations[$key]->preparation->nom}}</td>
+                                                            @endif
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                         </div>
+                        </div>
 
                         <!--Modal-->
                         {{-- <div class="modal fade" id="preparations" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="preparations" aria-hidden="true">
@@ -127,6 +155,7 @@
                             </div>
                         </div> --}}
                     </td>
+
                     <td class="pr-0 text-right">
                         <a href="#" wire:click="edit({{$item->id}})" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#edit">
                             <span class="svg-icon svg-icon-md svg-icon-primary">
@@ -288,7 +317,7 @@
                                 <select class="form-control " wire:model="mode_cuisine" multiple>
                                     <option>{{ __('Choisir un mode de préparation') }}</option>
                                         @foreach ($list_cuisine as $mode)
-                                            <option value="{{$mode->id}}" @if($mode_cuisine == $item->id) {{'selected'}} @endif>{{$mode->nom}}</option>
+                                            <option value="{{$mode->id}}" {{-- @if($mode_cuisine == $item->id) {{'selected'}} @endif --}}>{{$mode->nom}}</option>
                                         @endforeach
                                 </select>
                                 <div class="input-group-append" data-toggle="modal" data-target="#mode-preparation"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Mode Préparation"><i class="fa fa-plus-circle"></i></button></div>
@@ -297,14 +326,14 @@
                                 <span class="form-text text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div wire:ignore class="form-group col-md-6">
+                        <div wire:ignore.self class="form-group col-md-6">
                            <label><b>{{ __('Mode Nettoyage ') }}</b></label>
                            <div class="input-group input-group-prepend">
                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-tools icon-lg"></i></span></div>
                                <select class="form-control " wire:model="mode_nettoyage" multiple>
                                    <option>{{ __('Choisir un mode de préparation') }}</option>
                                        @foreach ($list_nettoyage as $mode)
-                                           <option value="{{$mode->id}}" @if($mode_cuisine == $item->id) {{'selected'}} @endif>{{$mode->nom}}</option>
+                                           <option value="{{$mode->id}}" {{-- @if($mode_nettoyage == $item->id) {{'selected'}} @endif --}}>{{$mode->nom}}</option>
                                        @endforeach
                                </select>
                                <div class="input-group-append" data-toggle="modal" data-target="#mode-preparation"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Mode Préparation"><i class="fa fa-plus-circle"></i></button></div>
@@ -341,7 +370,7 @@
                             <label><b>{{ __('Photo Principale') }}</b></label>
                             <div class="input-group input-group-prepend">
                                 <input type="file" wire:model="photo_principale"/>
-                                <img style="max-width: 10%;" alt="Pic" src="{{ Storage::url($photo_principale)}}"/>
+                                <img style="max-width: 10%;" alt="Pic" src="{{ Storage::url($photo_principalea)}}"/>
 
                             </div>
                             @error('photo') <span class="error">{{ $message }}</span> @enderror

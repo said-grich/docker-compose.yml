@@ -59,9 +59,9 @@ class DesignationPrix extends Component
     public $produit_id_kg_pc=[];
     public $lot_num_kg_pc=[];
     public $cr_kg_pc=[];
-    public $uid_tranche_kc_pc = [];
-    public $nom_tranche_kc_pc = [];
-    public $id_kc_pc = [];
+    public $uid_tranche_kg_pc = [];
+    public $nom_tranche_kg_pc = [];
+    public $id_kg_pc = [];
     public $prix_vente_normal_kg_pc=[];
     public $prix_vente_fidele_kg_pc=[];
     public $prix_vente_business_kg_pc=[];
@@ -76,46 +76,14 @@ class DesignationPrix extends Component
 
     public function render(){
 
-        /* $lot_stock_kg_pc = array_unique(StockKgPc::where('cr','=',0)->pluck('br_num')->toArray());
-        $lot_stock_poids_pc = array_unique(StockPoidsPc::where('cr','=',0)->pluck('br_num')->toArray());
-
-        $archived_lots_ids = array_merge($lot_stock_kg_pc, $lot_stock_poids_pc);
-
-        $in_progress_lots_ids = array_unique(BonReception::whereIn('ref', $archived_lots_ids)->pluck('ref')->toArray()); */
-
-        /* $t = BonReception::with(["stockPoidsPc" => function($q){
-            $q->where('cr', '=',0)
-            ->where('prix_n','=',0)
-            ->where('prix_f','=',0)
-            ->where('prix_p','=',0);
-        }])->get();
-        dd($t->first()->stockS); */
-
-        /* $search = 0;
-
-        $br = BonReception::whereHas('stockPoidsPc', function($q) use($search){
-            $q->where('cr', '=', $search);
-
-        })->get(); */
-
-
         $items = BonReception::query()
-        //->where('ref', $archived_lots_ids)
         ->where('ref','ilike','%'.$this->search.'%')
-        //->where('valide',false)
         ->orderBy($this->sortBy, $this->sortDirection)
         ->paginate($this->perPage);
 
-        /* $br_valide = BonReception::query()
-        ->where('ref','ilike','%'.$this->search.'%')
-        ->where('valide',true)
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage); */
-
         return view('livewire.vente.designation-prix',[
             'items'=> $items,
-/*             'br_valide'=>$br_valide,
- */        ]);
+        ]);
     }
 
     public function sortBy($field)
@@ -169,12 +137,12 @@ class DesignationPrix extends Component
 
         foreach ($this->liste_kg_pc as $k => $v) {
 
-            $this->id_kc_pc[$k] = $v->id;
+            $this->id_kg_pc[$k] = $v->id;
             $this->lot_num_kg_pc[$k] =$v->lot_num;
             $this->produit_id_kg_pc[$k]  =$v->lot->produit->id;
             $this->article_kg_pc[$k]  =$v->lot->produit->nom;
-            $this->nom_tranche_kc_pc[$k] = Tranche::where('uid', $v->tranche_id)->first()->nom;
-            $this->uid_tranche_kc_pc[$k] = Tranche::where('uid', $v->tranche_id)->first()->uid;
+            $this->nom_tranche_kg_pc[$k] = Tranche::where('uid', $v->tranche_id)->first()->nom;
+            $this->uid_tranche_kg_pc[$k] = Tranche::where('uid', $v->tranche_id)->first()->uid;
 
         }
 
@@ -228,12 +196,16 @@ class DesignationPrix extends Component
         }
 
         foreach ($this->liste_kg_pc as $k => $v) {
-            $this->id_kc_pc[$k] = $v->id;
+            $this->id_kg_pc[$k] = $v->id;
             $this->lot_num_kg_pc[$k] = $v->lot_num;
             $this->produit_id_kg_pc[$k]  = $v->lot->produit->id;
             $this->article_kg_pc[$k]  = $v->lot->produit->nom;
-            $this->nom_tranche_kc_pc[$k] = Tranche::where('uid', $v->tranche_id)->first()->nom;
-            $this->uid_tranche_kc_pc[$k] = Tranche::where('uid', $v->tranche_id)->first()->uid;
+            $this->nom_tranche_kg_pc[$k] = Tranche::where('uid', $v->tranche_id)->first()->nom;
+            $this->uid_tranche_kg_pc[$k] = Tranche::where('uid', $v->tranche_id)->first()->uid;
+            $this->cr_kg_pc[$k] = $v->cr;
+            $this->prix_vente_normal_kg_pc[$k] = $v->prix_n;
+            $this->prix_vente_fidele_kg_pc[$k] = $v->prix_f;
+            $this->prix_vente_business_kg_pc[$k] = $v->prix_p;
         }
     }
 
@@ -258,9 +230,9 @@ class DesignationPrix extends Component
             }
             foreach ($this->produit_id_kg_pc as $key => $value) {
 
-                Stock::where('tranche_id', $this->uid_tranche_kc_pc[$key])
+                Stock::where('tranche_id', $this->uid_tranche_kg_pc[$key])
                 ->where('produit_id', $value)
-                ->where('id', $this->id_kc_pc[$key])
+                ->where('id', $this->id_kg_pc[$key])
                 ->where('lot_num', $this->lot_num_kg_pc[$key])
                 ->where('br_num', $this->bon_reception_ref)
                 ->update([
@@ -275,7 +247,7 @@ class DesignationPrix extends Component
             BonReception::where('ref', $this->bon_reception_ref) ->update(['valide' => true]);
 
             session()->flash('message', 'Les prix du BR "' . $this->bon_reception_ref . '" sont désignés');
-            //$this->reset(['uid_tranche_kc_pc', 'produit_id_kg_pc','id_kc_pc','depot','client']);
+            //$this->reset(['uid_tranche_kg_pc', 'produit_id_kg_pc','id_kg_pc','depot','client']);
         });
 
 
