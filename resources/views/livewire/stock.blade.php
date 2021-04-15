@@ -212,7 +212,7 @@
                                                         <th class="pl-0">Unité</th>
                                                         <th class="pl-0">Prix Achat</th>
                                                         <th class="pl-0">Lot</th>
-                                                        <th class="pl-0">Qualité</th>
+                                                        <th class="pl-0">Qualité produit</th>
                                                         <th class="pl-0">Pas</th>
                                                         <th class="pl-0">Tranches</th>
                                                     </tr>
@@ -829,7 +829,7 @@
                                     <tr>
                                         <th scope="col">Code</th>
                                         <th scope="col">Poids</th>
-                                        <th scope="col">Qualité</th>
+                                        <th scope="col">Qualité piéce</th>
                                     </tr>
                                 </thead>
                                 <tbody>
