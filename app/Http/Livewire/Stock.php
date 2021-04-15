@@ -207,6 +207,14 @@ class Stock extends Component
         }
     }
 
+    public function updatedLotNum($value,$index){
+
+        if (ModelsStock::where('produit_id', $this->produit[$index])->where('lot_num', $value)->exists()) {
+            session()->flash('error-lot', 'Lot déja exist');
+        }
+        //dd($value,$index, $this->produit[$index]);
+    }
+
     public function saveCodePoids(){
        // $produit = Produit::query()->get();
         $produit_tranche = ProduitTranche::with('produit')->get();

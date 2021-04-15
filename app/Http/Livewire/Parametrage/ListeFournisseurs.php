@@ -42,7 +42,7 @@ class ListeFournisseurs extends Component
 
         return $this->sortBy = $field;
     }
-   
+
     public function edit($id){
 
         $item = Fournisseur::where('id',$id)->firstOrFail();
@@ -74,6 +74,7 @@ class ListeFournisseurs extends Component
             ]);
 
         session()->flash('message', 'Fournisseur "'.$this->nom.'" à été modifiée');
+        $this->emit('saved');
     }
 
     public function deleteFournisseur($id)

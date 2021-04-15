@@ -44,7 +44,7 @@ class ListeLivraison extends Component
             'items'=> $items
         ]);
 
-      
+
     }
 
     public function sortBy($field)
@@ -88,8 +88,11 @@ class ListeLivraison extends Component
                 'ville_id' => $this->ville,
                 'active' => $this->active,
             ]);
+            $this->emit('saved');
 
-            session()->flash('message', 'Livraison a éte crée');
+            session()->flash('message', 'Livraison "' . $this->ville . '"a été modifier ');
+
+
 
         }
 
@@ -99,6 +102,7 @@ class ListeLivraison extends Component
         $this->render();
         $livraison = Livraison::findOrFail($id);
         $livraison->delete();
+        session()->flash('message', 'Livraison a éte supprimée');
     }
 
     public function saved()

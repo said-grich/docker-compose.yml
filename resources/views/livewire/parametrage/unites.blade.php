@@ -27,6 +27,7 @@
                         </div>
                         @endif
                         <!--end::Flash message--> --}}
+                        
                         <!--begin::Alerts-->
                         @include('layouts.partials.alerts')
                         <!--end::Alerts-->

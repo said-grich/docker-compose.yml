@@ -15,7 +15,7 @@ class VilleZoneSeeder extends Seeder
     public function run()
     {
         VilleZone::create([
-            'nom' => '2 Mars',
+            'nom' => '5 Mars',
             'ville_id'=> 1,
         ]);
         VilleZone::create([
@@ -183,7 +183,7 @@ class VilleZoneSeeder extends Seeder
         ]);
 
         VilleZone::create([
-            'nom' => 'Hay Almassira 2',
+            'nom' => 'Hay Almassira 5',
             'ville_id'=> 1,
         ]);
 
@@ -238,7 +238,7 @@ class VilleZoneSeeder extends Seeder
         ]);
 
         VilleZone::create([
-            'nom' => 'Hay Moulay Rachid 2',
+            'nom' => 'Hay Moulay Rachid 5',
             'ville_id'=> 1,
         ]);
 
@@ -474,649 +474,649 @@ class VilleZoneSeeder extends Seeder
 ///
         VilleZone::create([
             'nom' => 'Afaq',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Agdal',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Ain Mezouar',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Akioud',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Allal El Fassi',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Amelkis',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Amerchich',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Ancienne Médina',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Annakhil',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Arset Ben Chebli',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Arset El Houta',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Arset El Maach',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Arset Ihiri',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Arset Moulay Bouaazza',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Arset Moulay Moussa',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Assif',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Assouel',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Autre secteur',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Av Abdelkrim El Khattabi',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Av Mohammed V',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Av Mohammed VI',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Azli',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Azzouzia',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Bab Atlas',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Bab Aylan',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Bab Doukkala',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Bab El Khemis',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Bab Ghmat',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Bab Ighli',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Bab Lhmar',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Bd Moulay Abdellah',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Ben Saleh',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Berrima',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Bin Lkchali',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Bouaakkaz',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Centre Ville',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Daoudiate',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Derb Chtouka',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'El Ghoul',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'El Moukef',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Es Saada',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Essebtiyen',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Fassi',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
         VilleZone::create([
             'nom' => 'Guéliz',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Harti',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Hay Al Bahja',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Hay Al Haouz',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Hay Al Hassani',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Hay Al Massar',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Hay Andalous',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Hay Annahda',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Hay Charaf',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Hay Izdihar',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Hay Lalla Haya',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Hay Massira',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Hay Targa',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Hivernage',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Hôpital Militaire',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Inara',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Issil',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Iziki',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Jawhar',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Jemaa El Fna',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Jnan ben chagra',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Jnane Laafia',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Kaa El Machraa',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Kaat Ben Nahid',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Kadissia',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Kbour Chou',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Kechich',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Kennaria',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Ksibat Nhas',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Lac Takerkoust',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Les Portes de Marrakech',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => "M'Hamid",
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Mabrouka',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Majorelle',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Masmoudi',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Massar',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Massira',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Massira 1',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
-            'nom' => 'Massira 2',
-            'ville_id'=> 2,
+            'nom' => 'Massira 5',
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Massira 4',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Michouar',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Mouassine',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Moulay Lyazid',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Oued Ourika',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Oued Tensift',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Oulad Said',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Palmeraie',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Rahba Kedima',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Riad Zitoun',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Rmila',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
 
         VilleZone::create([
             'nom' => 'Rouidat',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => "Route d'Agadir - Essaouira",
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => "Route d'Amezmiz",
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => "Route d'Ourika",
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Route de Casablanca',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Route de Fès',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Route de Lalla Takerkoust',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Route de Ouarzazate',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Route de Safi',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Route de Sidi A. Ghiat',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Route de Tahanaoute',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Route de Tamansourt',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Sakar',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Semlalia',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Sidi Abbad',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Sidi Abdellah Ghiat',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Sidi Ben Slimane El Jazouli',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Sidi Bou Amar',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Sidi Ghanem',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Sidi Mansour',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Sidi Mimoun',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Sidi Youssef Ben Ali',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Sofia',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Targa',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Victor Hugo',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Zaouia Sidi Ghalem',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
 
         VilleZone::create([
             'nom' => 'Zaouiat Lahdar',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 
         VilleZone::create([
             'nom' => 'Zone Industrielle Sidi Ghanem',
-            'ville_id'=> 2,
+            'ville_id'=> 5,
         ]);
 //
         VilleZone::create([
@@ -1212,7 +1212,7 @@ class VilleZoneSeeder extends Seeder
         ]);
 
         VilleZone::create([
-            'nom' => 'Hassania 2',
+            'nom' => 'Hassania 5',
             'ville_id'=> 3,
         ]);
         VilleZone::create([
@@ -1336,7 +1336,7 @@ class VilleZoneSeeder extends Seeder
             'ville_id'=> 3,
         ]);
         VilleZone::create([
-            'nom' => 'Riad 2',
+            'nom' => 'Riad 5',
             'ville_id'=> 3,
         ]);
 
