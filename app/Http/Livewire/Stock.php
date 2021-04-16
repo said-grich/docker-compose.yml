@@ -260,9 +260,6 @@ class Stock extends Component
         }
     }
 
-<<<<<<< HEAD
-
-=======
     public function updatedLotNum($value,$index){
 
         if (ModelsStock::where('produit_id', $this->produit[$index])->where('lot_num', $value)->exists() ) {
@@ -271,19 +268,7 @@ class Stock extends Component
         //dd($value,$index, $this->produit[$index]);
     }
 
-    public function saveCodePoids(){
-       // $produit = Produit::query()->get();
-        $produit_tranche = ProduitTranche::with('produit')->get();
-        foreach($produit_tranche as $val){
-            $tranche = Tranche::where('uid',$val->tranche_id)->where('type',"Poids par pièce")->get();
-        }
-        // dd($produit_tranche);
-        foreach ($this->code as $key => $value) {
-            $code_poids[$value] = array( 'poids' =>$this->poids[$key], 'qualite' =>  $this->qualite_piece[$key]);
-            $this->code_poids[$this->details_index] = $code_poids;
-        }
-     }
->>>>>>> 6068f3a0be8224359c6efe8184fc606d3386333d
+    
     public function createStock(){
 
         DB::transaction(function () {
