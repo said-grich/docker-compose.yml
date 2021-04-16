@@ -10,6 +10,7 @@ class Unites extends Component
 {
 
     public $nom;
+    public $isActive = false;
 
     protected $rules = [
         'nom' => 'required',
@@ -21,6 +22,7 @@ class Unites extends Component
 
         $item = new Unite();
         $item->nom = $this->nom;
+        $item->active = $this->isActive;
         $item->save();
 
         session()->flash('message', 'Unité "' . $this->nom . '" a été créée ');

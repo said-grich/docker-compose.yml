@@ -23,8 +23,8 @@
                 </th>
                 <th class="pl-0" wire:click="sortBy('nom')" style="cursor: pointer;">Nom @include('layouts.partials._sort-icon',['field'=>'nom'])</th>
                 <th class="pl-0" wire:click="sortBy('nom')" style="cursor: pointer;">Mode de préparation @include('layouts.partials._sort-icon',['field'=>'nom'])</th>
-
-                <th class="pr-0 text-right" style="min-width: 160px">Actions</th>
+                <th class="pl-0" wire:click="sortBy('active')" style="cursor: pointer;">Statut @include('layouts.partials._sort-icon',['field'=>'active'])</th>
+               <th class="pr-0 text-right" style="min-width: 160px">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -41,6 +41,10 @@
                     </td>
                     <td class="pl-0">
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->modePreparation->nom }}</a>
+                    </td>
+                    <td class="pl-0">
+                        <span class="label {{ $item->active == true ? 'label-primary' : 'label-danger' }} label-pill label-inline mr-2">{{ $item->active == true ? 'Activé' : 'Désactivé' }} </span>
+                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg"></a>
                     </td>
                     <td class="pr-0 text-right">
                         <a href="#" wire:click="edit({{$item->id}})" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#edit">
@@ -108,6 +112,17 @@
                             @error('mode_preparation_id')
                                 <span class="form-text text-danger">{{ $message }}</span>
                             @enderror
+                            <div class="form-group ">
+                                <label class="col-3 col-form-label">Active</label>
+                                <div class="col-3">
+                                    <span class="switch switch-outline switch-icon switch-primary">
+                                        <label>
+                                        <input type="checkbox" checked="checked" wire:model.defer="sousmodeprepa_isActive" name="sousmodeprepa_isActive"/>
+                                        <span></span>
+                                        </label>
+                                    </span>
+                                </div>
+                            </div>
                         </form>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>

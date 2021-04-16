@@ -13,6 +13,7 @@ class ListeUnite extends Component
 
     public $unite_id;
     public $nom;
+    public $isActive = false;
 
     public $sortBy = 'nom';
     public $sortDirection = 'asc';
@@ -37,6 +38,7 @@ class ListeUnite extends Component
         $item = Unite::where('id',$id)->firstOrFail();
         $this->unite_id =$item->id;
         $this->nom =$item->nom;
+        $this->isActive =$item->active;
     }
 
     public function editUnite(){
@@ -44,6 +46,7 @@ class ListeUnite extends Component
         Unite::where('id', $this->unite_id)
             ->update([
                 'nom' => $this->nom,
+                'active' => $this->isActive,
             ]);
 
 
