@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Vente;
 
 use App\Models\BonReception;
+use App\Models\Categorie;
 use App\Models\Produit;
 use App\Models\Stock;
 use App\Models\StockKgPc;
@@ -65,7 +66,8 @@ class DesignationPrix extends Component
     public $prix_vente_normal_kg_pc=[];
     public $prix_vente_fidele_kg_pc=[];
     public $prix_vente_business_kg_pc=[];
-    public $liste_poids_pc2 = [];
+    public $categorie = [];
+    public $categorie_id = [];
 
 
 
@@ -103,8 +105,9 @@ class DesignationPrix extends Component
         // $this->liste_poids_pc = collect(StockPoidsPc::where('br_num', $id)->get()->groupBy(['tranche_id', 'produit_id']));
         // $this->liste_kg_pc = StockKgPc::where('br_num', $id)->get();
 
-        $this->liste_poids_pc = Stock::where('br_num', $id)->where('type', "Poids par pièce")->get()->groupBy(['tranche_id', 'produit_id','lot_num']);
-        $this->liste_poids_pc2 = Stock::where('br_num', $id)->where('type', "Poids par pièce")->get()->groupBy(['tranche_id', 'produit_id','lot_num']);
+        $this->liste_poids_pc = Stock::where('br_num', $id)->where('type', "Poids par pièce")->get()->groupBy(['tranche_id','categorie_id' ,'produit_id'])->toArray();
+        //dd($this->liste_poids_pc);
+        //$this->liste_poids_pc2 = Stock::where('br_num', $id)->where('type', "Poids par pièce")->get()->groupBy(['tranche_id', 'produit_id','lot_num']);
 
         //dd($this->liste_poids_pc2);
 
@@ -114,6 +117,7 @@ class DesignationPrix extends Component
         $this->bon_reception_ref = $id;
 
 
+        /* groupement par lot
         foreach ($this->liste_poids_pc as $tranche => $produits) {
 
             foreach ($produits as $produit => $lots){
@@ -134,29 +138,32 @@ class DesignationPrix extends Component
                 }
             }
 
-        }
+        } */
         //dd($this->lot_num);
 
 
+        foreach ($this->liste_poids_pc as $tranche => $categories) {
 
-        /* foreach ($this->liste_poids_pc as $key => $value) {
+            foreach ($categories as $categorie => $produits){
 
-            foreach ($value as $produit => $details){
-                $this->article[$key] = Produit::where('id', $produit)->first()->nom;
+                $this->categorie[$categorie]  = Categorie::where('id', $categorie)->first()->nom;
 
-                foreach ($details as $k => $v){
-                    $this->lot_num[$key] =$v->lot_num;
-                    $this->produit_id[$key]  =$v->produit_id;
-                    $this->nom_tranche[$key]  = Tranche::where('uid', $v->tranche_id)->first()->nom;
-                    $this->tranche_uid[$key]  = $v->tranche_id;
-                    $this->poids[$key] = $v->pas;
-                    $this->code[$key] = $v->code;
-                    $this->lot_num[$key] = $v->lot_num;
+
+                foreach ($produits as $produit => $stock){
+
+                    foreach ($stock as $key => $item){
+                        $this->article[$tranche] = Produit::where('id', $produit)->first()->nom;
+                        $this->produit_id[$key] = $item['produit_id'];
+                        $this->categorie_id[$key]  = $item['categorie_id'];
+                        $this->nom_tranche[$tranche] = Tranche::where('uid', $tranche)->first()->nom;
+                        $this->tranche_uid[$key] = $tranche;
+
+                    }
 
                 }
             }
 
-        } */
+        }
 
 
 
@@ -236,6 +243,7 @@ class DesignationPrix extends Component
     }
 
     public function affecterPrix(){
+        //dd($this->categorie_id, $this->produit_id,$this->prix_vente_normal,$this->tranche_uid);
 
         DB::transaction( function () {
 
@@ -243,14 +251,15 @@ class DesignationPrix extends Component
                 $produit = Produit::where('id', $value)->first();
                 if ($produit->modeVente->id == 1) {
                     Stock::where('produit_id', $this->produit_id[$key])
-                        ->where('lot_num', $this->lot_num[$key])
+                        //->where('lot_num', $this->lot_num[$key])
                         ->where('tranche_id', $this->tranche_uid[$key])
+                        ->where('categorie_id', $this->categorie_id[$key])
                         ->where('br_num', $this->bon_reception_ref)
                         ->update([
-                            'cr' => $this->cr[$key],
-                            'prix_n' => $this->prix_vente_normal[$key],
-                            'prix_f' => $this->prix_vente_fidele[$key],
-                            'prix_p' => $this->prix_vente_business[$key],
+                            //'cr' => $this->cr[$key],
+                            'prix_n' => $this->prix_vente_normal[$this->tranche_uid[$key]],
+                            'prix_f' => $this->prix_vente_fidele[$this->tranche_uid[$key]],
+                            'prix_p' => $this->prix_vente_business[$this->tranche_uid[$key]],
                             ]);
                 }
             }
@@ -259,10 +268,10 @@ class DesignationPrix extends Component
                 Stock::where('tranche_id', $this->uid_tranche_kg_pc[$key])
                 ->where('produit_id', $value)
                 ->where('id', $this->id_kg_pc[$key])
-                ->where('lot_num', $this->lot_num_kg_pc[$key])
+                //->where('lot_num', $this->lot_num_kg_pc[$key])
                 ->where('br_num', $this->bon_reception_ref)
                 ->update([
-                    'cr' => $this->cr_kg_pc[$key],
+                    //'cr' => $this->cr_kg_pc[$key],
                     'prix_n' => $this->prix_vente_normal_kg_pc[$key],
                     'prix_f' => $this->prix_vente_fidele_kg_pc[$key],
                     'prix_p' => $this->prix_vente_business_kg_pc[$key],

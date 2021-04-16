@@ -223,6 +223,7 @@
                                                         <th class="pl-0">Unité</th>
                                                         <th class="pl-0">Prix Achat</th>
                                                         <th class="pl-0">Lot</th>
+                                                        <th class="pl-0">CR</th>
                                                         <th class="pl-0">Qualité produit</th>
                                                         <th class="pl-0">Pas</th>
                                                         <th class="pl-0">Tranches</th>
@@ -267,6 +268,9 @@
 
                                                             <td class="pl-0">
                                                                 <input type="text" class="form-control" placeholder=" " wire:model="lot_num.0"/>
+                                                            </td>
+                                                            <td class="pl-0">
+                                                                <input type="text" class="form-control" placeholder=" " wire:model="cr.0"/>
                                                             </td>
                                                             <td class="pl-0">
                                                                 <select class="form-control" wire:model.defer="qualite.0">
@@ -343,6 +347,9 @@
                                                             </td>
                                                             <td class="pl-0">
                                                                 <input type="text" class="form-control" placeholder=" " wire:model="lot_num.{{$value}}"/>
+                                                            </td>
+                                                            <td class="pl-0">
+                                                                <input type="text" class="form-control" placeholder=" " wire:model="cr.{{$value}}"/>
                                                             </td>
                                                             <td class="pl-0">
                                                                 <select class="form-control" wire:model.defer="qualite.{{$value}}">

@@ -171,16 +171,62 @@
                                                                         <thead>
                                                                             <tr>
                                                                                 <th scope="col">Produit</th>
-                                                                                <th scope="col">Lot</th>
+                                                                                {{-- <th scope="col">Lot</th> --}}
+                                                                                <th scope="col">Catégorie</th>
                                                                                 <th scope="col">Tranche</th>
-                                                                                <th scope="col">CR</th>
+                                                                                {{-- <th scope="col">CR</th> --}}
                                                                                 <th scope="col">Prix Vente Normal</th>
                                                                                 <th scope="col">Prix Vente Fidèle</th>
                                                                                 <th scope="col">Prix Vente Business</th>
                                                                                 <th scope="col">Promo</th>
                                                                             </tr>
                                                                         </thead>
-                                                                        @foreach ($liste_poids_pc as $tranche => $produits )
+                                                                        <tbody>
+                                                                        @foreach ($liste_poids_pc as $tranche => $categories )
+                                                                            @foreach ($categories as $categorie => $produits )
+                                                                        {{-- @php
+                                                                            dd($item->categorie->nom)
+                                                                        @endphp --}}
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <input type="hidden" class="form-control" placeholder=" " wire:model.defer="produit_id.{{$tranche}}" disabled/>
+                                                                                    <input type="hidden" class="form-control" placeholder=" " wire:model.defer="code.{{$tranche}}" disabled/>
+                                                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="article.{{$tranche}}" disabled/>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="text" class="form-control" wire:model.defer="categorie.{{$categorie}}" disabled/>
+
+                                                                                </td>
+                                                                                {{-- <td>
+                                                                                    <input type="text" class="form-control" value="{{$lot}}" disabled>
+                                                                                </td> --}}
+                                                                                <td>
+                                                                                    <input type="hidden" class="form-control" wire:model.defer="tranche_uid.{{$tranche}}" disabled/>
+                                                                                    <input type="text" class="form-control" placeholder="{{ __('Tranche') }}" wire:model.defer="nom_tranche.{{$tranche}}" disabled/>
+                                                                                </td>
+
+                                                                                {{-- <td>
+                                                                                    <input type="text" class="form-control" placeholder="{{ __('CR') }}" wire:model.defer="cr.{{$tranche}}"/>
+                                                                                </td> --}}
+                                                                                <td>
+                                                                                    <input type="text" class="form-control" placeholder="{{ __('Prix vente normale') }}" wire:model.defer="prix_vente_normal.{{$tranche}}"/>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="text" class="form-control" placeholder="{{ __('Prix vente fidèle') }}" wire:model.defer="prix_vente_fidele.{{$tranche}}"/>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="text" class="form-control" placeholder="{{ __('Prix vente business') }}" wire:model.defer="prix_vente_business.{{$tranche}}"/>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <a href="#" class="btn btn-icon btn-light-primary btn-outline-primary btn-primary">
+                                                                                        <i class="flaticon-price-tag"></i>
+                                                                                    </a>
+                                                                                </td>
+                                                                            </tr>
+                                                                            @endforeach
+                                                                        @endforeach
+                                                                        </tbody>
+                                                                        {{-- @foreach ($liste_poids_pc as $tranche => $produits )
                                                                             @foreach ($produits as $produit => $lots )
                                                                                 @foreach ($lots as $lot => $items )
                                                                                     @foreach ($items as $k => $item )
@@ -193,7 +239,6 @@
                                                                                                 </td>
                                                                                                 <td>
                                                                                                     <input type="text" class="form-control" value="{{$lot}}" disabled>
-                                                                                                    {{-- <input type="text" class="form-control" placeholder="{{$lot}}" value="{{$lot}}" wire:model.defer="lot_num.{{$k}}" disabled/> --}}
                                                                                                 </td>
                                                                                                 <td>
                                                                                                     <input type="hidden" class="form-control" wire:model.defer="tranche_uid.{{$tranche}}" disabled/>
@@ -222,7 +267,7 @@
                                                                                     @endforeach
                                                                                 @endforeach
                                                                             @endforeach
-                                                                        @endforeach
+                                                                        @endforeach --}}
                                                                     </table>
                                                                 </div>
                                                             </div>
@@ -243,9 +288,9 @@
                                                                                 <thead>
                                                                                     <tr>
                                                                                         <th scope="col">Produit</th>
-                                                                                        <th scope="col">Lot</th>
+                                                                                        {{-- <th scope="col">Lot</th> --}}
                                                                                         <th scope="col">Tranche</th>
-                                                                                        <th scope="col">CR</th>
+                                                                                        {{-- <th scope="col">CR</th> --}}
                                                                                         <th scope="col">Prix Vente Normal</th>
                                                                                         <th scope="col">Prix Vente Fidèle</th>
                                                                                         <th scope="col">Prix Vente Business</th>
@@ -261,19 +306,17 @@
                                                                                                     <input type="hidden" class="form-control" placeholder=" " wire:model.defer="id_kg_pc.{{$key}}" disabled/>
                                                                                                     <input type="text" class="form-control" placeholder=" " wire:model.defer="article_kg_pc.{{$key}}" disabled/>
                                                                                                 </td>
-                                                                                                <td>
+                                                                                                {{-- <td>
                                                                                                     <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num_kg_pc.{{$key}}" disabled/>
-                                                                                                </td>
+                                                                                                </td> --}}
 
                                                                                                 <td>
                                                                                                     <input type="text" class="form-control" placeholder="{{ __('Tranche') }}" wire:model.defer="nom_tranche_kg_pc.{{$key}}" disabled/>
                                                                                                 </td>
+
                                                                                                 {{-- <td>
-                                                                                                    <input type="text" class="form-control" placeholder="{{ __('Tranche') }}" wire:model.defer="poids.{{$key}}" disabled/>
-                                                                                                </td> --}}
-                                                                                                <td>
                                                                                                     <input type="text" class="form-control" placeholder="{{ __('CR') }}" wire:model.defer="cr_kg_pc.{{$key}}"/>
-                                                                                                </td>
+                                                                                                </td> --}}
                                                                                                 <td>
                                                                                                     <input type="text" class="form-control" placeholder="{{ __('Prix vente normale') }}" wire:model.defer="prix_vente_normal_kg_pc.{{$key}}"/>
                                                                                                 </td>
