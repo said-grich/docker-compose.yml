@@ -33,19 +33,7 @@ class ListeLivraison extends Component
 
 
 
-    public function render()
-    {
-        $items = Livraison::query()
-        ->where('ville_id','ilike','%'.$this->search.'%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
 
-        return view('livewire.parametrage.liste-livraison',[
-            'items'=> $items
-        ]);
-
-
-    }
 
     public function sortBy($field)
     {
@@ -105,6 +93,19 @@ class ListeLivraison extends Component
         session()->flash('message', 'Livraison a éte supprimée');
     }
 
+    public function render()
+    {
+        $items = Livraison::query()
+        ->where('ville_id','ilike','%'.$this->search.'%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
+
+        return view('livewire.parametrage.liste-livraison',[
+            'items'=> $items
+        ]);
+
+
+    }
     public function saved()
     {
         return $this->render();

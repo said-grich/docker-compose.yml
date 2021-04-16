@@ -27,24 +27,7 @@ class ListeTranches extends Component
     public $uid;
     public $nom;
 
-    public function render()
-    {
 
-        /* $tranchePoidsPc = DB::table('tranches_poids_pcs')
-            ->select(['uid','id','nom']);
-
-        $list = DB::table('tranches_kg_pcs')
-                    ->select(['uid','id','nom'])
-                    ->union($tranchePoidsPc); */
-
-        $items = Tranche::where('nom','ilike','%'.$this->search.'%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
-
-        return view('livewire.Parametrage.liste-tranches',[
-            'items'=> $items
-        ]);
-    }
 
     public function sortBy($field)
     {
@@ -96,6 +79,24 @@ class ListeTranches extends Component
 
     }
 
+    public function render()
+    {
+
+        /* $tranchePoidsPc = DB::table('tranches_poids_pcs')
+            ->select(['uid','id','nom']);
+
+        $list = DB::table('tranches_kg_pcs')
+                    ->select(['uid','id','nom'])
+                    ->union($tranchePoidsPc); */
+
+        $items = Tranche::where('nom','ilike','%'.$this->search.'%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
+
+        return view('livewire.parametrage.liste-tranches',[
+            'items'=> $items
+        ]);
+    }
     public function saved()
     {
         return $this->render();

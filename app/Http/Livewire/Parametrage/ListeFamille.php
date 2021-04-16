@@ -20,18 +20,7 @@ class ListeFamille extends Component
     public $search = '';
     protected $listeners = ['saved'];
 
-    public function render()
-    {
-        $famille = Famille::query()
-        ->where('nom','ilike','%'.$this->search.'%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
 
-        return view('livewire.Parametrage.liste-famille',[
-            'famille'=> $famille
-        ]);
-
-    }
     public function sortBy($field)
     {
         if ($this->sortDirection == 'asc') {
@@ -72,11 +61,22 @@ class ListeFamille extends Component
        // return redirect()->to('/familles');
 
     }
+    public function render()
+    {
+        $famille = Famille::query()
+        ->where('nom','ilike','%'.$this->search.'%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
 
+        return view('livewire.parametrage.liste-famille',[
+            'famille'=> $famille
+        ]);
+
+    }
 
     public function saved(){
 
-        $this->render();
+        return  $this->render();
     }
 
 

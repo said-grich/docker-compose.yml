@@ -17,6 +17,7 @@ class CreateSousCategoriesTable extends Migration
             $table->id();
             $table->string('nom');
             $table->unsignedBigInteger('categorie_id');
+            $table->boolean('active')->default(false);
             $table->foreign('categorie_id')->references('id')->on('categories')->onDelete('cascade');;
             $table->timestamps();
         });

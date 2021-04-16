@@ -13,6 +13,7 @@ class ListeCategorie extends Component
 
     public $categorie_id;
     public $nom;
+    public $isActive = false;
 
     public $sortBy = 'nom';
     public $sortDirection = 'asc';
@@ -20,17 +21,6 @@ class ListeCategorie extends Component
     public $search = '';
     protected $listeners = ['saved'];
 
-    public function render()
-    {
-        $items = Categorie::query()
-        ->where('nom','ilike','%'.$this->search.'%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
-
-        return view('livewire.Parametrage.liste-categorie',[
-            'items'=> $items
-        ]);
-    }
 
     public function sortBy($field)
     {
@@ -48,6 +38,7 @@ class ListeCategorie extends Component
         $item = Categorie::where('id',$id)->firstOrFail();
         $this->categorie_id =$item->id;
         $this->nom =$item->nom;
+        $this->isActive =$item->active;
     }
 
     public function editCategorie(){
@@ -55,6 +46,7 @@ class ListeCategorie extends Component
         Categorie::where('id', $this->categorie_id)
             ->update([
                 'nom' => $this->nom,
+                'active' => $this->isActive,
             ]);
 
         session()->flash('message', 'Catégorie "'.$this->nom.'" à été modifiée');
@@ -68,6 +60,18 @@ class ListeCategorie extends Component
         DB::table("categories")->where('id', $id)->delete();
         $unite->delete();
         session()->flash('message', 'Catégorie "'.$this->nom.'" à été supprimée');
+    }
+
+    public function render()
+    {
+        $items = Categorie::query()
+        ->where('nom','ilike','%'.$this->search.'%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
+
+        return view('livewire.parametrage.liste-categorie',[
+            'items'=> $items
+        ]);
     }
 
     public function saved()

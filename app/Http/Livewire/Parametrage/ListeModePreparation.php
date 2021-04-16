@@ -20,18 +20,7 @@ class ListeModePreparation extends Component
     public $search = '';
     protected $listeners = ['saved'];
 
-    public function render()
-    {
-        $items = ModePreparation::query()
-        ->where('nom','ilike','%'.$this->search.'%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
 
-        return view('livewire.Parametrage.liste-mode-preparation',[
-            'items'=> $items
-        ]);
-
-    }
     public function sortBy($field)
     {
         if ($this->sortDirection == 'asc') {
@@ -75,7 +64,18 @@ class ListeModePreparation extends Component
     }
 
 
+    public function render()
+    {
+        $items = ModePreparation::query()
+        ->where('nom','ilike','%'.$this->search.'%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
 
+        return view('livewire.parametrage.liste-mode-preparation',[
+            'items'=> $items
+        ]);
+
+    }
     public function saved()
     {
         $this->render();

@@ -19,17 +19,7 @@ class ListeModeVente extends Component
 
     public $modevente_id;
     public $nom;
-    public function render()
-    {
-        $items = ModeVente::query()
-        ->where('nom','ilike','%'.$this->search.'%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
 
-        return view('livewire.Parametrage.liste-mode-vente',[
-            'items'=> $items
-        ]);
-    }
 
     public function sortBy($field)
     {
@@ -73,6 +63,17 @@ class ListeModeVente extends Component
        // return redirect()->to('/categories');
     }
 
+    public function render()
+    {
+        $items = ModeVente::query()
+        ->where('nom','ilike','%'.$this->search.'%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
+
+        return view('livewire.parametrage.liste-mode-vente',[
+            'items'=> $items
+        ]);
+    }
     public function saved()
     {
         return $this->render();

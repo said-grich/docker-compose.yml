@@ -45,6 +45,17 @@
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
+                                            <div class="form-group ">
+                                                <label class="col-3 col-form-label">Active</label>
+                                                <div class="col-3">
+                                                    <span class="switch switch-outline switch-icon switch-primary">
+                                                        <label>
+                                                        <input type="checkbox" checked="checked" wire:model.defer="isActive" name="isActive"/>
+                                                        <span></span>
+                                                        </label>
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </form>
                                     </div>
                                     <div class="modal-footer">

@@ -13,6 +13,9 @@ class Categories extends Component
     public $sous_categorie_name;
     public $categorie_id;
     public $list_categories;
+    public $isActive = false;
+    public $souscategorie_isActive = false;
+
 
     protected $listeners = ['categorieAdded' => 'renderCategories'];
 
@@ -37,10 +40,11 @@ class Categories extends Component
 
         $item = new Categorie();
         $item->nom = $this->categorie_name;
+        $item->active = $this->isActive;
         $item->save();
 
         session()->flash('message', 'Catégorie "'.$this->categorie_name. '" a été créée ');
-        $this->reset(['categorie_name']);
+        $this->reset(['categorie_name','isActive']);
 
         $this->emit('saved');
     }
@@ -55,6 +59,7 @@ class Categories extends Component
             $item = new SousCategorie();
             $item->nom = $this->sous_categorie_name;
             $item->categorie_id = $this->categorie_id;
+            $item->active = $this->souscategorie_isActive;
             $item->save();
 
             $categorie = Categorie::findOrFail($this->categorie_id);
