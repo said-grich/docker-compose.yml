@@ -76,21 +76,7 @@ class ListeStockPoidsPc extends Component
 
     }
 
-    public function render()
-    {
-        $this->renderData();
-        // $items = StockPoidsPc::first();
-        // dd($items->lot->produit->nom);
 
-        $items = StockPoidsPc::query()
-        ->where('lot_num','ilike','%'.$this->search.'%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
-
-        return view('livewire.Parametrage.liste-stock-poids-pc',[
-            'items'=> $items,
-        ]);
-    }
 
     public function sortBy($field)
     {
@@ -137,7 +123,21 @@ class ListeStockPoidsPc extends Component
         $livreur = Livreur::findOrFail($id);
         $livreur->delete();
     }
+    public function render()
+    {
+        $this->renderData();
+        // $items = StockPoidsPc::first();
+        // dd($items->lot->produit->nom);
 
+        $items = StockPoidsPc::query()
+        ->where('lot_num','ilike','%'.$this->search.'%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
+
+        return view('livewire.parametrage.liste-stock-poids-pc',[
+            'items'=> $items,
+        ]);
+    }
     public function saved()
     {
         return $this->render();

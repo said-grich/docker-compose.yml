@@ -28,18 +28,7 @@ class ListePreparation extends Component
         $this->list_mode_preparations = ModePreparation::all()->sortBy('nom');
     }
 
-    public function render()
-    {
-        $this->renderModePreparations();
 
-        $items = Preparation::query()
-        ->where('nom','ilike','%'.$this->search.'%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
-
-        return view('livewire.Parametrage.liste-preparation',compact('items'));
-
-    }
     public function sortBy($field)
     {
         if ($this->sortDirection == 'asc') {
@@ -61,13 +50,31 @@ class ListePreparation extends Component
 
     public function editPreparation(){
 
-        Preparation::where('id', $this->preparation_id)
+       /*  Preparation::where('id', $this->preparation_id)
             ->update([
                 'nom' => $this->nom,
                 'mode_preparation_id' => $this->mode_preparation,
             ]);
 
-        session()->flash('message', 'Sous mode prépartion "'.$this->nom.'" à été modifié');
+        session()->flash('message', 'Sous mode prépartion "'.$this->nom.'" à été modifié'); */
+
+        $souspreparation = Preparation::where('nom', $this->nom)
+        ->where('mode_preparation_id', $this->mode_preparation)
+        ->first();
+            if ($souspreparation === null) {
+
+                Preparation::where('id', $this->preparation_id)
+                    ->update([
+                    'nom' => $this->nom,
+                    'mode_preparation_id' => $this->mode_preparation,
+                    ]);
+                $this->emit('saved');
+                session()->flash('message',  'Sous mode prépartion "'.$this->nom.'" à été modifié');
+
+            }else {
+
+            session()->flash('message',  'Sous mode prépartion "'.$this->nom.'" est déja existe');
+            }
     }
 
     public function deletePreparation($id)
@@ -78,15 +85,26 @@ class ListePreparation extends Component
         session()->flash('message', 'Le mode de préparation "'.$preparation->nom.'" à été supprimée');
 
 
-        return redirect()->to('/preparations');
+        //return redirect()->to('/preparations');
 
     }
 
+    public function render()
+    {
+        $this->renderModePreparations();
 
+        $items = Preparation::query()
+        ->where('nom','ilike','%'.$this->search.'%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
+
+        return view('livewire.parametrage.liste-preparation',compact('items'));
+
+    }
 
     public function saved()
     {
-        $this->render();
+        return  $this->render();
     }
 
 

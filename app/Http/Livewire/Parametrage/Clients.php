@@ -58,7 +58,7 @@ class Clients extends Component
     {
         //$this->validate();
 
-        $item = new Client();
+     /*    $item = new Client();
         $item->nom = $this->client_name;
         $item->tel = $this->phone;
         $item->email = $this->email;
@@ -70,7 +70,29 @@ class Clients extends Component
         session()->flash('message', 'Client "' . $this->client_name . '" a été crée comme étant un client ' . $profil->nom);
         $this->reset(['client_name','phone', 'email','profil_client']);
 
-        $this->emit('saved');
+        $this->emit('saved'); */
+
+        $client = Client::where('email', $this->email)
+                                        ->first();
+        if ($client === null) {
+            $item = new Client();
+            $item->nom = $this->client_name;
+            $item->tel = $this->phone;
+            $item->email = $this->email;
+            $item->password = bcrypt('password');
+            $item->profil_client_id = $this->profil_client;
+            $item->save();
+
+            $profil = ProfilClient::findOrFail($this->profil_client);
+            session()->flash('message', 'Client "' . $this->client_name . '" a été crée comme étant un client ' . $profil->nom);
+            $this->reset(['client_name','phone', 'email','profil_client']);
+
+            $this->emit('saved');
+
+        }else {
+            session()->flash('emailalert', 'cette  "' . $this->email . '" est déja existe ');
+        }
+
     }
 
 

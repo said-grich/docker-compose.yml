@@ -43,6 +43,7 @@ class ListeCommandeValidee extends Component
     public $ref;
     public $date_recue;
     public $date_validee;
+    public $montant_total_a_payer ;
 
 
 

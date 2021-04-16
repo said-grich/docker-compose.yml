@@ -76,21 +76,7 @@ class ListeStockKgPc  extends Component
 
     }
 
-    public function render()
-    {
-        $this->renderData();
-        // $items = StockPoidsPc::first();
-        // dd($items->lot->produit->nom);
 
-        $items = StockKgPc::query()
-        ->where('lot_num','ilike','%'.$this->search.'%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
-
-        return view('livewire.Parametrage.liste-stock-kg-pc',[
-            'items'=> $items,
-        ]);
-    }
 
     public function sortBy($field)
     {
@@ -138,6 +124,21 @@ class ListeStockKgPc  extends Component
         $livreur->delete();
     }
 
+    public function render()
+    {
+        $this->renderData();
+        // $items = StockPoidsPc::first();
+        // dd($items->lot->produit->nom);
+
+        $items = StockKgPc::query()
+        ->where('lot_num','ilike','%'.$this->search.'%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
+
+        return view('livewire.parametrage.liste-stock-kg-pc',[
+            'items'=> $items,
+        ]);
+    }
     public function saved()
     {
         return $this->render();

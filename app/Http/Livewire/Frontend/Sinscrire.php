@@ -23,11 +23,6 @@ class Sinscrire extends Component{
         'form.agree' => 'required',
     ];
 
-    // public function rand_pass($length){
-    //     $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    //     return substr(str_shuffle($chars),0,$length);
-    // }
-
     public function sendPassword(){
         $mail = new PHPMailer();
         $mail->IsSMTP();
@@ -52,7 +47,7 @@ class Sinscrire extends Component{
             'password' => $this->form['password'],
         ]);
 
-        $mail->MsgHTML($content); 
+        $mail->MsgHTML($content);
         if(!$mail->Send()){
             // dd($mail->ErrorInfo);
             var_dump($mail);

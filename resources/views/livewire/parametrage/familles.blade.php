@@ -15,19 +15,9 @@
                     </div>
                     <div class="card-body">
 
-                        <!--begin::Flash message-->
-                        @if (session()->has('message'))
-                            <div class="alert alert-custom alert-light-success shadow fade show mb-5" role="alert">
-                                <div class="alert-icon"><i class="flaticon-interface-10"></i></div>
-                                <div class="alert-text">{{ session('message') }}</div>
-                                <div class="alert-close">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true"><i class="ki ki-close"></i></span>
-                                    </button>
-                                </div>
-                            </div>
-                        @endif
-                        <!--end::Flash message-->
+                        <!--begin::Alerts-->
+                        @include('layouts.partials.alerts')
+                        <!--end::Alerts-->
 
                         <!--Button trigger modal-->
                         <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#famille">
@@ -54,6 +44,17 @@
                                                 @error('nom')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
+                                            </div>
+                                            <div class="form-group ">
+                                                <label class="col-3 col-form-label">Active</label>
+                                                <div class="col-3">
+                                                    <span class="switch switch-outline switch-icon switch-primary">
+                                                        <label>
+                                                        <input type="checkbox" checked="checked" wire:model.defer="isActive" name="isActive"/>
+                                                        <span></span>
+                                                        </label>
+                                                    </span>
+                                                </div>
                                             </div>
                                         </form>
                                     </div>

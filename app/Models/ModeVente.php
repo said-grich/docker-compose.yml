@@ -10,10 +10,10 @@ class ModeVente extends Model
 {
     use HasFactory;
 
-    /* public function tranches()
+    public function tranches()
     {
         return $this->hasMany(Tranche::class);
-    } */
+    }
 
     public function produits()
     {

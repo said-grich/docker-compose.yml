@@ -1,4 +1,9 @@
 <div class="table-responsive">
+
+    <!--begin::Alerts-->
+    @include('layouts.partials.alerts')
+    <!--end::Alerts-->
+
     <div class="d-flex flex-row-reverse">
         <div class="input-icon">
             <input wire:model.debounce.300ms="search" class="form-control" type="text" placeholder="Search...">
@@ -20,7 +25,7 @@
                 <th class="pl-0" wire:click="sortBy('nom')" style="cursor: pointer;">Nom @include('layouts.partials._sort-icon',['field'=>'nom'])</th>
                 <th class="pl-0" wire:click="sortBy('email')" style="cursor: pointer;">Email @include('layouts.partials._sort-icon',['field'=>'email'])</th>
                 <th class="pl-0" wire:click="sortBy('tel')" style="cursor: pointer;">Téléphone @include('layouts.partials._sort-icon',['field'=>'tel'])</th>
-                <th class="pl-0" wire:click="sortBy('tel')" style="cursor: pointer;">Profile @include('layouts.partials._sort-icon',['field'=>'tel'])</th>
+                <th class="pl-0" wire:click="sortBy('tel')" style="cursor: pointer;">Profil @include('layouts.partials._sort-icon',['field'=>'tel'])</th>
                 <th class="pr-0 text-right" style="min-width: 160px">Actions</th>
             </tr>
         </thead>
@@ -156,6 +161,7 @@
                     </button>
                 </div>
                 <div wire:ignore class="modal-body">
+
                     <form id="edit-form" class="form row">
 
                         <div class="form-group col-md-6">
@@ -189,11 +195,11 @@
                             @enderror
                         </div>
                         <div class="form-group col-md-6">
-                            <label>{{ __('Profile') }}</label>
+                            <label>{{ __('Profil') }}</label>
                             <div class="input-group input-group-prepend">
                                 <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-people-carry icon-lg"></i></span></div>
                                 <select class="form-control" wire:model="profil_id">
-                                        <option>{{ __('Choisir un profile') }}</option>
+                                        <option>{{ __('Choisir un profil') }}</option>
                                         @foreach ($list_profils as $item)
                                             <option value="{{$item->id}}"  @if($profil_id == $item->id) {{'selected'}} @endif>{{$item->nom}}</option>
                                         @endforeach

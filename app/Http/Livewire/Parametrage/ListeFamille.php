@@ -20,18 +20,7 @@ class ListeFamille extends Component
     public $search = '';
     protected $listeners = ['saved'];
 
-    public function render()
-    {
-        $famille = Famille::query()
-        ->where('nom','ilike','%'.$this->search.'%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
 
-        return view('livewire.Parametrage.liste-famille',[
-            'famille'=> $famille
-        ]);
-
-    }
     public function sortBy($field)
     {
         if ($this->sortDirection == 'asc') {
@@ -41,7 +30,7 @@ class ListeFamille extends Component
         }
 
         return $this->sortBy = $field;
-        
+
     }
 
     public function edit($id){
@@ -59,6 +48,7 @@ class ListeFamille extends Component
             ]);
 
         session()->flash('message', 'Famille "'.$this->nom.'" à été modifiée');
+        $this->emit('saved');
     }
 
     public function deleteFamille($id)
@@ -68,14 +58,25 @@ class ListeFamille extends Component
         $famille->delete();
 
         session()->flash('message', 'Famille "'.$famille->nom.'" à été supprimée');
-        return redirect()->to('/familles');
+       // return redirect()->to('/familles');
+
+    }
+    public function render()
+    {
+        $famille = Famille::query()
+        ->where('nom','ilike','%'.$this->search.'%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
+
+        return view('livewire.parametrage.liste-famille',[
+            'famille'=> $famille
+        ]);
 
     }
 
-
     public function saved(){
 
-        $this->render();
+        return  $this->render();
     }
 
 

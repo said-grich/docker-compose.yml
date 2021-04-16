@@ -21,30 +21,13 @@ class ListeTranches extends Component
     protected $listeners = ['saved'];
 
     public $tranche_id;
-    public $type;
+    public $mode_vente_id;
     public $min_poids;
     public $max_poids;
     public $uid;
     public $nom;
 
-    public function render()
-    {
 
-        /* $tranchePoidsPc = DB::table('tranches_poids_pcs')
-            ->select(['uid','id','nom']);
-
-        $list = DB::table('tranches_kg_pcs')
-                    ->select(['uid','id','nom'])
-                    ->union($tranchePoidsPc); */
-
-        $items = Tranche::where('nom','ilike','%'.$this->search.'%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
-
-        return view('livewire.Parametrage.liste-tranches',[
-            'items'=> $items
-        ]);
-    }
 
     public function sortBy($field)
     {
@@ -62,7 +45,7 @@ class ListeTranches extends Component
         $item = Tranche::where('id',$id)->firstOrFail();
         $this->tranche_id =$item->id;
         $this->nom =$item->nom;
-        $this->type =$item->type;
+        $this->mode_vente_id =$item->mode_vente_id;
         $this->min_poids =$item->min_poids;
         $this->max_poids =$item->max_poids;
         $this->uid =$item->uid;
@@ -73,13 +56,15 @@ class ListeTranches extends Component
         Tranche::where('id', $this->tranche_id)
             ->update([
                 'nom' => $this->nom,
-                'type' => $this->type,
+                'mode_vente_id' => $this->mode_vente_id,
                 'min_poids' => $this->min_poids,
                 'max_poids' => $this->max_poids,
                 'uid' => $this->uid,
             ]);
 
+
         session()->flash('message', 'Tranche "'.$this->nom.'" à été modifiée');
+        $this->emit('saved');
     }
     public function deleteTranche($uid)
     {
@@ -90,9 +75,28 @@ class ListeTranches extends Component
         $tranche = Tranche::where('uid',$uid)->first();
 
         $tranche->delete();
-        
+        session()->flash('message', 'Tranche "'.$tranche->nom.'" est supprimée');
+
     }
 
+    public function render()
+    {
+
+        /* $tranchePoidsPc = DB::table('tranches_poids_pcs')
+            ->select(['uid','id','nom']);
+
+        $list = DB::table('tranches_kg_pcs')
+                    ->select(['uid','id','nom'])
+                    ->union($tranchePoidsPc); */
+
+        $items = Tranche::where('nom','ilike','%'.$this->search.'%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
+
+        return view('livewire.parametrage.liste-tranches',[
+            'items'=> $items
+        ]);
+    }
     public function saved()
     {
         return $this->render();

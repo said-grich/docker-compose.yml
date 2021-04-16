@@ -20,17 +20,6 @@ class ListeUnite extends Component
     public $search = '';
     protected $listeners = ['saved'];
 
-    public function render()
-    {
-        $items = Unite::query()
-        ->where('nom','ilike','%'.$this->search.'%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
-
-        return view('livewire.Parametrage.liste-unite',[
-            'items'=> $items
-        ]);
-    }
 
     public function sortBy($field)
     {
@@ -59,7 +48,8 @@ class ListeUnite extends Component
 
 
         session()->flash('message', 'Unité "'.$this->nom.'" à été modifiée');
-        return redirect()->to('/unites');
+
+        $this->emit('saved');
     }
 
     public function deleteUnite($id)
@@ -67,10 +57,24 @@ class ListeUnite extends Component
         $this->render();
         $unite = Unite::findOrFail($id);
         DB::table("unites")->where('id', $id)->delete();
+
         $unite->delete();
-        session()->flash('message', 'Unité "'.$this->nom.'" à été supprimée');
-        return redirect()->to('/unites');
+        session()->flash('message', 'Unité "'.$unite->nom.'" à été supprimée');
+
+       // return redirect()->to('/unites');
     }
+    public function render()
+    {
+        $items = Unite::query()
+        ->where('nom','ilike','%'.$this->search.'%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
+
+        return view('livewire.parametrage.liste-unite',[
+            'items'=> $items
+        ]);
+    }
+
 
     public function saved()
     {

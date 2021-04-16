@@ -1,5 +1,21 @@
 {{--begin::Table--}}
-<div class="table-responsive">
+<div  class="table-responsive">
+
+    <!--begin::Alerts-->
+    @include('layouts.partials.alerts')
+    <!--end::Alerts-->
+
+    @if (session()->has('souscategoriealert'))
+        <div class="alert alert-custom alert-light-danger shadow fade show mb-5" role="alert">
+            <div class="alert-icon"><i class="flaticon-interface-10"></i></div>
+            <div class="alert-text">{{ session('souscategoriealert') }}</div>
+            <div class="alert-close">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true"><i class="ki ki-close"></i></span>
+                </button>
+            </div>
+        </div>
+        @endif
     <div class="d-flex flex-row-reverse">
         <div class="input-icon">
             <input wire:model.debounce.300ms="search" class="form-control" type="text" placeholder="Recherche...">
@@ -19,6 +35,7 @@
                 </th>
                 <th class="pl-0" wire:click="sortBy('nom')" style="cursor: pointer;">Nom @include('layouts.partials._sort-icon',['field'=>'nom'])</th>
                 <th class="pl-0" wire:click="sortBy('nom')" style="cursor: pointer;">Catégorie @include('layouts.partials._sort-icon',['field'=>'nom'])</th>
+                <th class="pl-0" wire:click="sortBy('active')" style="cursor: pointer;">Statut @include('layouts.partials._sort-icon',['field'=>'active'])</th>
                 <th class="pr-0 text-right" style="min-width: 160px">Actions</th>
             </tr>
         </thead>
@@ -36,6 +53,10 @@
                     </td>
                     <td class="pl-0">
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{$item->categorie->nom}}</a>
+                    </td>
+                    <td class="pl-0">
+                        <span class="label {{ $item->active == true ? 'label-primary' : 'label-danger' }} label-pill label-inline mr-2">{{ $item->active == true ? 'Activé' : 'Désactivé' }} </span>
+                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg"></a>
                     </td>
                     <td class="pr-0 text-right">
                         <a href="#" wire:click="edit({{$item->id}})" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#edit1">
@@ -119,12 +140,23 @@
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{ __('Modification Livraison') }}</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{ __('Modification Sous Categories') }}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i aria-hidden="true" class="ki ki-close"></i>
                     </button>
                 </div>
                 <div wire:ignore class="modal-body">
+                   {{--  @if (session()->has('souscategoriealert'))
+                        <div class="alert alert-custom alert-light-danger shadow fade show mb-5" role="alert">
+                            <div class="alert-icon"><i class="flaticon-interface-10"></i></div>
+                            <div class="alert-text">{{ session('souscategoriealert') }}</div>
+                            <div class="alert-close">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true"><i class="ki ki-close"></i></span>
+                                </button>
+                            </div>
+                        </div>
+                    @endif --}}
                     <form id="edit-form" class="form row">
                         <div class="input-group input-group-prepend">
                             <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tag icon-lg"></i></span></div>
@@ -149,10 +181,21 @@
                         @error('categorie_id')
                             <span class="form-text text-danger">{{ $message }}</span>
                         @enderror
+                        <div class="form-group ">
+                            <label class="col-3 col-form-label">Active</label>
+                            <div class="col-3">
+                                <span class="switch switch-outline switch-icon switch-primary">
+                                    <label>
+                                    <input type="checkbox" checked="checked" wire:model.defer="sActive" name="isActive"/>
+                                    <span></span>
+                                    </label>
+                                </span>
+                            </div>
+                        </div>
                     </form>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
-                        <button type="submit" wire:click.prevent="editSousCategorie" class="btn btn-primary font-weight-bold" form="edit-form" >{{ __('Enregistrer') }}</button>
+                        <button type="submit" id="btnSave" wire:click="editSousCategorie" class="btn btn-primary font-weight-bold" form="edit-form" >{{ __('Enregistrer') }}</button>
                     </div>
                 </div>
 
@@ -161,4 +204,12 @@
     </div>
 </div>
 {{--end::Table--}}
+@push('scripts')
+<script>
+    $('#btnSave').click(function() {
+    $('#edit1').modal('hide');
+    });
+    </script>
+
+@endpush
 

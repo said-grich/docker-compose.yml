@@ -16,7 +16,7 @@ class CreatePreparationTypesTable extends Migration
         Schema::create('preparation_types', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('produit_id');
-            $table->foreign('produit_id')->references('id')->on('produits');
+            $table->foreign('produit_id')->references('id')->on('produits')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('preparation_id');
             $table->foreign('preparation_id')->references('id')->on('preparations');
             $table->timestamps();

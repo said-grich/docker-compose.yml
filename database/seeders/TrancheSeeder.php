@@ -18,54 +18,60 @@ class TrancheSeeder extends Seeder
 
 
         Tranche::create([
-            'type' => 'Kg/Pièce',
+           /*  'type' => 'Kg/Pièce', */
             'nom' => 'Mixte',
             'uid' => "KP".str_replace(".","",microtime(true)).rand(000,999),
-            /* 'mode_vente_id' => 1 */
+            'mode_vente_id' => 2
         ]);
 
         Tranche::create([
-            'type' => 'Kg/Pièce',
+           /*  'type' => 'Kg/Pièce', */
             'nom' => 'Petite',
             'uid' => "KP".str_replace(".","",microtime(true)).rand(000,999),
+            'mode_vente_id' => 2
         ]);
 
         Tranche::create([
-            'type' => 'Kg/Pièce',
+           /*  'type' => 'Kg/Pièce', */
             'nom' => 'Moyenne',
             'uid' => "KP".str_replace(".","",microtime(true)).rand(000,999),
+            'mode_vente_id' => 2
         ]);
 
         Tranche::create([
-            'type' => 'Poids par pièce',
+            /* 'type' => 'Poids par pièce', */
             'nom' => '3.5 - 4.5',
             'uid' => "PP".str_replace(".","",microtime(true)).rand(000,999),
             'min_poids' => 3.5,
             'max_poids' => 4.5,
+            'mode_vente_id' => 1
         ]);
 
         Tranche::create([
-            'type' => 'Poids par pièce',
+            /* 'type' => 'Poids par pièce', */
             'nom' => '0.4 - 0.8',
             'uid' => "PP".str_replace(".","",microtime(true)).rand(000,999),
             'min_poids' => 0.4,
             'max_poids' => 0.8,
+            'mode_vente_id' => 1
         ]);
 
         Tranche::create([
-            'type' => 'Poids par pièce',
+            /* 'type' => 'Poids par pièce', */
             'nom' => '2.5 - 3.5',
             'uid' => "PP".str_replace(".","",microtime(true)).rand(000,999),
             'min_poids' => 2.5,
             'max_poids' => 3.5,
+            'mode_vente_id' => 1
         ]);
 
         Tranche::create([
-            'type' => 'Poids par pièce',
+            /* 'type' => 'Poids par pièce', */
             'nom' => '1.5 - 2.5',
             'uid' => "PP".str_replace(".","",microtime(true)).rand(000,999),
             'min_poids' => 1.5,
             'max_poids' => 2.5,
+            'mode_vente_id' => 1
         ]);
 
     }
