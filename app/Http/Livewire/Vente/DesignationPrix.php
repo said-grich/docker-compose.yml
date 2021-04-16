@@ -65,6 +65,7 @@ class DesignationPrix extends Component
     public $prix_vente_normal_kg_pc=[];
     public $prix_vente_fidele_kg_pc=[];
     public $prix_vente_business_kg_pc=[];
+    public $liste_poids_pc2 = [];
 
 
 
@@ -102,15 +103,43 @@ class DesignationPrix extends Component
         // $this->liste_poids_pc = collect(StockPoidsPc::where('br_num', $id)->get()->groupBy(['tranche_id', 'produit_id']));
         // $this->liste_kg_pc = StockKgPc::where('br_num', $id)->get();
 
-        $this->liste_poids_pc = Stock::where('br_num', $id)->where('type', "Poids par pièce")->get()->groupBy(['tranche_id', 'produit_id']);
+        $this->liste_poids_pc = Stock::where('br_num', $id)->where('type', "Poids par pièce")->get()->groupBy(['tranche_id', 'produit_id','lot_num']);
+        $this->liste_poids_pc2 = Stock::where('br_num', $id)->where('type', "Poids par pièce")->get()->groupBy(['tranche_id', 'produit_id','lot_num']);
+
+        //dd($this->liste_poids_pc2);
+
         $this->liste_kg_pc = Stock::where('br_num', $id)->where('type', '!=', "Poids par pièce")->get();
         //dd($this->liste_poids_pc, $this->liste_kg_pc);
 
         $this->bon_reception_ref = $id;
 
 
-        foreach ($this->liste_poids_pc as $key => $value) {
-            //$this->nom_tranche[$key] = TranchesPoidsPc::where('uid', $key)->first()->nom;
+        foreach ($this->liste_poids_pc as $tranche => $produits) {
+
+            foreach ($produits as $produit => $lots){
+                $this->article[$tranche] = Produit::where('id', $produit)->first()->nom;
+
+                foreach ($lots as $lot => $details){
+
+                    foreach ($details as $key => $v){
+                        //$this->lot_num[$tranche][$lot] =$lot;
+                        $this->produit_id[$tranche]  =$v->produit_id;
+                        $this->nom_tranche[$tranche]  = Tranche::where('uid', $v->tranche_id)->first()->nom;
+                        $this->tranche_uid[$tranche]  = $v->tranche_id;
+                        $this->poids[$tranche] = $v->pas;
+                        $this->code[$tranche] = $v->code;
+                        //$this->lot_num[$tranche] = $v->lot_num;
+                    }
+
+                }
+            }
+
+        }
+        //dd($this->lot_num);
+
+
+
+        /* foreach ($this->liste_poids_pc as $key => $value) {
 
             foreach ($value as $produit => $details){
                 $this->article[$key] = Produit::where('id', $produit)->first()->nom;
@@ -118,21 +147,18 @@ class DesignationPrix extends Component
                 foreach ($details as $k => $v){
                     $this->lot_num[$key] =$v->lot_num;
                     $this->produit_id[$key]  =$v->produit_id;
-
-                    //$this->produit_id[$key]  = $v->lot->produit->nom;
                     $this->nom_tranche[$key]  = Tranche::where('uid', $v->tranche_id)->first()->nom;
-
                     $this->tranche_uid[$key]  = $v->tranche_id;
-                    $this->poids[$key]  =$v->pas;
+                    $this->poids[$key] = $v->pas;
                     $this->code[$key] = $v->code;
                     $this->lot_num[$key] = $v->lot_num;
-                    //dd($this->lot_num[$key]);
-
 
                 }
             }
 
-        }
+        } */
+
+
 
 
         foreach ($this->liste_kg_pc as $k => $v) {

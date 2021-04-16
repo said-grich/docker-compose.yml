@@ -103,8 +103,39 @@ class Produits extends Component
 
     }
 
+    /* public function createFamille()
+    {
+        $this->validate();
+
+        $item = new Famille();
+        $item->nom = $this->nom;
+
+        $item->save();
+
+        $this->reset(['nom']);
+
+       // $this->emit('saved');
+    } */
+
+    public function createUnite()
+    {
+        //dd('bb');
+        $this->validate();
+
+        $item = new Unite();
+        $item->nom = $this->nom;
+        $item->save();
+
+        session()->flash('message', 'Unité "' . $this->nom . '" a été créée ');
+
+        $this->reset(['nom']);
+
+        $this->emit('saved');
+    }
+
     public function createTranche()
     {
+        //dd('ttt');
         $uniqueId = str_replace(".","",microtime(true)).rand(000,999);
         /* $this->type == 1 ?
             TranchesPoidsPc::create([
@@ -139,8 +170,8 @@ class Produits extends Component
         //$this->validate();
 
         DB::transaction(function () {
-
-            $photo_principale = $this->photo_principale->storeAs('public/produits/' . $this->nom . '/principale', date("Y-m-d") . "-" . $this->nom . "." . $this->photo_principale->guessExtension());
+            // if ( $this->photo_principale != null) {
+                $photo_principale = $this->photo_principale->storeAs('public/produits/' . $this->nom . '/principale', date("Y-m-d") . "-" . $this->nom . "." . $this->photo_principale->guessExtension());
 
             $paths = [];
             foreach ($this->photos as $key => $photo) {

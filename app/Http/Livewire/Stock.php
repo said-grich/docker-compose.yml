@@ -209,7 +209,7 @@ class Stock extends Component
 
     public function updatedLotNum($value,$index){
 
-        if (ModelsStock::where('produit_id', $this->produit[$index])->where('lot_num', $value)->exists()) {
+        if (ModelsStock::where('produit_id', $this->produit[$index])->where('lot_num', $value)->exists() ) {
             session()->flash('error-lot', 'Lot déja exist');
         }
         //dd($value,$index, $this->produit[$index]);

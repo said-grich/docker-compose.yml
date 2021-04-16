@@ -71,7 +71,7 @@
 
                                                 <td class="pr-0 text-right">
                                                     @if ($item->valide == false)
-                                                        <button wire:click="designationPrix('{{$item->ref}}')" class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#stock">
+                                                        <button wire:click="designationPrix('{{$item->ref}}')" class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#designation-prix">
                                                             <i class="flaticon-plus"></i> {{ __('Désignation des prix') }}
                                                         </button>
                                                         @else
@@ -132,11 +132,8 @@
 
                             {{-- Stock Modal --}}
 
-                            <
-
-
                             {{-- Edit Modal --}}
-                            <div wire:ignore.self class="modal fade" id="stock" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="stock" aria-hidden="true">
+                            <div wire:ignore.self class="modal fade" id="designation-prix" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="designation-prix" aria-hidden="true">
                                 <div class="modal-dialog modal-xxl modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -170,231 +167,63 @@
                                                             </div>
                                                             <div id="collapseOne1" class="collapse show" data-parent="#accordionExample1">
                                                                 <div class="card-body">
-                                                                    @foreach ($liste_poids_pc as $key => $lot )
-                                                                        <table class="table table-striped table-bordered">
-                                                                            <thead>
-                                                                                <tr>
-                                                                                    <th scope="col">Produit</th>
-                                                                                    <th scope="col">Lot</th>
-                                                                                    <th scope="col">Tranche</th>
-                                                                                    <th scope="col">CR</th>
-                                                                                    <th scope="col">Prix Vente Normal</th>
-                                                                                    <th scope="col">Prix Vente Fidèle</th>
-                                                                                    <th scope="col">Prix Vente Business</th>
-                                                                                    <th scope="col">Promo</th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody>
-                                                                                    <tr>
-                                                                                        <td>
-                                                                                            <input type="hidden" class="form-control" placeholder=" " wire:model.defer="produit_id.{{$key}}" disabled/>
-                                                                                            <input type="hidden" class="form-control" placeholder=" " wire:model.defer="code.{{$key}}" disabled/>
-                                                                                            <input type="text" class="form-control" placeholder=" " wire:model.defer="article.{{$key}}" disabled/>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num.{{$key}}" disabled/>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <input type="hidden" class="form-control" wire:model.defer="tranche_uid.{{$key}}" disabled/>
-                                                                                            <input type="text" class="form-control" placeholder="{{ __('Tranche') }}" wire:model.defer="nom_tranche.{{$key}}" disabled/>
-                                                                                        </td>
-                                                                                        {{-- <td>
-                                                                                            <input type="text" class="form-control" placeholder="{{ __('Tranche') }}" wire:model.defer="poids.{{$key}}" disabled/>
-                                                                                        </td> --}}
-                                                                                        <td>
-                                                                                            <input type="text" class="form-control" placeholder="{{ __('CR') }}" wire:model.defer="cr.{{$key}}"/>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <input type="text" class="form-control" placeholder="{{ __('Prix vente normale') }}" wire:model.defer="prix_vente_normal.{{$key}}"/>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <input type="text" class="form-control" placeholder="{{ __('Prix vente fidèle') }}" wire:model.defer="prix_vente_fidele.{{$key}}"/>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <input type="text" class="form-control" placeholder="{{ __('Prix vente business') }}" wire:model.defer="prix_vente_business.{{$key}}"/>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <a href="#" class="btn btn-icon btn-light-primary btn-outline-primary btn-primary">
-                                                                                                <i class="flaticon-price-tag"></i>
-                                                                                            </a>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                            </tbody>
-                                                                        </table>
+                                                                    <table class="table table-striped table-bordered">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th scope="col">Produit</th>
+                                                                                <th scope="col">Lot</th>
+                                                                                <th scope="col">Tranche</th>
+                                                                                <th scope="col">CR</th>
+                                                                                <th scope="col">Prix Vente Normal</th>
+                                                                                <th scope="col">Prix Vente Fidèle</th>
+                                                                                <th scope="col">Prix Vente Business</th>
+                                                                                <th scope="col">Promo</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        @foreach ($liste_poids_pc as $tranche => $produits )
+                                                                            @foreach ($produits as $produit => $lots )
+                                                                                @foreach ($lots as $lot => $items )
+                                                                                    @foreach ($items as $k => $item )
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td>
+                                                                                                    <input type="hidden" class="form-control" placeholder=" " wire:model.defer="produit_id.{{$tranche}}" disabled/>
+                                                                                                    <input type="hidden" class="form-control" placeholder=" " wire:model.defer="code.{{$tranche}}" disabled/>
+                                                                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="article.{{$tranche}}" disabled/>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <input type="text" class="form-control" value="{{$lot}}" disabled>
+                                                                                                    {{-- <input type="text" class="form-control" placeholder="{{$lot}}" value="{{$lot}}" wire:model.defer="lot_num.{{$k}}" disabled/> --}}
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <input type="hidden" class="form-control" wire:model.defer="tranche_uid.{{$tranche}}" disabled/>
+                                                                                                    <input type="text" class="form-control" placeholder="{{ __('Tranche') }}" wire:model.defer="nom_tranche.{{$tranche}}" disabled/>
+                                                                                                </td>
 
-                                                                        {{-- <div class="form-group col-md-{{$showNbrPiece == true ?  "3" : "4"}}">
-                                                                            <label>{{ __('Lot') }}</label>
-                                                                            <div class="input-group input-group-prepend">
-                                                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-hashtag icon-lg"></i></span></div>
-                                                                                <input type="text" class="form-control" placeholder="" value="{{$lot->lot_num}}" wire:model.defer="lot_num.{{$key}}" disabled/>
-                                                                            </div>
-                                                                            @error('lot_id')
-                                                                                <span class="form-text text-danger">{{ $message }}</span>
-                                                                            @enderror
-                                                                        </div>
-                                                                        <div class="form-group col-md-{{$showNbrPiece == true ?  "3" : "4"}}"">
-                                                                            <label>{{ __('Produit') }}</label>
-                                                                            <div class="input-group input-group-prepend">
-                                                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-box-open icon-lg"></i></span></div>
-                                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="article.{{$key}}" disabled/>
-                                                                            </div>
-                                                                            @error('article')
-                                                                                <span class="form-text text-danger">{{ $message }}</span>
-                                                                            @enderror
-                                                                        </div>
-                                                                        <div class="form-group col-md-{{$showNbrPiece == true ?  "3" : "4"}}"">
-                                                                            <label>{{ __('Mode Vente') }}</label>
-                                                                            <div class="input-group input-group-prepend">
-                                                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sliders-h icon-lg"></i></span></div>
-                                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="mode_vente.{{$key}}" disabled/>
-                                                                            </div>
-                                                                            @error('mode_vente')
-                                                                                <span class="form-text text-danger">{{ $message }}</span>
-                                                                            @enderror
-                                                                        </div> --}}
-                                                                        {{-- <div class="form-group col-md-{{$showNbrPiece == true ?  "3" : "4"}}"" style="display:{{$showNbrPiece == true ?  "block" : "none"}}">
-                                                                            <label>{{ __('Nombre de pièces') }}</label>
-                                                                            <div class="input-group input-group-prepend">
-                                                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sliders-h icon-lg"></i></span></div>
-                                                                                <input type="text" class="form-control" placeholder=" " wire:model.debounce.1s="nombre_piece.{{$key}}"/>
-                                                                            </div>
-                                                                            @error('nombre_piece')
-                                                                                <span class="form-text text-danger">{{ $message }}</span>
-                                                                            @enderror
-                                                                        </div> --}}
-                                                                        {{-- <table class="table table-striped table-bordered">
-                                                                            <thead>
-                                                                                <tr>
-                                                                                    <th scope="col">Produit</th>
-                                                                                    @if ($mode_vente_id != 1)
-                                                                                        <th scope="col">Tranches</th>
-                                                                                    @endif
-                                                                                    @if ($mode_vente_id == 1)
-                                                                                        <th scope="col">Code</th>
-                                                                                        <th scope="col">Poids</th>
-                                                                                    @endif
-                                                                                    <th scope="col">CR</th>
-                                                                                    <th scope="col">Prix Achat</th>
-                                                                                    <th scope="col">Prix Vente Normal</th>
-                                                                                    <th scope="col">Prix Vente Fidèle</th>
-                                                                                    <th scope="col">Prix Vente Business</th>
-                                                                                    <th scope="col">Promo</th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody>
-                                                                                @for ($i = 0; $i < $countInputs; $i++)
-                                                                                    <tr>
-                                                                                        <td>
-                                                                                            <div class="input-group input-group-prepend">
-                                                                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-balance-scale-left"></i></span></div>
-                                                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="article" disabled/>
-                                                                                            </div>
-                                                                                        </td>
-                                                                                        @if ($mode_vente_id != 1)<td>{{$nom_tranche[$i]}}</td>@endif
-
-                                                                                        @if ($mode_vente_id == 1)
-                                                                                            <td>
-                                                                                                <div class="input-group input-group-prepend">
-                                                                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-balance-scale-left"></i></span></div>
-                                                                                                    <input type="text" class="form-control" placeholder="{{ __('Code') }}" wire:model.defer="code.{{$i}}"/>
-                                                                                                </div>
-                                                                                                @error('code')
-                                                                                                    <span class="form-text text-danger">{{ $message }}</span>
-                                                                                                @enderror
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <div class="input-group input-group-prepend">
-                                                                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-balance-scale-left"></i></span></div>
-                                                                                                    <input type="text" class="form-control" placeholder="{{ __('Poids') }}" wire:model.defer="poids.{{$i}}"/>
-                                                                                                </div>
-                                                                                                @error('poids')
-                                                                                                    <span class="form-text text-danger">{{ $message }}</span>
-                                                                                                @enderror
-                                                                                            </td>
-                                                                                        @endif
-                                                                                        <td>
-                                                                                            <div class="input-group input-group-prepend">
-                                                                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-balance-scale-left"></i></span></div>
-                                                                                                <input type="text" class="form-control" placeholder="{{ __('Quantité') }}" wire:model.defer="qte.{{$i}}"/>
-                                                                                            </div>
-                                                                                            @error('qte')
-                                                                                                <span class="form-text text-danger">{{ $message }}</span>
-                                                                                            @enderror
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <div class="input-group input-group-prepend">
-                                                                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-file-invoice-dollar"></i></span></div>
-                                                                                                <input type="text" class="form-control" placeholder="{{ __('CR') }}" wire:model.defer="cr.{{$i}}"/>
-                                                                                            </div>
-                                                                                            @error('cr')
-                                                                                                <span class="form-text text-danger">{{ $message }}</span>
-                                                                                            @enderror
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <div class="input-group input-group-prepend">
-                                                                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-warehouse"></i></span></div>
-                                                                                                <select class="form-control" wire:model.defer="depot.{{$i}}">
-                                                                                                    <option>{{ __('Dépot') }}</option>
-                                                                                                    @foreach ($list_depots as $item)
-                                                                                                        <option value="{{$item->id}}">{{$item->nom}}</option>
-                                                                                                    @endforeach
-                                                                                                </select>
-                                                                                            </div>
-                                                                                            @error('depot')
-                                                                                                <span class="form-text text-danger">{{ $message }}</span>
-                                                                                            @enderror
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <div class="input-group input-group-prepend">
-                                                                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-money-check-alt"></i></span></div>
-                                                                                                <input type="text" class="form-control" placeholder="{{ __('Prix Achat') }}" wire:model.defer="prix_achat.{{$i}}"/>
-                                                                                            </div>
-                                                                                            @error('prix_achat')
-                                                                                                <span class="form-text text-danger">{{ $message }}</span>
-                                                                                            @enderror
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <div class="input-group input-group-prepend">
-                                                                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-money-bill-wave"></i></span></div>
-                                                                                                <input type="text" class="form-control" placeholder="{{ __('Prix Vente Normal') }}" wire:model.defer="prix_vente_normal.{{$i}}"/>
-                                                                                            </div>
-                                                                                            @error('prix_vente_normal')
-                                                                                                <span class="form-text text-danger">{{ $message }}</span>
-                                                                                            @enderror
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <div class="input-group input-group-prepend">
-                                                                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-money-bill-wave"></i></span></div>
-                                                                                                <input type="text" class="form-control" placeholder="{{ __('Prix Vente Fidèle') }}" wire:model.defer="prix_vente_fidele.{{$i}}"/>
-                                                                                            </div>
-                                                                                            @error('prix_vente_fidele')
-                                                                                                <span class="form-text text-danger">{{ $message }}</span>
-                                                                                            @enderror
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <div class="input-group input-group-prepend">
-                                                                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-money-bill-wave"></i></span></div>
-                                                                                                <input type="text" class="form-control" placeholder="{{ __('Prix Vente Business') }}" wire:model.defer="prix_vente_business.{{$i}}"/>
-                                                                                            </div>
-                                                                                            @error('prix_vente_business')
-                                                                                                <span class="form-text text-danger">{{ $message }}</span>
-                                                                                            @enderror
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <div class="input-group input-group-prepend">
-                                                                                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-clipboard-list"></i></span></div>
-                                                                                                <input type="text" class="form-control" placeholder="{{ __('BR') }}" wire:model.defer="bon_reception.{{$i}}"/>
-                                                                                            </div>
-                                                                                            @error('bon_reception')
-                                                                                                <span class="form-text text-danger">{{ $message }}</span>
-                                                                                            @enderror
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                @endfor
-                                                                            </tbody>
-                                                                        </table> --}}
-
+                                                                                                <td>
+                                                                                                    <input type="text" class="form-control" placeholder="{{ __('CR') }}" wire:model.defer="cr.{{$tranche}}"/>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <input type="text" class="form-control" placeholder="{{ __('Prix vente normale') }}" wire:model.defer="prix_vente_normal.{{$tranche}}"/>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <input type="text" class="form-control" placeholder="{{ __('Prix vente fidèle') }}" wire:model.defer="prix_vente_fidele.{{$tranche}}"/>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <input type="text" class="form-control" placeholder="{{ __('Prix vente business') }}" wire:model.defer="prix_vente_business.{{$tranche}}"/>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <a href="#" class="btn btn-icon btn-light-primary btn-outline-primary btn-primary">
+                                                                                                        <i class="flaticon-price-tag"></i>
+                                                                                                    </a>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    @endforeach
+                                                                                @endforeach
+                                                                            @endforeach
                                                                         @endforeach
+                                                                    </table>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -413,62 +242,53 @@
                                                                             <table class="table table-striped table-bordered">
                                                                                 <thead>
                                                                                     <tr>
-
                                                                                         <th scope="col">Produit</th>
                                                                                         <th scope="col">Lot</th>
                                                                                         <th scope="col">Tranche</th>
-                                                                                        {{-- <th scope="col">Code</th>
-                                                                                        <th scope="col">Poids</th --}}
-                                                                                        {{-- <th scope="col">Quantité</th> --}}
                                                                                         <th scope="col">CR</th>
-                                                                                        {{-- <th scope="col">Dépot</th>
-                                                                                        <th scope="col">Prix Achat</th> --}}
                                                                                         <th scope="col">Prix Vente Normal</th>
                                                                                         <th scope="col">Prix Vente Fidèle</th>
                                                                                         <th scope="col">Prix Vente Business</th>
-                                                                                        {{-- <th scope="col">Numéro BR</th> --}}
                                                                                         <th scope="col">Promo</th>
                                                                                     </tr>
                                                                                 </thead>
                                                                                 <tbody>
                                                                                         @foreach ($liste_kg_pc as $key => $lot )
+                                                                                            <tr>
+                                                                                                <td>
+                                                                                                    <input type="hidden" class="form-control" placeholder=" " wire:model.defer="produit_id_kg_pc.{{$key}}" disabled/>
+                                                                                                    <input type="hidden" class="form-control" placeholder=" " wire:model.defer="uid_tranche_kg_pc.{{$key}}" disabled/>
+                                                                                                    <input type="hidden" class="form-control" placeholder=" " wire:model.defer="id_kg_pc.{{$key}}" disabled/>
+                                                                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="article_kg_pc.{{$key}}" disabled/>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num_kg_pc.{{$key}}" disabled/>
+                                                                                                </td>
 
-                                                                                        <tr>
-
-                                                                                            <td>
-                                                                                                <input type="hidden" class="form-control" placeholder=" " wire:model.defer="produit_id_kg_pc.{{$key}}" disabled/>
-                                                                                                <input type="hidden" class="form-control" placeholder=" " wire:model.defer="uid_tranche_kg_pc.{{$key}}" disabled/>
-                                                                                                <input type="hidden" class="form-control" placeholder=" " wire:model.defer="id_kg_pc.{{$key}}" disabled/>
-                                                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="article_kg_pc.{{$key}}" disabled/>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num_kg_pc.{{$key}}" disabled/>
-                                                                                            </td>
-
-                                                                                            <td>
-                                                                                                <input type="text" class="form-control" placeholder="{{ __('Tranche') }}" wire:model.defer="nom_tranche_kg_pc.{{$key}}" disabled/>
-                                                                                            </td>
-                                                                                            {{-- <td>
-                                                                                                <input type="text" class="form-control" placeholder="{{ __('Tranche') }}" wire:model.defer="poids.{{$key}}" disabled/>
-                                                                                            </td> --}}
-                                                                                            <td>
-                                                                                                <input type="text" class="form-control" placeholder="{{ __('CR') }}" wire:model.defer="cr_kg_pc.{{$key}}"/>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <input type="text" class="form-control" placeholder="{{ __('Prix vente normale') }}" wire:model.defer="prix_vente_normal_kg_pc.{{$key}}"/>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <input type="text" class="form-control" placeholder="{{ __('Prix vente fidèle') }}" wire:model.defer="prix_vente_fidele_kg_pc.{{$key}}"/>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <input type="text" class="form-control" placeholder="{{ __('Prix vente business') }}" wire:model.defer="prix_vente_business_kg_pc.{{$key}}"/>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <a href="#" class="btn btn-icon btn-light-primary btn-outline-primary btn-primary">
-                                                                                                    <i class="flaticon-price-tag"></i>
-                                                                                                </a>
-                                                                                            </td>
-                                                                                        </tr>
+                                                                                                <td>
+                                                                                                    <input type="text" class="form-control" placeholder="{{ __('Tranche') }}" wire:model.defer="nom_tranche_kg_pc.{{$key}}" disabled/>
+                                                                                                </td>
+                                                                                                {{-- <td>
+                                                                                                    <input type="text" class="form-control" placeholder="{{ __('Tranche') }}" wire:model.defer="poids.{{$key}}" disabled/>
+                                                                                                </td> --}}
+                                                                                                <td>
+                                                                                                    <input type="text" class="form-control" placeholder="{{ __('CR') }}" wire:model.defer="cr_kg_pc.{{$key}}"/>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <input type="text" class="form-control" placeholder="{{ __('Prix vente normale') }}" wire:model.defer="prix_vente_normal_kg_pc.{{$key}}"/>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <input type="text" class="form-control" placeholder="{{ __('Prix vente fidèle') }}" wire:model.defer="prix_vente_fidele_kg_pc.{{$key}}"/>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <input type="text" class="form-control" placeholder="{{ __('Prix vente business') }}" wire:model.defer="prix_vente_business_kg_pc.{{$key}}"/>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <a href="#" class="btn btn-icon btn-light-primary btn-outline-primary btn-primary">
+                                                                                                        <i class="flaticon-price-tag"></i>
+                                                                                                    </a>
+                                                                                                </td>
+                                                                                            </tr>
                                                                                         @endforeach
                                                                                 </tbody>
                                                                             </table>
@@ -545,25 +365,26 @@
                                                                                         <tr>
 
                                                                                             <td>
-                                                                                                {{$article[$key]}}
-                                                                                                {{-- <input type="hidden" class="form-control" placeholder=" " wire:model.defer="produit_id.{{$key}}" disabled/>
-                                                                                                <input type="hidden" class="form-control" placeholder=" " wire:model.defer="code.{{$key}}" disabled/>
-                                                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="article.{{$key}}" disabled/> --}}
+                                                                                                @isset($article[$key])
+                                                                                                    {{$article[$key]}}
+                                                                                                @endisset
+
                                                                                             </td>
                                                                                             <td>
-                                                                                                {{$lot_num[$key]}}
-                                                                                                {{-- <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num.{{$key}}" disabled/> --}}
+                                                                                                @isset($lot_num[$key])
+                                                                                                    {{$lot_num[$key]}}
+                                                                                                @endisset
                                                                                             </td>
                                                                                             <td>
-                                                                                                 {{$nom_tranche[$key]}}
-                                                                                                {{-- <input type="hidden" class="form-control" wire:model.defer="tranche_uid.{{$key}}" disabled/>
-                                                                                                <input type="text" class="form-control" placeholder="{{ __('Tranche') }}" wire:model.defer="nom_tranche.{{$key}}" disabled/> --}}
+                                                                                                @isset($nom_tranche[$key])
+                                                                                                    {{$nom_tranche[$key]}}
+                                                                                                @endisset
                                                                                             </td>
                                                                                             <td>
                                                                                                 @isset($cr[$key])
                                                                                                     {{$cr[$key]}}
                                                                                                 @endisset
-                                                                                                {{-- <input type="text" class="form-control" placeholder="{{ __('CR') }}" wire:model.defer="cr.{{$key}}"/> --}}
+
                                                                                             </td>
                                                                                             <td>
                                                                                                 @isset($prix_vente_normal[$key])
