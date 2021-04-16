@@ -184,8 +184,9 @@
                                                                         <tbody>
                                                                         @foreach ($liste_poids_pc as $tranche => $categories )
                                                                             @foreach ($categories as $categorie => $produits )
+                                                                                @foreach ($produits as $produit => $items )
                                                                         {{-- @php
-                                                                            dd($item->categorie->nom)
+                                                                            dump($produits);
                                                                         @endphp --}}
                                                                             <tr>
                                                                                 <td>
@@ -209,13 +210,13 @@
                                                                                     <input type="text" class="form-control" placeholder="{{ __('CR') }}" wire:model.defer="cr.{{$tranche}}"/>
                                                                                 </td> --}}
                                                                                 <td>
-                                                                                    <input type="text" class="form-control" placeholder="{{ __('Prix vente normale') }}" wire:model.defer="prix_vente_normal.{{$tranche}}"/>
+                                                                                    <input type="text" class="form-control" placeholder="{{ __('Prix vente normale') }}" wire:model.defer="prix_vente_normal.{{$produit}}.{{$categorie}}.{{$tranche}}"/>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <input type="text" class="form-control" placeholder="{{ __('Prix vente fidèle') }}" wire:model.defer="prix_vente_fidele.{{$tranche}}"/>
+                                                                                    <input type="text" class="form-control" placeholder="{{ __('Prix vente fidèle') }}" wire:model.defer="prix_vente_fidele.{{$produit}}.{{$categorie}}.{{$tranche}}"/>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <input type="text" class="form-control" placeholder="{{ __('Prix vente business') }}" wire:model.defer="prix_vente_business.{{$tranche}}"/>
+                                                                                    <input type="text" class="form-control" placeholder="{{ __('Prix vente business') }}" wire:model.defer="prix_vente_business.{{$produit}}.{{$categorie}}.{{$tranche}}"/>
                                                                                 </td>
                                                                                 <td>
                                                                                     <a href="#" class="btn btn-icon btn-light-primary btn-outline-primary btn-primary">
@@ -223,6 +224,7 @@
                                                                                     </a>
                                                                                 </td>
                                                                             </tr>
+                                                                                @endforeach
                                                                             @endforeach
                                                                         @endforeach
                                                                         </tbody>
