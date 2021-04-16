@@ -268,7 +268,6 @@ class Stock extends Component
         //dd($value,$index, $this->produit[$index]);
     }
 
-    
     public function createStock(){
 
         DB::transaction(function () {

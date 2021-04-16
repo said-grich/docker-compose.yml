@@ -16,6 +16,7 @@ class ListePreparation extends Component
     public $nom;
     public $preparation_id;
     public $list_mode_preparations = [];
+    public $sousmodeprepa_isActive;
 
     public $sortBy = 'nom';
     public $sortDirection = 'asc';
@@ -46,6 +47,7 @@ class ListePreparation extends Component
         $this->preparation_id =$item->id;
         $this->nom =$item->nom;
         $this->mode_preparation =$item->mode_preparation_id;
+        $this->sousmodeprepa_isActive =$item->active;
     }
 
     public function editPreparation(){
@@ -67,6 +69,7 @@ class ListePreparation extends Component
                     ->update([
                     'nom' => $this->nom,
                     'mode_preparation_id' => $this->mode_preparation,
+                    'active' => $this->sousmodeprepa_isActive,
                     ]);
                 $this->emit('saved');
                 session()->flash('message',  'Sous mode prépartion "'.$this->nom.'" à été modifié');

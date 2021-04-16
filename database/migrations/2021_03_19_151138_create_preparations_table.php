@@ -17,6 +17,7 @@ class CreatePreparationsTable extends Migration
             $table->id();
             $table->string('nom',80);
             $table->unsignedBigInteger('mode_preparation_id');
+            $table->boolean('active')->default(false);
             $table->foreign('mode_preparation_id')->references('id')->on('mode_preparations');
             $table->timestamps();
         });

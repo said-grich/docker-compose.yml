@@ -4,7 +4,7 @@
     <!--begin::Alerts-->
     @include('layouts.partials.alerts')
     <!--end::Alerts-->
-    
+
     <div class="d-flex flex-row-reverse">
         <div class="input-icon">
             <input wire:model.debounce.300ms="search" class="form-control" type="text" placeholder="Search...">
@@ -23,6 +23,7 @@
                     </label>
                 </th>
                 <th class="pl-0" wire:click="sortBy('nom')" style="cursor: pointer;">Mode @include('layouts.partials._sort-icon',['field'=>'nom'])</th>
+                <th class="pl-0" wire:click="sortBy('active')" style="cursor: pointer;">Statut @include('layouts.partials._sort-icon',['field'=>'active'])</th>
                 <th class="pr-0 text-right" style="min-width: 160px">Actions</th>
             </tr>
         </thead>
@@ -36,6 +37,10 @@
                     </td>
                     <td class="pl-0">
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->nom }}</a>
+                    </td>
+                    <td class="pl-0">
+                        <span class="label {{ $item->active == true ? 'label-primary' : 'label-danger' }} label-pill label-inline mr-2">{{ $item->active == true ? 'Activé' : 'Désactivé' }} </span>
+                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg"></a>
                     </td>
                     {{-- <td class="pl-0">
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{$item->mode->nom}}</a>
@@ -95,7 +100,9 @@
                                 @error('nom')
                                     <span class="form-text text-danger">{{ $message }}</span>
                                 @enderror
+                            
                             </div>
+
                         </form>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
