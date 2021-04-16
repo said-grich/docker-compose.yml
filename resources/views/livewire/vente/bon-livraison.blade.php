@@ -197,16 +197,6 @@
                                                     </div>
 
                                                     <div class="form-group col">
-                                                        <label>{{ __('Rechercher un produit') }}</label>
-                                                        <div class="input-group input-group-prepend">
-                                                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-hashtag icon-lg"></i></span></div>
-                                                            <input type="text" class="form-control" placeholder=" " wire:model="filter.recherche_produit"/>
-                                                    </div>
-                                                        @error('recherche_produit')
-                                                            <span class="form-text text-danger">{{ $message }}</span>
-                                                        @enderror
-                                                    </div>
-                                                    <div class="form-group col">
                                                         <label>{{ __('Catégorie') }}</label>
                                                         <div class="input-group input-group-prepend">
                                                             <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
@@ -235,6 +225,16 @@
                                                             </select>
                                                         </div>
                                                         @error('depot')
+                                                            <span class="form-text text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="form-group col">
+                                                        <label>{{ __('Rechercher un produit') }}</label>
+                                                        <div class="input-group input-group-prepend">
+                                                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-hashtag icon-lg"></i></span></div>
+                                                            <input type="text" class="form-control" placeholder=" " wire:model="filter.recherche_produit"/>
+                                                    </div>
+                                                        @error('recherche_produit')
                                                             <span class="form-text text-danger">{{ $message }}</span>
                                                         @enderror
                                                     </div>
@@ -275,14 +275,14 @@
 
                                                                         <thead style="padding-top: 20px">
                                                                             <th>Catégorie</th>
-                                                                            <th>Sous catégorie</th>
+                                                                            {{-- <th>Sous catégorie</th> --}}
                                                                             <th>Code</th>
                                                                             <th>
                                                                                 <span>Poids</span>
-                                                                                <input type="number" class="form-control col-md-4" {{-- step="0.01" --}} wire:model.debounce.1000ms="filter.poids">
+                                                                                <input type="number" class="form-control col-md-4" wire:model.debounce.1000ms="filter.poids">
                                                                             </th>
                                                                             <th>Unité</th>
-                                                                            <th>Prix Achat</th>
+                                                                            {{-- <th>Prix Achat</th> --}}
                                                                             @if($profile === "Normal")
                                                                                 <th>Prix de vente normal</th>
                                                                             @endif
@@ -302,7 +302,7 @@
                                                                             @foreach ( $produits as $key => $produit)
                                                                                 <tr class="collapse" id="{{$tranche_uid}}">
                                                                                     <td>{{$produit['categorie']['nom']}}</td>
-                                                                                    <td>{{$produit['sous_categorie']['nom']}}</td>
+                                                                                    {{-- <td>{{$produit['sous_categorie']['nom']}}</td> --}}
                                                                                     <td>
                                                                                         @if (isset($produit['code']))
                                                                                             {{$produit['code']}}
@@ -322,10 +322,11 @@
                                                                                             {{$produit['unite']['nom']}}
                                                                                         @endisset
                                                                                     </td>
-                                                                                    <td>
+                                                                                    {{-- <td>
                                                                                         @isset($produit['prix_achat'])
                                                                                             {{$produit['prix_achat']}}
-                                                                                        @endisset</td>
+                                                                                        @endisset
+                                                                                    </td> --}}
                                                                                     <td>
                                                                                         @isset($prix[$key])
                                                                                             {{$prix[$key]}}
@@ -346,33 +347,27 @@
 
                                                                                                 <div class=" overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="isDialogOpen" :class="{ 'fixed inset-0 z-10 flex items-start justify-center': isDialogOpen }">
                                                                                                     <div class="bg-white shadow-2xl m-auto" x-show="isDialogOpen">
-
                                                                                                         <div class="flex align-middle justify-between items-center border-b p-2 text-xl">
                                                                                                             <h6 class="text-xl font-bold">Entrer La quantité:
                                                                                                             </h6>
                                                                                                             <button type="button" x-on:click="isDialogOpen = false">✖</button>
                                                                                                         </div>
-
                                                                                                         <div>
-                                                                                                            <div>
-                                                                                                                <div>
-                                                                                                                    <div class="grid grid-cols-2 gap-4 p-4 mb-8">
-                                                                                                                        <label class="block">
-                                                                                                                            <span class="text-gray-700">QTE</span><span
-                                                                                                                                class="text-red-500">*</span>
-                                                                                                                            <input type="number" x-model="qte"
-                                                                                                                                class="block w-full mt-1 form-input"
-                                                                                                                                placeholder="">
-                                                                                                                            <span class="text-red-500"
-                                                                                                                                x-show="qte>qmax">La quantité
-                                                                                                                                doit être inférieure à
-                                                                                                                                {{$produit['qte_restante']}}</span>
-                                                                                                                        </label>
-                                                                                                                    </div>
-                                                                                                                    <div class="text-right pt-3 pr-4" x-show="qte>0 && qte<=qmax">
-                                                                                                                        <button type="button" class="btn btn-outline-primary" x-on:click="$wire.add({{ $loop->index }},{{$i}},qte,prix,tranche,categorie,pieceId);isDialogOpen = false">Valider</button>
-                                                                                                                    </div>
-                                                                                                                </div>
+                                                                                                            <div class="grid grid-cols-2 gap-4 p-4 mb-8">
+                                                                                                                <label class="block">
+                                                                                                                    <span class="text-gray-700">QTE</span><span
+                                                                                                                        class="text-red-500">*</span>
+                                                                                                                    <input type="number" x-model="qte"
+                                                                                                                        class="block w-full mt-1 form-input"
+                                                                                                                        placeholder="">
+                                                                                                                    <span class="text-red-500"
+                                                                                                                        x-show="qte>qmax">La quantité
+                                                                                                                        doit être inférieure à
+                                                                                                                        {{$produit['qte_restante']}}</span>
+                                                                                                                </label>
+                                                                                                            </div>
+                                                                                                            <div class="text-right pt-3 pr-4" x-show="qte>0 && qte<=qmax">
+                                                                                                                <button type="button" class="btn btn-outline-primary" x-on:click="$wire.add({{ $loop->index }},{{$i}},qte,prix,tranche,categorie,pieceId);isDialogOpen = false">Valider</button>
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </div>
@@ -411,6 +406,7 @@
                                                                         <tr class="text-left">
                                                                             <th style="min-width: 120px">Article</th>
                                                                             <th style="min-width: 110px">Dépôt</th>
+                                                                            <th style="min-width: 110px">Lot</th>
                                                                             <th style="min-width: 110px">Code</th>
                                                                             <th style="min-width: 120px">Poids</th>
                                                                             <th style="min-width: 120px">Quantité à livrer</th>
@@ -431,6 +427,11 @@
                                                                                 <td>
                                                                                     @isset($depotNom[$key])
                                                                                         {{ $depotNom[$key] }}
+                                                                                    @endisset
+                                                                                </td>
+                                                                                <td>
+                                                                                    @isset($pieceLot[$key])
+                                                                                        {{ $pieceLot[$key] }}
                                                                                     @endisset
                                                                                 </td>
                                                                                 <td>
@@ -524,6 +525,9 @@
                                                                                             @endforeach
                                                                                         </select>
                                                                                     @endisset--}}
+                                                                                </td>
+                                                                                <td>
+                                                                                    <button type="button" class="btn font-weight-bold btn-danger btn-icon" wire:click="remove({{ $key }})"><i class="la la-remove"></i></button>
                                                                                 </td>
                                                                                 {{-- <td>
                                                                                     @isset($preparations_nettoyage[$val])
@@ -686,7 +690,7 @@
                                                                                 </div>
                                                                                 <div class="col-lg-4 mb-6">
                                                                                     <label>{{ __('Frais de livraison') }}</label>
-                                                                                    <input type="text" class="form-control" placeholder="Frais de livraison" wire:model.defer="frais_livraison"/>
+                                                                                    <input type="text" class="form-control" placeholder="Frais de livraison" wire:model.defer="frais_livraison" disabled/>
                                                                                     @error('frais_livraison')
                                                                                         <span class="form-text text-danger">{{ $message }}</span>
                                                                                     @enderror

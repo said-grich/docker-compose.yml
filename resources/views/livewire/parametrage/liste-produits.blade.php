@@ -74,28 +74,56 @@
                                         <h5 class="modal-title">{{ __('Préparations associés au produit') }} <span class="label label-primary label-lg label-inline mr-2">{{ $item->nom }}</span> </h5>
                                         <button type="button" @click="isDialogOpen = false">✖</button>
                                     </div>
-                                    <div class="p-2">
-                                        <table class="table table-striped table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">Préparation</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($item->preparations as $key => $preparation)
+                                    <div class="p-2 row">
+                                        <div class="col-6">
+                                            <table class="table table-striped table-bordered">
+                                                <thead>
                                                     <tr>
-                                                        <td>{{$item->preparations[$key]->preparation->nom}}</td>
+                                                        <th scope="col">Mode Cuisine</th>
                                                     </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
+                                                </thead>
+                                                <tbody>
+                                                    {{-- @php
+                                                    dd($item->preparations);
+                                                    @endphp --}}
+                                                    @foreach ($item->preparations as $key => $preparation)
+                                                        <tr>
+                                                            @if($item->preparations[$key]->preparation->mode_preparation_id == 1)
+                                                                <td>{{$item->preparations[$key]->preparation->nom}}</td>
+                                                            @endif
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-6">
+                                            <table class="table table-striped table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Mode Nettoyage</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {{-- @php
+                                                    dd($item->preparations);
+                                                    @endphp --}}
+                                                    @foreach ($item->preparations as $key => $preparation)
+                                                        <tr>
+                                                            @if($item->preparations[$key]->preparation->mode_preparation_id == 2)
+                                                                <td>{{$item->preparations[$key]->preparation->nom}}</td>
+                                                            @endif
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                         </div>
+                        </div>
 
                         <!--Modal-->
-                        <div class="modal fade" id="preparations" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="preparations" aria-hidden="true">
+                        {{-- <div class="modal fade" id="preparations" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="preparations" aria-hidden="true">
                             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -125,8 +153,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </td>
+
                     <td class="pr-0 text-right">
                         <a href="#" wire:click="edit({{$item->id}})" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#edit">
                             <span class="svg-icon svg-icon-md svg-icon-primary">
@@ -165,7 +194,7 @@
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{ __('Modification unité') }}</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{ __('Modification produit') }}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i aria-hidden="true" class="ki ki-close"></i>
                     </button>
@@ -263,12 +292,12 @@
                                             class="fa fa-sliders-h icon-lg"></i></span></div>
                                 <select class="form-control" wire:model="tranches" multiple>
                                     <option>{{ __('Choisir une tranche') }}</option>
-                                    @foreach ($list_tranches as $tranche)
+                                    @foreach ($list_tranches as  $tranche)
                                         <option value="{{$tranche->uid}}">{{$tranche->nom}}</option>
                                     @endforeach
                                 </select>
                                 <div class="input-group-append" data-toggle="modal"
-                                     data-target="#tranches">
+                                     data-target="#tranchese">
                                     <button class="btn btn-primary" type="button"
                                             data-toggle="tooltip" data-theme="dark"
                                             title="Ajouter Tranche"><i
@@ -285,10 +314,10 @@
                             <div class="input-group input-group-prepend">
                                 <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-tools icon-lg"></i></span></div>
                                 {{-- @livewire('multi-select', ['selectId' => 'testselect', 'selectTitle' => '', 'selectType' => '', 'selected' => $mode_cuisine, 'selectOptions' => $list_cuisine]) --}}
-                                <select class="form-control " wire:model="mode_cuisine">
+                                <select class="form-control " wire:model="mode_cuisine" multiple>
                                     <option>{{ __('Choisir un mode de préparation') }}</option>
                                         @foreach ($list_cuisine as $mode)
-                                            <option value="{{$mode->id}}" @if($mode_cuisine == $item->id) {{'selected'}} @endif>{{$mode->nom}}</option>
+                                            <option value="{{$mode->id}}" {{-- @if($mode_cuisine == $item->id) {{'selected'}} @endif --}}>{{$mode->nom}}</option>
                                         @endforeach
                                 </select>
                                 <div class="input-group-append" data-toggle="modal" data-target="#mode-preparation"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Mode Préparation"><i class="fa fa-plus-circle"></i></button></div>
@@ -297,14 +326,14 @@
                                 <span class="form-text text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div wire:ignore class="form-group col-md-6">
+                        <div wire:ignore.self class="form-group col-md-6">
                            <label><b>{{ __('Mode Nettoyage ') }}</b></label>
                            <div class="input-group input-group-prepend">
                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-tools icon-lg"></i></span></div>
                                <select class="form-control " wire:model="mode_nettoyage" multiple>
                                    <option>{{ __('Choisir un mode de préparation') }}</option>
                                        @foreach ($list_nettoyage as $mode)
-                                           <option value="{{$mode->id}}" @if($mode_cuisine == $item->id) {{'selected'}} @endif>{{$mode->nom}}</option>
+                                           <option value="{{$mode->id}}" {{-- @if($mode_nettoyage == $item->id) {{'selected'}} @endif --}}>{{$mode->nom}}</option>
                                        @endforeach
                                </select>
                                <div class="input-group-append" data-toggle="modal" data-target="#mode-preparation"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Mode Préparation"><i class="fa fa-plus-circle"></i></button></div>
@@ -341,16 +370,23 @@
                             <label><b>{{ __('Photo Principale') }}</b></label>
                             <div class="input-group input-group-prepend">
                                 <input type="file" wire:model="photo_principale"/>
+                                <img style="max-width: 10%;" alt="Pic" src="{{ Storage::url($photo_principalea)}}"/>
 
                             </div>
                             @error('photo') <span class="error">{{ $message }}</span> @enderror
                         </div>
-                        <div class="form-group col-md-6">
+
+                        <div class="form-group col-md-6" >
                             <label><b>{{ __('Autres Photos') }}</b></label>
                             <div class="input-group input-group-prepend">
                                 <input type="file" wire:model="photos" multiple/>
+                                @foreach ($iteme as $key => $item)
+                                {{-- @php dd($item->photos) @endphp --}}
+                                <img style="max-width: 10%;" alt="Pic" src="{{ Storage::url($item->photo) }}"/>
+                                @endforeach
                             </div>
                         </div>
+
                         <div class="form-group col-md-6 row">
                             <label
                                 class="col-8 col-form-label">{{ __('Activé / Désactivé le produit') }}</label>
@@ -371,6 +407,84 @@
                     </div>
                 </div>
 
+            </div>
+        </div>
+    </div>
+    <!--Modal-Tranches-->
+
+    <div class="modal secondary fade" id="tranchese" data-backdrop="static" tabindex="-1"
+    role="dialog" aria-labelledby="tranches" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ __('Nouvelle tranche') }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="tranchess-form" class="form" wire:submit.prevent="createTranches">
+                        <div x-data="{ open: false }">
+                            <div x-data="{'showPoids': @entangle('showPoids')}">
+                                <div class="row" x-show="showPoids">
+
+                                    <div class="form-group col-md-6">
+                                        <div class="input-group input-group-prepend">
+                                            <div class="input-group-prepend"><span
+                                                    class="input-group-text"><i
+                                                        class="fa fa-sliders-h icon-lg"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder=" "
+                                                    wire:model.defer="minPoids"/>
+                                            <label>{{ __('Poids Minimal') }}</label>
+                                        </div>
+                                        @error('minPoids')
+                                        <span class="form-text text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <div class="input-group input-group-prepend">
+                                            <div class="input-group-prepend"><span
+                                                    class="input-group-text"><i
+                                                        class="fa fa-sliders-h icon-lg"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder=" "
+                                                    wire:model.defer="maxPoids"/>
+                                            <label>{{ __('Poids Maximal') }}</label>
+                                        </div>
+                                        @error('maxPoids')
+                                        <span class="form-text text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <div x-data="{'showKgPiece': @entangle('showKgPiece')}">
+                                <div x-show="showKgPiece">
+                                    <div class="form-group">
+                                        <div class="input-group input-group-prepend">
+                                            <div class="input-group-prepend"><span
+                                                    class="input-group-text"><i
+                                                        class="fa fa-weight-hanging icon-lg"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder=" "
+                                                wire:model.defer="nomTranche"/>
+                                            <label>{{ __('Kg/Pièce') }}</label>
+                                        </div>
+                                        @error('nomTranche')
+                                        <span class="form-text text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light-primary font-weight-bold"
+                            data-dismiss="modal">{{ __('Fermer') }}</button>
+                    <button type="submit" class="btn btn-primary font-weight-bold"
+                            form="tranchess-form">{{ __('Enregistrer') }}</button>
+                </div>
             </div>
         </div>
     </div>

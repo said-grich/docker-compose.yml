@@ -35,7 +35,7 @@ class Produits extends Component
     public $code_analytique;
 
     public $mode_vente;
-    public $mode_cuisine;
+    public $mode_cuisine = [];
     public $list_cuisine = [];
     public $mode_nettoyage = [];
     public $list_nettoyage = [];
@@ -55,6 +55,10 @@ class Produits extends Component
     public $nomTranche;
     public $showPoids = false;
     public $showKgPiece = false;
+    public $nomUnite;
+    public $nomFamille;
+    public $mode_vente_name;
+
 
 
     public function updatedModeVente($value){
@@ -78,7 +82,9 @@ class Produits extends Component
     //     $mode = ModePreparation::find($value);
     //     $this->list_preparations = $mode->preparations;
     // }
+   /*  protected $rules = [
 
+    ]; */
 
     public function updatedPhoto()
     {
@@ -100,6 +106,37 @@ class Produits extends Component
         $this->list_familles = Famille::all()->sortBy('nom');
        /*  $p = Produit::where('id',1)->first(); */
         // dd($p->preparations->first()->preparation->nom);
+
+    }
+    public function createModeVente()
+    {
+
+        $item = new ModeVente();
+        $item->nom = $this->mode_vente_name;
+        $item->save();
+
+        $this->reset(['mode_vente_name']);
+    }
+
+    public function createFamilles()
+    {
+
+        $item = new Famille();
+        $item->nom = $this->nomFamille;
+
+        $item->save();
+
+        $this->reset(['nomFamille']);
+    }
+
+    public function createUnites()
+    {
+        $item = new Unite();
+        $item->nom = $this->nomUnite;
+        $item->save();
+
+        //$this->list_unite = Unite::get();
+        $this->reset(['nomUnite']);
 
     }
 
@@ -139,8 +176,8 @@ class Produits extends Component
         //$this->validate();
 
         DB::transaction(function () {
-
-            $photo_principale = $this->photo_principale->storeAs('public/produits/' . $this->nom . '/principale', date("Y-m-d") . "-" . $this->nom . "." . $this->photo_principale->guessExtension());
+            // if ( $this->photo_principale != null) {
+                $photo_principale = $this->photo_principale->storeAs('public/produits/' . $this->nom . '/principale', date("Y-m-d") . "-" . $this->nom . "." . $this->photo_principale->guessExtension());
 
             $paths = [];
             foreach ($this->photos as $key => $photo) {
@@ -171,10 +208,12 @@ class Produits extends Component
                 ]);
             }
 
-            PreparationType::create([
-                'produit_id' => $item->id,
-                'preparation_id' => $this->mode_cuisine,
-            ]);
+            foreach ($this->mode_cuisine as $key => $value) {
+                PreparationType::create([
+                    'produit_id' => $item->id,
+                    'preparation_id' => $this->mode_cuisine[$key],
+                ]);
+            }
 
             foreach ($this->mode_nettoyage as $key => $value) {
                 PreparationType::create([

@@ -19,18 +19,7 @@ class ListeModesPaiement extends Component
 
     public $modepaiment_id;
     public $nom;
-    public function render()
-    {
-        $items = ModePaiement::query()
-        ->where('nom','ilike','%'.$this->search.'%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
 
-        return view('livewire.parametrage.liste-modes-paiement',[
-            'items'=> $items
-        ]);
-
-    }
     public function sortBy($field)
     {
         if ($this->sortDirection == 'asc') {
@@ -71,9 +60,22 @@ class ListeModesPaiement extends Component
 
     }
 
+    public function render()
+    {
+        $items = ModePaiement::query()
+        ->where('nom','ilike','%'.$this->search.'%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
+
+        return view('livewire.parametrage.liste-modes-paiement',[
+            'items'=> $items
+        ]);
+
+    }
+
     public function saved()
     {
-        $this->render();
+        return  $this->render();
     }
 
 

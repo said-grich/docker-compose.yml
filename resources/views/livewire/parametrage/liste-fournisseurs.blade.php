@@ -1,4 +1,9 @@
 <div class="table-responsive">
+
+    <!--begin::Alerts-->
+    @include('layouts.partials.alerts')
+    <!--end::Alerts-->
+
     <div class="d-flex flex-row-reverse">
         <div class="input-icon">
             <input wire:model.debounce.300ms="search" class="form-control" type="text" placeholder="Search...">
@@ -41,11 +46,46 @@
                     </td>
                     <td class="pl-0">
                         @if (!($item->contacts)->isEmpty())
-                            <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#contacts">{{ __('Contacts') }}</button>
+                            {{-- <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#contacts">{{ __('Contacts') }}</button> --}}
+                            <div x-data="{ 'isDialogOpen': false }" @keydown.escape="isDialogOpen = false">
+                                <button class="btn btn-primary font-weight-bold btn-pill" @click="isDialogOpen = true">{{ __('Contacts') }}</button>
+                                <div class="overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="isDialogOpen" :class="{ 'absolute inset-0 z-10 flex items-start justify-center': isDialogOpen }">
+                                    <div class="bg-white shadow-2xl m-auto w-7/12" x-show="isDialogOpen" @click.away="isDialogOpen = false">
+                                        <div class="flex align-middle justify-between items-center border-b p-2 text-xl">
+                                            <h5 class="modal-title">{{ __('Contacts associés au fournisseur') }} <span class="label label-primary label-lg label-inline mr-2">{{ $item->nom }}</span> </h5>
+                                            <button type="button" @click="isDialogOpen = false">✖</button>
+                                        </div>
+                                        <div class="p-2 row">
 
+                                            <div class="col-lg-12">
+                                                <table class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Nom</th>
+                                                            <th scope="col">Fonction</th>
+                                                            <th scope="col">Téléphone</th>
+                                                            <th scope="col">Email</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($item->contacts as $contact)
+                                                            <tr>
+                                                                <td>{{ $contact->nom}}</td>
+                                                                <td>{{ $contact->fonction}}</td>
+                                                                <td>{{ $contact->tel }}</td>
+                                                                <td>{{ $contact->email }}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         @endif
 
-                        <!--Modal-->
+                        {{-- <!--Modal-->
                         <div wire:ignore.self class="modal fade" id="contacts" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="contacts" aria-hidden="true">
                             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                 <div class="modal-content">
@@ -68,9 +108,6 @@
                                             <tbody>
                                                 @foreach ($item->contacts as $contact)
                                                     <tr>
-                                                        @php
-                                                            dd($contact->nom);
-                                                        @endphp
                                                         <td>{{ $contact->nom}}</td>
                                                         <td>{{ $contact->fonction}}</td>
                                                         <td>{{ $contact->tel }}</td>
@@ -85,7 +122,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
+
+
                     </td>
                     <td class="pr-0 text-right">
                         <a  href="#" wire:click="edit({{$item->id}})" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" data-toggle="modal" data-target="#edit1">
@@ -125,7 +164,7 @@
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{ __('Modification famille') }}</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{ __('Fiche Fournisseur') }}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i aria-hidden="true" class="ki ki-close"></i>
                     </button>

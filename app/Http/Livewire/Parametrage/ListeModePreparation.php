@@ -20,18 +20,7 @@ class ListeModePreparation extends Component
     public $search = '';
     protected $listeners = ['saved'];
 
-    public function render()
-    {
-        $items = ModePreparation::query()
-        ->where('nom','ilike','%'.$this->search.'%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
 
-        return view('livewire.Parametrage.liste-mode-preparation',[
-            'items'=> $items
-        ]);
-
-    }
     public function sortBy($field)
     {
         if ($this->sortDirection == 'asc') {
@@ -58,6 +47,7 @@ class ListeModePreparation extends Component
             ]);
 
         session()->flash('message', 'Mode préparation "'.$this->nom.'" à été modifié');
+          $this->emit('saved');
     }
 
     public function deleteModePreparation($id)
@@ -69,12 +59,23 @@ class ListeModePreparation extends Component
         session()->flash('message', 'Le mode de préparation "'.$mode->nom.'" à été supprimée');
 
 
-        return redirect()->to('/preparations');
+        //return redirect()->to('/preparations');
 
     }
 
 
+    public function render()
+    {
+        $items = ModePreparation::query()
+        ->where('nom','ilike','%'.$this->search.'%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
 
+        return view('livewire.parametrage.liste-mode-preparation',[
+            'items'=> $items
+        ]);
+
+    }
     public function saved()
     {
         $this->render();

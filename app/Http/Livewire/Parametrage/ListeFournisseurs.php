@@ -21,17 +21,7 @@ class ListeFournisseurs extends Component
     public $nom;
     public $tel;
 
-    public function render()
-    {
-        $fournisseur = Fournisseur::query()
-        ->where('nom','ilike','%'.$this->search.'%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
 
-        return view('livewire.Parametrage.liste-fournisseurs',[
-            'fournisseur'=> $fournisseur
-        ]);
-    }
     public function sortBy($field)
     {
         if ($this->sortDirection == 'asc') {
@@ -42,7 +32,7 @@ class ListeFournisseurs extends Component
 
         return $this->sortBy = $field;
     }
-   
+
     public function edit($id){
 
         $item = Fournisseur::where('id',$id)->firstOrFail();
@@ -74,6 +64,7 @@ class ListeFournisseurs extends Component
             ]);
 
         session()->flash('message', 'Fournisseur "'.$this->nom.'" à été modifiée');
+        $this->emit('saved');
     }
 
     public function deleteFournisseur($id)
@@ -88,10 +79,21 @@ class ListeFournisseurs extends Component
         //return redirect()->to('/familles');
 
     }
+    public function render()
+    {
+        $fournisseur = Fournisseur::query()
+        ->where('nom','ilike','%'.$this->search.'%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
+
+        return view('livewire.parametrage.liste-fournisseurs',[
+            'fournisseur'=> $fournisseur
+        ]);
+    }
 
     public function saved()
     {
-        $this->render();
+        return   $this->render();
     }
 
 

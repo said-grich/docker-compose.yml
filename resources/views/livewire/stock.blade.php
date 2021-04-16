@@ -156,10 +156,11 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        @if (session()->has('poid'))
-                                            <div class="alert alert-custom alert-light-success shadow fade show mb-5" role="alert">
-                                                <div class="alert-icon"><i class="flaticon-interface-10"></i></div>
-                                                <div class="alert-text">{{ session('poid') }}</div>
+
+                                        @if (session()->has('error-lot'))
+                                            <div class="alert alert-custom alert-light-danger shadow fade show mb-5" role="alert">
+                                                <div class="alert-icon"><i class="fa fa-times-circle"></i></div>
+                                                <div class="alert-text">{{ session('error-lot') }}</div>
                                                 <div class="alert-close">
                                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                                         <span aria-hidden="true"><i class="ki ki-close"></i></span>
@@ -167,7 +168,7 @@
                                                 </div>
                                             </div>
                                         @endif
-                                        <form id="stock-form" class="form row" wire:submit.prevent="createStock" {{-- wire:submit.prevent="createLots" --}}>
+                                        <form id="lot-form" class="form row" wire:submit.prevent="createStock" {{-- wire:submit.prevent="createLots" --}}>
                                             <div class="form-group col">
                                                 <label>{{ __('Réf. bon de réception') }}</label>
                                                 <div class="input-group input-group-prepend">
@@ -247,7 +248,7 @@
                                                         <th class="pl-0">Unité</th>
                                                         <th class="pl-0">Prix Achat</th>
                                                         <th class="pl-0">Lot</th>
-                                                        <th class="pl-0">Qualité</th>
+                                                        <th class="pl-0">Qualité produit</th>
                                                         <th class="pl-0">Pas</th>
                                                         <th class="pl-0">Tranches</th>
                                                     </tr>
@@ -865,17 +866,6 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    {{--@if (session()->has('poid'))
-                        <div class="alert alert-custom alert-light-success shadow fade show mb-5" role="alert">
-                            <div class="alert-icon"><i class="flaticon-interface-10"></i></div>
-                            <div class="alert-text">{{ session('') }}</div>
-                            <div class="alert-close">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true"><i class="ki ki-close"></i></span>
-                                </button>
-                            </div>
-                        </div>
-                    @endif--}}
                     @if (session()->has('erreur'))
                         <div class="alert alert-custom alert-light-danger shadow fade show mb-5" role="alert">
                             <div class="alert-icon"><i class="flaticon-interface-10"></i></div>
@@ -1117,7 +1107,6 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
-                        <button type="submit" class="btn btn-primary font-weight-bold" form="stock-form">{{ __('Enregistrer') }}</button>
                     </div>
                 </div>
             </div>

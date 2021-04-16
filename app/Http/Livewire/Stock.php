@@ -177,6 +177,14 @@ class Stock extends Component
 
      public function setCodePoids($i){
         //$this->reset(['code','poids']);
+
+
+
+        $this->validate([
+            'nbr_pc' => 'required',
+        ]);
+
+
         $this->details_index = $i;
         $this->nom_produit =$this->produit[$i];
         $this->count_rows = $this->details[$i];
@@ -195,7 +203,7 @@ class Stock extends Component
             $p_tranche[$key][$k] = Tranche::where('uid', $val)->get()->toArray()[0];
 
         }
-        
+
         foreach ($this->code_poids[$key] as $code => $poids) {
             foreach($p_tranche[$key] as $keyT=>$valueT){
                 if($poids['poids']>= $valueT[$keyT]['min_poids'] && $poids['poids']<$valueT[$keyT]['max_poids']){
@@ -252,7 +260,30 @@ class Stock extends Component
         }
     }
 
+<<<<<<< HEAD
 
+=======
+    public function updatedLotNum($value,$index){
+
+        if (ModelsStock::where('produit_id', $this->produit[$index])->where('lot_num', $value)->exists() ) {
+            session()->flash('error-lot', 'Lot déja exist');
+        }
+        //dd($value,$index, $this->produit[$index]);
+    }
+
+    public function saveCodePoids(){
+       // $produit = Produit::query()->get();
+        $produit_tranche = ProduitTranche::with('produit')->get();
+        foreach($produit_tranche as $val){
+            $tranche = Tranche::where('uid',$val->tranche_id)->where('type',"Poids par pièce")->get();
+        }
+        // dd($produit_tranche);
+        foreach ($this->code as $key => $value) {
+            $code_poids[$value] = array( 'poids' =>$this->poids[$key], 'qualite' =>  $this->qualite_piece[$key]);
+            $this->code_poids[$this->details_index] = $code_poids;
+        }
+     }
+>>>>>>> 6068f3a0be8224359c6efe8184fc606d3386333d
     public function createStock(){
 
         DB::transaction(function () {

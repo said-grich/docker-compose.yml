@@ -21,7 +21,7 @@ class CreateProduitTranchesTable extends Migration
             $table->string('tranche_id');
             $table->foreign('tranche_id')->references('uid')->on('tranches')->onDelete('cascade')->onUpdate('cascade');
 
-            $table->foreign('produit_id')->references('id')->on('produits');
+            $table->foreign('produit_id')->references('id')->on('produits')->onDelete('cascade')->onUpdate('cascade');
             //$table->foreign('tranche_id')->references('id')->on('tranches');
             $table->timestamps();
         });

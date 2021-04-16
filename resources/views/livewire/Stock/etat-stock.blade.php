@@ -51,9 +51,10 @@
                                                     <span></span>
                                                 </label>
                                             </th>
-                                            <th class="pl-0" wire:click="sortBy('lot_num')" style="cursor: pointer;">Numéro de lot @include('layouts.partials._sort-icon',['field'=>'lot_num'])</th>
                                             <th class="pl-0" wire:click="sortBy('produit_id')" style="cursor: pointer;">Produit @include('layouts.partials._sort-icon',['field'=>'produit_id'])</th>
+                                            <th class="pl-0" wire:click="sortBy('lot_num')" style="cursor: pointer;">Numéro de lot @include('layouts.partials._sort-icon',['field'=>'lot_num'])</th>
                                             <th class="pl-0" wire:click="sortBy('tranche_id')" style="cursor: pointer;">Tranche @include('layouts.partials._sort-icon',['field'=>'tranche_id'])</th>
+                                            <th class="pl-0" wire:click="sortBy('created_at')" style="cursor: pointer;">Date d'entrée @include('layouts.partials._sort-icon',['field'=>'created_at'])</th>
                                             <th class="pl-0" wire:click="sortBy('code')" style="cursor: pointer;">Code @include('layouts.partials._sort-icon',['field'=>'code'])</th>
                                             <th class="pl-0" wire:click="sortBy('poids')" style="cursor: pointer;">Poids @include('layouts.partials._sort-icon',['field'=>'poids'])</th>
                                             <th class="pl-0" wire:click="sortBy('qte')" style="cursor: pointer;">Quantité initiale @include('layouts.partials._sort-icon',['field'=>'qte'])</th>
@@ -64,7 +65,7 @@
                                             <th class="pl-0" wire:click="sortBy('prix_n')" style="cursor: pointer;">Prix client normal @include('layouts.partials._sort-icon',['field'=>'prix_n'])</th>
                                             <th class="pl-0" wire:click="sortBy('prix_f')" style="cursor: pointer;">Prix client fidèle @include('layouts.partials._sort-icon',['field'=>'prix_f'])</th>
                                             <th class="pl-0" wire:click="sortBy('prix_p')" style="cursor: pointer;">Prix client business @include('layouts.partials._sort-icon',['field'=>'prix_p'])</th>
-                                            <th class="pl-0" wire:click="sortBy('depot_id')" style="cursor: pointer;">Depot @include('layouts.partials._sort-icon',['field'=>'depot_id'])</th>
+                                            <th class="pl-0" wire:click="sortBy('depot_id')" style="cursor: pointer;">Dépôt @include('layouts.partials._sort-icon',['field'=>'depot_id'])</th>
                                             <th class="pl-0" wire:click="sortBy('br_num')" style="cursor: pointer;">Numéro BR @include('layouts.partials._sort-icon',['field'=>'br_num'])</th>
                                             <th class="pr-0 text-right" style="min-width: 160px">Actions</th>
                                         </tr>
@@ -85,6 +86,9 @@
                                                 </td>
                                                 <td class="pl-0">
                                                     <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->tranche->nom }}</a>
+                                                </td>
+                                                <td class="pl-0">
+                                                    <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->created_at->format('d-m-Y') }}</a>
                                                 </td>
                                                 <td class="pl-0">
                                                     <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">

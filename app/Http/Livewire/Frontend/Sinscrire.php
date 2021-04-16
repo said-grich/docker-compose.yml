@@ -7,7 +7,11 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use Livewire\Component;
 
+<<<<<<< HEAD
 //require '../vendor/autoload.php';
+=======
+// require '../vendor/autoload.php';
+>>>>>>> 6068f3a0be8224359c6efe8184fc606d3386333d
 
 class Sinscrire extends Component{
     public $form = [

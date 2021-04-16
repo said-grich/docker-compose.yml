@@ -45,6 +45,7 @@ class ListeCommandesLivrees extends Component
     public $date_prete;
     public $date_expedition;
     public $date_livree;
+    public $montant_total_a_payer ;
 
 
 
