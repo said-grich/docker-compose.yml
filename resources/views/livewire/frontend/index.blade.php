@@ -207,7 +207,7 @@
 			<div class="divider"></div>
 			<div class="row">
 				<div class="col-md-4">
-					<a href="{{ route('boutique') }}">
+					<a href="{{ route('boutique', ['cat' => '2']) }}">
 						<div class="card">
 							<div class="card-img">
 								<img src="https://www.mareebleue.net/site/images/normal/20161018083953jpg_5921497513dcc.jpg" alt="Post"/>
@@ -223,7 +223,7 @@
 					</a>
 				</div>
 				<div class="col-md-4">
-					<a href="{{ route('boutique') }}">
+					<a href="{{ route('boutique', ['cat' => '1']) }}">
 						<div class="card">
 							<div class="card-img">
 								<img src="https://www.ice-shop.be/guide/wp-content/uploads/2016/02/Bouquet-de-poisson-congel-cru-sur-la-glace-Ice-shop.jpg" alt="Post"/>
@@ -236,7 +236,7 @@
 					</a>
 				</div>
 				<div class="col-md-4">
-					<a href="{{ route('boutique') }}">
+					<a href="{{ route('boutique', ['cat' => '3']) }}">
 						<div class="card">
 							<div class="card-img">
 								<img src="img/epicerie-flouka1.jpg" alt="Post"/>

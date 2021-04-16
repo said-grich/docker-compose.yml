@@ -178,15 +178,68 @@ class Stock extends Component
      public function setCodePoids($i){
         //$this->reset(['code','poids']);
 
+
+
         $this->validate([
             'nbr_pc' => 'required',
         ]);
+
 
         $this->details_index = $i;
         $this->nom_produit =$this->produit[$i];
         $this->count_rows = $this->details[$i];
      }
 
+    public function saveCodePoids(){
+
+
+        foreach ($this->code as $key => $value) {
+            $code_poids[$value] = array( 'poids' =>$this->poids[$key], 'qualite' =>  $this->qualite_piece[$key]);
+            $this->code_poids[$this->details_index] = $code_poids;
+        }
+        $p_tranche = [];
+
+        foreach($this->tranches[$key] as $k=>$val){
+            $p_tranche[$key][$k] = Tranche::where('uid', $val)->get()->toArray()[0];
+
+        }
+
+        foreach ($this->code_poids[$key] as $code => $poids) {
+            foreach($p_tranche[$key] as $keyT=>$valueT){
+                if($poids['poids']>= $valueT[$keyT]['min_poids'] && $poids['poids']<$valueT[$keyT]['max_poids']){
+
+                  //  break;
+                }
+                else{
+                session()->push('erreur', 'Ce poid ' .$poids['poids']. ' n\'appartient pas à l\'intervalle [' .$valueT[$keyT]['nom'] . ']');
+                   // break;
+                }
+                //dd($valueT);
+            }
+        }
+
+    }
+
+        /*foreach($produit as $value){
+            $produit_tranche = ProduitTranche::where('produit_id',$value->id)->get();
+            foreach($produit_tranche as $key=>$val){
+                $tranche[$key] = Tranche::where('uid',$val->tranche_id)->get()->toArray();
+                foreach ((array)$this->code[key] as $key => $value) {
+                    dd($value);
+                    foreach($tranche[$key] as $keyT=>$valueT){
+
+                        if($value['poids']>=$valueT['min_poids'] && $value['poids']<$valueT['max_poids']){
+                            $code_poids[$value] = array( 'poids' =>$this->poids[$key], 'qualite' =>  $this->qualite_piece[$key]);
+                            $this->code_poids[$this->details_index] = $code_poids;
+                        }else{
+                            session()->flash('alert', 'Ce poid "' . $this->poids .'" n\'appartient pas à l\'intervalle "'.$this->tranche.'"');
+                        }
+                    }
+               }
+            }
+        }
+      //  dd($tranche);*/
+    // }
 
 
 
@@ -207,6 +260,9 @@ class Stock extends Component
         }
     }
 
+<<<<<<< HEAD
+
+=======
     public function updatedLotNum($value,$index){
 
         if (ModelsStock::where('produit_id', $this->produit[$index])->where('lot_num', $value)->exists() ) {
@@ -227,6 +283,7 @@ class Stock extends Component
             $this->code_poids[$this->details_index] = $code_poids;
         }
      }
+>>>>>>> 6068f3a0be8224359c6efe8184fc606d3386333d
     public function createStock(){
 
         DB::transaction(function () {
@@ -291,17 +348,17 @@ class Stock extends Component
 
                         foreach ($this->code_poids[$key] as $code => $poids) {
                             foreach ($lot_tranche[$key] as $keyT => $valueT) {
-                                if ($poids['poids'] >= $valueT['min_poids'] && $poids['poids'] < $valueT['max_poids']) {
+                                //if ($poids['poids'] >= $valueT['min_poids'] && $poids['poids'] < $valueT['max_poids']) {
 
                                     LotTranche::where('lot_num', $this->lot_num[$key])->where('tranche_id', $valueT['uid'])->update(['qte' => DB::raw('qte + 1')]);
 
                                     $item = new ModelsStock();
                                     $item->type = $produit->modeVente->nom;
                                     $item->qte = 1;
-                                    $item->qte_restante = 1;
                                     $item->lot_num = $this->lot_num[$key];
                                     $item->produit_id = $this->produit[$key];
                                     $item->categorie_id = $this->categorie[$key];
+                                    $item->qte_restante = 1;
                                     $item->sous_categorie_id = $this->sous_categorie[$key];
                                     $item->br_num = $this->ref_br;
                                     $item->depot_id = $this->depot;
@@ -319,7 +376,7 @@ class Stock extends Component
                                     $item->qte_vendue = 0;
                                     $item->save();
 
-                                }
+                               // }
                             }
                         }
                     }
@@ -726,11 +783,11 @@ public $list_piece = [];
         foreach ($this->liste_poids_pc as $key => $value) {
             $this->lot_num[$key] =$value->lot_num;
             $this->produit_id[$key]  =$value->produit->id;
-            $this->article[$key]  =$value->produit->id;
+            $this->article[$key]  =$value->produit->nom;
             $this->list_piece = ProduitTranche::where('produit_id',$this->produit_id[$key])->join('tranches','tranches.uid','=','produit_tranches.tranche_id')->get('tranches.*');
             $this->uid_tranche[$key] = $value->tranche_id;
-            $this->categorie[$key]  =$value->categorie->id;
-            $this->sous_categorie[$key]  =$value->sousCategorie->id;
+            $this->categorie[$key]  =$value->categorie->nom;
+            $this->sous_categorie[$key]  =$value->sousCategorie->nom;
             $this->poids[$key] = $value->poids;
             $this->code[$key] = $value->code;
             $this->qualite[$key]  =$value->qualite->id;
@@ -744,12 +801,12 @@ public $list_piece = [];
             $this->id_kg_pc[$k] = $v->id;
             $this->lot_num_kg_pc[$k] =$v->lot_num;
             $this->produit_id_kg_pc[$k]  =$v->produit->id;
-            $this->article_kg_pc[$k]  =$v->produit->id;
+            $this->article_kg_pc[$k]  =$v->produit->nom;
             $this->list = ProduitTranche::where('produit_id', $this->produit_id_kg_pc[$k])->join('tranches','tranches.uid','=','produit_tranches.tranche_id')->get('tranches.*');
             $this->uid_tranche_kg_pc[$k] = $v->tranche_id;
             $this->prix_achat_kg_pc[$k] = $v->prix_achat;
-            $this->categorie_kg_pc[$k] = $v->categorie->id;
-            $this->sous_categorie_kg_pc[$k] = $v->sousCategorie->id;
+            $this->categorie_kg_pc[$k] = $v->categorie->nom;
+            $this->sous_categorie_kg_pc[$k] = $v->sousCategorie->nom;
             $this->qualite_kg_pc[$k] = $v->qualite->id;
             $this->qte_kg_pc[$k] = $v->qte;
             $this->pas_kg_pc[$k] = $v->pas;
@@ -795,11 +852,16 @@ public $list_piece = [];
         }
 
     }
-    public function delete($id){
+    public $refBeingRemoved = null;
+    public function confirmationRemove($ref){
+        $this->refBeingRemoved = $ref;
+        $this->dispatchBrowserEvent('show-delete-modal');
+    }
+    public function delete(){
 
         $this->render();
 
-        $recep = BonReception::findOrFail($id);
+        $recep = BonReception::findOrFail($this->refBeingRemoved);
         $bon_recep = BonReception::where('ref',$recep->ref)->get();
         foreach($bon_recep as $r){
             DB::table('bon_reception_lignes')->where('bon_reception_ref', $r->bon_reception_ref)->delete();

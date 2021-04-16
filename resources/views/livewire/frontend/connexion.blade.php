@@ -19,29 +19,23 @@
 					Connexion
 				</header>
 				<div class="card-block">
+                    {{-- Start Alert --}}
+                    @include('layouts.frontend.partials.alerts')
+                    {{-- End Alert --}}
                     <form class="form" wire:submit.prevent='submit'>
                         <div class="row">
                             <div class="form-group col-md-4 offset-md-4">
                                 <div class="form-control-wrapper form-control-icon-right">
-                                    <input type="email" class="form-control" id="email" placeholder="E-Mail" wire:model="form.email">
-                                    <i class="fa fa-envelope"></i>
+                                    <input type="email" class="form-control" id="email" placeholder="E-Mail ou Téléphone" wire:model.defer="form.email">
+                                    <i class="fa fa-user-circle"></i>
                                 </div>
                                 @error('form.email')
                                     <small class="form-text text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
-                            {{-- <div class="form-group col-md-4 offset-md-4">
-                                <div class="form-control-wrapper form-control-icon-right">
-                                    <input type="tel" class="form-control flex-grow-1" id="phone" placeholder="Téléphone" wire:model="form.tel">
-                                    <i class="fa fa-phone-alt"></i>
-                                </div>
-                                @error('form.tel')
-                                    <small class="form-text text-danger">{{ $message }}</small>
-                                @enderror
-                            </div> --}}
                             <div class="form-group col-md-4 offset-md-4">
                                 <div class="form-control-wrapper form-control-icon-right">
-                                    <input type="password" class="form-control" id="password" placeholder="Mot de Passe" wire:model="form.password">
+                                    <input type="password" class="form-control" id="password" placeholder="Mot de Passe" wire:model.defer="form.password">
                                     <i class="fa fa-key"></i>
                                 </div> 
                                 @error('form.password')

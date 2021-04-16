@@ -19,11 +19,14 @@
 					S'inscrire
 				</header>
 				<div class="card-block">
+                    {{-- Start Alert --}}
+                    @include('layouts.frontend.partials.alerts')
+                    {{-- End Alert --}}
                     <form class="form" wire:submit.prevent='submit'>
                         <div class="row">
                             <div class="form-group col-md-4 offset-md-4">
                                 <div class="form-control-wrapper form-control-icon-right">
-                                    <input type="text" class="form-control" id="name" placeholder="Nom et Prénom" wire:model="form.name">
+                                    <input type="text" class="form-control" id="name" placeholder="Nom et Prénom" wire:model.defer="form.name">
                                     <i class="fa fa-user-circle"></i>
                                 </div>
                                 @error('form.name')
@@ -32,7 +35,7 @@
                             </div>
                             <div class="form-group col-md-4 offset-md-4">
                                 <div class="form-control-wrapper form-control-icon-right">
-                                    <input type="email" class="form-control" id="email" placeholder="E-Mail" wire:model="form.email">
+                                    <input type="email" class="form-control" id="email" placeholder="E-Mail" wire:model.defer="form.email">
                                     <i class="fa fa-envelope"></i>
                                 </div>
                                 @error('form.email')
@@ -41,7 +44,7 @@
                             </div>
                             <div class="form-group col-md-4 offset-md-4">
                                 <div class="form-control-wrapper form-control-icon-right">
-                                    <input type="tel" class="form-control flex-grow-1" id="phone" placeholder="Téléphone" wire:model="form.tel">
+                                    <input type="tel" class="form-control flex-grow-1" id="phone" placeholder="Téléphone" wire:model.defer="form.tel">
                                     <i class="fa fa-phone-alt"></i>
                                 </div>
                                 @error('form.tel')

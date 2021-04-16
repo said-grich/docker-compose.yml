@@ -50,6 +50,8 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                {{--<p>selected Item: {{$selectedItem}}</p>
+                                <p>Action : {{ $action }}</p>--}}
                                 @if (!empty($items))
 
                                     @foreach ($items as $item)
@@ -98,7 +100,7 @@
                                                         {{--end::Svg Icon--}}
                                                     </span>
                                                 </a>
-                                                <a href="#" class="btn btn-icon btn-light btn-hover-primary btn-sm" wire:click="delete('{{$item->id}}')">
+                                                <a href="#" class="btn btn-icon btn-light btn-hover-primary btn-sm" wire:click.prevent="confirmationRemove('{{$item->id}}')" data-toggle="modal" data-target="#confirmationRemove">
                                                     <span class="svg-icon svg-icon-md svg-icon-primary">
                                                         {{--begin::Svg Icon--}}
                                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -122,6 +124,28 @@
                             </tbody>
                         </table>
                         {{ $items->links('layouts.partials.custom-pagination') }}
+                         <!--Delete Modal-->
+                        <div wire:ignore.self class="modal secondary fade" id="confirmationRemove" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="confirmationRemove" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">{{ __('Suppression d\'entrée stock réf') }} - {{$bon_reception_ref}}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <i aria-hidden="true" class="ki ki-close"></i>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="delete-form" class="form row"  >
+                                            <h3>Etes-vous sûr de vouloir supprimer ce {{$bon_reception_ref}}?</h3>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
+                                        <button type="submit" wire:click.prevent = "delete()" class="btn btn-primary font-weight-bold" form="delete-form">{{ __('Supprimer') }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div wire:ignore.self class="modal fade" id="lot" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="lot" aria-hidden="true">
                             <div class="modal-dialog modal-xxl modal-dialog-centered" role="document">
                                 <div class="modal-content">
@@ -132,6 +156,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
+
                                         @if (session()->has('error-lot'))
                                             <div class="alert alert-custom alert-light-danger shadow fade show mb-5" role="alert">
                                                 <div class="alert-icon"><i class="fa fa-times-circle"></i></div>
@@ -403,6 +428,13 @@
                                                                 @enderror
                                                                 </div>
                                                             </td>
+                                                            {{--<td class="pl-0">
+                                                                <div class="col-md-1">
+                                                                    <div class="form-group">
+                                                                        <button type="button" class="btn btn-outline-danger"  wire:click.prevent="remove({{$key}})">X</button>
+                                                                    </div>
+                                                                </div>
+                                                            </td>--}}
                                                         </tr>
                                                             @endif
                                                         @endforeach
@@ -823,59 +855,76 @@
     </div>
 
 
-        <div wire:ignore.self class="modal secondary fade" id="code-poids" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="unite" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Désignation Code / poids') }}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <i aria-hidden="true" class="ki ki-close"></i>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="poids-form" class="form" wire:submit.prevent="saveCodePoids">
-                            {{--  <input type="text" class="form-control" placeholder=" " wire:model="details_index"/> --}}
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Code</th>
-                                        <th scope="col">Poids</th>
-                                        <th scope="col">Qualité piéce</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @for ($i = 0; $i < $count_rows; $i++)
-                                    <tr>
-                                        <td>
-                                            <input type="text" class="form-control" placeholder=" " wire:model.defer="code.{{$i}}"/>
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control" placeholder=" " wire:model.defer="poids.{{$i}}"/>
-                                        </td>
-                                        <td>
-                                            <select class="form-control" wire:model.defer="qualite_piece.{{$i}}">
-                                                <option>{{ __('Choisir une qualite') }}</option>
-                                                @foreach ($list_qualites as $item)
-                                                    <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                @endforeach
-                                            </select>
-                                            {{-- <input type="text" class="form-control" placeholder=" " wire:model.defer="qualite_piece.{{$i}}"/> --}}
-                                        </td>
-                                    </tr>
-                                    @endfor
 
-                                </tbody>
-                            </table>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
-                        <button type="submit" class="btn btn-primary font-weight-bold" form="poids-form">{{ __('Enregistrer') }}</button>
-                    </div>
+    <div wire:ignore.self class="modal secondary fade" id="code-poids" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="code-poids" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ __('Désignation Code / poids') }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @if (session()->has('erreur'))
+                        <div class="alert alert-custom alert-light-danger shadow fade show mb-5" role="alert">
+                            <div class="alert-icon"><i class="flaticon-interface-10"></i></div>
+                            <div class="alert-text">
+                                @foreach (session('erreur') as $erreur)
+                                {{ $erreur }}<br>
+                                @endforeach
+                            </div>
+                            <div class="alert-close">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true"><i class="ki ki-close"></i></span>
+                                </button>
+                            </div>
+                        </div>
+                        @php session()->forget('erreur'); @endphp
+                    @endif
+                    <form id="poids-form" class="form" wire:submit.prevent="saveCodePoids">
+                        {{--  <input type="text" class="form-control" placeholder=" " wire:model="details_index"/> --}}
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Code</th>
+                                    <th scope="col">Poids</th>
+                                    <th scope="col">Qualité</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for ($i = 0; $i < $count_rows; $i++)
+                                <tr>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder=" " wire:model.defer="code.{{$i}}"/>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder=" " wire:model.defer="poids.{{$i}}"/>
+                                    </td>
+                                    <td>
+                                        <select class="form-control" wire:model.defer="qualite_piece.{{$i}}">
+                                            <option>{{ __('Choisir une qualite') }}</option>
+                                            @foreach ($list_qualites as $item)
+                                                <option value="{{$item->id }}">{{$item->nom }}</option>
+                                            @endforeach
+                                        </select>
+                                        {{-- <input type="text" class="form-control" placeholder=" " wire:model.defer="qualite_piece.{{$i}}"/> --}}
+                                    </td>
+                                </tr>
+                                @endfor
+
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
+                    <button type="submit" class="btn btn-primary font-weight-bold" form="poids-form">{{ __('Enregistrer') }}</button>
                 </div>
             </div>
         </div>
-
+    </div>
         {{-- Show Modal --}}
         <div wire:ignore.self class="modal fade" id="show" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="show" aria-hidden="true">
             <div class="modal-dialog modal-xxl modal-dialog-centered" role="document">
@@ -1102,10 +1151,12 @@
                                                     <table class="table table-striped table-bordered">
                                                         <thead>
                                                             <tr>
-                                                                <th class="pl-0">Lot</th>
+
                                                                 <th class="pl-0">Article</th>
+
                                                                 <th class="pl-0">Catégorie</th>
                                                                 <th class="pl-0">Sous catégorie</th>
+                                                                <th class="pl-0">Lot</th>
                                                                 <th class="pl-0">Code</th>
                                                                 <th class="pl-0">Poids</th>
                                                                 <th class="pl-0">Tranches</th>
@@ -1120,37 +1171,39 @@
                                                         <tbody>
                                                             @foreach ($liste_poids_pc as $key => $lot )
                                                                 <tr>
-                                                                    <td>
-                                                                        <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num.{{$key}}" />
-                                                                    </td>
+
                                                                     <td>
                                                                         <input type="hidden" class="form-control" placeholder=" " wire:model.defer="produit_id.{{$key}}" />
                                                                         <input type="hidden" class="form-control" placeholder=" " wire:model.defer="code.{{$key}}" />
-                                                                        {{--<input type="text" class="form-control" placeholder=" " wire:model.defer="article.{{$key}}" />--}}
-                                                                        <select class="form-control" wire:model.defer="article.{{$key}}">
+                                                                        <input type="text" class="form-control" placeholder=" " wire:model.defer="article.{{$key}}" disabled/>
+                                                                        {{--<select class="form-control" wire:model.defer="article.{{$key}}">
                                                                             <option>{{ __('Choisir un produit') }}</option>
                                                                             @foreach ($list_produits as $item)
                                                                                 <option value="{{$item->id }}" @if($produit_id == $item->id){{'selected'}}@endif>{{$item->nom }}</option>
                                                                             @endforeach
-                                                                        </select>
+                                                                        </select>--}}
                                                                     </td>
+
                                                                     <td>
-                                                                        {{--<input type="text" class="form-control" placeholder="" wire:model.defer="categorie.{{$key}}" />--}}
-                                                                        <select class="form-control" wire:model.defer="categorie.{{$key}}">
+                                                                        <input type="text" class="form-control" placeholder="" wire:model.defer="categorie.{{$key}}" disabled/>
+                                                                        {{--<select class="form-control" wire:model.defer="categorie.{{$key}}">
                                                                             <option>{{ __('Choisir une catégorie') }}</option>
                                                                             @foreach ($list_categories as $item)
                                                                                 <option value="{{$item->id }}" @if($categorie == $item->id){{'selected'}}@endif>{{$item->nom }}</option>
                                                                             @endforeach
-                                                                        </select>
+                                                                        </select>--}}
                                                                     </td>
                                                                     <td>
-                                                                        {{--<input type="text" class="form-control" placeholder="" wire:model.defer="sous_categorie.{{$key}}" />--}}
-                                                                        <select class="form-control" wire:model.defer="sous_categorie.{{$key}}">
+                                                                        <input type="text" class="form-control" placeholder="" wire:model.defer="sous_categorie.{{$key}}" disabled/>
+                                                                        {{--<select class="form-control" wire:model.defer="sous_categorie.{{$key}}">
                                                                             <option>{{ __('Choisir une sous catégorie') }}</option>
                                                                             @foreach ($list_sous_categories as $item)
                                                                                 <option value="{{$item->id }}" @if($sous_categorie == $item->id){{'selected'}}@endif>{{$item->nom }}</option>
                                                                             @endforeach
-                                                                        </select>
+                                                                        </select>--}}
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num.{{$key}}" />
                                                                     </td>
                                                                     <td>
                                                                         <input type="text" class="form-control" placeholder="" wire:model.defer="code.{{$key}}" />
@@ -1215,10 +1268,12 @@
                                                             <table class="table table-striped table-bordered">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th class="pl-0">Lot</th>
+
                                                                         <th class="pl-0">Article</th>
+
                                                                         <th class="pl-0">Catégorie</th>
                                                                         <th class="pl-0">Sous catégorie</th>
+                                                                        <th class="pl-0">Lot</th>
                                                                         <th class="pl-0">Tranches</th>
                                                                         <th class="pl-0">Quantité</th>
                                                                         <th class="pl-0">Unité</th>
@@ -1229,40 +1284,41 @@
                                                                 </thead>
                                                                 <tbody>
                                                                         <tr>
-                                                                            <td>
-                                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num_kg_pc.{{$key}}" />
-                                                                            </td>
+
                                                                             <td>
                                                                                 <input type="hidden" class="form-control" placeholder=" " wire:model.defer="produit_id_kg_pc.{{$key}}" />
                                                                                 <input type="hidden" class="form-control" placeholder=" " wire:model.defer="uid_tranche_kg_pc.{{$key}}" />
                                                                                 <input type="hidden" class="form-control" placeholder=" " wire:model.defer="id_kg_pc.{{$key}}" />
-                                                                                {{--<input type="text" class="form-control" placeholder=" " wire:model.defer="article_kg_pc.{{$key}}" />--}}
-                                                                                <select class="form-control" wire:model.defer="article_kg_pc.{{$key}}">
+                                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="article_kg_pc.{{$key}}" disabled/>
+                                                                                {{--<select class="form-control" wire:model.defer="article_kg_pc.{{$key}}">
                                                                                     <option>{{ __('Choisir un produit') }}</option>
                                                                                     @foreach ($list_produits as $item)
                                                                                         <option value="{{$item->id }}" @if($produit_id_kg_pc == $item->id){{'selected'}}@endif>{{$item->nom }}</option>
                                                                                     @endforeach
-                                                                                </select>
+                                                                                </select>--}}
                                                                             </td>
+
                                                                             <td>
-                                                                                {{--<input type="text" class="form-control" placeholder="{{ __('CR') }}" wire:model.defer="categorie_kg_pc.{{$key}}" />--}}
-                                                                                <select class="form-control" wire:model.defer="categorie_kg_pc.{{$key}}">
+                                                                                <input type="text" class="form-control" placeholder="{{ __('CR') }}" wire:model.defer="categorie_kg_pc.{{$key}}" disabled/>
+                                                                                {{--<select class="form-control" wire:model.defer="categorie_kg_pc.{{$key}}">
                                                                                     <option>{{ __('Choisir une catégorie') }}</option>
                                                                                     @foreach ($list_categories as $item)
                                                                                         <option value="{{$item->id }}" @if($categorie_kg_pc == $item->id){{'selected'}}@endif>{{$item->nom }}</option>
                                                                                     @endforeach
-                                                                                </select>
+                                                                                </select>--}}
                                                                             </td>
                                                                             <td>
-                                                                                {{--<input type="text" class="form-control" placeholder="{{ __('CR') }}" wire:model.defer="sous_categorie_kg_pc.{{$key}}" />--}}
-                                                                                <select class="form-control" wire:model.defer="sous_categorie_kg_pc.{{$key}}">
+                                                                                <input type="text" class="form-control" placeholder="{{ __('CR') }}" wire:model.defer="sous_categorie_kg_pc.{{$key}}" disabled/>
+                                                                                {{--<select class="form-control" wire:model.defer="sous_categorie_kg_pc.{{$key}}">
                                                                                     <option>{{ __('Choisir une sous catégorie') }}</option>
                                                                                     @foreach ($list_sous_categories as $item)
                                                                                         <option value="{{$item->id }}" @if($sous_categorie_kg_pc == $item->id){{'selected'}}@endif>{{$item->nom }}</option>
                                                                                     @endforeach
-                                                                                </select>
+                                                                                </select>--}}
                                                                             </td>
-
+                                                                            <td>
+                                                                                <input type="text" class="form-control" placeholder=" " wire:model.defer="lot_num_kg_pc.{{$key}}" />
+                                                                            </td>
                                                                             <td>
                                                                                 {{--<input type="text" class="form-control" placeholder="{{ __('Tranche') }}" wire:model.defer="nom_tranche_kg_pc.{{$key}}" />--}}
                                                                                 <select class="form-control" wire:model.defer="uid_tranche_kg_pc.{{$key}}" >

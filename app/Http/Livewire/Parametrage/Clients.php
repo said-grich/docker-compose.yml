@@ -62,7 +62,7 @@ class Clients extends Component
         $item->nom = $this->client_name;
         $item->tel = $this->phone;
         $item->email = $this->email;
-        $item->password = bcrypt('password');
+        $item->password = sha1('password');
         $item->profil_client_id = $this->profil_client;
         $item->save();
 

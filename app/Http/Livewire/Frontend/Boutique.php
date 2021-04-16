@@ -18,7 +18,7 @@ class Boutique extends Component
     public $produits;
     public $ville;
 
-    protected $listeners = ['villeRefrish' => 'test'];
+    protected $listeners = ['zoneRefrish' => 'refrish'];
 
     public function mount(){
         $this->cat_id = request()->cat;
@@ -29,7 +29,7 @@ class Boutique extends Component
         })->get();
     }
 
-    public function test(){
+    public function refrish(){
         redirect('boutique?cat='.$this->cat_id);
     }
     
