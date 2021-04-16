@@ -99,8 +99,8 @@
                                 <span class="form-text text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div class="form-group col ">
-                            <label class="col-3 col-form-label">Active</label>
+                        <div class="form-group ">
+                            <label >Active</label>
                             <div class="col-3">
                                 <span class="switch switch-outline switch-icon switch-primary">
                                     <label>
