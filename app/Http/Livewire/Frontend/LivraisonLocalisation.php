@@ -29,7 +29,7 @@ class LivraisonLocalisation extends Component
         Session::put('villeLivraison', $this->ville);
         Session::put('zoneLivraison', $this->zone);
 
-        $this->emit('villeRefrish');
+        $this->emit('zoneRefrish');
     }
 
     public function render()

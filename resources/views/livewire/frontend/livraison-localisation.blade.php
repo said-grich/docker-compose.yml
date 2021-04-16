@@ -30,8 +30,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-rounded btn-default" data-dismiss="modal">Close</button>
-                    <button wire:click="saveZoneLivraison()" type="button" class="btn btn-rounded btn-primary">Save changes</button>
+                    {{-- <button type="button" class="btn btn-rounded btn-default" data-dismiss="modal">Close</button> --}}
+                    <button wire:click="saveZoneLivraison()" type="button" class="btn btn-rounded btn-primary" data-dismiss="modal">Enregistré</button>
                 </div>
             </div>
         </div>

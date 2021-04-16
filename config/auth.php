@@ -41,9 +41,20 @@ return [
             'provider' => 'users',
         ],
 
+        'clients' => [
+            'driver' => 'session',
+            'provider' => 'clients',
+        ],
+
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
+            'hash' => false,
+        ],
+
+        'api' => [
+            'driver' => 'token',
+            'provider' => 'clients',
             'hash' => false,
         ],
     ],
@@ -71,10 +82,10 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'clients' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Client::class,
+        ],
     ],
 
     /*
@@ -99,6 +110,12 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+        // 'clients' => [
+        //     'provider' => 'users',
+        //     'table' => 'password_resets',
+        //     'expire' => 60,
+        //     'throttle' => 60,
+        // ],
     ],
 
     /*
