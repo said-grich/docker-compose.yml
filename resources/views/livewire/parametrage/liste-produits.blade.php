@@ -189,7 +189,7 @@
             @endforeach
         </tbody>
     </table>
-    {{-- {{ $items->links('layouts.partials.custom-pagination') }} --}}
+    {{ $items->links('layouts.partials.custom-pagination') }}
     <div wire:ignore.self class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">

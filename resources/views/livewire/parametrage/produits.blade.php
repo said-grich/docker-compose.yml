@@ -734,3 +734,10 @@
 
 <!--Modal-Unite-->
 
+@push('scripts')
+    <script>
+        Livewire.on('saved', produit => {
+            $('#produit').modal('hide')
+        });
+    </script>  
+@endpush
