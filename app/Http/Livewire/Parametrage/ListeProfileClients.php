@@ -18,19 +18,7 @@ class ListeProfileClients extends Component
 
     public $nom;
     public $profil_id;
-    public function render()
-    {
 
-        $items = ProfilClient::query()
-        ->where('nom','ilike','%'.$this->search.'%')
-        ->withCount('clients')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
-
-        return view('livewire.parametrage.liste-profile-clients',[
-            'items'=> $items
-        ]);
-    }
     public function sortBy($field)
     {
         if ($this->sortDirection == 'asc') {
@@ -71,10 +59,22 @@ class ListeProfileClients extends Component
         //return redirect()->to('/familles');
 
     }
+    public function render()
+    {
 
+        $items = ProfilClient::query()
+        ->where('nom','ilike','%'.$this->search.'%')
+        ->withCount('clients')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
+
+        return view('livewire.parametrage.liste-profile-clients',[
+            'items'=> $items
+        ]);
+    }
     public function saved()
     {
-        $this->render();
+        return  $this->render();
     }
 
 }

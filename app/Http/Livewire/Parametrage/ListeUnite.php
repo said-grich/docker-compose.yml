@@ -20,17 +20,6 @@ class ListeUnite extends Component
     public $search = '';
     protected $listeners = ['saved'];
 
-    public function render()
-    {
-        $items = Unite::query()
-        ->where('nom','ilike','%'.$this->search.'%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
-
-        return view('livewire.Parametrage.liste-unite',[
-            'items'=> $items
-        ]);
-    }
 
     public function sortBy($field)
     {
@@ -74,6 +63,18 @@ class ListeUnite extends Component
 
        // return redirect()->to('/unites');
     }
+    public function render()
+    {
+        $items = Unite::query()
+        ->where('nom','ilike','%'.$this->search.'%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
+
+        return view('livewire.parametrage.liste-unite',[
+            'items'=> $items
+        ]);
+    }
+
 
     public function saved()
     {

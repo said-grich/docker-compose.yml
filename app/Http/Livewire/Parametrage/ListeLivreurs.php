@@ -31,17 +31,6 @@ class ListeLivreurs extends Component
     public $search = '';
     protected $listeners = ['saved'];
 
-    public function render()
-    {
-        $items = Livreur::query()
-        ->where('nom','ilike','%'.$this->search.'%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
-
-        return view('livewire.Parametrage.liste-livreurs',[
-            'items'=> $items
-        ]);
-    }
 
     public function sortBy($field)
     {
@@ -88,6 +77,19 @@ class ListeLivreurs extends Component
         $livreur = Livreur::findOrFail($id);
         $livreur->delete();
     }
+
+    public function render()
+    {
+        $items = Livreur::query()
+        ->where('nom','ilike','%'.$this->search.'%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
+
+        return view('livewire.parametrage.liste-livreurs',[
+            'items'=> $items
+        ]);
+    }
+
 
     public function saved()
     {

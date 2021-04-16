@@ -14,25 +14,14 @@ class ListeModesLivraison extends Component
 
     public $mode_livraison_id;
     public $nom;
-    
+
     public $sortBy = 'nom';
     public $sortDirection = 'asc';
     public $perPage = 5;
     public $search = '';
     protected $listeners = ['saved'];
 
-    public function render()
-    {
-        $items = ModeLivraison::query()
-        ->where('nom','ilike','%'.$this->search.'%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
 
-        return view('livewire.parametrage.liste-modes-livraison',[
-            'items'=> $items
-        ]);
-
-    }
     public function sortBy($field)
     {
         if ($this->sortDirection == 'asc') {
@@ -73,6 +62,18 @@ class ListeModesLivraison extends Component
 
     }
 
+    public function render()
+    {
+        $items = ModeLivraison::query()
+        ->where('nom','ilike','%'.$this->search.'%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
+
+        return view('livewire.parametrage.liste-modes-livraison',[
+            'items'=> $items
+        ]);
+
+    }
     public function saved()
     {
         $this->render();

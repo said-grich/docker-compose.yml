@@ -28,18 +28,7 @@ class ListeClients extends Component
         $this->list_profils = ProfilClient::all()->sortBy('nom');
     }
 
-    public function render()
-    {
 
-        $items = Client::query()
-        ->where('nom','ilike','%'.$this->search.'%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
-
-        return view('livewire.parametrage.liste-clients',[
-            'items'=> $items
-        ]);
-    }
     public function sortBy($field)
     {
         if ($this->sortDirection == 'asc') {
@@ -84,9 +73,21 @@ class ListeClients extends Component
         session()->flash('message', 'Client "'.$client->nom.'" à été supprimé');
     }
 
+    public function render()
+    {
+
+        $items = Client::query()
+        ->where('nom','ilike','%'.$this->search.'%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
+
+        return view('livewire.parametrage.liste-clients',[
+            'items'=> $items
+        ]);
+    }
     public function saved()
     {
-        $this->render();
+        return $this->render();
     }
 
 }

@@ -17,7 +17,7 @@ class CreateTranchesTable extends Migration
             $table->id();
             $table->string('nom',80)->unique();
             $table->string('uid')->unique()->onUpdate('cascade')->onDelete('casacade');
-            $table->string('type',80);
+           // $table->string('type',80);
             $table->float('min_poids')->nullable();
             $table->float('max_poids')->nullable();
             $table->unsignedBigInteger('mode_vente_id');

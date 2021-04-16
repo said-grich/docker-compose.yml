@@ -18,17 +18,7 @@ class ListeQualites extends Component
 
     public $qualite_id;
     public $nom;
-    public function render()
-    {
-        $items = Qualite::query()
-        ->where('nom','ilike','%'.$this->search.'%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
 
-        return view('livewire.parametrage.liste-qualites',[
-            'items'=> $items
-        ]);
-    }
     public function sortBy($field)
     {
         if ($this->sortDirection == 'asc') {
@@ -70,9 +60,20 @@ class ListeQualites extends Component
 
     }
 
+    public function render()
+    {
+        $items = Qualite::query()
+        ->where('nom','ilike','%'.$this->search.'%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
+
+        return view('livewire.parametrage.liste-qualites',[
+            'items'=> $items
+        ]);
+    }
     public function saved()
     {
-        $this->render();
+        return   $this->render();
     }
 
 }

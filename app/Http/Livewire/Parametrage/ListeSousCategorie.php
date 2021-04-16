@@ -24,18 +24,10 @@ class ListeSousCategorie extends Component
     public $sous_categorie_id;
     public $categorie_id;
     public $egalite;
+    public $souscategorie_isActive;
 
-    public function render()
-    {
-        $items = SousCategorie::query()
-        ->where('nom','ilike','%'.$this->search.'%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
 
-        return view('livewire.Parametrage.liste-sous-categorie',[
-            'items'=> $items
-        ]);
-    }
+
 
     public function sortBy($field)
     {
@@ -56,7 +48,7 @@ class ListeSousCategorie extends Component
         $this->sous_categorie_id =$item->id;
         $this->sous_categorie_name =$item->nom;
         $this->categorie_id =$item->categorie_id;
-
+        $this->souscategorie_isActive =$item->active;
     }
 
     public function editSousCategorie(){
@@ -118,13 +110,14 @@ class ListeSousCategorie extends Component
                 ->update([
                     'nom' => $this->sous_categorie_name,
                     'categorie_id' => $this->categorie_id,
+                    'active' => $this->souscategorie_isActive,
                 ]);
                 session()->flash('message', 'Sous categorie a éte Modifiée');
-                 $this->emit('saved');
+                // $this->emit('saved');
             }else {
-
-                session()->flash('message', 'Sous catégorie "' . $this->sous_categorie_name . '" est déja existe ');
+                session()->flash('souscategoriealert', 'Sous catégorie "' . $this->sous_categorie_name . '" est déja existe ');
             }
+
 
             //return redirect()->to('/categories');
     }
@@ -135,9 +128,20 @@ class ListeSousCategorie extends Component
         $sousCategorie = SousCategorie::findOrFail($id);
         DB::table("categories")->where('id', $id)->delete();
         $sousCategorie->delete();
-        session()->flash('message', 'Sous catégorie "' . $this->sous_categorie_name . '" est supprimer ');
+        session()->flash('message', 'Sous catégorie "' . $sousCategorie->nom . '" est supprimer ');
     }
 
+    public function render()
+    {
+        $items = SousCategorie::query()
+        ->where('nom','ilike','%'.$this->search.'%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
+
+        return view('livewire.parametrage.liste-sous-categorie',[
+            'items'=> $items
+        ]);
+    }
     public function saved()
     {
         return $this->render();
