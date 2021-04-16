@@ -105,13 +105,13 @@ class DesignationPrix extends Component
         // $this->liste_poids_pc = collect(StockPoidsPc::where('br_num', $id)->get()->groupBy(['tranche_id', 'produit_id']));
         // $this->liste_kg_pc = StockKgPc::where('br_num', $id)->get();
 
-        $this->liste_poids_pc = Stock::where('br_num', $id)->where('mode_vente_id', 1)->get()->groupBy(['tranche_id','categorie_id' ,'produit_id'])->toArray();
+        $this->liste_poids_pc = Stock::where('br_num', $id)->where('type', 1)->get()->groupBy(['tranche_id','categorie_id' ,'produit_id'])->toArray();
         //dd($this->liste_poids_pc);
         //$this->liste_poids_pc2 = Stock::where('br_num', $id)->where('type', "Poids par pièce")->get()->groupBy(['tranche_id', 'produit_id','lot_num']);
 
         //dd($this->liste_poids_pc2);
 
-        $this->liste_kg_pc = Stock::where('br_num', $id)->where('mode_vente_id', '!=',1)->get();
+        $this->liste_kg_pc = Stock::where('br_num', $id)->where('type', '!=',1)->get();
         //dd($this->liste_poids_pc, $this->liste_kg_pc);
 
         $this->bon_reception_ref = $id;

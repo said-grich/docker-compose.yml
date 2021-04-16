@@ -332,7 +332,7 @@ class Stock extends Component
                                     LotTranche::where('lot_num', $this->lot_num[$key])->where('tranche_id', $valueT['uid'])->update(['qte' => DB::raw('qte + 1')]);
 
                                     $item = new ModelsStock();
-                                    $item->type = $produit->modeVente->nom;
+                                    $item->type = $produit->modeVente->id;
                                     $item->qte = 1;
                                     $item->lot_num = $this->lot_num[$key];
                                     $item->produit_id = $this->produit[$key];
@@ -368,7 +368,7 @@ class Stock extends Component
                         'tranche_id' => $this->tranches[$key],
                     ]);
                     $item = new ModelsStock();
-                    $item->type = $produit->modeVente->nom;
+                    $item->type = $produit->modeVente->id;
                     $item->qte = $this->qte[$key];
                     $item->qte_restante = $this->qte[$key];
                     $item->lot_num = $this->lot_num[$key];
