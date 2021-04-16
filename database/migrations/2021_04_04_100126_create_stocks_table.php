@@ -15,7 +15,7 @@ class CreateStocksTable extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
-            $table->string('type',80);
+            //$table->string('type',80);
             $table->double('qte');
             $table->double('qte_vendue');
             $table->double('qte_restante');
@@ -27,6 +27,9 @@ class CreateStocksTable extends Migration
             $table->decimal('prix_f');
             $table->decimal('prix_p');
             $table->decimal('pas');
+
+            $table->unsignedBigInteger('mode_vente_id');
+            $table->foreign('mode_vente_id')->references('id')->on('mode_ventes');
 
             $table->unsignedBigInteger('unite_id');
             $table->foreign('unite_id')->references('id')->on('unites');

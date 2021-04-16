@@ -18,7 +18,6 @@ use App\Models\Stock as ModelsStock;
 use App\Models\StockKgPc;
 use App\Models\StockPoidsPc;
 use App\Models\Tranche;
-use App\Models\TranchesKgPc;
 use App\Models\TranchesPoidsPc;
 use App\Models\Unite;
 use Illuminate\Support\Facades\DB;
@@ -30,18 +29,14 @@ class Stock extends Component
     public $date_entree;
     public $date_preemption;
     public $fournisseur;
-    /* public $pas;
-    public $qualite;
-    public $produit; */
     public $active = false;
     public $showNbrPiece = false;
 
     public $lot_id;
     public $tranches = [];
     public $depot;
-    /* public $prix_achat;
-    public $qte; */
-    public $cr;
+
+    public $cr = [];
     public $prix_vente_normal;
     public $prix_vente_fidele;
     public $prix_vente_business;
@@ -197,7 +192,7 @@ class Stock extends Component
             $code_poids[$value] = array( 'poids' =>$this->poids[$key], 'qualite' =>  $this->qualite_piece[$key]);
             $this->code_poids[$this->details_index] = $code_poids;
         }
-        $p_tranche = [];
+        /*$p_tranche = [];
 
         foreach($this->tranches[$key] as $k=>$val){
             $p_tranche[$key][$k] = Tranche::where('uid', $val)->get()->toArray()[0];
@@ -206,19 +201,19 @@ class Stock extends Component
 
         foreach ($this->code_poids[$key] as $code => $poids) {
             foreach($p_tranche[$key] as $keyT=>$valueT){
-                if($poids['poids']>= $valueT[$keyT]['min_poids'] && $poids['poids']<$valueT[$keyT]['max_poids']){
+               // if($poids['poids']>= $valueT[$keyT]['min_poids'] && $poids['poids']<$valueT[$keyT]['max_poids']){
 
                   //  break;
-                }
-                else{
-                session()->push('erreur', 'Ce poid ' .$poids['poids']. ' n\'appartient pas à l\'intervalle [' .$valueT[$keyT]['nom'] . ']');
+               // }
+              //  else{
+               // session()->push('erreur', 'Ce poid ' .$poids['poids']. ' n\'appartient pas à l\'intervalle [' .$valueT[$keyT]['nom'] . ']');
                    // break;
                 }
                 //dd($valueT);
             }
-        }
+        }*/
 
-    }
+   }
 
         /*foreach($produit as $value){
             $produit_tranche = ProduitTranche::where('produit_id',$value->id)->get();
@@ -332,12 +327,12 @@ class Stock extends Component
 
                         foreach ($this->code_poids[$key] as $code => $poids) {
                             foreach ($lot_tranche[$key] as $keyT => $valueT) {
-                                //if ($poids['poids'] >= $valueT['min_poids'] && $poids['poids'] < $valueT['max_poids']) {
+                                if ($poids['poids'] >= $valueT['min_poids'] && $poids['poids'] < $valueT['max_poids']) {
 
                                     LotTranche::where('lot_num', $this->lot_num[$key])->where('tranche_id', $valueT['uid'])->update(['qte' => DB::raw('qte + 1')]);
 
                                     $item = new ModelsStock();
-                                    $item->type = $produit->modeVente->nom;
+                                    $item->type = $produit->modeVente->id;
                                     $item->qte = 1;
                                     $item->lot_num = $this->lot_num[$key];
                                     $item->produit_id = $this->produit[$key];
@@ -353,7 +348,7 @@ class Stock extends Component
                                     $item->poids = $poids['poids'];
                                     $item->qualite_id = $poids['qualite'];
                                     $item->tranche_id = $valueT['uid'];
-                                    $item->cr = 0;
+                                    $item->cr = $this->cr[$key];
                                     $item->prix_n = 0;
                                     $item->prix_f = 0;
                                     $item->prix_p = 0;
@@ -365,7 +360,7 @@ class Stock extends Component
                         }
                     }
 
-                //}//end if mode vente poids par pièce
+                }//end if mode vente poids par pièce
 
                 else{
                     LotTranche::create([
@@ -373,7 +368,7 @@ class Stock extends Component
                         'tranche_id' => $this->tranches[$key],
                     ]);
                     $item = new ModelsStock();
-                    $item->type = $produit->modeVente->nom;
+                    $item->type = $produit->modeVente->id;
                     $item->qte = $this->qte[$key];
                     $item->qte_restante = $this->qte[$key];
                     $item->lot_num = $this->lot_num[$key];
@@ -385,7 +380,7 @@ class Stock extends Component
                     $item->qualite_id = $this->qualite[$key];
                     $item->prix_achat = $this->prix_achat[$key];
                     $item->tranche_id = $this->tranches[$key];
-                    $item->cr = 0;
+                    $item->cr = $this->cr[$key];
                     $item->prix_n = 0;
                     $item->prix_f = 0;
                     $item->prix_p = 0;
