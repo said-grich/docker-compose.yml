@@ -59,7 +59,10 @@ class Produits extends Component
     public $showKgPiece = false;
     public $nomUnite;
     public $nomFamille;
+    public $preparation_nom_c;
+    public $preparation_nom_n;
     public $mode_vente_name;
+    //public $sousmodeprepa_isActive = false;
 
 
 
@@ -107,6 +110,65 @@ class Produits extends Component
         $this->list_familles = Famille::all()->sortBy('nom');
        /*  $p = Produit::where('id',1)->first(); */
         // dd($p->preparations->first()->preparation->nom);
+
+    }
+    public function createModePreparation()
+    {
+        $souspreparation = Preparation::where('nom', $this->preparation_nom_c)
+        ->where('mode_preparation_id', 1)
+        ->first();
+            if ($souspreparation === null) {
+                //$this->validate();
+
+                $item = new Preparation();
+                $item->nom = $this->preparation_nom_c;
+                //$item->mode_preparation_id = $this->mode_preparation_id;
+                $item->mode_preparation_id = 1;
+                //$item->active = $this->sousmodeprepa_isActive;
+
+                $item->save();
+
+                //$mode = ModePreparation::findOrFail($this->mode_cuisine);
+               // session()->flash('message', 'La préparation "'.$this->preparation_nom. '" a été créée dans le mode '.$mode->nom);
+
+                $this->reset(['preparation_nom_c']);
+
+                $this->emit('saved');
+
+            }else {
+
+            session()->flash('message',  'Sous mode prépartion "'.$this->preparation_nom_c.'" est déja existe');
+            }
+
+    }
+    public function createModePreparationN()
+    {
+        //dd('tst');
+        $souspreparation = Preparation::where('nom', $this->preparation_nom_n)
+        ->where('mode_preparation_id', 2)
+        ->first();
+            if ($souspreparation === null) {
+                //$this->validate();
+
+                $item = new Preparation();
+                $item->nom = $this->preparation_nom_n;
+                //$item->mode_preparation_id = $this->mode_preparation_id;
+                $item->mode_preparation_id = 2;
+                //$item->active = $this->sousmodeprepa_isActive;
+
+                $item->save();
+
+                //$mode = ModePreparation::findOrFail($this->mode_cuisine);
+               // session()->flash('message', 'La préparation "'.$this->preparation_nom. '" a été créée dans le mode '.$mode->nom);
+
+                $this->reset(['preparation_nom_n']);
+
+                $this->emit('saved');
+
+            }else {
+
+            session()->flash('messagee',  'Sous mode prépartion "'.$this->preparation_nom_n.'" est déja existe');
+            }
 
     }
     public function createModeVente()

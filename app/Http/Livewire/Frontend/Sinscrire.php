@@ -73,7 +73,7 @@ class Sinscrire extends Component{
             $item->nom = $this->form['name'];
             $item->tel = $this->form['tel'];
             $item->email = $this->form['email'];
-            $item->password = sha1($this->form['password']);
+            $item->password = bcrypt($this->form['password']);
             $item->profil_client_id = 1;
             $item->save();
 

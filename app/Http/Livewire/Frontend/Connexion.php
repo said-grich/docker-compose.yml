@@ -26,12 +26,12 @@ class Connexion extends Component{
 
         $check = Client::select()->where('email', $this->form['email'])->where('password', sha1($this->form['password']))->get();
 
-        if(count($check) === 1){
-            Auth::guard('client')->attempt($this->form);
+        // if(count($check) === 1){
+            Auth::guard('clients')->attempt(['email' => $this->form['email'], 'password' => $this->form['password']]);
             return redirect()->to('/');
-        }else{
-            session()->flash('warning-message', 'E-Mail ou mot de passe incorrect');
-        }
+        // }else{
+        //     session()->flash('warning-message', 'E-Mail ou mot de passe incorrect');
+        // }
         
     }
 
