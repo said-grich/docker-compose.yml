@@ -16,6 +16,7 @@ class CreateFamilleTable extends Migration
         Schema::create('familles', function (Blueprint $table) {
             $table->id();
             $table->string('nom')->unique();
+            $table->boolean('active')->default(false);
             $table->timestamps();
         });
 

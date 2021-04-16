@@ -28,18 +28,7 @@ class ListePreparation extends Component
         $this->list_mode_preparations = ModePreparation::all()->sortBy('nom');
     }
 
-    public function render()
-    {
-        $this->renderModePreparations();
 
-        $items = Preparation::query()
-        ->where('nom','ilike','%'.$this->search.'%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
-
-        return view('livewire.Parametrage.liste-preparation',compact('items'));
-
-    }
     public function sortBy($field)
     {
         if ($this->sortDirection == 'asc') {
@@ -100,11 +89,22 @@ class ListePreparation extends Component
 
     }
 
+    public function render()
+    {
+        $this->renderModePreparations();
 
+        $items = Preparation::query()
+        ->where('nom','ilike','%'.$this->search.'%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
+
+        return view('livewire.parametrage.liste-preparation',compact('items'));
+
+    }
 
     public function saved()
     {
-        $this->render();
+        return  $this->render();
     }
 
 

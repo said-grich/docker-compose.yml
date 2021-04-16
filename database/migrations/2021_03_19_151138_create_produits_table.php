@@ -16,8 +16,8 @@ class CreateProduitsTable extends Migration
         Schema::create('produits', function (Blueprint $table) {
             $table->id()->onDelete('cascade')->onUpdate('cascade');
             $table->string('nom',100);
-            $table->integer('code_comptable');
-            $table->integer('code_analytique');
+            $table->integer('code_comptable')->nullable();
+            $table->integer('code_analytique')->nullable();
             $table->string('photo_principale');
             //$table->json('photos');
             $table->boolean('active')->default(false);

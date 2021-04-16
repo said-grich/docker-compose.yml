@@ -73,26 +73,7 @@ class ListeLotsArchive extends Component
 
     }
 
-    public function render()
-    {
-        $this->renderData();
-        $lot_stock_kg_pc = array_unique(StockKgPc::where('cr','!=',0)->pluck('br_num')->toArray());
-        $lot_stock_poids_pc = array_unique(StockPoidsPc::where('cr','!=',0)->pluck('br_num')->toArray());
 
-        $archived_lots_ids = array_merge($lot_stock_kg_pc, $lot_stock_poids_pc);
-        //dd($archived_lots_ids);
-        $in_progress_lots_ids = array_unique(BonReception::whereNotIn('ref', $archived_lots_ids)->pluck('ref')->toArray());
-
-        $items = BonReception::query()
-        ->whereNotIn('ref', $in_progress_lots_ids)
-        ->where('ref', 'ilike', '%' . $this->search . '%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
-
-        return view('livewire.Parametrage.liste-lots-archive',[
-            'items'=> $items,
-        ]);
-    }
 
     public function sortBy($field)
     {
@@ -124,6 +105,26 @@ class ListeLotsArchive extends Component
         $livreur->delete();
     }
 
+    public function render()
+    {
+        $this->renderData();
+        $lot_stock_kg_pc = array_unique(StockKgPc::where('cr','!=',0)->pluck('br_num')->toArray());
+        $lot_stock_poids_pc = array_unique(StockPoidsPc::where('cr','!=',0)->pluck('br_num')->toArray());
+
+        $archived_lots_ids = array_merge($lot_stock_kg_pc, $lot_stock_poids_pc);
+        //dd($archived_lots_ids);
+        $in_progress_lots_ids = array_unique(BonReception::whereNotIn('ref', $archived_lots_ids)->pluck('ref')->toArray());
+
+        $items = BonReception::query()
+        ->whereNotIn('ref', $in_progress_lots_ids)
+        ->where('ref', 'ilike', '%' . $this->search . '%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
+
+        return view('livewire.parametrage.liste-lots-archive',[
+            'items'=> $items,
+        ]);
+    }
     public function saved()
     {
         return $this->render();

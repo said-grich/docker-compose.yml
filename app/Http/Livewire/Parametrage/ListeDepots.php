@@ -28,18 +28,7 @@ class ListeDepots extends Component
         $this->list_villes = Ville::all()->sortBy('nom');
     }
 
-    public function render()
-    {
 
-        $items= Depot::query()
-        ->where('nom','ilike','%'.$this->search.'%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
-
-        return view('livewire.parametrage.liste-depots',[
-            'items'=> $items
-        ]);
-    }
     public function sortBy($field)
     {
         if ($this->sortDirection == 'asc') {
@@ -81,11 +70,22 @@ class ListeDepots extends Component
 
     }
 
+    public function render()
+    {
 
+        $items= Depot::query()
+        ->where('nom','ilike','%'.$this->search.'%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
+
+        return view('livewire.parametrage.liste-depots',[
+            'items'=> $items
+        ]);
+    }
 
     public function saved()
     {
-        $this->render();
+        return   $this->render();
     }
 
 }

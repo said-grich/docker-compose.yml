@@ -17,20 +17,7 @@ class ListeSite extends Component
     public $search = '';
     protected $listeners = ['saved'];
 
-    public function render()
-    {
-        $sites= Site::query()
-        ->where('code','ilike','%'.$this->search.'%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
 
-        return view('livewire.Parametrage.liste-site',[
-            'sites'=> $sites
-        ]);
-
-       // return view('livewire.Parametrage.liste-site', ['list' => $list, 'site' => $site]);
-       // return view('livewire.Parametrage.liste-site', ['list' => $list,'site'=> $site]);
-    }
     public function sortBy($field)
     {
         if ($this->sortDirection == 'asc') {
@@ -50,8 +37,22 @@ class ListeSite extends Component
         return redirect()->to('/create-site');
 
     }
+    public function render()
+    {
+        $sites= Site::query()
+        ->where('code','ilike','%'.$this->search.'%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
+
+        return view('livewire.parametrage.liste-site',[
+            'sites'=> $sites
+        ]);
+
+       // return view('livewire.Parametrage.liste-site', ['list' => $list, 'site' => $site]);
+       // return view('livewire.Parametrage.liste-site', ['list' => $list,'site'=> $site]);
+    }
     public function saved()
     {
-        $this->render();
+        return   $this->render();
     }
 }

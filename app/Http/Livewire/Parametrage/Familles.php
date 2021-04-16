@@ -8,6 +8,7 @@ use Livewire\Component;
 class Familles extends Component
 {
     public $nom;
+    public $isActive = false;
 
     protected $rules = [
         'nom' => 'required|min:2',
@@ -20,6 +21,7 @@ class Familles extends Component
 
         $item = new Famille();
         $item->nom = $this->nom;
+        $item->active = $this->isActive;
 
         $item->save();
 

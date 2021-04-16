@@ -48,11 +48,23 @@
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
+                                            <div class="form-group ">
+                                                <label class="col-3 col-form-label">Active</label>
+                                                <div class="col-3">
+                                                    <span class="switch switch-outline switch-icon switch-primary">
+                                                        <label>
+                                                        <input type="checkbox" checked="checked" wire:model.defer="isActive" name="isActive"/>
+                                                        <span></span>
+                                                        </label>
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </form>
                                     </div>
+
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
-                                        <button type="submit" class="btn btn-primary font-weight-bold" form="categorie-form">{{ __('Enregistrer') }}</button>
+                                        <button type="submit" id="btnSave" class="btn btn-primary font-weight-bold" form="categorie-form">{{ __('Enregistrer') }}</button>
                                     </div>
                                 </div>
                             </div>
@@ -107,6 +119,18 @@
                                                 @error('categorie_id')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
+
+                                                <div class="form-group ">
+                                                    <label class="col-3 col-form-label">Active</label>
+                                                    <div class="col-3">
+                                                        <span class="switch switch-outline switch-icon switch-primary">
+                                                            <label>
+                                                            <input type="checkbox" checked="checked" wire:model.defer="souscategorie_isActive" name="souscategorie_isActive"/>
+                                                            <span></span>
+                                                            </label>
+                                                        </span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </form>
                                     </div>
@@ -150,3 +174,11 @@
     </div>
     <!--end::Container-->
 </div>
+@push('scripts')
+<script>
+    $('#btnSave').click(function() {
+    $('#edit').modal('hide');
+    });
+    </script>
+
+@endpush

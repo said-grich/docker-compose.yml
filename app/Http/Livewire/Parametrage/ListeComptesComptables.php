@@ -17,19 +17,7 @@ class ListeComptesComptables extends Component
     public $search = '';
     protected $listeners = ['saved'];
 
-    public function render()
-    {
-        $comptable = CompteComptable::query()
-        ->where('name','ilike','%'.$this->search.'%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
 
-        return view('livewire.Parametrage.liste-comptes-comptables',[
-            'comptable'=> $comptable
-        ]);
-        //$list = CompteComptable::all()->sortByDesc('created_at');
-        //return view('livewire.Parametrage.liste-comptes-comptables', [ 'list' => $list]);
-    }
 
     public function sortBy($field)
     {
@@ -55,7 +43,19 @@ class ListeComptesComptables extends Component
 
     }
 
+    public function render()
+    {
+        $comptable = CompteComptable::query()
+        ->where('name','ilike','%'.$this->search.'%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
 
+        return view('livewire.parametrage.liste-comptes-comptables',[
+            'comptable'=> $comptable
+        ]);
+        //$list = CompteComptable::all()->sortByDesc('created_at');
+        //return view('livewire.Parametrage.liste-comptes-comptables', [ 'list' => $list]);
+    }
 
     public function saved()
     {
