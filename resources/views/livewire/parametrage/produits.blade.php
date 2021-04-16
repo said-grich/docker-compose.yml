@@ -468,7 +468,7 @@
 
                         <!--Modal-Unité-->
 
-                        <div wire:ignore.self class="modal secondary fade" id="unites"data-backdrop="static"tabindex="-1" role="dialog" aria-labelledby="unite" aria-hidden="true">
+                        <div class="modal secondary fade" id="unites"data-backdrop="static"tabindex="-1" role="dialog" aria-labelledby="unite" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -496,7 +496,7 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-light-primary font-weight-bold"
                                                     data-dismiss="modal">{{ __('Fermer') }}</button>
-                                            <button type="submit" {{-- wire:click="createUnite()" --}} class="btn btn-primary font-weight-bold"
+                                            <button type="submit"  class="btn btn-primary font-weight-bold"
                                                     form="unite-form">{{ __('Enregistrer') }}</button>
                                         </div>
                                     </div>

@@ -48,6 +48,17 @@
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
+                                            <div class="form-group ">
+                                                <label class="col-3 col-form-label">Active</label>
+                                                <div class="col-3">
+                                                    <span class="switch switch-outline switch-icon switch-primary">
+                                                        <label>
+                                                        <input type="checkbox" checked="checked" wire:model.defer="isActive" name="isActive"/>
+                                                        <span></span>
+                                                        </label>
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
@@ -62,7 +73,7 @@
                             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">{{ __('Nouveau mode de préparation') }}</h5>
+                                        <h5 class="modal-title">{{ __('Nouveau sous mode de préparation') }}</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <i aria-hidden="true" class="ki ki-close"></i>
                                         </button>
@@ -92,6 +103,17 @@
                                                 @error('mode_preparation_id')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
+                                                <div class="form-group ">
+                                                    <label class="col-3 col-form-label">Active</label>
+                                                    <div class="col-3">
+                                                        <span class="switch switch-outline switch-icon switch-primary">
+                                                            <label>
+                                                            <input type="checkbox" checked="checked" wire:model.defer="sousmodeprepa_isActive" name="sousmodeprepa_isActive"/>
+                                                            <span></span>
+                                                            </label>
+                                                        </span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </form>
                                     </div>

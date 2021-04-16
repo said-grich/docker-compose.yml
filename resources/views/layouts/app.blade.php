@@ -97,7 +97,11 @@
 		<!--[html-partial:include:{"file":"partials/_extras/offcanvas/demo-panel.html"}]/-->
 
 		@livewireScripts
-
+        <script>
+            window.addEventListener('show_delete_modal',event=>{
+                $('#confirmationRemove').modal('show');
+            })
+        </script>
 		<!--begin::Global Config(global config for global JS scripts)-->
 		<script>
 			// Navbar Active Links

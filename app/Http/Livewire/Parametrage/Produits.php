@@ -50,6 +50,8 @@ class Produits extends Component
     public $photos = [];
     public $active = false;
     public $type;
+    public $mode_vente_id;
+
     public $minPoids;
     public $maxPoids;
     public $nomTranche;
@@ -64,7 +66,7 @@ class Produits extends Component
     public function updatedModeVente($value){
         /* $mode_vente_nom = ModeVente::where('id',$value)->first()->nom;
         $this->list_tranches = Tranche::where('type',$mode_vente_nom)->get(); */
-        $value == 1 ?  $this->list_tranches = Tranche::where('type',"Poids par pièce")->get() :  $this->list_tranches = Tranche::where('type',"Kg/Pièce")->get();
+        $value == 1 ? $this->list_tranches = Tranche::where('mode_vente_id',1)->get() :  $this->list_tranches = Tranche::where('mode_vente_id','!=',1)->get();
 
        if($value == 1) {
            $this->showPoids = true;
@@ -77,14 +79,13 @@ class Produits extends Component
        }
     }
 
-    // public function updatedModePreparation($value){
+    /* public function updatedUnite(){
 
-    //     $mode = ModePreparation::find($value);
-    //     $this->list_preparations = $mode->preparations;
-    // }
-   /*  protected $rules = [
+            $this->list_unite = Unite::all()->sortBy('nom');
 
-    ]; */
+
+    }
+ */
 
     public function updatedPhoto()
     {
@@ -134,9 +135,10 @@ class Produits extends Component
         $item = new Unite();
         $item->nom = $this->nomUnite;
         $item->save();
-
+        $this->list_unite = Unite::all()->sortBy('nom');
         //$this->list_unite = Unite::get();
         $this->reset(['nomUnite']);
+        $this->emit('saved');
 
     }
 
@@ -158,16 +160,19 @@ class Produits extends Component
         */
 
 
-        $this->type == 1 ? $this->nomTranche =  $this->minPoids." - ".$this->maxPoids : $this->nomTranche;
+        $this->mode_vente_id == 1 ? $this->nomTranche =  $this->minPoids." - ".$this->maxPoids : $this->nomTranche;
         Tranche::create([
             'nom' => $this->nomTranche,
-            'type' => $this->type == 1 ? "Poids par pièce" : "Kg/Pièce",
+            //'mode_vente_id' => $this->type == 1 ? "Poids par pièce" : "Kg/Pièce",
+            'mode_vente_id'=> $this->mode_vente,
             'min_poids' => $this->minPoids,
             'max_poids' => $this->maxPoids,
-            'uid' => $this->type == 1 ? "PP".$uniqueId : "KP".$uniqueId,
+            //'uid' => $this->type == 1 ? "PP".$uniqueId : "KP".$uniqueId,
+            'uid' => $this->mode_vente_id == 1 ? "PP".$uniqueId : "KP".$uniqueId,
         ]);
-        $this->type  == 1 ?  $this->list_tranches = Tranche::where('type',"Poids par pièce")->get() :  $this->list_tranches = Tranche::where('type',"Kg/Pièce")->get();
-        $this->reset(['nom','minPoids','maxPoids']);
+        // $this->type  == 1 ?  $this->list_tranches = Tranche::where('type',"Poids par pièce")->get() :  $this->list_tranches = Tranche::where('type',"Kg/Pièce")->get();
+        $this->mode_vente == 1 ? $this->list_tranches = Tranche::where('mode_vente_id',1)->get() :  $this->list_tranches = Tranche::where('mode_vente_id','!=',1)->get();
+        $this->reset(['nomTranche','minPoids','maxPoids']);
 
     }
 
