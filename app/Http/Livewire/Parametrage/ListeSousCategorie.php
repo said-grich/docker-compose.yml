@@ -122,9 +122,9 @@ class ListeSousCategorie extends Component
                 session()->flash('message', 'Sous categorie a éte Modifiée');
                  $this->emit('saved');
             }else {
-
-                session()->flash('message', 'Sous catégorie "' . $this->sous_categorie_name . '" est déja existe ');
+                session()->flash('souscategoriealert', 'Sous catégorie "' . $this->sous_categorie_name . '" est déja existe ');
             }
+           
 
             //return redirect()->to('/categories');
     }

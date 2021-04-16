@@ -1,9 +1,9 @@
 {{--begin::Table--}}
-<div class="table-responsive">
+<div  class="table-responsive">
 
-    {{-- <!--begin::Alerts-->
+    <!--begin::Alerts-->
     @include('layouts.partials.alerts')
-    <!--end::Alerts--> --}}
+    <!--end::Alerts-->
 
     <div class="d-flex flex-row-reverse">
         <div class="input-icon">
@@ -130,6 +130,17 @@
                     </button>
                 </div>
                 <div wire:ignore class="modal-body">
+                    @if (session()->has('souscategoriealert'))
+                        <div class="alert alert-custom alert-light-danger shadow fade show mb-5" role="alert">
+                            <div class="alert-icon"><i class="flaticon-interface-10"></i></div>
+                            <div class="alert-text">{{ session('souscategoriealert') }}</div>
+                            <div class="alert-close">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true"><i class="ki ki-close"></i></span>
+                                </button>
+                            </div>
+                        </div>
+                    @endif
                     <form id="edit-form" class="form row">
                         <div class="input-group input-group-prepend">
                             <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tag icon-lg"></i></span></div>
@@ -157,7 +168,7 @@
                     </form>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
-                        <button type="submit" wire:click.prevent="editSousCategorie" class="btn btn-primary font-weight-bold" form="edit-form" >{{ __('Enregistrer') }}</button>
+                        <button type="submit" id="btnSave" wire:click="editSousCategorie" class="btn btn-primary font-weight-bold" form="edit-form" >{{ __('Enregistrer') }}</button>
                     </div>
                 </div>
 
@@ -166,4 +177,12 @@
     </div>
 </div>
 {{--end::Table--}}
+{{-- @push('scripts')
+<script>
+    $('#btnSave').click(function() {
+    $('#edit1').modal('hide');
+    });
+    </script>
+
+@endpush --}}
 
