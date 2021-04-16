@@ -181,7 +181,7 @@
                         @error('categorie_id')
                             <span class="form-text text-danger">{{ $message }}</span>
                         @enderror
-                        <div class="form-group "><br>
+                        {{-- <div class="form-group "><br> --}}
                             <label >Active</label>
                             <div class="col-3">
                                 <span class="switch switch-outline switch-icon switch-primary">
@@ -190,7 +190,7 @@
                                     <span></span>
                                     </label>
                                 </span>
-                            </div>
+                            {{-- </div> --}}
                         </div>
                     </form>
                     <div class="modal-footer">
