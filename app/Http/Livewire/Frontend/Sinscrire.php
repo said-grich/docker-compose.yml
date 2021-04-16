@@ -7,19 +7,12 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use Livewire\Component;
 
-<<<<<<< HEAD
-//require '../vendor/autoload.php';
-=======
-// require '../vendor/autoload.php';
->>>>>>> 6068f3a0be8224359c6efe8184fc606d3386333d
-
 class Sinscrire extends Component{
     public $form = [
         'name' => '',
         'email' => '',
         'tel' => '',
         'password' => '',
-        // 'password_confirm' => '',
         'agree' => '',
     ];
 
@@ -27,27 +20,15 @@ class Sinscrire extends Component{
         'form.name' => 'required|min:6',
         'form.email' => 'required|email',
         'form.tel' => 'required',
-        // 'form.password' => 'required|confirmed',
-        // 'form.password_confirm' => 'required',
         'form.agree' => 'required',
     ];
 
-    // public function rand_pass($length){
-    //     $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    //     return substr(str_shuffle($chars),0,$length);
-    // }
-
-    public function submit(){
-        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        $this->form['password'] = substr(str_shuffle($chars),0,10);
-
-        $this->validate();
-
+    public function sendPassword(){
         $mail = new PHPMailer();
         $mail->IsSMTP();
         $mail->Mailer = "smtp";
 
-        $mail->SMTPDebug  = SMTP::DEBUG_SERVER;
+        $mail->SMTPDebug  = 0;
         $mail->SMTPAuth   = TRUE;
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
@@ -71,23 +52,38 @@ class Sinscrire extends Component{
             // dd($mail->ErrorInfo);
             var_dump($mail);
         }else{
-            $this->createClient();
+            return redirect(route('connexion'));
         }
     }
 
-    public function createClient()
-    {
-        $item = new Client();
-        $item->nom = $this->form['name'];
-        $item->tel = $this->form['tel'];
-        $item->email = $this->form['email'];
-        $item->password = bcrypt($this->form['password']);
-        $item->profil_client_id = 1;
-        $item->save();
+    public function submit(){
+        $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        $this->form['password'] = substr(str_shuffle($chars),0,10);
 
-        // session()->flash('message', 'Client "' . $this->client_name . '" a été crée comme étant un client ' . $profil->nom);
+        $this->validate();
+        $this->createClient();
+    }
 
-        $this->emit('saved');
+    public function createClient(){
+        $checkEmail = Client::select()->where('email', $this->form['email'])->get();
+        $checkTel = Client::select()->where('tel', $this->form['tel'])->get();
+
+        if(count($checkEmail) === 0 && count($checkTel) === 0){
+            $item = new Client();
+            $item->nom = $this->form['name'];
+            $item->tel = $this->form['tel'];
+            $item->email = $this->form['email'];
+            $item->password = sha1($this->form['password']);
+            $item->profil_client_id = 1;
+            $item->save();
+
+            session()->flash('success-message', 'Votre compte a été créé avec succès');
+            $this->sendPassword();
+        }elseif(count($checkEmail) > 0){
+            session()->flash('warning-message', 'Existe déjà un compte possède cette adresse e-mail');
+        }elseif(count($checkTel) > 0){
+            session()->flash('warning-message', 'Existe déjà un compte possède ce numéro de téléphone');
+        }
     }
 
     public function render(){
