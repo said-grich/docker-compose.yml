@@ -71,26 +71,7 @@ class ListeProduits extends Component
         // dd($p->preparations->first()->preparation->nom);
 
     }
-    public function render()
-    {
 
-        // $p = Produit::where('id',1)->first();
-        // dd($p->preparations->first()->preparation->nom);
-
-        $items = Produit::query()
-        ->where('nom','ilike','%'.$this->search.'%')
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
-
-        foreach ($items as &$item) {
-            $item['photo_url'] = Storage::url($item->photo_principale);
-        }
-
-        $this->renderData();
-        return view('livewire.Parametrage.liste-produits',[
-            'items' => $items
-        ]);
-    }
     public function sortBy($field)
     {
         if ($this->sortDirection == 'asc') {
@@ -321,11 +302,29 @@ class ListeProduits extends Component
 
     }
 
+
+    public function render()
+    {
+
+        $items = Produit::query()
+        ->where('nom','ilike','%'.$this->search.'%')
+        ->orderBy($this->sortBy, $this->sortDirection)
+        ->paginate($this->perPage);
+
+        foreach ($items as &$item) {
+            $item['photo_url'] = Storage::url($item->photo_principale);
+        }
+
+        $this->renderData();
+        return view('livewire.parametrage.liste-produits',[
+            'items' => $items
+        ]);
+    }
+
     public function saved()
     {
         $this->render();
     }
-
 
 
 }

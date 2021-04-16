@@ -55,6 +55,10 @@ class Produits extends Component
     public $nomTranche;
     public $showPoids = false;
     public $showKgPiece = false;
+    public $nomUnite;
+    public $nomFamille;
+    public $mode_vente_name;
+
 
 
     public function updatedModeVente($value){
@@ -78,7 +82,9 @@ class Produits extends Component
     //     $mode = ModePreparation::find($value);
     //     $this->list_preparations = $mode->preparations;
     // }
+   /*  protected $rules = [
 
+    ]; */
 
     public function updatedPhoto()
     {
@@ -102,40 +108,40 @@ class Produits extends Component
         // dd($p->preparations->first()->preparation->nom);
 
     }
-
-    /* public function createFamille()
+    public function createModeVente()
     {
-        $this->validate();
+
+        $item = new ModeVente();
+        $item->nom = $this->mode_vente_name;
+        $item->save();
+
+        $this->reset(['mode_vente_name']);
+    }
+
+    public function createFamilles()
+    {
 
         $item = new Famille();
-        $item->nom = $this->nom;
+        $item->nom = $this->nomFamille;
 
         $item->save();
 
-        $this->reset(['nom']);
+        $this->reset(['nomFamille']);
+    }
 
-       // $this->emit('saved');
-    } */
-
-    public function createUnite()
+    public function createUnites()
     {
-        //dd('bb');
-        $this->validate();
-
         $item = new Unite();
-        $item->nom = $this->nom;
+        $item->nom = $this->nomUnite;
         $item->save();
 
-        session()->flash('message', 'Unité "' . $this->nom . '" a été créée ');
+        //$this->list_unite = Unite::get();
+        $this->reset(['nomUnite']);
 
-        $this->reset(['nom']);
-
-        $this->emit('saved');
     }
 
     public function createTranche()
     {
-        //dd('ttt');
         $uniqueId = str_replace(".","",microtime(true)).rand(000,999);
         /* $this->type == 1 ?
             TranchesPoidsPc::create([
