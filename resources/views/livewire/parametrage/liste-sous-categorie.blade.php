@@ -186,7 +186,7 @@
                             <div class="col-3">
                                 <span class="switch switch-outline switch-icon switch-primary">
                                     <label>
-                                    <input type="checkbox" checked="checked" wire:model.defer="isActive" name="isActive"/>
+                                    <input type="checkbox" checked="checked" wire:model.defer="souscategorie_isActive" name="souscategorie_isActive"/>
                                     <span></span>
                                     </label>
                                 </span>

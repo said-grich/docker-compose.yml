@@ -18,7 +18,6 @@ use App\Models\Stock as ModelsStock;
 use App\Models\StockKgPc;
 use App\Models\StockPoidsPc;
 use App\Models\Tranche;
-use App\Models\TranchesKgPc;
 use App\Models\TranchesPoidsPc;
 use App\Models\Unite;
 use Illuminate\Support\Facades\DB;
@@ -30,18 +29,14 @@ class Stock extends Component
     public $date_entree;
     public $date_preemption;
     public $fournisseur;
-    /* public $pas;
-    public $qualite;
-    public $produit; */
     public $active = false;
     public $showNbrPiece = false;
 
     public $lot_id;
     public $tranches = [];
     public $depot;
-    /* public $prix_achat;
-    public $qte; */
-    public $cr;
+
+    public $cr = [];
     public $prix_vente_normal;
     public $prix_vente_fidele;
     public $prix_vente_business;
@@ -337,7 +332,7 @@ class Stock extends Component
                                     LotTranche::where('lot_num', $this->lot_num[$key])->where('tranche_id', $valueT['uid'])->update(['qte' => DB::raw('qte + 1')]);
 
                                     $item = new ModelsStock();
-                                    $item->type = $produit->modeVente->nom;
+                                    $item->type = $produit->modeVente->id;
                                     $item->qte = 1;
                                     $item->lot_num = $this->lot_num[$key];
                                     $item->produit_id = $this->produit[$key];
@@ -353,7 +348,7 @@ class Stock extends Component
                                     $item->poids = $poids['poids'];
                                     $item->qualite_id = $poids['qualite'];
                                     $item->tranche_id = $valueT['uid'];
-                                    $item->cr = 0;
+                                    $item->cr = $this->cr[$key];
                                     $item->prix_n = 0;
                                     $item->prix_f = 0;
                                     $item->prix_p = 0;
@@ -373,7 +368,7 @@ class Stock extends Component
                         'tranche_id' => $this->tranches[$key],
                     ]);
                     $item = new ModelsStock();
-                    $item->type = $produit->modeVente->nom;
+                    $item->type = $produit->modeVente->id;
                     $item->qte = $this->qte[$key];
                     $item->qte_restante = $this->qte[$key];
                     $item->lot_num = $this->lot_num[$key];
@@ -385,7 +380,7 @@ class Stock extends Component
                     $item->qualite_id = $this->qualite[$key];
                     $item->prix_achat = $this->prix_achat[$key];
                     $item->tranche_id = $this->tranches[$key];
-                    $item->cr = 0;
+                    $item->cr = $this->cr[$key];
                     $item->prix_n = 0;
                     $item->prix_f = 0;
                     $item->prix_p = 0;
