@@ -18,8 +18,6 @@ use Illuminate\Support\Facades\Route;
 //     return view('livewire.frontend.index');
 // });
 
-Route::get('/', \App\Http\Livewire\Frontend\Index::class)->name('index');
-
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
@@ -77,11 +75,12 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/modes-livraison', \App\Ht
 Route::middleware(['auth:sanctum', 'verified'])->get('/livreurs', \App\Http\Livewire\Parametrage\Livreurs::class)->name('livreurs');
 
 // Primary | Routes Frontend
-Route::middleware(['auth:sanctum', 'verified'])->get('/boutique', \App\Http\Livewire\Frontend\Boutique::class)->name('boutique');
-Route::middleware(['auth:sanctum', 'verified'])->get('/produit', \App\Http\Livewire\Frontend\ProduitInfo::class)->name('produit');
-Route::middleware(['auth:sanctum', 'verified'])->get('/panier', \App\Http\Livewire\Frontend\Panier::class)->name('panier');
-Route::middleware(['auth:sanctum', 'verified'])->get('/blog', \App\Http\Livewire\Frontend\Blog::class)->name('blog');
-Route::middleware(['auth:sanctum', 'verified'])->get('/apropos', \App\Http\Livewire\Frontend\Apropos::class)->name('apropos');
-Route::middleware(['auth:sanctum', 'verified'])->get('/contact', \App\Http\Livewire\Frontend\Contact::class)->name('contact');
-Route::middleware(['auth:sanctum', 'verified'])->get('/sinscrire', \App\Http\Livewire\Frontend\Sinscrire::class)->name('sinscrire');
-Route::middleware(['auth:sanctum', 'verified'])->get('/connexion', \App\Http\Livewire\Frontend\Connexion::class)->name('connexion');
+Route::get('/', \App\Http\Livewire\Frontend\Index::class)->name('index');
+Route::get('/boutique', \App\Http\Livewire\Frontend\Boutique::class)->name('boutique');
+Route::get('/produit', \App\Http\Livewire\Frontend\ProduitInfo::class)->name('produit');
+Route::get('/panier', \App\Http\Livewire\Frontend\Panier::class)->name('panier');
+Route::get('/blog', \App\Http\Livewire\Frontend\Blog::class)->name('blog');
+Route::get('/apropos', \App\Http\Livewire\Frontend\Apropos::class)->name('apropos');
+Route::get('/contact', \App\Http\Livewire\Frontend\Contact::class)->name('contact');
+Route::get('/sinscrire', \App\Http\Livewire\Frontend\Sinscrire::class)->name('sinscrire');
+Route::get('/connexion', \App\Http\Livewire\Frontend\Connexion::class)->name('connexion');
