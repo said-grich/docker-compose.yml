@@ -192,7 +192,7 @@ class Stock extends Component
             $code_poids[$value] = array( 'poids' =>$this->poids[$key], 'qualite' =>  $this->qualite_piece[$key]);
             $this->code_poids[$this->details_index] = $code_poids;
         }
-        $p_tranche = [];
+        /*$p_tranche = [];
 
         foreach($this->tranches[$key] as $k=>$val){
             $p_tranche[$key][$k] = Tranche::where('uid', $val)->get()->toArray()[0];
@@ -201,19 +201,19 @@ class Stock extends Component
 
         foreach ($this->code_poids[$key] as $code => $poids) {
             foreach($p_tranche[$key] as $keyT=>$valueT){
-                if($poids['poids']>= $valueT[$keyT]['min_poids'] && $poids['poids']<$valueT[$keyT]['max_poids']){
+               // if($poids['poids']>= $valueT[$keyT]['min_poids'] && $poids['poids']<$valueT[$keyT]['max_poids']){
 
                   //  break;
-                }
-                else{
-                session()->push('erreur', 'Ce poid ' .$poids['poids']. ' n\'appartient pas à l\'intervalle [' .$valueT[$keyT]['nom'] . ']');
+               // }
+              //  else{
+               // session()->push('erreur', 'Ce poid ' .$poids['poids']. ' n\'appartient pas à l\'intervalle [' .$valueT[$keyT]['nom'] . ']');
                    // break;
                 }
                 //dd($valueT);
             }
-        }
+        }*/
 
-    }
+   }
 
         /*foreach($produit as $value){
             $produit_tranche = ProduitTranche::where('produit_id',$value->id)->get();
@@ -254,7 +254,6 @@ class Stock extends Component
             $this->list_tranches[$index][$key] =  Tranche::where('uid',$value->tranche_id)->get()->toArray();
         }
     }
-
 
     public function updatedLotNum($value,$index){
 
@@ -328,7 +327,7 @@ class Stock extends Component
 
                         foreach ($this->code_poids[$key] as $code => $poids) {
                             foreach ($lot_tranche[$key] as $keyT => $valueT) {
-                                //if ($poids['poids'] >= $valueT['min_poids'] && $poids['poids'] < $valueT['max_poids']) {
+                                if ($poids['poids'] >= $valueT['min_poids'] && $poids['poids'] < $valueT['max_poids']) {
 
                                     LotTranche::where('lot_num', $this->lot_num[$key])->where('tranche_id', $valueT['uid'])->update(['qte' => DB::raw('qte + 1')]);
 
@@ -361,7 +360,7 @@ class Stock extends Component
                         }
                     }
 
-                //}//end if mode vente poids par pièce
+                }//end if mode vente poids par pièce
 
                 else{
                     LotTranche::create([
