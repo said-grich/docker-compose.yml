@@ -12,6 +12,8 @@ class Preparations extends Component
     public $preparation_nom;
     public $mode_preparation_id;
     public $list_mode_preparations;
+    public $isActive = false;
+    public $sousmodeprepa_isActive = false;
 
     protected $listeners = ['modePreparationAdded' => 'renderModePreparations'];
 
@@ -34,6 +36,7 @@ class Preparations extends Component
 
         $item = new ModePreparation();
         $item->nom = $this->mode_preparation_nom;
+        $item->active = $this->isActive;
 
         $item->save();
         session()->flash('message', 'Le mode de préparation "'.$this->mode_preparation_nom. '" a été crée ');
@@ -55,6 +58,7 @@ class Preparations extends Component
                 $item = new Preparation();
                 $item->nom = $this->preparation_nom;
                 $item->mode_preparation_id = $this->mode_preparation_id;
+                $item->active = $this->sousmodeprepa_isActive;
 
                 $item->save();
 

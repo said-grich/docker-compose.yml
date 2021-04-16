@@ -13,6 +13,8 @@ class ListeModePreparation extends Component
 
     public $mode_preparation_id;
     public $nom;
+    public $isActive = false;
+
 
     public $sortBy = 'nom';
     public $sortDirection = 'asc';
@@ -37,6 +39,7 @@ class ListeModePreparation extends Component
         $item = ModePreparation::where('id',$id)->firstOrFail();
         $this->mode_preparation_id =$item->id;
         $this->nom =$item->nom;
+        $this->isActive =$item->active;
     }
 
     public function editModePreparation(){
@@ -44,6 +47,7 @@ class ListeModePreparation extends Component
         ModePreparation::where('id', $this->mode_preparation_id)
             ->update([
                 'nom' => $this->nom,
+                'active' => $this->isActive,
             ]);
 
         session()->flash('message', 'Mode préparation "'.$this->nom.'" à été modifié');
