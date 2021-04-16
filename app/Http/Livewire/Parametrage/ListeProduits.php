@@ -66,8 +66,9 @@ class ListeProduits extends Component
         $this->list_modes_vente = ModeVente::all()->sortBy('nom');
         $this->list_unite = Unite::all()->sortBy('nom');
         $this->list_familles = Famille::all()->sortBy('nom');
-        $this->mode_vente  == 1 ?  $this->list_tranches = Tranche::where('type',"Poids par pièce")->get() :  $this->list_tranches = Tranche::where('type',"Kg/Pièce")->get();
+        //$this->mode_vente  == 1 ?  $this->list_tranches = Tranche::where('type',"Poids par pièce")->get() :  $this->list_tranches = Tranche::where('type',"Kg/Pièce")->get();
        /*  $p = Produit::where('id',1)->first(); */
+       $this->mode_vente == 1 ? $this->list_tranches = Tranche::where('mode_vente_id',1)->get() :  $this->list_tranches = Tranche::where('mode_vente_id','!=',1)->get();
         // dd($p->preparations->first()->preparation->nom);
 
     }
@@ -90,12 +91,14 @@ class ListeProduits extends Component
         $this->type == 1 ? $this->nomTranche =  $this->minPoids." - ".$this->maxPoids : $this->nomTranche;
         Tranche::create([
             'nom' => $this->nomTranche,
-            'type' => $this->type == 1 ? "Poids par pièce" : "Kg/Pièce",
+            //'type' => $this->type == 1 ? "Poids par pièce" : "Kg/Pièce",
+            'mode_vente_id'=> $this->mode_vente_id,
             'min_poids' => $this->minPoids,
             'max_poids' => $this->maxPoids,
-            'uid' => $this->type == 1 ? "PP".$uniqueId : "KP".$uniqueId,
+            'uid' => $this->mode_vente_id == 1 ? "PP".$uniqueId : "KP".$uniqueId,
         ]);
-        $this->type  == 1 ?  $this->list_tranches = Tranche::where('type',"Poids par pièce")->get() :  $this->list_tranches = Tranche::where('type',"Kg/Pièce")->get();
+        //$this->type  == 1 ?  $this->list_tranches = Tranche::where('type',"Poids par pièce")->get() :  $this->list_tranches = Tranche::where('type',"Kg/Pièce")->get();
+        $this->mode_vente == 1 ? $this->list_tranches = Tranche::where('mode_vente_id',1)->get() :  $this->list_tranches = Tranche::where('mode_vente_id','!=',1)->get();
         $this->reset(['nomTranche','minPoids','maxPoids']);
 
     }

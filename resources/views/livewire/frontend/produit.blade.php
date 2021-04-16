@@ -119,10 +119,10 @@
                                                             </div>
                                                             
                                                             <div x-show="open{{$tranche_id}} == 1" class="preparations">
-                                                                @livewire('frontend.multi-select', ['selectId' => 'C_'.$tranche_id.'_'.$i, 'selectTitle' => 'Mode Cuisine', 'selectType' => '', 'selectOptions' => $item->produit->preparations, 'key' => $produit_id.'-'.$tranche_id.'_'.$i], key('C-'.$tranche_id.'-'.$i))
+                                                                @livewire('frontend.multi-select', ['selectId' => 'C_'.$tranche_id.'_'.$i, 'selectTitle' => 'Mode Cuisine', 'selectType' => '', 'selectOptions' => $item->produit->preparations, 'mode' => 1, 'key' => $produit_id.'-'.$tranche_id.'_'.$i], key('C-'.$tranche_id.'-'.$i))
                                                             </div>
                                                             <div x-show="open{{$tranche_id}} == 2" class="preparations">
-                                                                @livewire('frontend.multi-select', ['selectId' => 'N_'.$tranche_id.'_'.$i, 'selectTitle' => 'Mode Nettoyage', 'selectType' => 'multiple', 'selectOptions' => $item->produit->preparations, 'key' => $produit_id.'-'.$tranche_id.'_'.$i], key('N-'.$tranche_id.'-'.$i))
+                                                                @livewire('frontend.multi-select', ['selectId' => 'N_'.$tranche_id.'_'.$i, 'selectTitle' => 'Mode Nettoyage', 'selectType' => 'multiple', 'selectOptions' => $item->produit->preparations, 'mode' => 2, 'key' => $produit_id.'-'.$tranche_id.'_'.$i], key('N-'.$tranche_id.'-'.$i))
                                                             </div>
                                                             {{-- <select x-show="open{{$tranche_id}} == 1" class="preparations">
                                                                 <option>Mode Cuisine</option>

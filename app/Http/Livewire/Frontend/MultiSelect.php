@@ -11,6 +11,7 @@ class MultiSelect extends Component
     public $selectTitle;
     public $selectType;
     public $selectOptions;
+    public $mode;
     public $key;
     public $test;
 
