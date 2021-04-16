@@ -17,10 +17,13 @@ class CreateProduitPrixesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('produit_id');
             $table->foreign('produit_id')->references('id')->on('produits');
-            $table->unsignedBigInteger('tranche_id');
-            $table->foreign('tranche_id')->references('id')->on('tranches');
+            $table->string('tranche_id');
+            $table->foreign('tranche_id')->references('uid')->on('tranches');
             $table->unsignedBigInteger('categorie_id');
             $table->foreign('categorie_id')->references('id')->on('categories');
+            $table->decimal('prix_n');
+            $table->decimal('prix_f');
+            $table->decimal('prix_p');
             $table->timestamps();
         });
     }

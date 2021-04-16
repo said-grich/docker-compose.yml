@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Vente;
 use App\Models\BonReception;
 use App\Models\Categorie;
 use App\Models\Produit;
+use App\Models\ProduitPrix;
 use App\Models\Stock;
 use App\Models\StockKgPc;
 use App\Models\StockPoidsPc;
@@ -238,19 +239,24 @@ class DesignationPrix extends Component
                 foreach ($categories as $categorie => $produits) {
                     foreach ($produits as $produit => $stock) {
                         foreach ($stock as $key => $item) {
-                            if($item['type'] == 1){
-                                Stock::where('produit_id', $item['produit_id'])
-                                //->where('lot_num', $this->lot_num[$key])
+                            Stock::where('produit_id', $item['produit_id'])
                                 ->where('tranche_id', $item['tranche_id'])
                                 ->where('categorie_id', $item['categorie_id'])
                                 ->where('br_num', $this->bon_reception_ref)
                                 ->update([
-                                    //'cr' => $this->cr[$key],
                                     'prix_n' => $this->prix_vente_normal[$item['produit_id']][$item['categorie_id']][$item['tranche_id']],
                                     'prix_f' => $this->prix_vente_fidele[$item['produit_id']][$item['categorie_id']][$item['tranche_id']],
                                     'prix_p' => $this-> prix_vente_business[$item['produit_id']][$item['categorie_id']][$item['tranche_id']],
-                                ]);
-                            }
+                            ]);
+
+                            ProduitPrix::create([
+                                'produit_id' => $item['produit_id'],
+                                'categorie_id' => $item['categorie_id'],
+                                'tranche_id' => $item['tranche_id'],
+                                'prix_n' => $this->prix_vente_normal[$item['produit_id']][$item['categorie_id']][$item['tranche_id']],
+                                'prix_f' => $this->prix_vente_fidele[$item['produit_id']][$item['categorie_id']][$item['tranche_id']],
+                                'prix_p' => $this->prix_vente_business[$item['produit_id']][$item['categorie_id']][$item['tranche_id']],
+                            ]);
                         }
                     }
                 }
