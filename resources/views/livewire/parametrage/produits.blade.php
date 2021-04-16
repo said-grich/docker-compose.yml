@@ -39,13 +39,12 @@
                                         <form id="produit-form" class="form row" wire:submit.prevent="createProduit"
                                               enctype="multipart/form-data">
                                             <div class="form-group col-md-12">
-                                                <label><b>{{ __('') }}</b></label>
+                                                <label><b>{{ __('Nom Produit') }}</b></label>
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i
                                                                 class="fa fa-box-open icon-lg"></i></span></div>
-                                                    <input type="text" class="form-control" placeholder=" "
+                                                    <input type="text" class="form-control" placeholder="Nom Produit"
                                                            wire:model.defer="nom"/>
-                                                    <label>{{ __('Nom Produit') }}</label>
                                                 </div>
                                                 @error('nom')
                                                 <span class="form-text text-danger">{{ $message }}</span>
@@ -138,7 +137,7 @@
                                                         @endforeach
                                                     </select>
                                                     <div class="input-group-append" data-toggle="modal"
-                                                         data-target="#unite">
+                                                         data-target="#unites">
                                                         <button class="btn btn-primary" type="button"
                                                                 data-toggle="tooltip" data-theme="dark"
                                                                 title="Ajouter Unite"><i class="fa fa-plus-circle"></i>
@@ -278,24 +277,26 @@
 
 
                                             <div class="form-group col-md-6">
+                                                <label><b>{{ __('Code Comptable') }}</b></label>
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i
                                                                 class="fa fa-calculator icon-lg"></i></span></div>
-                                                    <input type="text" class="form-control" placeholder=" "
+                                                    <input type="text" class="form-control" placeholder="Code Comptable "
                                                            wire:model.defer="code_comptable"/>
-                                                    <label>{{ __('Code Comptable') }}</label>
+
                                                 </div>
                                                 @error('code-comptable')
                                                 <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                             <div class="form-group col-md-6">
+                                                <label><b>{{ __('Code Analytique') }}</b></label>
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i
                                                                 class="fa fa-chart-pie icon-lg"></i></span></div>
-                                                    <input type="text" class="form-control" placeholder=" "
+                                                    <input type="text" class="form-control" placeholder=" Code Analytique"
                                                            wire:model.defer="code_analytique"/>
-                                                    <label>{{ __('Code Analytique') }}</label>
+
                                                 </div>
                                                 @error('code-analytique')
                                                 <span class="form-text text-danger">{{ $message }}</span>
@@ -464,6 +465,114 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!--Modal-Unité-->
+
+                        <div wire:ignore.self class="modal secondary fade" id="unites"data-backdrop="static"tabindex="-1" role="dialog" aria-labelledby="unite" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">{{ __('Nouvelle Unité') }}</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <i aria-hidden="true" class="ki ki-close"></i>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="unite-form" class="form" wire:submit.prevent="createUnites">
+                                                <div class="form-group">
+                                                    <label><b>{{ __('Nom') }}</b></label>
+                                                    <div class="input-group input-group-prepend">
+                                                        <div class="input-group-prepend"><span class="input-group-text"><i
+                                                                    class="fa fa-weight-hanging icon-lg"></i></span></div>
+                                                        <input type="text" class="form-control" placeholder=" Nom " wire:model.defer="nomUnite"/>
+
+                                                    </div>
+                                                    @error('nom')
+                                                    <span class="form-text text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-light-primary font-weight-bold"
+                                                    data-dismiss="modal">{{ __('Fermer') }}</button>
+                                            <button type="submit" {{-- wire:click="createUnite()" --}} class="btn btn-primary font-weight-bold"
+                                                    form="unite-form">{{ __('Enregistrer') }}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                        <!--Modal-famille-->
+                        <div wire:ignore.self class="modal secondary fade" id="famille"data-backdrop="static"tabindex="-1" role="dialog" aria-labelledby="famille" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">{{ __('Nouvelle Famille') }}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <i aria-hidden="true" class="ki ki-close"></i>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="famille-form" class="form" wire:submit.prevent="createFamilles">
+                                            <div class="form-group">
+                                                <label><b>{{ __('Nom') }}</b></label>
+                                                <div class="input-group input-group-prepend">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i
+                                                                class="fa fa-weight-hanging icon-lg"></i></span></div>
+                                                    <input type="text" class="form-control" placeholder=" Nom " wire:model.defer="nomFamille"/>
+
+                                                </div>
+                                                @error('nomFamille')
+                                                <span class="form-text text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-light-primary font-weight-bold"
+                                                data-dismiss="modal">{{ __('Fermer') }}</button>
+                                        <button type="submit" class="btn btn-primary font-weight-bold"
+                                                form="famille-form">{{ __('Enregistrer') }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Modal-Mode-Vente-->
+                        <div wire:ignore.self class="modal secondary fade" id="mode-vente" data-backdrop="static" tabindex="-1" role="dialog"
+                        aria-labelledby="mode-vente" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">{{ __('Nouveau mode de vente') }}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <i aria-hidden="true" class="ki ki-close"></i>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="mode-vente-form" class="form" wire:submit.prevent="createModeVente">
+                                        <div class="form-group">
+                                            <label><b>{{ __('Nom') }}</b></label>
+                                            <div class="input-group input-group-prepend">
+                                                <div class="input-group-prepend"><span class="input-group-text"><i
+                                                            class="fa fa-money-check-alt icon-lg"></i></span></div>
+                                                <input type="text" class="form-control" placeholder="Nom " wire:model.defer="mode_vente_name"/>
+
+                                            </div>
+                                            @error('mode_vente_name')
+                                            <span class="form-text text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light-primary font-weight-bold"
+                                            data-dismiss="modal">{{ __('Fermer') }}</button>
+                                    <button type="submit" class="btn btn-primary font-weight-bold"
+                                            form="mode-vente-form">{{ __('Enregistrer') }}</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
                         <!--Table-->
                         <div class="mt-5">
                             @livewire('parametrage.liste-produits')
@@ -532,41 +641,7 @@
     </div>
 </div>
 
-<!--Modal-Mode-Vente-->
-<div wire:ignore.self class="modal secondary fade" id="mode-vente" data-backdrop="static" tabindex="-1" role="dialog"
-     aria-labelledby="mode-vente" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">{{ __('Nouveau mode de vente') }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i aria-hidden="true" class="ki ki-close"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="mode-vente-form" class="form" wire:submit.prevent="createModeVente">
-                    <div class="form-group">
-                        <div class="input-group input-group-prepend">
-                            <div class="input-group-prepend"><span class="input-group-text"><i
-                                        class="fa fa-money-check-alt icon-lg"></i></span></div>
-                            <input type="text" class="form-control" placeholder=" " wire:model.defer="mode_vente_name"/>
-                            <label>{{ __('Nom') }}</label>
-                        </div>
-                        @error('mode_vente_name')
-                        <span class="form-text text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light-primary font-weight-bold"
-                        data-dismiss="modal">{{ __('Fermer') }}</button>
-                <button type="submit" class="btn btn-primary font-weight-bold"
-                        form="mode-vente-form">{{ __('Enregistrer') }}</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 
 <!--Modal-Mode-Préparation-->
@@ -658,37 +733,4 @@
 </div> --}}
 
 <!--Modal-Unite-->
-<div wire:ignore.self class="modal secondary fade" id="unite" data-backdrop="static" tabindex="-1" role="dialog"
-     aria-labelledby="unite" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">{{ __('Nouvelle Unité') }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i aria-hidden="true" class="ki ki-close"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="unite-form" class="form" wire:submit.prevent="">
-                    <div class="form-group">
-                        <div class="input-group input-group-prepend">
-                            <div class="input-group-prepend"><span class="input-group-text"><i
-                                        class="fa fa-weight-hanging icon-lg"></i></span></div>
-                            <input type="text" class="form-control" placeholder=" " wire:model.defer="nom"/>
-                            <label>{{ __('Nom') }}</label>
-                        </div>
-                        @error('nom')
-                        <span class="form-text text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light-primary font-weight-bold"
-                        data-dismiss="modal">{{ __('Fermer') }}</button>
-                <button type="submit" wire:click="createUnite()" class="btn btn-primary font-weight-bold"
-                        form="unite-form">{{ __('Enregistrer') }}</button>
-            </div>
-        </div>
-    </div>
-</div>
+
