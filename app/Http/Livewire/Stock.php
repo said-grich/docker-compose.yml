@@ -252,6 +252,7 @@ class Stock extends Component
             //$kg_pc = TranchesKgPc::where('uid',$value->tranche_id)->first()->toArray();
             $this->list_tranches[$index][$key] =  Tranche::where('uid',$value->tranche_id)->get()->toArray();
         }
+        //dd( $this->list_tranches);
     }
 
 
@@ -362,7 +363,7 @@ class Stock extends Component
 
                // }//end if mode vente poids par pièce
 
-                else{
+               // else{
                     LotTranche::create([
                         'lot_num' => $this->lot_num[$key],
                         'tranche_id' => $this->tranches[$key],
@@ -388,7 +389,7 @@ class Stock extends Component
                     $item->pas = $this->pas[$key];
                     $item->unite_id = Unite::where('nom', $this->unite[$key])->first()->id;
                     $item->save();
-                }
+               // }
 
             }
 
@@ -834,7 +835,7 @@ public $list_piece = [];
 
             ]);
 
-          
+
         }
 
         $this->emit('update');

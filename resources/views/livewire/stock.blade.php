@@ -238,25 +238,25 @@
                                                 @enderror
                                             </div>
 
-                                            <table class="table table-vertical-center" id="kt_advance_table_widget_4">
-                                                <thead>
+                                            <table class="table table-vertical-center" id="kt_advance_table_widget_4" >
+                                                <thead >
                                                     <tr class="text-left">
-                                                        <th class="pl-0">Article</th>
-                                                        <th class="pl-0">Catégorie</th>
-                                                        <th class="pl-0">Sous catégorie</th>
-                                                        <th class="pl-0">Quantité</th>
-                                                        <th class="pl-0">Unité</th>
-                                                        <th class="pl-0">Prix Achat</th>
-                                                        <th class="pl-0">Lot</th>
-                                                        <th class="pl-0">CR</th>
-                                                        <th class="pl-0">Qualité produit</th>
-                                                        <th class="pl-0">Pas</th>
-                                                        <th class="pl-0">Tranches</th>
+                                                        <th class="pl-0" >Article</th>
+                                                        <th class="pl-0" >Catégorie</th>
+                                                        <th class="pl-0" >Sous catégorie</th>
+                                                        <th class="pl-0" >Quantité</th>
+                                                        <th class="pl-0" >Unité</th>
+                                                        <th class="pl-0" >Prix Achat</th>
+                                                        <th class="pl-0" >Lot</th>
+                                                        <th class="pl-0" >CR</th>
+                                                        <th class="pl-0" >Qualité produit</th>
+                                                        <th class="pl-0" >Pas</th>
+                                                        <th class="pl-0" >Tranches</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody >
                                                         <tr >
-                                                            <td class="pl-0">
+                                                            <td class="pl-0" style="width: 150px;">
                                                                 <select class="form-control" wire:model="produit.0">
                                                                     <option>{{ __('Choisir un produit') }}</option>
                                                                     @foreach ($list_produits as $item)
@@ -264,7 +264,7 @@
                                                                     @endforeach
                                                                 </select>
                                                             </td>
-                                                            <td class="pl-0">
+                                                            <td class="pl-0" style="width: 150px;">
                                                                 <select class="form-control" wire:model.defer="categorie.0">
                                                                     <option>{{ __('Choisir une catégorie') }}</option>
                                                                     @foreach ($list_categories as $item)
@@ -272,7 +272,7 @@
                                                                     @endforeach
                                                                 </select>
                                                             </td>
-                                                            <td class="pl-0">
+                                                            <td class="pl-0" style="width: 150px;">
                                                                 <select class="form-control" wire:model.defer="sous_categorie.0">
                                                                     <option>{{ __('Choisir une sous catégorie') }}</option>
                                                                     @foreach ($list_sous_categories as $item)
@@ -280,24 +280,24 @@
                                                                     @endforeach
                                                                 </select>
                                                             </td>
-                                                            <td class="pl-0">
+                                                            <td class="pl-0" style="width: 90px;">
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="qte.0"/>
-                                                            </td>
-                                                            <td class="pl-0">
+                                                            </td></div>
+                                                            <td class="pl-0" >
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="unite.0" disabled/>
                                                             </td>
 
-                                                            <td class="pl-0">
+                                                            <td class="pl-0" >
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="prix_achat.0"/>
                                                             </td>
 
-                                                            <td class="pl-0">
+                                                            <td class="pl-0" >
                                                                 <input type="text" class="form-control" placeholder=" " wire:model="lot_num.0"/>
                                                             </td>
-                                                            <td class="pl-0">
+                                                            <td class="pl-0" >
                                                                 <input type="text" class="form-control" placeholder=" " wire:model="cr.0"/>
                                                             </td>
-                                                            <td class="pl-0" >
+                                                            <td class="pl-0" style="width: 150px;">
                                                                 <select class="form-control" wire:model.defer="qualite.0">
                                                                     <option>{{ __('Choisir une qualite') }}</option>
                                                                     @foreach ($list_qualites as $item)
@@ -305,11 +305,11 @@
                                                                     @endforeach
                                                                 </select>
                                                             </td>
-                                                            <td class="pl-0">
+                                                            <td class="pl-0" style="width: 90px;" >
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="pas.0"/>
                                                             </td>
 
-                                                            <td class="pl-0">
+                                                            <td class="pl-0" >
                                                                 <select class="form-control" wire:model="tranches.0" {{isset($mode_vente_produit[0]) && $mode_vente_produit[0] == 1 ? 'multiple' :  '' }} >
                                                                     <option>{{ __('Choisir une tranche') }}</option>
                                                                     @if (!empty($list_tranches[0]))
@@ -321,18 +321,25 @@
                                                                 </select>
                                                             </td>
                                                             @if (isset($mode_vente_produit[0]) && $mode_vente_produit[0] == 1)
-                                                                <td class="pl-0">
+                                                                <td class="pl-0" >
                                                                     <div class="input-group input-group-prepend">
-                                                                        <input type="text" class="form-control" placeholder="Nombre de pièce" wire:model="nbr_pc.0"/>
+
+                                                                            <input type="text" class="form-control" placeholder="Nombre de pièce" data-toggle="tooltip" data-theme="dark" title="Code / poids" wire:model.defer="nbr_pc.0"  wire:change="setCodePoids(0)"/>
                                                                         <div class="input-group-append" data-toggle="modal" data-target="#code-poids">
-                                                                            <button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Code / poids" wire:click="setCodePoids(0)"><i class="far fa-eye"></i></button></div>
+
+                                                                            {{--<button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Code / poids" wire:click="setCodePoids(0)"><i class="far fa-eye"></i></button></div>--}}
+                                                                        </div>
                                                                         @error('nbr_pc')
                                                                         <span class="form-text text-danger">{{ $message }}</span>
                                                                     @enderror
                                                                     </div>
                                                                 </td>
                                                             @endif
-
+                                                            <td>
+                                                                <button data-repeater-create="" class="btn font-weight-bold btn-primary" wire:click.prevent="add()">
+                                                                    <i class="la la-plus"></i>
+                                                                </button>
+                                                            </td>
 
                                                         </tr>
                                                         @foreach($inputs as $key => $value)
@@ -361,7 +368,7 @@
                                                                     @endforeach
                                                                 </select>
                                                             </td>
-                                                            <td class="pl-0">
+                                                            <td class="pl-0" style="width: 90px;">
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="qte.{{$value}}"/>
                                                             </td>
                                                             <td class="pl-0">
@@ -384,7 +391,7 @@
                                                                     @endforeach
                                                                 </select>
                                                             </td>
-                                                            <td class="pl-0">
+                                                            <td class="pl-0" style="width: 90px;">
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="pas.{{$value}}"/>
                                                             </td>
                                                             {{--<td class="pl-0">
@@ -426,36 +433,32 @@
                                                             @if (isset($mode_vente_produit[$value]) && $mode_vente_produit[$value] == 1)
                                                             <td class="pl-0">
                                                                 <div class="input-group input-group-prepend">
-                                                                    <input type="text" class="form-control" placeholder="Nombre de pièce" wire:model="nbr_pc.{{$value}}"/>
-
                                                                     <div class="input-group-append" data-toggle="modal" data-target="#code-poids">
-                                                                        <button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Code / poids" wire:click="setCodePoids({{$value}})"><i class="fa fa-plus-circle"></i></button></div>
+                                                                        <input type="text" class="form-control" placeholder="Nombre de pièce" wire:model="nbr_pc.{{$value}}"  wire:keydown="setCodePoids({{$value}})"/>
+
+
+                                                                        {{--<button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Code / poids" wire:click="setCodePoids({{$value}})"><i class="fa fa-plus-circle"></i></button></div>--}}
                                                                     @error('nbr_pc')
                                                                     <span class="form-text text-danger">{{ $message }}</span>
-                                                                @enderror
+                                                                    @enderror
                                                                 </div>
                                                             </td>
-                                                            {{--<td class="pl-0">
+                                                            @endif
+                                                            <td class="pl-0">
                                                                 <div class="col-md-1">
                                                                     <div class="form-group">
                                                                         <button type="button" class="btn btn-outline-danger"  wire:click.prevent="remove({{$key}})">X</button>
                                                                     </div>
                                                                 </div>
-                                                            </td>--}}
+                                                            </td>
                                                         </tr>
-                                                            @endif
+
                                                         @endforeach
                                                 </tbody>
                                             </table>
 
 
-                                            <div class="form-group row">
-                                                <div class="col">
-                                                    <button data-repeater-create="" class="btn font-weight-bold btn-primary" wire:click.prevent="add()">
-                                                        <i class="la la-plus"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
+
                                             {{--<div wire:ignore class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-award icon-lg"></i></span></div>
@@ -1592,22 +1595,25 @@
 <!--end::Container-->
 </div>
 
+<style>
+    table#kt_advance_table_widget_4 {
+    width: 100%;
+}
+
+</style>
 
 @push('scripts')
+<script>
+    window.addEventListener('contentChanged', event => {
+        $('.selectpicker').selectpicker();
+    });
+</script>
 
-    <script>
-        window.addEventListener('contentChanged', event => {
-            $('.selectpicker').selectpicker();
-        });
-    </script>
-
-    <script>
-        $('.datepicker').on('change', function (e) {
-            @this.set(e.target.id, e.target.value);
-        });
-    </script>
-
-@endpush
+<script>
+    $('.datepicker').on('change', function (e) {
+        @this.set(e.target.id, e.target.value);
+    });
+</script>
 {{--@push('scripts')
 <script>
     $('#btnSave').click(function() {
@@ -1616,21 +1622,20 @@
     </script>
 
 @endpush--}}
-@push('scripts')
 <script>
     Livewire.on('delete',stock=>{
         $('#confirmationRemove').modal('hide')
     });
 </script>
-@endpush
-@push('scripts')
-{{--<script>
+
+{{--@push('scripts')
+<script>
     Livewire.on('SavePoids',stock=>{
         $('#code-poids').modal('hide')
     });
 </script>
 @endpush--}}
-@push('scripts')
+
 <script>
     Livewire.on('update',stock=>{
         $('#edit').modal('hide')
