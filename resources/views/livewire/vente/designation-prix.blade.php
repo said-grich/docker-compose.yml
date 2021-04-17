@@ -11,7 +11,7 @@
                 <!--begin::Card-->
                 <div class="card card-custom card-stretch gutter-b">
                     <div class="card-header">
-                        <h3 class="card-title">{{ __('Liste des bons de réception') }}</h3>
+                        <h3 class="card-title">{{ __('Désignation prix') }}</h3>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
