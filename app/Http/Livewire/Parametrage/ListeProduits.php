@@ -91,13 +91,11 @@ class ListeProduits extends Component
         $this->type == 1 ? $this->nomTranche =  $this->minPoids." - ".$this->maxPoids : $this->nomTranche;
         Tranche::create([
             'nom' => $this->nomTranche,
-            //'type' => $this->type == 1 ? "Poids par pièce" : "Kg/Pièce",
             'mode_vente_id'=> $this->mode_vente_id,
             'min_poids' => $this->minPoids,
             'max_poids' => $this->maxPoids,
             'uid' => $this->mode_vente_id == 1 ? "PP".$uniqueId : "KP".$uniqueId,
         ]);
-        //$this->type  == 1 ?  $this->list_tranches = Tranche::where('type',"Poids par pièce")->get() :  $this->list_tranches = Tranche::where('type',"Kg/Pièce")->get();
         $this->mode_vente == 1 ? $this->list_tranches = Tranche::where('mode_vente_id',1)->get() :  $this->list_tranches = Tranche::where('mode_vente_id','!=',1)->get();
         $this->reset(['nomTranche','minPoids','maxPoids']);
 
@@ -182,8 +180,6 @@ class ListeProduits extends Component
                             'unite_id' => $this->unite,
                             'mode_vente_id' => $this->mode_vente,
                             'active' => $this->active,
-                            //'mode_cuisine_id' => $this->mode_cuisine,
-                            //'mode_nettoyage_id' => $this->mode_nettoyage,
 
                     ]);
                     //dd($this->tranches);
@@ -220,9 +216,6 @@ class ListeProduits extends Component
                         'unite_id' => $this->unite,
                         'mode_vente_id' => $this->mode_vente,
                         'active' => $this->active,
-                        //'mode_cuisine_id' => $this->mode_cuisine,
-                        //'mode_nettoyage_id' => $this->mode_nettoyage,
-
                     ]);
                     //dd($this->tranches);
                     foreach ($this->tranches as $key => $value) {
@@ -235,39 +228,15 @@ class ListeProduits extends Component
                         ]);
 
                     }
-                    foreach ($this->mode_cuisine as $key => $value) {
 
-                        ProduitTranche::where('produit_id', $this->produit_id)
-                        ->delete();
-                        ProduitTranche::create([
-                            'produit_id' => $this->produit_id,
-                            'preparation_id' => $this->mode_cuisine[$key],
-                        ]);
-
-                    }
-                    /* foreach ($this->mode_nettoyage as $key => $value) {
-
-                        ProduitTranche::where('produit_id', $this->produit_id)
-                        ->delete();
-                        ProduitTranche::create([
-                            'produit_id' => $this->produit_id,
-                            'preparation_id' => $this->mode_nettoyage[$key],
-                        ]);
-
-                    } */
                  /*
-                    foreach ($this->mode_cuisine as $key => $value) {
-                        PreparationType::where('produit_id', $this->produit_id)
-                        ->update([
-                            'preparation_id' => $this->mode_cuisine[$key],
-                        ]);
-                    }
                     foreach ($this->tranches as $key => $value) {
                         ProduitTranche::where('produit_id', $this->produit_id)
                         ->update([
                             'tranche_id' => $this->tranches[$key],
                         ]);
                     } */
+
                     $paths = [];
                     foreach ($this->photos as $key => $photo) {
                         $extension = $photo->getClientOriginalExtension();

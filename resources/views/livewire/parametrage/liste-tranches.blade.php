@@ -83,29 +83,9 @@
                 </div>
                 <div class="modal-body">
                     <form id="edit-form" class="form row">
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-6">
                             <div class="input-group input-group-prepend">
-                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tag icon-lg"></i></span></div>
-                                <input type="text" class="form-control" placeholder=" " wire:model.defer="nom"/>
-                                <label>{{ __('Nom') }}</label>
-                            </div>
-                            @error('nom')
-                                <span class="form-text text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-12">
-                            <div class="input-group input-group-prepend">
-                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tag icon-lg"></i></span></div>
-                                <input type="text" class="form-control" placeholder=" " wire:model.defer="type"/>
-                                <label>{{ __('Type') }}</label>
-                            </div>
-                            @error('type')
-                                <span class="form-text text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-12">
-                            <div class="input-group input-group-prepend">
-                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tag icon-lg"></i></span></div>
+                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sliders-h icon-lg"></i></span></div>
                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="min_poids"/>
                                 <label>{{ __('Min Poids') }}</label>
                             </div>
@@ -113,23 +93,13 @@
                                 <span class="form-text text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-6">
                             <div class="input-group input-group-prepend">
-                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tag icon-lg"></i></span></div>
+                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sliders-h icon-lg"></i></span></div>
                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="max_poids"/>
                                 <label>{{ __('Max Poids') }}</label>
                             </div>
                             @error('max_poids')
-                                <span class="form-text text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-12">
-                            <div class="input-group input-group-prepend">
-                                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tag icon-lg"></i></span></div>
-                                <input type="text" class="form-control" placeholder=" " wire:model.defer="uid"/>
-                                <label>{{ __('uid') }}</label>
-                            </div>
-                            @error('uid')
                                 <span class="form-text text-danger">{{ $message }}</span>
                             @enderror
                         </div>

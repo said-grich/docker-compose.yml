@@ -41,10 +41,10 @@ return [
             'provider' => 'users',
         ],
 
-        'clients' => [
-            'driver' => 'session',
-            'provider' => 'clients',
-        ],
+        // 'clients' => [
+        //     'driver' => 'session',
+        //     'provider' => 'clients',
+        // ],
 
         'api' => [
             'driver' => 'token',
@@ -52,11 +52,11 @@ return [
             'hash' => false,
         ],
 
-        'api' => [
-            'driver' => 'token',
-            'provider' => 'clients',
-            'hash' => false,
-        ],
+        // 'api' => [
+        //     'driver' => 'token',
+        //     'provider' => 'clients',
+        //     'hash' => false,
+        // ],
     ],
 
     /*
@@ -82,10 +82,10 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        'clients' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Client::class,
-        ],
+        // 'clients' => [
+        //     'driver' => 'eloquent',
+        //     'model' => App\Models\Client::class,
+        // ],
     ],
 
     /*
@@ -110,12 +110,6 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
-        // 'clients' => [
-        //     'provider' => 'users',
-        //     'table' => 'password_resets',
-        //     'expire' => 60,
-        //     'throttle' => 60,
-        // ],
     ],
 
     /*
