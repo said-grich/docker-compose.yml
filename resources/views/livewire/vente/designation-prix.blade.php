@@ -153,9 +153,7 @@
                             </div>
                         </div>
 
-                            {{-- Stock Modal --}}
-
-                            {{-- Edit Modal --}}
+                            {{-- designation prix Modal --}}
                             <div wire:ignore.self class="modal fade" id="designation-prix" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="designation-prix" aria-hidden="true">
                                 <div class="modal-dialog modal-xxl modal-dialog-centered" role="document">
                                     <div class="modal-content">
@@ -306,7 +304,7 @@
                                                                         Kg / pièce
                                                                     </div>
                                                                 </div>
-                                                                <div id="collapseTwo1" class="collapse" data-parent="#accordionExample1">
+                                                                <div id="collapseTwo1" class="collapse show" data-parent="#accordionExample1">
                                                                     <div class="card-body">
                                                                         <div class="card-body">
                                                                             <table class="table table-striped table-bordered">
@@ -377,10 +375,10 @@
                                     </div>
                                 </div>
                             </div>
-                            {{-- End Stock Modal --}}
+                            {{-- End designation prix Modal --}}
 
 
-                            {{-- Edit shox --}}
+                            {{-- Edit show --}}
                             <div wire:ignore.self class="modal fade" id="show" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="show" aria-hidden="true">
                                 <div class="modal-dialog modal-xxl modal-dialog-centered" role="document">
                                     <div class="modal-content">
