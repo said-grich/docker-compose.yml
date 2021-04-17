@@ -48,7 +48,7 @@ class Produits extends Component
     public $preparations = [];
     public $photo_principale;
     public $photos = [];
-    public $active = false;
+    public $active = true;
     public $type;
     public $mode_vente_id;
 
@@ -61,7 +61,17 @@ class Produits extends Component
     public $nomFamille;
     public $mode_vente_name;
 
-
+    protected $rules = [
+        'nom' => 'required',
+        'famille' => 'required',
+        'unite' => 'required',
+        'mode_vente' => 'required',
+        'tranches' => 'required',
+        'mode_cuisine' => 'required',
+        'mode_nettoyage' => 'required',
+        'photo_principale' => 'required',
+        'photos' => 'required',
+    ];
 
     public function updatedModeVente($value){
         /* $mode_vente_nom = ModeVente::where('id',$value)->first()->nom;
@@ -109,76 +119,76 @@ class Produits extends Component
         // dd($p->preparations->first()->preparation->nom);
 
     }
-    public function createModeVente()
-    {
+    // public function createModeVente()
+    // {
 
-        $item = new ModeVente();
-        $item->nom = $this->mode_vente_name;
-        $item->save();
+    //     $item = new ModeVente();
+    //     $item->nom = $this->mode_vente_name;
+    //     $item->save();
 
-        $this->reset(['mode_vente_name']);
-    }
+    //     $this->reset(['mode_vente_name']);
+    // }
 
-    public function createFamilles()
-    {
+    // public function createFamilles()
+    // {
 
-        $item = new Famille();
-        $item->nom = $this->nomFamille;
+    //     $item = new Famille();
+    //     $item->nom = $this->nomFamille;
 
-        $item->save();
+    //     $item->save();
 
-        $this->reset(['nomFamille']);
-    }
+    //     $this->reset(['nomFamille']);
+    // }
 
-    public function createUnites()
-    {
-        $item = new Unite();
-        $item->nom = $this->nomUnite;
-        $item->save();
-        $this->list_unite = Unite::all()->sortBy('nom');
-        //$this->list_unite = Unite::get();
-        $this->reset(['nomUnite']);
-        $this->emit('saved');
+    // public function createUnites()
+    // {
+    //     $item = new Unite();
+    //     $item->nom = $this->nomUnite;
+    //     $item->save();
+    //     $this->list_unite = Unite::all()->sortBy('nom');
+    //     //$this->list_unite = Unite::get();
+    //     $this->reset(['nomUnite']);
+    //     $this->emit('saved');
 
-    }
+    // }
 
-    public function createTranche()
-    {
-        $uniqueId = str_replace(".","",microtime(true)).rand(000,999);
-        /* $this->type == 1 ?
-            TranchesPoidsPc::create([
-                'nom' => $this->minPoids." - ".$this->maxPoids,
-                'min_poids' => $this->minPoids,
-                'max_poids' => $this->maxPoids,
-                'uid' => "PP".$uniqueId,
-            ])
-            :
-            TranchesKgPc::create([
-                'nom' => $this->nom,
-                'uid' => "KP".$uniqueId,
-            ]);
-        */
+    // public function createTranche()
+    // {
+    //     $uniqueId = str_replace(".","",microtime(true)).rand(000,999);
+    //     /* $this->type == 1 ?
+    //         TranchesPoidsPc::create([
+    //             'nom' => $this->minPoids." - ".$this->maxPoids,
+    //             'min_poids' => $this->minPoids,
+    //             'max_poids' => $this->maxPoids,
+    //             'uid' => "PP".$uniqueId,
+    //         ])
+    //         :
+    //         TranchesKgPc::create([
+    //             'nom' => $this->nom,
+    //             'uid' => "KP".$uniqueId,
+    //         ]);
+    //     */
 
 
-        $this->mode_vente_id == 1 ? $this->nomTranche =  $this->minPoids." - ".$this->maxPoids : $this->nomTranche;
-        Tranche::create([
-            'nom' => $this->nomTranche,
-            //'mode_vente_id' => $this->type == 1 ? "Poids par pièce" : "Kg/Pièce",
-            'mode_vente_id'=> $this->mode_vente,
-            'min_poids' => $this->minPoids,
-            'max_poids' => $this->maxPoids,
-            //'uid' => $this->type == 1 ? "PP".$uniqueId : "KP".$uniqueId,
-            'uid' => $this->mode_vente_id == 1 ? "PP".$uniqueId : "KP".$uniqueId,
-        ]);
-        // $this->type  == 1 ?  $this->list_tranches = Tranche::where('type',"Poids par pièce")->get() :  $this->list_tranches = Tranche::where('type',"Kg/Pièce")->get();
-        $this->mode_vente == 1 ? $this->list_tranches = Tranche::where('mode_vente_id',1)->get() :  $this->list_tranches = Tranche::where('mode_vente_id','!=',1)->get();
-        $this->reset(['nomTranche','minPoids','maxPoids']);
+    //     $this->mode_vente_id == 1 ? $this->nomTranche =  $this->minPoids." - ".$this->maxPoids : $this->nomTranche;
+    //     Tranche::create([
+    //         'nom' => $this->nomTranche,
+    //         //'mode_vente_id' => $this->type == 1 ? "Poids par pièce" : "Kg/Pièce",
+    //         'mode_vente_id'=> $this->mode_vente,
+    //         'min_poids' => $this->minPoids,
+    //         'max_poids' => $this->maxPoids,
+    //         //'uid' => $this->type == 1 ? "PP".$uniqueId : "KP".$uniqueId,
+    //         'uid' => $this->mode_vente_id == 1 ? "PP".$uniqueId : "KP".$uniqueId,
+    //     ]);
+    //     // $this->type  == 1 ?  $this->list_tranches = Tranche::where('type',"Poids par pièce")->get() :  $this->list_tranches = Tranche::where('type',"Kg/Pièce")->get();
+    //     $this->mode_vente == 1 ? $this->list_tranches = Tranche::where('mode_vente_id',1)->get() :  $this->list_tranches = Tranche::where('mode_vente_id','!=',1)->get();
+    //     $this->reset(['nomTranche','minPoids','maxPoids']);
 
-    }
+    // }
 
     public function createProduit()
     {
-        //$this->validate();
+        $this->validate();
 
         DB::transaction(function () {
             // if ( $this->photo_principale != null) {
@@ -239,11 +249,11 @@ class Produits extends Component
         $this->reset(['nom', 'sous_categorie', 'mode_vente', 'mode_preparation', 'famille', 'unite', 'code_comptable', 'code_analytique', 'photos', 'photo_principale', 'active', 'tranches', 'preparations']);
 
         $this->emit('saved');
+        return redirect(route('produits'));
     }
 
     public function render()
     {
-        //$this->renderData();
         return view('livewire.parametrage.produits');
     }
 }

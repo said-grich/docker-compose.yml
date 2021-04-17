@@ -265,6 +265,14 @@ class Stock extends Component
 
     public function createStock(){
 
+        $this->validate([
+            'ref_br' => 'required',
+            'date_entree' => 'required',
+            'depot' => 'required',
+            'qualite_globale' => 'required',
+            'fournisseur' => 'required',
+        ]);
+
         DB::transaction(function () {
 
             $item = new BonReception();
