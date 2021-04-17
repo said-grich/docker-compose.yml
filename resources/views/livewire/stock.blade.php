@@ -1143,7 +1143,7 @@
                             </div>
                         </div>
                         @endif
-                        <form id="edit-form" class="form row" >
+                        <form id="edit-form" class="form row" wire:submit.prevent="editStock()">
                             <div class="form-group col-md-12">
                                 <div class="accordion accordion-toggle-arrow" id="accordionExample1">
                                     @if (count($liste_poids_pc)>0)
@@ -1393,7 +1393,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
-                        <button type="submit" wire:click="editStock()" class="btn btn-primary font-weight-bold" form="edit-form">{{ __('Enregistrer') }}</button>
+                        <button type="submit" class="btn btn-primary font-weight-bold" form="edit-form">{{ __('Enregistrer') }}</button>
                     </div>
                 </div>
             </div>

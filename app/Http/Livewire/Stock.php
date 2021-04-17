@@ -466,8 +466,8 @@ class Stock extends Component
                         }
 
 
-                    //foreach ($this->code_poids[$key] as $code => $poids) {
-                        //foreach ($lot_tranche[$key] as $keyT => $valueT) {
+                    foreach ($this->code_poids[$key] as $code => $poids) {
+                        foreach ($lot_tranche[$key] as $keyT => $valueT) {
                            // if ($poids['poids'] >= $valueT['min_poids'] && $poids['poids'] < $valueT['max_poids']) {
                                 LotTranche::where('lot_num', $this->lot_num[$key])->where('tranche_id', $valueT['uid'])->update(['qte' => DB::raw('qte + 1')]);
 
@@ -493,8 +493,8 @@ class Stock extends Component
                                 $item->save();
 
                            // }
-                      //  }
-                   // }
+                        }
+                    }
 
                 }//end if mode vente poids par pièce
 
@@ -760,6 +760,7 @@ public $list_piece = [];
         $this->bon_reception_ref =$id;
 
         foreach ($this->liste_poids_pc as $key => $value) {
+
             $this->lot_num[$key] =$value->lot_num;
             $this->produit_id[$key]  =$value->produit->id;
             $this->article[$key]  =$value->produit->nom;
@@ -816,16 +817,15 @@ public $list_piece = [];
         }
 
         foreach ($this->liste_poids_pc as $key => $value) {
-
+            //dd($this->liste_poids_pc);
             ModelsStock::where('br_num',$this->bon_reception_ref)->update([
 
-                // 'produit_id'=> $this->article[$key],
-                // 'categorie_id' => $this->categorie[$key],
-                // 'sous_categorie_id'=> $this->sous_categorie[$key],
+
                 'tranche_id'=> $this->uid_tranche[$key],
                 'qualite_id' => $this->qualite[$key] ,
                 //'unite_id' => $this->unite[$key],
                 'code'=>$this->code[$key],
+
                 'poids'=>$this->poids[$key],
                 'lot_num'=> $this->lot_num[$key],
                 'prix_achat' =>  $this->prix_achat[$key],
@@ -834,8 +834,9 @@ public $list_piece = [];
 
             ]);
 
-
+          
         }
+
         $this->emit('update');
     }
 
