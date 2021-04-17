@@ -255,7 +255,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                        <tr>
+                                                        <tr >
                                                             <td class="pl-0">
                                                                 <select class="form-control" wire:model="produit.0">
                                                                     <option>{{ __('Choisir un produit') }}</option>
@@ -297,7 +297,7 @@
                                                             <td class="pl-0">
                                                                 <input type="text" class="form-control" placeholder=" " wire:model="cr.0"/>
                                                             </td>
-                                                            <td class="pl-0">
+                                                            <td class="pl-0" >
                                                                 <select class="form-control" wire:model.defer="qualite.0">
                                                                     <option>{{ __('Choisir une qualite') }}</option>
                                                                     @foreach ($list_qualites as $item)
@@ -927,7 +927,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
-                    <button type="submit" class="btn btn-primary font-weight-bold" form="poids-form">{{ __('Enregistrer') }}</button>
+                    <button type="submit" id="btnSave" class="btn btn-primary font-weight-bold" form="poids-form">{{ __('Enregistrer') }}</button>
                 </div>
             </div>
         </div>
@@ -1177,7 +1177,23 @@
                                                         </thead>
                                                         <tbody>
                                                             @foreach ($liste_poids_pc as $key => $lot )
-                                                                <tr>
+                                                                @if (session()->has('update'))
+                                                                    <div class="alert alert-custom alert-light-danger shadow fade show mb-5" role="alert">
+                                                                        <div class="alert-icon"><i class="flaticon-interface-10"></i></div>
+                                                                        <div class="alert-text">
+                                                                            @foreach (session('update') as $erreur)
+                                                                            {{ $erreur }}<br>
+                                                                            @endforeach
+                                                                        </div>
+                                                                        <div class="alert-close">
+                                                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                                                <span aria-hidden="true"><i class="ki ki-close"></i></span>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                    @php session()->forget('update'); @endphp
+                                                                @endif
+                                                                <tr >
 
                                                                     <td>
                                                                         <input type="hidden" class="form-control" placeholder=" " wire:model.defer="produit_id.{{$key}}" />
@@ -1220,7 +1236,8 @@
                                                                     </td>
                                                                     <td>
                                                                         {{--<input type="text" class="form-control" placeholder="" wire:model.defer="nom_tranche.{{$key}}" />--}}
-                                                                        <select class="form-control" wire:model.defer="uid_tranche.{{$key}}" >
+                                                                        {{--<select class="form-control select2" id="kt_select2_1" name="param" wire:model.defer="uid_tranche.{{$key}}">--}}
+                                                                        <select class="form-control" wire:model.defer="uid_tranche.{{$key}}">
                                                                             <option>{{ __('Choisir une tranche') }}</option>
                                                                             @foreach ($list_piece as $item)
                                                                                 <option value="{{$item->uid }}" @if($uid_tranche == $item->uid){{'selected'}}@endif>{{$item->nom }}</option>
@@ -1590,4 +1607,33 @@
         });
     </script>
 
+@endpush
+{{--@push('scripts')
+<script>
+    $('#btnSave').click(function() {
+    $('#code-poids').modal('hide');
+    });
+    </script>
+
+@endpush--}}
+@push('scripts')
+<script>
+    Livewire.on('delete',stock=>{
+        $('#confirmationRemove').modal('hide')
+    });
+</script>
+@endpush
+@push('scripts')
+<script>
+    Livewire.on('SavePoids',stock=>{
+        $('#code-poids').modal('hide')
+    });
+</script>
+@endpush
+@push('scripts')
+<script>
+    Livewire.on('update',stock=>{
+        $('#edit').modal('hide')
+    });
+</script>
 @endpush
