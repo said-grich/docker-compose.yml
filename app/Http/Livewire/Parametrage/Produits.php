@@ -48,7 +48,7 @@ class Produits extends Component
     public $preparations = [];
     public $photo_principale;
     public $photos = [];
-    public $active = false;
+    public $active = true;
     public $type;
     public $mode_vente_id;
 
@@ -64,7 +64,17 @@ class Produits extends Component
     public $mode_vente_name;
     //public $sousmodeprepa_isActive = false;
 
-
+    protected $rules = [
+        'nom' => 'required',
+        'famille' => 'required',
+        'unite' => 'required',
+        'mode_vente' => 'required',
+        'tranches' => 'required',
+        'mode_cuisine' => 'required',
+        'mode_nettoyage' => 'required',
+        'photo_principale' => 'required',
+        'photos' => 'required',
+    ];
 
     public function updatedModeVente($value){
         /* $mode_vente_nom = ModeVente::where('id',$value)->first()->nom;
@@ -240,7 +250,7 @@ class Produits extends Component
 
     public function createProduit()
     {
-        //$this->validate();
+        $this->validate();
 
         DB::transaction(function () {
             // if ( $this->photo_principale != null) {
@@ -301,11 +311,11 @@ class Produits extends Component
         $this->reset(['nom', 'sous_categorie', 'mode_vente', 'mode_preparation', 'famille', 'unite', 'code_comptable', 'code_analytique', 'photos', 'photo_principale', 'active', 'tranches', 'preparations']);
 
         $this->emit('saved');
+        return redirect(route('produits'));
     }
 
     public function render()
     {
-        //$this->renderData();
         return view('livewire.parametrage.produits');
     }
 }

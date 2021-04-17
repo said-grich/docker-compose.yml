@@ -20,8 +20,7 @@
                         <!--end::Alerts-->
 
                         <!--Button trigger modal-->
-                        <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal"
-                                data-target="#produit">
+                        <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#produit">
                             <i class="flaticon-plus"></i> {{ __('Ajouter Produit') }}
                         </button>
                         <!--Modal-->
@@ -36,18 +35,15 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form id="produit-form" class="form row" wire:submit.prevent="createProduit"
-                                              enctype="multipart/form-data">
+                                        <form id="produit-form" class="form row" wire:submit.prevent="createProduit" enctype="multipart/form-data">
                                             <div class="form-group col-md-12">
                                                 <label><b>{{ __('Nom Produit') }}</b></label>
                                                 <div class="input-group input-group-prepend">
-                                                    <div class="input-group-prepend"><span class="input-group-text"><i
-                                                                class="fa fa-box-open icon-lg"></i></span></div>
-                                                    <input type="text" class="form-control" placeholder="Nom Produit"
-                                                           wire:model.defer="nom"/>
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-box-open icon-lg"></i></span></div>
+                                                    <input type="text" class="form-control" placeholder="Nom Produit" wire:model.defer="nom"/>
                                                 </div>
                                                 @error('nom')
-                                                <span class="form-text text-danger">{{ $message }}</span>
+                                                    <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
 
@@ -101,127 +97,118 @@
                                                 @enderror
                                             </div> --}}
 
-                                            <div wire:ignore class="form-group col-md-6">
+                                            <div class="form-group col-md-6">
                                                 <label><b>{{ __('Famille') }}</b></label>
-                                                <div class="input-group input-group-prepend">
-                                                    <div class="input-group-prepend"><span class="input-group-text"><i
-                                                                class="fa fa-sitemap icon-lg"></i></span></div>
-                                                    <select class="form-control selectpicker"
-                                                            wire:model.defer="famille">
+                                                <div wire:ignore class="input-group input-group-prepend">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sitemap icon-lg"></i></span></div>
+                                                    <select class="form-control selectpicker" wire:model.defer="famille">
                                                         <option>{{ __('Choisir une famille') }}</option>
                                                         @foreach ($list_familles as $item)
                                                             <option value="{{$item->id}}">{{$item->nom}}</option>
                                                         @endforeach
                                                     </select>
-                                                    <div class="input-group-append" data-toggle="modal"
-                                                         data-target="#famille">
-                                                        <button class="btn btn-primary" type="button"
-                                                                data-toggle="tooltip" data-theme="dark"
-                                                                title="Ajouter une famille"><i
-                                                                class="fa fa-plus-circle"></i></button>
+                                                    <div class="input-group-append" data-toggle="modal" data-target="#famille">
+                                                        <button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter une famille">
+                                                            <i class="fa fa-plus-circle"></i>
+                                                        </button>
                                                     </div>
                                                 </div>
                                                 @error('famille')
-                                                <span class="form-text text-danger">{{ $message }}</span>
+                                                    <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
-                                            <div wire:ignore class="form-group col-md-6">
+                                            <div class="form-group col-md-6">
                                                 <label><b>{{ __('Unité Affichée') }}</b></label>
-                                                <div class="input-group input-group-prepend">
-                                                    <div class="input-group-prepend"><span class="input-group-text"><i
-                                                                class="fa fa-weight-hanging icon-lg"></i></span></div>
+                                                <div wire:ignore class="input-group input-group-prepend">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-weight-hanging icon-lg"></i></span></div>
                                                     <select class="form-control selectpicker" wire:model="unite">
                                                         <option>{{ __('Choisir une unité') }}</option>
                                                         @foreach ($list_unite as $item)
                                                             <option value="{{$item->id}}">{{$item->nom}}</option>
                                                         @endforeach
                                                     </select>
-                                                    <div class="input-group-append" data-toggle="modal"
-                                                         data-target="#unites">
-                                                        <button class="btn btn-primary" type="button"
-                                                                data-toggle="tooltip" data-theme="dark"
+                                                    <div class="input-group-append" data-toggle="modal" data-target="#unites">
+                                                        <button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark"
                                                                 title="Ajouter Unite"><i class="fa fa-plus-circle"></i>
                                                         </button>
                                                     </div>
                                                 </div>
                                                 @error('unite')
-                                                <span class="form-text text-danger">{{ $message }}</span>
+                                                    <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
 
-                                            <div wire:ignore class="form-group col-md-6">
+                                            <div class="form-group col-md-6">
                                                 <label><b>{{ __('Mode Vente') }}</b></label>
-                                                <div class="input-group input-group-prepend">
-                                                    <div class="input-group-prepend"><span class="input-group-text"><i
-                                                                class="fa fa-money-check-alt icon-lg"></i></span></div>
+                                                <div wire:ignore class="input-group input-group-prepend">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-money-check-alt icon-lg"></i></span></div>
                                                     <select class="form-control selectpicker" wire:model="mode_vente">
                                                         <option>{{ __('Mode Vente') }}</option>
                                                         @foreach ($list_modes_vente as $item)
                                                             <option value="{{$item->id}}">{{$item->nom}}</option>
                                                         @endforeach
                                                     </select>
-
-                                                    <div class="input-group-append" data-toggle="modal"
-                                                         data-target="#mode-vente">
-                                                        <button class="btn btn-primary" type="button"
-                                                                data-toggle="tooltip" data-theme="dark"
-                                                                title="Ajouter Mode Vente"><i
-                                                                class="fa fa-plus-circle"></i></button>
+                                                    <div class="input-group-append" data-toggle="modal" data-target="#mode-vente">
+                                                        <button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Mode Vente">
+                                                            <i class="fa fa-plus-circle"></i>
+                                                        </button>
                                                     </div>
                                                 </div>
                                                 @error('mode_vente')
-                                                <span class="form-text text-danger">{{ $message }}</span>
+                                                    <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
 
                                             <div class="form-group col-md-6">
                                                 <label><b>{{ __('Tranches') }}</b></label>
                                                 <div class="input-group input-group-prepend">
-                                                    <div class="input-group-prepend"><span class="input-group-text"><i
-                                                                class="fa fa-sliders-h icon-lg"></i></span></div>
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sliders-h icon-lg"></i></span></div>
                                                     <select class="form-control" wire:model="tranches" multiple>
-                                                        <option>{{ __('Choisir une tranche') }}</option>
+                                                        {{-- <option>{{ __('Choisir une tranche') }}</option> --}}
                                                         @foreach ($list_tranches as $tranche)
                                                             <option value="{{$tranche->uid}}">{{$tranche->nom}}</option>
                                                         @endforeach
                                                     </select>
                                                     <div class="input-group-append" data-toggle="modal"
                                                          data-target="#tranches">
-                                                        <button class="btn btn-primary" type="button"
-                                                                data-toggle="tooltip" data-theme="dark"
-                                                                title="Ajouter Tranche"><i
-                                                                class="fa fa-plus-circle"></i></button>
+                                                        <button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Tranche">
+                                                            <i class="fa fa-plus-circle"></i>
+                                                        </button>
                                                     </div>
                                                 </div>
                                                 @error('tranches')
-                                                <span class="form-text text-danger">{{ $message }}</span>
+                                                    <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
-                                            <div wire:ignore class="form-group col-md-6">
+                                            <div class="form-group col-md-6">
                                                  <label><b>{{ __('Mode Cuisine ') }}</b></label>
-                                                 <div class="input-group input-group-prepend">
+                                                 <div wire:ignore class="input-group input-group-prepend">
                                                      <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-tools icon-lg"></i></span></div>
                                                      <select class="form-control " wire:model="mode_cuisine" multiple>
-                                                         <option>{{ __('Choisir un mode de préparation') }}</option>
-                                                             @foreach ($list_cuisine as $mode)
-                                                                 <option value="{{$mode->id}}">{{$mode->nom}}</option>
-                                                             @endforeach
+                                                        {{-- <option>{{ __('Choisir un mode de préparation') }}</option> --}}
+                                                        @foreach ($list_cuisine as $mode)
+                                                            <option value="{{$mode->id}}">{{$mode->nom}}</option>
+                                                        @endforeach
                                                      </select>
-                                                     <div class="input-group-append" data-toggle="modal" data-target="#mode-preparation"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Mode Préparation"><i class="fa fa-plus-circle"></i></button></div>
+                                                     <div class="input-group-append" data-toggle="modal" data-target="#mode-preparation">
+                                                         <button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Mode Préparation">
+                                                             <i class="fa fa-plus-circle"></i>
+                                                         </button>
+                                                     </div>
                                                  </div>
                                                  @error('mode_cuisine')
                                                      <span class="form-text text-danger">{{ $message }}</span>
                                                  @enderror
                                              </div>
-                                             <div wire:ignore class="form-group col-md-6">
+                                             <div class="form-group col-md-6">
                                                 <label><b>{{ __('Mode Nettoyage ') }}</b></label>
-                                                <div class="input-group input-group-prepend">
+                                                <div wire:ignore class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-tools icon-lg"></i></span></div>
                                                     <select class="form-control" wire:model="mode_nettoyage" multiple>
-                                                        <option>{{ __('Choisir un mode de préparation') }}</option>
-                                                            @foreach ($list_nettoyage as $mode)
-                                                                <option value="{{$mode->id}}">{{$mode->nom}}</option>
-                                                            @endforeach
+                                                        {{-- <option>{{ __('Choisir un mode de préparation') }}</option> --}}
+                                                        @foreach ($list_nettoyage as $mode)
+                                                            <option value="{{$mode->id}}">{{$mode->nom}}</option>
+                                                        @endforeach
                                                     </select>
                                                     <div class="input-group-append" data-toggle="modal" data-target="#mode-preparation-n"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Mode Préparation"><i class="fa fa-plus-circle"></i></button></div>
                                                 </div>
@@ -279,32 +266,24 @@
                                             <div class="form-group col-md-6">
                                                 <label><b>{{ __('Code Comptable') }}</b></label>
                                                 <div class="input-group input-group-prepend">
-                                                    <div class="input-group-prepend"><span class="input-group-text"><i
-                                                                class="fa fa-calculator icon-lg"></i></span></div>
-                                                    <input type="text" class="form-control" placeholder="Code Comptable "
-                                                           wire:model.defer="code_comptable"/>
-
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calculator icon-lg"></i></span></div>
+                                                    <input type="text" class="form-control" placeholder="Code Comptable" wire:model.defer="code_comptable"/>
                                                 </div>
                                                 @error('code-comptable')
-                                                <span class="form-text text-danger">{{ $message }}</span>
+                                                    <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label><b>{{ __('Code Analytique') }}</b></label>
                                                 <div class="input-group input-group-prepend">
-                                                    <div class="input-group-prepend"><span class="input-group-text"><i
-                                                                class="fa fa-chart-pie icon-lg"></i></span></div>
-                                                    <input type="text" class="form-control" placeholder=" Code Analytique"
-                                                           wire:model.defer="code_analytique"/>
-
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-chart-pie icon-lg"></i></span></div>
+                                                    <input type="text" class="form-control" placeholder="Code Analytique" wire:model.defer="code_analytique"/>
                                                 </div>
                                                 @error('code-analytique')
-                                                <span class="form-text text-danger">{{ $message }}</span>
+                                                    <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                             <div class="form-group col-md-6">
-
-
                                                 <label><b>{{ __('Photo Principale') }}</b></label>
                                                 <div class="input-group input-group-prepend">
                                                     <input type="file" wire:model.defer="photo_principale"/>
@@ -314,8 +293,9 @@
                                                         <label class="custom-file-label" for="customFile">Produit Photo Principal</label>
                                                     </div> --}}
                                                 </div>
-                                                @error('photo') <span class="error">{{ $message }}</span> @enderror
-
+                                                @error('photo_principale')
+                                                    <span class="form-text text-danger">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label><b>{{ __('Autres Photos') }}</b></label>
@@ -329,16 +309,17 @@
                                                         <label class="custom-file-label" for="customFile">Produit Photos</label>
                                                     </div>
                                                 </div> --}}
+                                                @error('photos')
+                                                    <span class="form-text text-danger">{{ $message }}</span>
+                                                @enderror
                                             </div>
 
                                             <div class="form-group col-md-6 row">
-                                                <label
-                                                    class="col-8 col-form-label">{{ __('Activé / Désactivé le produit') }}</label>
+                                                <label class="col-8 col-form-label">{{ __('Activé / Désactivé le produit') }}</label>
                                                 <div class="col-4">
                                                     <span class="switch switch-outline switch-icon switch-primary">
                                                         <label>
-                                                        <input type="checkbox" checked="checked"
-                                                               wire:model.defer="active" name="active"/>
+                                                        <input type="checkbox" checked="checked" wire:model.defer="active" name="active"/>
                                                         <span></span>
                                                         </label>
                                                     </span>
@@ -364,10 +345,8 @@
                                         </form>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-light-primary font-weight-bold"
-                                                data-dismiss="modal">{{ __('Fermer') }}</button>
-                                        <button type="submit" class="btn btn-primary font-weight-bold"
-                                                form="produit-form">{{ __('Enregistrer') }}</button>
+                                        <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
+                                        <button type="submit" class="btn btn-primary font-weight-bold" form="produit-form">{{ __('Enregistrer') }}</button>
                                     </div>
                                 </div>
                             </div>
@@ -468,7 +447,7 @@
 
                         <!--Modal-Unité-->
 
-                        <div class="modal secondary fade" id="unites"data-backdrop="static"tabindex="-1" role="dialog" aria-labelledby="unite" aria-hidden="true">
+                        <div wire:ignore.self class="modal secondary fade" id="unites"data-backdrop="static"tabindex="-1" role="dialog" aria-labelledby="unite" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -496,7 +475,7 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-light-primary font-weight-bold"
                                                     data-dismiss="modal">{{ __('Fermer') }}</button>
-                                            <button type="submit"  class="btn btn-primary font-weight-bold"
+                                            <button type="submit" {{-- wire:click="createUnite()" --}} class="btn btn-primary font-weight-bold"
                                                     form="unite-form">{{ __('Enregistrer') }}</button>
                                         </div>
                                     </div>
