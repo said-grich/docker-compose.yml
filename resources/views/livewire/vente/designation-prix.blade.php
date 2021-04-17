@@ -411,7 +411,7 @@
                                                                         Poids par pièce
                                                                     </div>
                                                                 </div>
-                                                                <div id="collapseOne1" class="collapse" data-parent="#accordionExample1">
+                                                                <div id="collapseOne1" class="collapse show" data-parent="#accordionExample1">
                                                                     <div class="card-body">
                                                                             <table class="table table-striped table-bordered">
                                                                                 <thead>
@@ -493,7 +493,7 @@
                                                                         Kg / pièce
                                                                     </div>
                                                                 </div>
-                                                                <div id="collapseTwo1" class="collapse" data-parent="#accordionExample1">
+                                                                <div id="collapseTwo1" class="collapse show" data-parent="#accordionExample1">
                                                                     <div class="card-body">
                                                                         <div class="card-body">
                                                                             <table class="table table-striped table-bordered">
