@@ -15,6 +15,7 @@ class ModificationPrix extends Component
 {
     public $produit =  [];
     public $nom_produit;
+    public $id_produit;
     public $liste_produits =  [];
     public $prix_n = [];
     public $prix_f = [];
@@ -26,7 +27,7 @@ class ModificationPrix extends Component
 
     public $filter = [
         "categorie" => "",
-        "sous_categorie" => "",
+        "sousCategorie" => "",
         "tranche" => "",
     ];
 
@@ -37,13 +38,47 @@ class ModificationPrix extends Component
     protected $listeners = ['saved'];
 
 
+    public function loadList($produit){
+        $this->liste_produits = Stock::when($this->filter['categorie'], function ($query) {
+            $query->where('categorie_id', $this->filter['categorie']);
+        })
+        ->when($this->filter['sousCategorie'], function ($query) {
+            $query->where('sous_categorie_id', $this->filter['sousCategorie']);
+        })
+        ->when($this->filter['tranche'], function ($query) {
+            $query->where('tranche_id', $this->filter['tranche']);
+        })
+
+        ->where('produit_id',$produit)
+        ->where('qte_restante', '!=',0)
+        ->orderBy('created_at')
+        ->get();
+
+        foreach ($this->liste_produits as $key => $value) {
+            $this->prix_n[$value->id] = $value->prix_n;
+            $this->prix_f[$value->id] = $value->prix_f;
+            $this->prix_p[$value->id] = $value->prix_p;
+        }
+    }
+
+
 
     public function modificationPrix($produit){
+        $this->id_produit = $produit;
         $this->nom_produit = Produit::where('id',$produit)->first()->nom;
        // $this->liste_produits = Stock::where('produit_id',$produit)->where('qte_restante','!=',0)->get();
 
+       $categories = Stock::where('produit_id',$produit)->where('qte_restante','!=',0)->get()->pluck('categorie_id')->unique();
+        $sous_categories = Stock::where('produit_id',$produit)->where('qte_restante','!=',0)->get()->pluck('sous_categorie_id')->unique();
+        $tranches = Stock::where('produit_id',$produit)->where('qte_restante','!=',0)->get()->pluck('tranche_id')->unique();
 
-        $this->liste_produits = Stock::when($this->filter['categorie'], function ($query) {
+        $this->liste_categories = Categorie::whereIn('id',$categories)->get();
+        $this->liste_sous_categories = SousCategorie::whereIn('id',$sous_categories)->get();
+        $this->liste_tranches = Tranche::whereIn('uid',$tranches)->get();
+
+        $this->loadList($produit);
+
+        /* $this->liste_produits = Stock::when($this->filter['categorie'], function ($query) {
                 $query->where('categorie_id', $this->filter['categorie']);
             })
             ->when($this->filter['sous_categorie'], function ($query) {
@@ -52,25 +87,23 @@ class ModificationPrix extends Component
             ->when($this->filter['tranche'], function ($query) {
                 $query->where('tranche_id', $this->filter['tranche']);
             })
+
             ->where('produit_id',$produit)
             ->where('qte_restante', '!=',0)
+            ->get(); */
 
-            ->get();
+    }
 
-        $categories = Stock::where('produit_id',$produit)->where('qte_restante','!=',0)->get()->pluck('categorie_id')->unique();
-        $sous_categories = Stock::where('produit_id',$produit)->where('qte_restante','!=',0)->get()->pluck('sous_categorie_id')->unique();
-        $tranches = Stock::where('produit_id',$produit)->where('qte_restante','!=',0)->get()->pluck('tranche_id')->unique();
+    public function updatedFilterCategorie(){
+        $this->loadList($this->id_produit);
+    }
 
-        $this->liste_categories = Categorie::whereIn('id',$categories)->get();
-        $this->liste_sous_categories = SousCategorie::whereIn('id',$sous_categories)->get();
-        $this->liste_tranches = Tranche::whereIn('uid',$tranches)->get();
+    public function updatedFilterSousCategorie(){
+        $this->loadList($this->id_produit);
+    }
 
-        foreach ($this->liste_produits as $key => $value) {
-            $this->prix_n[$value->id] = $value->prix_n;
-            $this->prix_f[$value->id] = $value->prix_f;
-            $this->prix_p[$value->id] = $value->prix_p;
-        }
-
+    public function updatedFilterTranche(){
+        $this->loadList($this->id_produit);
     }
 
     public function edit($ida,$produit_id,$tranche_id,$categorie_id,$categorie_nom,$produit_nom,$tranche_nom){

@@ -154,7 +154,7 @@
                                             </select>
                                         </th>
                                         <th scope="col">
-                                            <select class="form-control" wire:model="filter.sous_categorie">
+                                            <select class="form-control" wire:change="" wire:model="filter.sousCategorie">
                                                 <option value="">{{ __('Choisir une sous catégorie') }}</option>
                                                 @foreach ($liste_sous_categories as $item)
                                                     <option value="{{$item->id}}">{{$item->nom}}</option>
@@ -170,7 +170,7 @@
                                 </thead>
                                 <tbody>
 
-                                    @foreach ($liste_produits as $key => $value)
+                                    @foreach (Arr::sort($liste_produits) as $key => $value)
                                         <tr>
                                             <td>{{$value->tranche->nom}}</td>
                                             <td>{{$value->categorie->nom}}</td>
