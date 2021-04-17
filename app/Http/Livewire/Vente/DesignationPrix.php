@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Vente;
 use App\Models\BonReception;
 use App\Models\Categorie;
 use App\Models\Produit;
+use App\Models\ProduitPrix;
 use App\Models\Stock;
 use App\Models\StockKgPc;
 use App\Models\StockPoidsPc;
@@ -70,7 +71,6 @@ class DesignationPrix extends Component
     public $categorie_id = [];
 
 
-
     public $sortBy = 'valide';
     public $sortDirection = 'asc';
     public $perPage = 5;
@@ -102,18 +102,8 @@ class DesignationPrix extends Component
 
     public function designationPrix($id){
 
-        // $this->liste_poids_pc = collect(StockPoidsPc::where('br_num', $id)->get()->groupBy(['tranche_id', 'produit_id']));
-        // $this->liste_kg_pc = StockKgPc::where('br_num', $id)->get();
-
-        $this->liste_poids_pc = Stock::where('br_num', $id)->where('type', 1)->get()->groupBy(['tranche_id','categorie_id' ,'produit_id'])->toArray();
-        //dd($this->liste_poids_pc);
-        //$this->liste_poids_pc2 = Stock::where('br_num', $id)->where('type', "Poids par pièce")->get()->groupBy(['tranche_id', 'produit_id','lot_num']);
-
-        //dd($this->liste_poids_pc2);
-
+        $this->liste_poids_pc = Stock::where('br_num', $id)->where('type', 1)->get()->groupBy(['tranche_id','categorie_id','produit_id'])->toArray();
         $this->liste_kg_pc = Stock::where('br_num', $id)->where('type', '!=',1)->get();
-        //dd($this->liste_poids_pc, $this->liste_kg_pc);
-
         $this->bon_reception_ref = $id;
 
 
@@ -142,31 +132,42 @@ class DesignationPrix extends Component
         //dd($this->lot_num);
 
 
-        foreach ($this->liste_poids_pc as $tranche => $categories) {
+        /* foreach ($this->liste_poids_pc as $tranche => $produits) {
 
-            foreach ($categories as $categorie => $produits){
+            foreach ($produits as $produit => $categories){
 
-                $this->categorie[$categorie]  = Categorie::where('id', $categorie)->first()->nom;
+                foreach ($categories as $categorie => $stock){
 
-
-                foreach ($produits as $produit => $stock){
+                    // $this->categorie[$tranche][$categorie] = Categorie::where('id', $categorie)->first()->nom;
 
                     foreach ($stock as $key => $item){
+                        $this->categorie[$tranche]  = Categorie::where('id', $item['categorie_id'])->first()->nom;
                         $this->article[$tranche] = Produit::where('id', $produit)->first()->nom;
-                        $this->produit_id[$key] = $item['produit_id'];
-                        $this->categorie_id[$key]  = $item['categorie_id'];
+                        $this->produit_id[$tranche] = $item['produit_id'];
+                        $this->categorie_id[$tranche]  = $item['categorie_id'];
                         $this->nom_tranche[$tranche] = Tranche::where('uid', $tranche)->first()->nom;
-                        $this->tranche_uid[$key] = $tranche;
+                        $this->tranche_uid[$tranche] = $item['tranche_id'];
 
                     }
 
                 }
             }
 
+        } */
+
+        foreach ($this->liste_poids_pc as $tranche => $categories) {
+            foreach ($categories as $categorie => $produits){
+                $this->categorie[$categorie]  = Categorie::where('id', $categorie)->first()->nom;
+                foreach ($produits as $produit => $stock){
+                    foreach ($stock as $key => $item){
+                        $this->article[$tranche] = Produit::where('id', $produit)->first()->nom;
+                        $this->produit_id[$tranche] = $item['produit_id'];
+                        $this->nom_tranche[$tranche] = Tranche::where('uid', $tranche)->first()->nom;
+                        $this->tranche_uid[$tranche] = $item['tranche_id'];
+                    }
+                }
+            }
         }
-
-
-
 
         foreach ($this->liste_kg_pc as $k => $v) {
 
@@ -180,18 +181,6 @@ class DesignationPrix extends Component
         }
 
 
-        // $this->liste_poids_pc = StockPoidsPc::where('br_num',$id)->get();
-        // $this->liste_kg_pc = StockKgPc::where('br_num',$id)->get();
-
-
-        // foreach ($this->liste_poids_pc as $key => $value) {
-        //     $this->lot_num[$key] =$value->lot_num;
-        //     $this->produit_id[$key]  =$value->lot->produit->id;
-        //     $this->article[$key]  =$value->lot->produit->nom;
-        //     $this->nom_tranche[$key] = TranchesPoidsPc::where('uid', $value->tranche_id)->first()->nom;
-        //     $this->poids[$key] = $value->poids;
-        //     $this->code[$key] = $value->code;
-        // }
     }
 
     public function show($id)
@@ -201,8 +190,8 @@ class DesignationPrix extends Component
         // $this->liste_poids_pc = collect(StockPoidsPc::where('br_num', $id)->get()->groupBy(['tranche_id', 'produit_id']));
         // $this->liste_kg_pc = StockKgPc::where('br_num', $id)->get();
 
-        $this->liste_poids_pc = Stock::where('br_num', $id)->where('mode_vente_id', 1)->get()->groupBy(['tranche_id', 'produit_id']);
-        $this->liste_kg_pc = Stock::where('br_num', $id)->where('mode_vente_id', '!=',1)->get();
+        $this->liste_poids_pc = Stock::where('br_num', $id)->where('type', 1)->get()->groupBy(['tranche_id', 'produit_id']);
+        $this->liste_kg_pc = Stock::where('br_num', $id)->where('type', '!=',1)->get();
         $this->bon_reception_ref = $id;
 
 
@@ -243,26 +232,53 @@ class DesignationPrix extends Component
     }
 
     public function affecterPrix(){
-        //dd($this->categorie_id, $this->produit_id,$this->prix_vente_normal,$this->tranche_uid);
+
 
         DB::transaction( function () {
-
-            foreach ($this->produit_id as $key => $value) {
-                $produit = Produit::where('id', $value)->first();
-                if ($produit->modeVente->id == 1) {
-                    Stock::where('produit_id', $this->produit_id[$key])
-                        //->where('lot_num', $this->lot_num[$key])
-                        ->where('tranche_id', $this->tranche_uid[$key])
-                        ->where('categorie_id', $this->categorie_id[$key])
-                        ->where('br_num', $this->bon_reception_ref)
-                        ->update([
-                            //'cr' => $this->cr[$key],
-                            'prix_n' => $this->prix_vente_normal[$this->tranche_uid[$key]],
-                            'prix_f' => $this->prix_vente_fidele[$this->tranche_uid[$key]],
-                            'prix_p' => $this->prix_vente_business[$this->tranche_uid[$key]],
+            foreach ($this->liste_poids_pc as $tranche => $categories) {
+                foreach ($categories as $categorie => $produits) {
+                    foreach ($produits as $produit => $stock) {
+                        foreach ($stock as $key => $item) {
+                            Stock::where('produit_id', $item['produit_id'])
+                                ->where('tranche_id', $item['tranche_id'])
+                                ->where('categorie_id', $item['categorie_id'])
+                                ->where('br_num', $this->bon_reception_ref)
+                                ->update([
+                                    'prix_n' => $this->prix_vente_normal[$item['produit_id']][$item['categorie_id']][$item['tranche_id']],
+                                    'prix_f' => $this->prix_vente_fidele[$item['produit_id']][$item['categorie_id']][$item['tranche_id']],
+                                    'prix_p' => $this-> prix_vente_business[$item['produit_id']][$item['categorie_id']][$item['tranche_id']],
                             ]);
+
+                            ProduitPrix::create([
+                                'produit_id' => $item['produit_id'],
+                                'categorie_id' => $item['categorie_id'],
+                                'tranche_id' => $item['tranche_id'],
+                                'prix_n' => $this->prix_vente_normal[$item['produit_id']][$item['categorie_id']][$item['tranche_id']],
+                                'prix_f' => $this->prix_vente_fidele[$item['produit_id']][$item['categorie_id']][$item['tranche_id']],
+                                'prix_p' => $this->prix_vente_business[$item['produit_id']][$item['categorie_id']][$item['tranche_id']],
+                            ]);
+                        }
+                    }
                 }
             }
+
+            // foreach ($this->produit_id as $key => $value) {
+            //     $produit = Produit::where('id', $value)->first();
+            //     if ($produit->modeVente->id == 1) {
+            //         Stock::where('produit_id', $this->produit_id[$key])
+            //             //->where('lot_num', $this->lot_num[$key])
+            //             ->where('tranche_id', $this->tranche_uid[$key])
+            //             ->where('categorie_id', $this->categorie_id[$key])
+            //             ->where('br_num', $this->bon_reception_ref)
+            //             ->update([
+            //                 //'cr' => $this->cr[$key],
+            //                 'prix_n' => $this->prix_vente_normal[$this->tranche_uid[$key]],
+            //                 'prix_f' => $this->prix_vente_fidele[$this->tranche_uid[$key]],
+            //                 'prix_p' => $this->prix_vente_business[$this->tranche_uid[$key]],
+            //                 ]);
+            //     }
+            // }
+
             foreach ($this->produit_id_kg_pc as $key => $value) {
 
                 Stock::where('tranche_id', $this->uid_tranche_kg_pc[$key])

@@ -210,7 +210,7 @@
                                                             <option value="{{$mode->id}}">{{$mode->nom}}</option>
                                                         @endforeach
                                                     </select>
-                                                    <div class="input-group-append" data-toggle="modal" data-target="#mode-preparation"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Mode Préparation"><i class="fa fa-plus-circle"></i></button></div>
+                                                    <div class="input-group-append" data-toggle="modal" data-target="#mode-preparation-n"><button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Mode Préparation"><i class="fa fa-plus-circle"></i></button></div>
                                                 </div>
                                                 @error('mode_nettoyage')
                                                     <span class="form-text text-danger">{{ $message }}</span>
@@ -552,6 +552,103 @@
                             </div>
                             </div>
                         </div>
+
+                        <!--Modal-Mode-Préparation Cuisine -->
+                        <div wire:ignore.self class="modal secondary fade" id="mode-preparation" data-backdrop="static" tabindex="-1"
+                        role="dialog" aria-labelledby="mode-preparation" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">{{ __('Nouveau Mode Préparation') }}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <i aria-hidden="true" class="ki ki-close"></i>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="mode-preparation-form" class="form" wire:submit.prevent="createModePreparation">
+                                        <div class="form-group">
+                                            <label><b>{{ __('Nom') }}</b></label>
+                                            <div class="input-group input-group-prepend">
+                                                <div class="input-group-prepend"><span class="input-group-text"><i
+                                                            class="fa fa-tools icon-lg"></i></span></div>
+                                                <input type="text" class="form-control" placeholder="Nom"
+                                                        wire:model.defer="preparation_nom_c"/>
+
+                                            </div>
+                                            @error('preparation_nom_c')
+                                            <span class="form-text text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        {{-- <div class="form-group ">
+                                            <label class="col-3 col-form-label">Active</label>
+                                            <div class="col-3">
+                                                <span class="switch switch-outline switch-icon switch-primary">
+                                                    <label>
+                                                    <input type="checkbox" checked="checked" wire:model.defer="sousmodeprepa_isActive" name="sousmodeprepa_isActive"/>
+                                                    <span></span>
+                                                    </label>
+                                                </span>
+                                            </div>
+                                        </div> --}}
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light-primary font-weight-bold"
+                                            data-dismiss="modal">{{ __('Fermer') }}</button>
+                                    <button type="submit" class="btn btn-primary font-weight-bold"
+                                            form="mode-preparation-form">{{ __('Enregistrer') }}</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <!--Modal-Mode-Préparation Nettoyage -->
+                        <div wire:ignore.self class="modal secondary fade" id="mode-preparation-n" data-backdrop="static" tabindex="-1"
+                        role="dialog" aria-labelledby="mode-preparation-n" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">{{ __('Nouveau Mode Préparation') }}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <i aria-hidden="true" class="ki ki-close"></i>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="mode-preparation-n-form" class="form" wire:submit.prevent="createModePreparationN">
+                                        <div class="form-group">
+                                            <label><b>{{ __('Nom') }}</b></label>
+                                            <div class="input-group input-group-prepend">
+                                                <div class="input-group-prepend"><span class="input-group-text"><i
+                                                            class="fa fa-tools icon-lg"></i></span></div>
+                                                <input type="text" class="form-control" placeholder="Nom"
+                                                        wire:model.defer="preparation_nom_n"/>
+
+                                            </div>
+                                            @error('preparation_nom_c')
+                                            <span class="form-text text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        {{-- <div class="form-group ">
+                                            <label class="col-3 col-form-label">Active</label>
+                                            <div class="col-3">
+                                                <span class="switch switch-outline switch-icon switch-primary">
+                                                    <label>
+                                                    <input type="checkbox" checked="checked" wire:model.defer="sousmodeprepa_isActive" name="sousmodeprepa_isActive"/>
+                                                    <span></span>
+                                                    </label>
+                                                </span>
+                                            </div>
+                                        </div> --}}
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light-primary font-weight-bold"
+                                            data-dismiss="modal">{{ __('Fermer') }}</button>
+                                    <button type="submit" class="btn btn-primary font-weight-bold"
+                                            form="mode-preparation-n-form">{{ __('Enregistrer') }}</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
                         <!--Table-->
                         <div class="mt-5">
                             @livewire('parametrage.liste-produits')
@@ -623,42 +720,7 @@
 
 
 
-<!--Modal-Mode-Préparation-->
-<div wire:ignore.self class="modal secondary fade" id="mode-preparation" data-backdrop="static" tabindex="-1"
-     role="dialog" aria-labelledby="mode-preparation" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">{{ __('Nouveau Mode Préparation') }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i aria-hidden="true" class="ki ki-close"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="mode-preparation-form" class="form" wire:submit.prevent="createModePreparation">
-                    <div class="form-group">
-                        <div class="input-group input-group-prepend">
-                            <div class="input-group-prepend"><span class="input-group-text"><i
-                                        class="fa fa-tools icon-lg"></i></span></div>
-                            <input type="text" class="form-control" placeholder=" "
-                                   wire:model.defer="mode_preparation_nom"/>
-                            <label>{{ __('Nom') }}</label>
-                        </div>
-                        @error('mode_preparation_nom')
-                        <span class="form-text text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light-primary font-weight-bold"
-                        data-dismiss="modal">{{ __('Fermer') }}</button>
-                <button type="submit" class="btn btn-primary font-weight-bold"
-                        form="mode-preparation-form">{{ __('Enregistrer') }}</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <!--Modal-Préparation-->
 {{-- <div wire:ignore.self class="modal secondary fade" id="preparation" data-backdrop="static" tabindex="-1" role="dialog"
@@ -711,7 +773,7 @@
     </div>
 </div> --}}
 
-<!--Modal-Unite-->
+
 
 @push('scripts')
     <script>
