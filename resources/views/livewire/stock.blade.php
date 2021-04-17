@@ -1624,12 +1624,12 @@
 </script>
 @endpush
 @push('scripts')
-<script>
+{{--<script>
     Livewire.on('SavePoids',stock=>{
         $('#code-poids').modal('hide')
     });
 </script>
-@endpush
+@endpush--}}
 @push('scripts')
 <script>
     Livewire.on('update',stock=>{
