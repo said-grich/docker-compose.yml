@@ -19,6 +19,7 @@ class CreateCommandesTable extends Migration
             $table->macAddress('mac_address');
             $table->date('date');
             $table->date('date_livraison');
+            $table->time('heure_livraison');
             $table->string('tel_livraison');
             $table->string('contact_livraison');
             $table->string('adresse_livraison');
