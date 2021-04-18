@@ -14,6 +14,7 @@ use Livewire\Component;
 class ModificationPrix extends Component
 {
     public $produit =  [];
+
     public $nom_produit;
     public $id_produit;
     public $liste_produits =  [];
@@ -25,6 +26,10 @@ class ModificationPrix extends Component
     public $liste_sous_categories = [];
     public $liste_tranches = [];
     public $historique_prix = [];
+    public $nom_categorie;
+    public $nom_tranche;
+    public $qte_stock = [];
+
 
     public $filter = [
         "categorie" => "",
@@ -53,13 +58,32 @@ class ModificationPrix extends Component
         ->where('produit_id',$produit)
         ->where('qte_restante', '!=',0)
         ->orderBy('created_at')
-        ->get();
+        ->get()
+        ->groupBy(['tranche_id', 'categorie_id']);
+        //dd($this->liste_produits);
+        $stocks = [];
 
-        foreach ($this->liste_produits as $key => $value) {
-            $this->prix_n[$value->id] = $value->prix_n;
-            $this->prix_f[$value->id] = $value->prix_f;
-            $this->prix_p[$value->id] = $value->prix_p;
+        foreach ($this->liste_produits as $tranche => $categories) {
+            $this->nom_tranche[$tranche] = Tranche::where('uid', $tranche)->first()->nom;
+            foreach ($categories as $categorie => $stock) {
+                $this->nom_categorie[$categorie] = Categorie::where('id', $categorie)->first()->nom;
+                $this->prix_n[$tranche][$categorie] = $stock[0]->prix_n;
+                $this->prix_f[$tranche][$categorie] = $stock[0]->prix_f;
+                $this->prix_p[$tranche][$categorie] = $stock[0]->prix_p;
+                $this->qte_stock[strval($tranche)][$categorie] = Stock::selectRaw("SUM(qte_restante) as stock")->where('tranche_id', $tranche)->where('categorie_id', $categorie)->first()->stock;
+
+            }
+
+
         }
+        //dd($this->stock["PP16187570797261627"]["1"]);
+
+
+        // foreach ($this->liste_produits as $key => $value) {
+        //     $this->prix_n[$value->id] = $value->prix_n;
+        //     $this->prix_f[$value->id] = $value->prix_f;
+        //     $this->prix_p[$value->id] = $value->prix_p;
+        // }
     }
 
 
@@ -69,7 +93,7 @@ class ModificationPrix extends Component
         $this->nom_produit = Produit::where('id',$produit)->first()->nom;
        // $this->liste_produits = Stock::where('produit_id',$produit)->where('qte_restante','!=',0)->get();
 
-       $categories = Stock::where('produit_id',$produit)->where('qte_restante','!=',0)->get()->pluck('categorie_id')->unique();
+        $categories = Stock::where('produit_id',$produit)->where('qte_restante','!=',0)->get()->pluck('categorie_id')->unique();
         $sous_categories = Stock::where('produit_id',$produit)->where('qte_restante','!=',0)->get()->pluck('sous_categorie_id')->unique();
         $tranches = Stock::where('produit_id',$produit)->where('qte_restante','!=',0)->get()->pluck('tranche_id')->unique();
 
@@ -109,28 +133,55 @@ class ModificationPrix extends Component
         $this->loadList($this->id_produit);
     }
 
-    public function edit($ida,$produit_id,$tranche_id,$categorie_id,$categorie_nom,$produit_nom,$tranche_nom){
+    public function edit($produit_id,$tranche_id,$categorie_id){
 
-        DB::transaction(function() use ($ida,$produit_id,$categorie_id,$tranche_id) {
-            Stock::where('id',$ida)->update([
-                'prix_n' => $this->prix_n[$ida],
-                'prix_f' => $this->prix_f[$ida],
-                'prix_p' => $this->prix_p[$ida],
+        DB::transaction(function() use ($produit_id,$categorie_id,$tranche_id) {
+            Stock::where('produit_id', $produit_id)
+            ->where('tranche_id', $tranche_id)
+            ->where('categorie_id', $categorie_id)
+            ->update([
+                'prix_n' => $this->prix_n[$tranche_id][$categorie_id],
+                'prix_f' => $this->prix_f[$tranche_id][$categorie_id],
+                'prix_p' => $this->prix_p[$tranche_id][$categorie_id],
             ]);
             ProduitPrix::create([
                 'produit_id' => $produit_id,
                 'categorie_id' => $categorie_id,
                 'tranche_id' => $tranche_id,
-                'prix_n' => $this->prix_n[$ida],
-                'prix_f' => $this->prix_f[$ida],
-                'prix_p' => $this->prix_p[$ida],
+                'prix_n' => $this->prix_n[$tranche_id][$categorie_id],
+                'prix_f' => $this->prix_f[$tranche_id][$categorie_id],
+                'prix_p' => $this->prix_p[$tranche_id][$categorie_id],
             ]);
         });
 
-        session()->flash('edit-price-message', 'Les prix sont modifiés pour '.$produit_nom. " - " .$tranche_nom. " - ". $categorie_nom);
+        session()->flash('edit-price-message', 'Les prix sont modifiés pour - '. $this->nom_tranche[$tranche_id].' - ' . $this->nom_categorie[$categorie_id]);
         //return redirect()->to('/designation-prix');
 
     }
+
+    // public function edit($ida, $produit_id, $tranche_id, $categorie_id, $categorie_nom, $produit_nom, $tranche_nom)
+    // {
+
+    //     DB::transaction(function () use ($ida, $produit_id, $categorie_id, $tranche_id) {
+    //         Stock::where('id', $ida)->update([
+    //             'prix_n' => $this->prix_n[$ida],
+    //             'prix_f' => $this->prix_f[$ida],
+    //             'prix_p' => $this->prix_p[$ida],
+    //         ]);
+    //         ProduitPrix::create([
+    //             'produit_id' => $produit_id,
+    //             'categorie_id' => $categorie_id,
+    //             'tranche_id' => $tranche_id,
+    //             'prix_n' => $this->prix_n[$ida],
+    //             'prix_f' => $this->prix_f[$ida],
+    //             'prix_p' => $this->prix_p[$ida],
+    //         ]);
+    //     });
+
+    //     session()->flash('edit-price-message', 'Les prix sont modifiés pour ' . $produit_nom . " - " . $tranche_nom . " - " . $categorie_nom);
+    //     //return redirect()->to('/designation-prix');
+
+    // }
 
     public function render()
     {

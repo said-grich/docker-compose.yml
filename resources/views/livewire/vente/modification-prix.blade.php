@@ -132,12 +132,12 @@
                                     <tr>
                                         <th scope="col">Tranche</th>
                                         <th scope="col">Catégorie</th>
-                                        <th scope="col">Sous catégorie</th>
+                                        {{-- <th scope="col">Sous catégorie</th> --}}
                                         <th scope="col">Stock</th>
                                         <th scope="col">Prix Vente Normal</th>
                                         <th scope="col">Prix Vente Fidèle</th>
                                         <th scope="col">Prix Vente Business</th>
-                                        <th scope="col"></th>
+                                        <th scope="col">Historique</th>
                                     </tr>
                                     <tr>
                                         <th scope="col">
@@ -156,48 +156,53 @@
                                                 @endforeach
                                             </select>
                                         </th>
-                                        <th scope="col">
+                                        {{-- <th scope="col">
                                             <select class="form-control" wire:change="" wire:model="filter.sousCategorie">
                                                 <option value="">{{ __('Choisir une sous catégorie') }}</option>
                                                 @foreach ($liste_sous_categories as $item)
                                                     <option value="{{$item->id}}">{{$item->nom}}</option>
                                                 @endforeach
                                             </select>
-                                        </th>
+                                        </th> --}}
                                         <th scope="col"></th>
                                         <th scope="col"></th>
                                         <th scope="col"></th>
                                         <th scope="col"></th>
                                         <th scope="col">
-                                            <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#historique-prix"><i class="fas fa-eye"></i></button>
+                                            <button type="button" class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#historique-prix"><i class="fas fa-history"></i></button>
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
 
-                                    @foreach (Arr::sort($liste_produits) as $key => $value)
-                                        <tr>
-                                            <td>{{$value->tranche->nom}}</td>
-                                            <td>{{$value->categorie->nom}}</td>
-                                            <td>{{$value->sousCategorie->nom}}</td>
-                                            <td>{{$value->qte_restante}}</td>
+                                    @foreach ($liste_produits as $tranche => $categories)
+                                         @foreach ($categories as $categorie => $stock)
+                                            <tr>
 
-                                            <td>
-                                                <input type="text" class="form-control {{$prix_n[$value->id] == 0 ? "is-invalid" : ''}}" wire:model="prix_n.{{$value->id}}"/>
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control {{$prix_f[$value->id] == 0 ? "is-invalid" : ''}}" wire:model="prix_f.{{$value->id}}"/>
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control {{$prix_p[$value->id] == 0 ? "is-invalid" : ''}}" wire:model="prix_p.{{$value->id}}"/>
-                                            </td>
-                                            <td>
-                                                <a wire:click="edit({{$value->id}},'{{$value->produit_id}}','{{$value->tranche_id}}','{{$value->categorie_id}}','{{$value->categorie->nom}}','{{$nom_produit}}','{{$value->tranche->nom}}')" href="#" class="btn font-weight-bold mr-2">
-                                                    <i class="far fa-save text-primary"></i>
-                                                </a>
-                                            </td>
+                                                <td>{{$nom_tranche[$tranche]}}</td>
+                                                <td>{{$nom_categorie[$categorie]}}</td>
+                                                {{-- <td>{{$value->sousCategorie->nom}}</td>--}}
+                                                <td>{{$qte_stock[$tranche][$categorie]}}</td>
+                                                <td>
+                                                    <input type="text" class="form-control {{$prix_n[$tranche][$categorie] == 0 ? "is-invalid" : ''}}" wire:model="prix_n.{{$tranche}}.{{$categorie}}"/>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control {{$prix_f[$tranche][$categorie] == 0 ? "is-invalid" : ''}}" wire:model="prix_f.{{$tranche}}.{{$categorie}}"/>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control {{$prix_p[$tranche][$categorie] == 0 ? "is-invalid" : ''}}" wire:model="prix_p.{{$tranche}}.{{$categorie}}"/>
+                                                </td>
+                                                <td>
+                                                    <a wire:click="edit('{{$id_produit}}','{{$tranche}}','{{$categorie}}')" href="#" class="btn font-weight-bold mr-2">
+                                                        <i class="far fa-save text-primary"></i>
+                                                    </a>
+                                                    {{-- <a wire:click="edit({{$value->id}},'{{$value->produit_id}}','{{$value->tranche_id}}','{{$value->categorie_id}}','{{$value->categorie->nom}}','{{$nom_produit}}','{{$value->tranche->nom}}')" href="#" class="btn font-weight-bold mr-2">
+                                                        <i class="far fa-save text-primary"></i>
+                                                    </a> --}}
+                                                </td>
 
-                                        </tr>
+                                            </tr>
+                                        @endforeach
                                     @endforeach
 
                                 </tbody>
