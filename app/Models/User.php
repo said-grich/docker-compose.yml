@@ -69,22 +69,18 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    /* public function site()
+    public function profil()
     {
-        return $this->belongsTo(Site::class);
+        return $this->belongsTo(ProfilClient::class, 'profil_client_id');
     }
 
-    public function depotAutorise()
+    public function bonsLivraison()
     {
-        return $this->belongsTo(Depot::class);
+        return $this->hasMany(BonLivraison::class);
     }
-    public function siteAutorise()
-    {
-        return $this->belongsTo(Site::class);
-    } */
-    /* public function depot()
-    {
-        return $this->belongsTo(Depot::class);
-    } */
 
+    public function commandes()
+    {
+        return $this->hasMany(Commande::class);
+    }
 }

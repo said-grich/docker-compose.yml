@@ -84,3 +84,4 @@ Route::get('/apropos', \App\Http\Livewire\Frontend\Apropos::class)->name('apropo
 Route::get('/contact', \App\Http\Livewire\Frontend\Contact::class)->name('contact');
 Route::get('/sinscrire', \App\Http\Livewire\Frontend\Sinscrire::class)->name('sinscrire');
 Route::get('/connexion', \App\Http\Livewire\Frontend\Connexion::class)->name('connexion');
+Route::get('/deconnecter', \App\Http\Livewire\Frontend\Deconnecter::class)->name('deconnecter');

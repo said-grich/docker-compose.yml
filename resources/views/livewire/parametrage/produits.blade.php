@@ -1,6 +1,10 @@
 @section('title', 'Produits')
 @section('header_title', 'Produits')
 
+@push('styles')
+    <link rel="stylesheet" href="assets/plugins/custom/uppy/uppy.bundle.css"/>
+@endpush
+
 <div class="d-flex flex-column-fluid">
     <!--begin::Container-->
     <div class="container-fluid">
@@ -36,7 +40,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <form id="produit-form" class="form row" wire:submit.prevent="createProduit" enctype="multipart/form-data">
-                                            <div class="form-group col-md-12">
+                                            <div class="form-group col-md-4">
                                                 <label><b>{{ __('Nom Produit') }}</b></label>
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-box-open icon-lg"></i></span></div>
@@ -97,7 +101,7 @@
                                                 @enderror
                                             </div> --}}
 
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-4">
                                                 <label><b>{{ __('Famille') }}</b></label>
                                                 <div wire:ignore class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-sitemap icon-lg"></i></span></div>
@@ -117,7 +121,7 @@
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-4">
                                                 <label><b>{{ __('Unité Affichée') }}</b></label>
                                                 <div wire:ignore class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-weight-hanging icon-lg"></i></span></div>
@@ -313,7 +317,10 @@
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
-
+												<div class="uppy" id="kt_uppy_2">
+													<div class="uppy-dashboard"></div>
+													<div class="uppy-progress"></div>
+												</div>
                                             <div class="form-group col-md-6 row">
                                                 <label class="col-8 col-form-label">{{ __('Activé / Désactivé le produit') }}</label>
                                                 <div class="col-4">
@@ -773,12 +780,19 @@
     </div>
 </div> --}}
 
-
-
 @push('scripts')
-    <script>
-        Livewire.on('saved', produit => {
-            $('#produit').modal('hide')
-        });
-    </script>  
+    <script src="assets/plugins/custom/uppy/uppy.bundle.js"></script>
+    <script src="assets/js/pages/crud/file-upload/uppy.js"></script> 
+    {{-- <script>
+        var uppy = Uppy.Core()
+        .use(Uppy.Dashboard, {
+          inline: true,
+          target: '#drag-drop-area'
+        })
+        .use(Uppy.Tus, {endpoint: 'https://tusd.tusdemo.net/files/'})
+
+      uppy.on('complete', (result) => {
+        console.log('Upload complete! We’ve uploaded these files:', result.successful)
+      })
+    </script> --}}
 @endpush

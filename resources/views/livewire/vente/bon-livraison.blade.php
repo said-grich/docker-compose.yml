@@ -720,7 +720,7 @@
 
                                                                                 <div class="col-lg-4 mb-6">
                                                                                     <label>{{ __('Heure de livraison') }}</label>
-                                                                                    <input type="text" class="form-control" placeholder="Contact de livraison" wire:model.defer="heure_livraison"/>
+                                                                                    <input type="text" class="form-control" placeholder="Heure de livraison" wire:model.defer="heure_livraison"/>
                                                                                     @error('heure_livraison')
                                                                                         <span class="form-text text-danger">{{ $message }}</span>
                                                                                     @enderror
