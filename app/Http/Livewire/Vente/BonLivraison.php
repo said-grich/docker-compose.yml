@@ -260,7 +260,7 @@ class BonLivraison extends Component
             $this->frais_livraison = 0;
         }
 
-        $jours_livraison = Livraison::where('ville_id', $value)->first()->jours_livraison;
+        $jours_livraison = isset(Livraison::where('ville_id', $value)->first()->jours_livraison) ? Livraison::where('ville_id', $value)->first()->jours_livraison : null;
 
         $jours = ['monday' => 'Lundi', 'tuesday' => 'Mardi', 'wednesday ' => 'Mercredi', 'thursday ' => 'Jeudi', 'friday ' => 'Vendredi', 'saturday ' => 'Samedi', 'sunday ' => 'Dimanche'];
         $dates = [];
@@ -269,12 +269,16 @@ class BonLivraison extends Component
         foreach ($jours as $key => $value) {
             $dates[$value] = Carbon::parse('this ' . $key)->toDateString();
         }
+        if($jours_livraison != null){
+            foreach ($jours_livraison as $key => $value) {
+                $dates_livraison[$value] = $dates[$value];
+            }
 
-        foreach ($jours_livraison as $key => $value) {
-            $dates_livraison[$value] = $dates[$value];
+            $this->dates_livraison =  $dates_livraison;
+
         }
 
-        $this->dates_livraison =  $dates_livraison;
+
 
         //dd($jours_livraison,$this->dates_livraison,$dates_livraison);
 
