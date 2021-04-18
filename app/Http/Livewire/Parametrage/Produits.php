@@ -72,7 +72,7 @@ class Produits extends Component
         'tranches' => 'required',
         'mode_cuisine' => 'required',
         'mode_nettoyage' => 'required',
-        'photo_principale' => 'required',
+        // 'photo_principale' => 'required',
         // 'photos' => 'required',
     ];
 

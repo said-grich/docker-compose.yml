@@ -6,7 +6,7 @@
 				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
 					<div class="info">
 						<ul class="list-unstyled list-inline">
-							<li><span></span><button class="btn" data-toggle="modal" data-target="#livraison-localisation"><i class="fa fa-map-marker-alt"></i> Zone Livraison</button></li>
+							<li><span></span><button class="btn" data-toggle="modal" data-target="#livraison-localisation"><i class="fa fa-map-marker-alt"></i> {{ Session::has('ville') ? Session::get('ville') : 'Zone Livraison' }}</button></li>
 							<li><span><i class="fa fa-phone-alt"></i></span>+212 6 19 82 65 01</li>
 						</ul>
 					</div>
