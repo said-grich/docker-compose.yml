@@ -256,7 +256,7 @@
                                                 </thead>
                                                 <tbody >
                                                         <tr >
-                                                            <td class="pl-0" style="width: 150px;">
+                                                            <td class="pl-0" style="width: 120px;">
                                                                 <select class="form-control" wire:model="produit.0">
                                                                     <option>{{ __('Choisir un produit') }}</option>
                                                                     @foreach ($list_produits as $item)
@@ -264,7 +264,7 @@
                                                                     @endforeach
                                                                 </select>
                                                             </td>
-                                                            <td class="pl-0" style="width: 150px;">
+                                                            <td class="pl-0" style="width: 120px;">
                                                                 <select class="form-control" wire:model.defer="categorie.0">
                                                                     <option>{{ __('Choisir une catégorie') }}</option>
                                                                     @foreach ($list_categories as $item)
@@ -272,7 +272,7 @@
                                                                     @endforeach
                                                                 </select>
                                                             </td>
-                                                            <td class="pl-0" style="width: 150px;">
+                                                            <td class="pl-0" style="width: 120px;">
                                                                 <select class="form-control" wire:model.defer="sous_categorie.0">
                                                                     <option>{{ __('Choisir une sous catégorie') }}</option>
                                                                     @foreach ($list_sous_categories as $item)
@@ -309,7 +309,7 @@
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="pas.0"/>
                                                             </td>
 
-                                                            <td class="pl-0" >
+                                                            <td class="pl-0" style="width: 120px;">
                                                                 <select class="form-control" wire:model="tranches.0" {{isset($mode_vente_produit[0]) && $mode_vente_produit[0] == 1 ? 'multiple' :  '' }} >
                                                                     <option>{{ __('Choisir une tranche') }}</option>
                                                                     @if (!empty($list_tranches[0]))
@@ -324,10 +324,10 @@
                                                                 <td class="pl-0" >
                                                                     <div class="input-group input-group-prepend">
 
-                                                                            <input type="text" class="form-control" placeholder="Nombre de pièce" data-toggle="tooltip" data-theme="dark" title="Code / poids" wire:model.defer="nbr_pc.0"  wire:change="setCodePoids(0)"/>
+                                                                            <input type="text" class="form-control" placeholder="Nombre de pièce"  wire:model.defer="nbr_pc.0"  />
                                                                         <div class="input-group-append" data-toggle="modal" data-target="#code-poids">
 
-                                                                            {{--<button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Code / poids" wire:click="setCodePoids(0)"><i class="far fa-eye"></i></button></div>--}}
+                                                                            <!--<button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Code / poids" wire:click="setCodePoids(0)"><i class="far fa-eye"></i></button></div>-->
                                                                         </div>
                                                                         @error('nbr_pc')
                                                                         <span class="form-text text-danger">{{ $message }}</span>
