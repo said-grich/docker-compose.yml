@@ -22,7 +22,7 @@
                         <span></span>
                     </label>
                 </th>
-                <th class="pl-0" wire:click="sortBy('nom')" style="cursor: pointer;">Nom @include('layouts.partials._sort-icon',['field'=>'nom'])</th>
+                <th class="pl-0" wire:click="sortBy('name')" style="cursor: pointer;">Nom @include('layouts.partials._sort-icon',['field'=>'name'])</th>
                 <th class="pl-0" wire:click="sortBy('email')" style="cursor: pointer;">Email @include('layouts.partials._sort-icon',['field'=>'email'])</th>
                 <th class="pl-0" wire:click="sortBy('tel')" style="cursor: pointer;">Téléphone @include('layouts.partials._sort-icon',['field'=>'tel'])</th>
                 <th class="pl-0" wire:click="sortBy('tel')" style="cursor: pointer;">Profil @include('layouts.partials._sort-icon',['field'=>'tel'])</th>
@@ -39,7 +39,7 @@
                         </label>
                     </td>
                     <td class="pl-0">
-                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->nom }}</a>
+                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->name }}</a>
                     </td>
                     <td class="pl-0">
                         <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{ $item->email }}</a>
@@ -78,7 +78,6 @@
                                 {{--end::Svg Icon--}}
                             </span>
                         </a>
-
                     </td>
                 </tr>
             @endforeach
@@ -99,10 +98,10 @@
                         <div class="form-group col-md-6">
                             <div class="input-group input-group-prepend">
                                 <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user icon-lg"></i></span></div>
-                                <input type="text" class="form-control" placeholder=" " wire:model.defer="nom"/>
-                                <label>{{ __('Nom') }}</label>
+                                <input type="text" class="form-control" placeholder=" " wire:model.defer="name"/>
+                                <label>{{ __('name') }}</label>
                             </div>
-                            @error('nom')
+                            @error('name')
                                 <span class="form-text text-danger">{{ $message }}</span>
                             @enderror
                         </div>
@@ -133,7 +132,7 @@
                                 <select class="form-control selectpicker" wire:model.defer="profil_client">
                                     <option>{{ __('Choisir un profile') }}</option>
                                     @foreach ($list_profils as $item)
-                                         <option value="{{$item->id}}">{{$item->nom}}</option>
+                                         <option value="{{$item->id}}">{{$item->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -161,16 +160,14 @@
                     </button>
                 </div>
                 <div wire:ignore class="modal-body">
-
                     <form id="edit-form" class="form row">
-
                         <div class="form-group col-md-6">
                             <div class="input-group input-group-prepend">
                                 <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user icon-lg"></i></span></div>
-                                <input type="text" class="form-control" placeholder=" " wire:model.defer="nom"/>
+                                <input type="text" class="form-control" placeholder=" " wire:model.defer="name"/>
                                 <label>{{ __('Nom') }}</label>
                             </div>
-                            @error('nom')
+                            @error('name')
                                 <span class="form-text text-danger">{{ $message }}</span>
                             @enderror
                         </div>
@@ -187,10 +184,10 @@
                         <div class="form-group col-md-6">
                             <div class="input-group input-group-prepend">
                                 <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-phone icon-lg"></i></span></div>
-                                <input type="tel" class="form-control" placeholder=" " wire:model.defer="phone"/>
+                                <input type="tel" class="form-control" placeholder=" " wire:model.defer="tel"/>
                                 <label>{{ __('Téléphone') }}</label>
                             </div>
-                            @error('phone')
+                            @error('tel')
                                 <span class="form-text text-danger">{{ $message }}</span>
                             @enderror
                         </div>
@@ -201,7 +198,7 @@
                                 <select class="form-control" wire:model="profil_id">
                                         <option>{{ __('Choisir un profil') }}</option>
                                         @foreach ($list_profils as $item)
-                                            <option value="{{$item->id}}"  @if($profil_id == $item->id) {{'selected'}} @endif>{{$item->nom}}</option>
+                                            <option value="{{$item->id}}"  @if($profil_id == $item->id) {{'selected'}} @endif>{{$item->name}}</option>
                                         @endforeach
                                 </select>
                             </div>

@@ -2,7 +2,8 @@
 
 namespace App\Http\Livewire\Frontend;
 
-use App\Models\Client;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use Livewire\Component;
@@ -22,6 +23,12 @@ class Sinscrire extends Component{
         'form.tel' => 'required',
         'form.agree' => 'required',
     ];
+
+    public function mount(){
+        if(Auth::user()){
+            return redirect()->to('/');
+        }
+    }
 
     public function sendPassword(){
         $mail = new PHPMailer();
@@ -65,16 +72,17 @@ class Sinscrire extends Component{
     }
 
     public function createClient(){
-        $checkEmail = Client::select()->where('email', $this->form['email'])->get();
-        $checkTel = Client::select()->where('tel', $this->form['tel'])->get();
+        $checkEmail = User::select()->where('email', $this->form['email'])->get();
+        $checkTel = User::select()->where('tel', $this->form['tel'])->get();
 
         if(count($checkEmail) === 0 && count($checkTel) === 0){
-            $item = new Client();
-            $item->nom = $this->form['name'];
+            $item = new User();
+            $item->name = $this->form['name'];
             $item->tel = $this->form['tel'];
             $item->email = $this->form['email'];
             $item->password = bcrypt($this->form['password']);
             $item->profil_client_id = 1;
+            $item->type = 'client';
             $item->save();
 
             session()->flash('success-message', 'Votre compte a été créé avec succès');

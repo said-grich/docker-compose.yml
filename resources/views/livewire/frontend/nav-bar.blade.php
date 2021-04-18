@@ -129,7 +129,7 @@
 				<li><a href="{{ route('contact') }}">Contact</a></li>
 				@auth
 				<li>
-					<a href="#"><button type="button" class="btn btn-rounded btn-inline btn-primary-outline">Logout</button></a>
+					@livewire('frontend.deconnecter')
 				</li>
 				@endauth
 				@guest

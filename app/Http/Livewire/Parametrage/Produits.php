@@ -73,7 +73,7 @@ class Produits extends Component
         'mode_cuisine' => 'required',
         'mode_nettoyage' => 'required',
         'photo_principale' => 'required',
-        'photos' => 'required',
+        // 'photos' => 'required',
     ];
 
     public function updatedModeVente($value){
