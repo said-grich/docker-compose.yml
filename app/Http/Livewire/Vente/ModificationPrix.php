@@ -24,6 +24,7 @@ class ModificationPrix extends Component
     public $liste_categories = [];
     public $liste_sous_categories = [];
     public $liste_tranches = [];
+    public $historique_prix = [];
 
     public $filter = [
         "categorie" => "",
@@ -77,6 +78,8 @@ class ModificationPrix extends Component
         $this->liste_tranches = Tranche::whereIn('uid',$tranches)->get();
 
         $this->loadList($produit);
+
+        $this->historique_prix = ProduitPrix::where('produit_id', $produit)->orderBy('created_at', 'DESC')->get();
 
         /* $this->liste_produits = Stock::when($this->filter['categorie'], function ($query) {
                 $query->where('categorie_id', $this->filter['categorie']);

@@ -98,6 +98,9 @@
         </tbody>
     </table>
 
+
+
+
     {{-- edit prices Modal --}}
     <div wire:ignore.self class="modal fade" id="modification-prix" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="modification-prix" aria-hidden="true">
         <div class="modal-dialog modal-xxl modal-dialog-centered" role="document">
@@ -165,7 +168,9 @@
                                         <th scope="col"></th>
                                         <th scope="col"></th>
                                         <th scope="col"></th>
-                                        <th scope="col"></th>
+                                        <th scope="col">
+                                            <button class="btn btn-primary font-weight-bold btn-pill" data-toggle="modal" data-target="#historique-prix"><i class="fas fa-eye"></i></button>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -187,11 +192,9 @@
                                                 <input type="text" class="form-control {{$prix_p[$value->id] == 0 ? "is-invalid" : ''}}" wire:model="prix_p.{{$value->id}}"/>
                                             </td>
                                             <td>
-
                                                 <a wire:click="edit({{$value->id}},'{{$value->produit_id}}','{{$value->tranche_id}}','{{$value->categorie_id}}','{{$value->categorie->nom}}','{{$nom_produit}}','{{$value->tranche->nom}}')" href="#" class="btn font-weight-bold mr-2">
                                                     <i class="far fa-save text-primary"></i>
                                                 </a>
-
                                             </td>
 
                                         </tr>
@@ -209,5 +212,69 @@
         </div>
     </div>
     {{-- End edit prices Modal --}}
+
+       {{-- edit prices Modal --}}
+    <div wire:ignore.self class="modal fade" id="historique-prix" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="historique-prix" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ __('Historique des prix') }} </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="form row">
+                        <div class="form-group col-md-12">
+
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Tranche</th>
+                                        <th scope="col">Catégorie</th>
+                                        <th scope="col">Prix Vente Normal</th>
+                                        <th scope="col">Prix Vente Fidèle</th>
+                                        <th scope="col">Prix Vente Business</th>
+                                        <th scope="col">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach ($historique_prix as $key => $value)
+                                    <tr>
+                                        <td>
+                                            {{$value->tranche->nom}}
+                                        </td>
+                                        <td>
+                                            {{$value->categorie->nom}}
+                                        </td>
+                                        <td>
+                                            {{$value->prix_n}}
+                                        </td>
+                                        <td>
+                                            {{$value->prix_f}}
+                                        </td>
+                                        <td>
+                                            {{$value->prix_p}}
+                                        </td>
+                                        <td>
+                                            {{$value->created_at}}
+                                        </td>
+                                    </tr>
+                                    @endforeach
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ __('Fermer') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- End edit prices Modal --}}
+
 
 </div>

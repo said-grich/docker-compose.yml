@@ -24,4 +24,9 @@ class Tranche extends Model
     public function produitTranche(){
         return $this->hasMany(ProduitTranche::class);
     }
+
+    public function prices()
+    {
+        return $this->hasMany(ProduitPrix::class);
+    }
 }
