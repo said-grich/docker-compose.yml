@@ -549,3 +549,28 @@
 .no-js .cd-hero__nav {
   display: none;
 }
+
+/* Slider | Mobile */
+@media (max-width: 767.98px) {
+  .cd-hero__content.cd-hero__content--full-width,
+  .cd-hero__content.cd-hero__content--half-width {
+    padding-top: 50px;
+  }
+  .cd-hero__btn {
+    padding: .6em .7em;
+    font-size: 1rem;
+    -webkit-border-radius: .4rem;
+    -moz-border-radius: .4rem;
+    border-radius: .4rem;
+  }
+  .cd-hero__nav {
+    height: 40px;
+  }
+  .cd-hero__nav li { 
+    padding: .8rem;
+  }
+  .cd-hero__nav a {
+    width: 14px;
+    height: 14px;
+  }
+}

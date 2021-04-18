@@ -300,12 +300,12 @@ var KTUppy = function () {
 	return {
 		// public functions
 		init: function() {
-			initUppy1();
+			// initUppy1();
 			initUppy2();
-			initUppy3();
-			initUppy4();
-			initUppy5();
-			initUppy6();
+			// initUppy3();
+			// initUppy4();
+			// initUppy5();
+			// initUppy6();
 
 			setTimeout(function() {
 				swal.fire({

@@ -2,100 +2,146 @@
 
 namespace App\Http\Livewire\Parametrage;
 
-use App\Models\Client;
+use App\Models\User;
 use App\Models\ProfilClient;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 use Livewire\Component;
 
 class Clients extends Component
 {
-    public $profil_name;
-    public $client_name;
-    public $phone;
+    public $profile_name;
+    public $name;
+    public $tel;
     public $email;
-    public $profil_client;
+    public $password;
+    public $profile_client;
     public $list_profils;
 
     protected $listeners = ['profilAdded' => 'renderProfilesClients'];
 
+    public function sendPassword(){
+        $mail = new PHPMailer();
+        $mail->IsSMTP();
+        $mail->Mailer = "smtp";
 
-    /* protected $rules = [
-        'categorie_name' => 'required',
-        'categorie_name' => 'required',
-    ]; */
+        $mail->SMTPDebug  = 0;
+        $mail->SMTPAuth   = TRUE;
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
+        $mail->Host       = "smtp.gmail.com";
+        $mail->Username   = "erp2am@gmail.com";
+        $mail->Password   = "erp2am@21";
+
+        $mail->IsHTML(true);
+        $mail->AddAddress($this->email, $this->name);
+        $mail->SetFrom("contact@flouka.ma", "Flouka");
+        $mail->AddReplyTo("contact@flouka.ma", "Flouka");
+        $mail->AddCC("contact@flouka.ma", "Flouka");
+        $mail->Subject = "Account Verification in Flouka";
+        $content = view('tpl')->with([
+            'name' => $this->name,
+            'password' => $this->password,
+        ]);
+
+        $mail->MsgHTML($content);
+        if(!$mail->Send()){
+            // dd($mail->ErrorInfo);
+            var_dump($mail);
+        }else{
+            // return redirect(route('connexion'));
+        }
+    }
 
     public function renderProfilesClients()
     {
         $this->list_profils = ProfilClient::all()->sortBy('id');
     }
 
-
     public function createProfileClient()
     {
-        //$this->validate();
+        $this->validate([
+            'profile_name' => 'required',
+        ]);
 
         $item = new ProfilClient();
-        $item->nom = $this->profil_name;
+        $item->nom = $this->profile_name;
         $item->save();
 
-
-
-        $this->dispatchBrowserEvent('swal:modal',
-            [
-                'title' => "success",
-                'title' => 'Profile "'.$this->profil_name. '" a été crée',
-                'text' => "",
-            ]);
-
-
-
-        session()->flash('message', 'Profile "'.$this->profil_name. '" a été crée ');
-        $this->reset(['profil_name']);
+        session()->flash('message', 'Profile "'.$this->profile_name. '" a été crée ');
+        $this->reset(['profile_name']);
 
         $this->emit('saved');
     }
 
     public function createClient()
     {
-        //$this->validate();
+        $this->validate([
+            'name' => 'required',
+            'tel' => 'required',
+            'email' => 'required|email',
+            'profile_client' => 'required',
+        ]);
 
-     /*    $item = new Client();
-        $item->nom = $this->client_name;
-        $item->tel = $this->phone;
-        $item->email = $this->email;
-        $item->password = sha1('password');
-        $item->profil_client_id = $this->profil_client;
-        $item->save();
+        $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        $this->password = substr(str_shuffle($chars),0,10);
 
-        $profil = ProfilClient::findOrFail($this->profil_client);
-        session()->flash('message', 'Client "' . $this->client_name . '" a été crée comme étant un client ' . $profil->nom);
-        $this->reset(['client_name','phone', 'email','profil_client']);
+        $checkEmail = User::select()->where('email', $this->email)->get();
+        $checkTel = User::select()->where('tel', $this->tel)->get();
 
-        $this->emit('saved'); */
-
-        $client = Client::where('email', $this->email)
-                                        ->first();
-        if ($client === null) {
-            $item = new Client();
-            $item->nom = $this->client_name;
-            $item->tel = $this->phone;
+        if(count($checkEmail) === 0 && count($checkTel) === 0){
+            $item = new User();
+            $item->name = $this->name;
+            $item->tel = $this->tel;
             $item->email = $this->email;
-            $item->password = bcrypt('password');
-            $item->profil_client_id = $this->profil_client;
+            $item->password = bcrypt($this->password);
+            $item->profil_client_id = 1;
+            $item->type = 'client';
             $item->save();
 
-            $profil = ProfilClient::findOrFail($this->profil_client);
-            session()->flash('message', 'Client "' . $this->client_name . '" a été crée comme étant un client ' . $profil->nom);
-            $this->reset(['client_name','phone', 'email','profil_client']);
+            $profile = ProfilClient::findOrFail($this->profile_client);
+            session()->flash('message', 'Client "' . $this->name . '" a été crée comme étant un client ' . $profile->nom);
+            $this->reset(['name','tel','email','profile_client']);
 
             $this->emit('saved');
 
-        }else {
-            session()->flash('emailalert', 'cette  "' . $this->email . '" est déja existe ');
+            
+        $mail = new PHPMailer();
+        $mail->IsSMTP();
+        $mail->Mailer = "smtp";
+
+        $mail->SMTPDebug  = 0;
+        $mail->SMTPAuth   = TRUE;
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
+        $mail->Host       = "smtp.gmail.com";
+        $mail->Username   = "erp2am@gmail.com";
+        $mail->Password   = "erp2am@21";
+
+        $mail->IsHTML(true);
+        $mail->AddAddress($this->email, $this->name);
+        $mail->SetFrom("contact@flouka.ma", "Flouka");
+        $mail->AddReplyTo("contact@flouka.ma", "Flouka");
+        $mail->AddCC("contact@flouka.ma", "Flouka");
+        $mail->Subject = "Account Verification in Flouka";
+        $content = view('tpl')->with([
+            'name' => $this->name,
+            'password' => $this->password,
+        ]);
+
+        $mail->MsgHTML($content);
+        if(!$mail->Send()){
+            // dd($mail->ErrorInfo);
+            var_dump($mail);
+        }else{
+            // return redirect(route('connexion'));
         }
-
+        }elseif(count($checkEmail) > 0){
+            session()->flash('warning-message', 'Existe déjà un compte possède cette adresse e-mail');
+        }elseif(count($checkTel) > 0){
+            session()->flash('warning-message', 'Existe déjà un compte possède ce numéro de téléphone');
+        }
     }
-
-
 
     public function render()
     {

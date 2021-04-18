@@ -26,9 +26,10 @@ class LivraisonLocalisation extends Component
     }
 
     public function saveZoneLivraison(){
+        $ville = Ville::select('nom')->where('id', $this->ville)->get();
         Session::put('villeLivraison', $this->ville);
         Session::put('zoneLivraison', $this->zone);
-
+        Session::put('ville', $ville[0]->nom);
         $this->emit('zoneRefrish');
     }
 

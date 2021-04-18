@@ -34,6 +34,7 @@
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
 
+		@stack('styles')
         @livewireStyles
     </head>
 
@@ -76,7 +77,6 @@
 		<!--end::Main-->
 
         @stack('modals')
-        @stack('scripts')
 
 		<!--[html-partial:include:{"file":"partials/_page-loader.html"}]/-->
 
