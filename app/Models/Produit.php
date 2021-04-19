@@ -59,4 +59,9 @@ class Produit extends Model
         return $this->belongsTo(Unite::class);
     }
 
+    public function prices()
+    {
+        return $this->hasMany(ProduitPrix::class);
+    }
+
 }

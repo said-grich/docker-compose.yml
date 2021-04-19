@@ -135,6 +135,8 @@ class BonLivraison extends Component
     public $seuil_commande;
     public $commande_preparations = [];
     public $commande_preparation_cuisine = [];
+    public $dates_livraison = [];
+    public $heure_livraison;
 
 
     public $filter = [
@@ -175,8 +177,14 @@ class BonLivraison extends Component
     public function mount(){
 
         //$sdate = Carbon::parse('this friday')->toDateString();
-        $edate = Carbon::parse('this thursday');
-        //dd($edate->locale('fr_FR')->format('l'));
+        // $jours = ['monday' =>'Lundi', 'tuesday' =>'Mardi', 'wednesday ' =>'Mercredi', 'thursday ' => 'Jeudi', 'friday ' =>'Vendredi', 'saturday ' =>'Samedi', 'sunday ' => 'Dimanche'];
+        // $edate = Carbon::parse('this thursday');
+        // $dates = [];
+
+        // foreach ($jours as $key => $value) {
+        //     $dates[$value] = Carbon::parse('this '. $key)->toDateString();
+        // }
+        // dd($edate->toDateString(),$jours, $dates);
 
         //dd(Carbon::now()->locale('fr_FR')->dayName );
 
@@ -238,16 +246,41 @@ class BonLivraison extends Component
     }
 
     public function updatedVille($value){
+
         $this->list_livreurs = Livreur::where('active',true)->where('ville_id',$value)->get()->sortBy('nom');
         $this->list_ville_zones = VilleZone::where('ville_id', $value)->get();
         $ville_livraison = Livraison::where('ville_id', $value)->first();
         $this->frais_livraison = isset($ville_livraison->frais_livraison) ? $ville_livraison->frais_livraison : '';
-        $this->seuil_commande = Livraison::where('ville_id', $value)->first()->seuil_commande;
-        $this->seuil_livraison_gratuite = Livraison::where('ville_id', $value)->first()->seuil_livraison_gratuite;
+        $this->seuil_commande = isset(Livraison::where('ville_id', $value)->first()->seuil_commande) ? Livraison::where('ville_id', $value)->first()->seuil_commande : '';
+        $this->seuil_livraison_gratuite = isset(Livraison::where('ville_id', $value)->first()->seuil_livraison_gratuite) ? Livraison::where('ville_id', $value)->first()->seuil_livraison_gratuite : '';
+        $this->heure_livraison = isset(Livraison::where('ville_id', $value)->first()->heure) ? Livraison::where('ville_id', $value)->first()->heure : '';
+
         //dd(Carbon::now()->locale('fr_FR')->dayName );
         if($this->totalMt >= $this->seuil_livraison_gratuite){
             $this->frais_livraison = 0;
         }
+
+        $jours_livraison = isset(Livraison::where('ville_id', $value)->first()->jours_livraison) ? Livraison::where('ville_id', $value)->first()->jours_livraison : null;
+
+        $jours = ['monday' => 'Lundi', 'tuesday' => 'Mardi', 'wednesday ' => 'Mercredi', 'thursday ' => 'Jeudi', 'friday ' => 'Vendredi', 'saturday ' => 'Samedi', 'sunday ' => 'Dimanche'];
+        $dates = [];
+        $dates_livraison = [];
+
+        foreach ($jours as $key => $value) {
+            $dates[$value] = Carbon::parse('this ' . $key)->toDateString();
+        }
+        if($jours_livraison != null){
+            foreach ($jours_livraison as $key => $value) {
+                $dates_livraison[$value] = $dates[$value];
+            }
+
+            $this->dates_livraison =  $dates_livraison;
+
+        }
+
+
+
+        //dd($jours_livraison,$this->dates_livraison,$dates_livraison);
 
     }
 
@@ -420,6 +453,7 @@ class BonLivraison extends Component
                 $commande->etat = "Reçue";
                 $commande->total = $this->totalMt + $this->frais_livraison;
                 $commande->date_livraison = $this->date_livraison;
+                $commande->heure_livraison = $this->heure_livraison;
                 $commande->tel_livraison = $this->tel_livraison;
                 $commande->contact_livraison = $this->contact_livraison;
                 $commande->adresse_livraison = $this->adresse_livraison;

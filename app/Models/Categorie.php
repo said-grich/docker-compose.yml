@@ -21,4 +21,9 @@ class Categorie extends Model
 
     }
 
+    public function prices()
+    {
+        return $this->hasMany(ProduitPrix::class);
+    }
+
 }

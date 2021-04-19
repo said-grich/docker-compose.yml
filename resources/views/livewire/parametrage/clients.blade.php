@@ -62,10 +62,10 @@
                                             <div class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user icon-lg"></i></span></div>
-                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="client_name"/>
+                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="name"/>
                                                     <label>{{ __('Nom') }}</label>
                                                 </div>
-                                                @error('nom')
+                                                @error('name')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
@@ -82,10 +82,10 @@
                                             <div class="form-group col-md-6">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-phone icon-lg"></i></span></div>
-                                                    <input type="tel" class="form-control" placeholder=" " wire:model.defer="phone"/>
+                                                    <input type="tel" class="form-control" placeholder=" " wire:model.defer="tel"/>
                                                     <label>{{ __('Téléphone') }}</label>
                                                 </div>
-                                                @error('phone')
+                                                @error('tel')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
@@ -99,18 +99,17 @@
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div> --}}
-                                            <div wire:ignore class="form-group col-md-6">
-                                                <div class="input-group input-group-prepend">
+                                            <div class="form-group col-md-6">
+                                                <div wire:ignore class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-id-card-alt icon-lg"></i></span></div>
-
-                                                    <select class="form-control selectpicker" wire:model.defer="profil_client">
+                                                    <select class="form-control selectpicker" wire:model.defer="profile_client">
                                                         <option>{{ __('Choisir un profil') }}</option>
                                                         @foreach ($list_profils as $item)
                                                              <option value="{{$item->id}}">{{$item->nom}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                                @error('type-profile')
+                                                @error('profile_client')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
@@ -138,10 +137,10 @@
                                             <div class="form-group">
                                                 <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-id-card-alt icon-lg"></i></span></div>
-                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="profil_name"/>
+                                                    <input type="text" class="form-control" placeholder=" " wire:model.defer="profile_name"/>
                                                     <label>{{ __('Nom') }}</label>
                                                 </div>
-                                                @error('profil_name')
+                                                @error('profile_name')
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>

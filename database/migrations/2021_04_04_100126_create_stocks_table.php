@@ -53,7 +53,7 @@ class CreateStocksTable extends Migration
             $table->foreign('depot_id')->references('id')->on('depots');
 
             $table->unsignedBigInteger('qualite_id')->nullable();
-            $table->foreign('qualite_id')->references('id')->on('qualites');
+            $table->foreign('qualite_id')->references('id')->on('qualites')->nullable();
 
             $table->unsignedBigInteger('promo_id')->nullable();;
             $table->foreign('promo_id')->references('id')->on('promos');

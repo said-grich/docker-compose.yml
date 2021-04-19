@@ -28,7 +28,7 @@
 					<h2>Flouka</h2>
 					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. In consequatur cumque natus!</p>
 					<a href="#0" class="cd-hero__btn">Start</a>
-					<a href="#0" class="cd-hero__btn cd-hero__btn--secondary">Learn More</a>
+					<a href="#0" class="cd-hero__btn">Learn More</a>
 				</div> <!-- .cd-hero__content -->
 				
 				<div class="cd-hero__content cd-hero__content--half-width cd-hero__content--img">
@@ -46,7 +46,7 @@
 					<h2>Flouka</h2>
 					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. In consequatur cumque natus!</p>
 					<a href="#0" class="cd-hero__btn">Start</a>
-					<a href="#0" class="cd-hero__btn cd-hero__btn--secondary">Learn More</a>
+					<a href="#0" class="cd-hero__btn">Learn More</a>
 				</div> <!-- .cd-hero__content -->
 			</li>
 
@@ -56,7 +56,7 @@
 					<h2>Flouka</h2>
 					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi, explicabo.</p>
 					<a href="#0" class="cd-hero__btn">Start</a>
-					<a href="#0" class="cd-hero__btn cd-hero__btn--secondary">Learn More</a>
+					<a href="#0" class="cd-hero__btn">Learn More</a>
 				</div> <!-- .cd-hero__content -->
 			</li>
 
@@ -213,7 +213,8 @@
 								<img src="https://www.mareebleue.net/site/images/normal/20161018083953jpg_5921497513dcc.jpg" alt="Post"/>
 							</div>
 							<div class="ribbon left-top">
-								Frais
+								Poissons Frais
+								<i class="fa fa-fish"></i>
 							</div>
 							<div class="card-body">
 								<h4 class="card-title">Poissons Frais</h4>
@@ -228,6 +229,10 @@
 							<div class="card-img">
 								<img src="https://www.ice-shop.be/guide/wp-content/uploads/2016/02/Bouquet-de-poisson-congel-cru-sur-la-glace-Ice-shop.jpg" alt="Post"/>
 							</div>
+							<div class="ribbon left-top">
+								Poissons Congelés
+								<i class="fa fa-snowflake"></i>
+							</div>
 							<div class="card-body">
 								<h4 class="card-title">Poissons Congelés</h4>
 								<div class="divider"></div>
@@ -240,6 +245,10 @@
 						<div class="card">
 							<div class="card-img">
 								<img src="img/epicerie-flouka1.jpg" alt="Post"/>
+							</div>
+							<div class="ribbon left-top">
+								Épicerie
+								<i class="fa fa-pepper-hot"></i>
 							</div>
 							<div class="card-body">
 								<h4 class="card-title">Épicerie</h4>

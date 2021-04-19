@@ -309,7 +309,7 @@
                             <label><b>{{ __('Photo Principale') }}</b></label>
                             <div class="input-group input-group-prepend">
                                 <input type="file" wire:model="photo_principale"/>
-                                <img style="max-width: 10%;" alt="Pic" src="{{ Storage::url($photo_principalea)}}"/>
+                                <img style="max-width: 10%;" alt="Pic" src="{{ !empty($photo_principalea) ? Storage::url($photo_principalea) : '' }}"/>
                             </div>
                             @error('photo')
                                 <span class="error">{{ $message }}</span>
@@ -322,7 +322,7 @@
                                 <input type="file" wire:model="photos" multiple/>
                                 @foreach ($iteme as $key => $item)
                                 {{-- @php dd($item->photos) @endphp --}}
-                                    <img style="max-width: 10%;" alt="Pic" src="{{ Storage::url($item->photo) }}"/>
+                                    <img style="max-width: 10%;" alt="Pic" src="{{ !empty($item) ? Storage::url($item->photo) : '' }}"/>
                                 @endforeach
                             </div>
                         </div>

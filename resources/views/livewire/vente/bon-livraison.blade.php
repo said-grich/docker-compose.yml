@@ -698,10 +698,33 @@
 
                                                                                 <div class="col-lg-4 mb-6">
                                                                                     <label>{{ __('Date de livraison') }}</label>
-                                                                                    <input type="date" class="form-control" placeholder="Date de livraison" wire:model.defer="date_livraison"/>
+                                                                                    <div class="input-group input-group-prepend">
+                                                                                        <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user-tie icon-lg"></i></span></div>
+                                                                                        <select class="form-control" wire:model.defer="date_livraison">
+                                                                                            <option value="">{{ __('Choisir une date') }}</option>
+                                                                                            @foreach ($dates_livraison as $date)
+                                                                                                <option value="{{$date }}">{{$date }}</option>
+                                                                                            @endforeach
+                                                                                        </select>
+                                                                                    </div>
                                                                                     @error('date_livraison')
                                                                                         <span class="form-text text-danger">{{ $message }}</span>
                                                                                     @enderror
+
+                                                                                    {{-- <label>{{ __('Date de livraison') }}</label>
+                                                                                    <input type="date" class="form-control" placeholder="Date de livraison" wire:model.defer="date_livraison"/>
+                                                                                    @error('date_livraison')
+                                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                                    @enderror --}}
+                                                                                </div>
+
+                                                                                <div class="col-lg-4 mb-6">
+                                                                                    <label>{{ __('Heure de livraison') }}</label>
+                                                                                    <input type="text" class="form-control" placeholder="Heure de livraison" wire:model.defer="heure_livraison"/>
+                                                                                    @error('heure_livraison')
+                                                                                        <span class="form-text text-danger">{{ $message }}</span>
+                                                                                    @enderror
+
                                                                                 </div>
 
                                                                                 <div class="col-lg-4 mb-6">

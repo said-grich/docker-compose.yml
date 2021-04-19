@@ -256,7 +256,7 @@
                                                 </thead>
                                                 <tbody >
                                                         <tr >
-                                                            <td class="pl-0" style="width: 150px;">
+                                                            <td class="pl-0" style="width: 120px;">
                                                                 <select class="form-control" wire:model="produit.0">
                                                                     <option>{{ __('Choisir un produit') }}</option>
                                                                     @foreach ($list_produits as $item)
@@ -264,7 +264,7 @@
                                                                     @endforeach
                                                                 </select>
                                                             </td>
-                                                            <td class="pl-0" style="width: 150px;">
+                                                            <td class="pl-0" style="width: 120px;">
                                                                 <select class="form-control" wire:model.defer="categorie.0">
                                                                     <option>{{ __('Choisir une catégorie') }}</option>
                                                                     @foreach ($list_categories as $item)
@@ -272,7 +272,7 @@
                                                                     @endforeach
                                                                 </select>
                                                             </td>
-                                                            <td class="pl-0" style="width: 150px;">
+                                                            <td class="pl-0" style="width: 120px;">
                                                                 <select class="form-control" wire:model.defer="sous_categorie.0">
                                                                     <option>{{ __('Choisir une sous catégorie') }}</option>
                                                                     @foreach ($list_sous_categories as $item)
@@ -297,12 +297,11 @@
                                                             <td class="pl-0" >
                                                                 <input type="text" class="form-control" placeholder=" " wire:model="cr.0"/>
                                                             </td>
-
                                                             <td class="pl-0" style="width: 90px;" >
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="pas.0"/>
                                                             </td>
 
-                                                            <td class="pl-0" >
+                                                            <td class="pl-0" style="width: 120px;">
                                                                 <select class="form-control" wire:model="tranches.0" {{isset($mode_vente_produit[0]) && $mode_vente_produit[0] == 1 ? 'multiple' :  '' }} >
                                                                     <option>{{ __('Choisir une tranche') }}</option>
                                                                     @if (!empty($list_tranches[0]))
@@ -386,13 +385,16 @@
                                                             <td class="pl-0">
                                                                 <input type="text" class="form-control" placeholder=" " wire:model="cr.{{$value}}"/>
                                                             </td>
+<<<<<<< HEAD
 
+=======
+
+>>>>>>> cdc8ad1853d8e2e4d8e5f01ed1b0bc3ff9e53cd6
                                                             <td class="pl-0" style="width: 90px;">
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="pas.{{$value}}"/>
                                                             </td>
-                                                            {{--<td class="pl-0">
-                                                                  --}}
-                                                                {{-- <select class="form-control" wire:model="tranches.{{$value}}" multiple>
+                                                            <td class="pl-0">
+                                                                  <select class="form-control" wire:model="tranches.{{$value}}" multiple>
                                                                     <option>{{ __('Choisir une tranche') }}</option>
 
                                                                     @if (!empty($list_tranches[$value]))
@@ -408,13 +410,13 @@
                                                                         <input type="text" class="form-control" placeholder="Nombre de pièce" wire:model="nbr_pc.{{$value}}"/>
 
                                                                         <div class="input-group-append" data-toggle="modal" data-target="#code-poids">
-                                                                            <button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Ajouter Unite" wire:click="setCodePoids({{$value}})"><i class="fa fa-plus-circle"></i></button></div>
+                                                                            <button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="code/poids" wire:click="setCodePoids({{$value}})"><i class="fa fa-plus-circle"></i></button></div>
                                                                         @error('nbr_pc')
                                                                         <span class="form-text text-danger">{{ $message }}</span>
                                                                     @enderror
                                                                     </div>
                                                                 </td>
-                                                            @endif --}}
+                                                            @endif
                                                             <td class="pl-0">
                                                                 <select class="form-control" wire:model="tranches.{{$value}}" {{isset($mode_vente_produit[$value]) && $mode_vente_produit[$value] == 1 ? 'multiple' :  '' }} >
                                                                     <option>{{ __('Choisir une tranche') }}</option>
