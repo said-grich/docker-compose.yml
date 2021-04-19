@@ -189,12 +189,8 @@ class Stock extends Component
             $code_poids[$value] = array( 'poids' =>$this->poids[$key], 'qualite' =>  $this->qualite_piece[$key]);
             $this->code_poids[$this->details_index] = $code_poids;
         }
-<<<<<<< HEAD
         $p_tranche = [];
         //dd()
-=======
-        /* $p_tranche = [];
->>>>>>> cdc8ad1853d8e2e4d8e5f01ed1b0bc3ff9e53cd6
         foreach($this->tranches[$key] as $k=>$val){
             $p_tranche[$key][$k] = Tranche::where('uid', $val)->get()->toArray()[0];
 
@@ -217,11 +213,6 @@ class Stock extends Component
                 //dd($valueT);
             }
         }
-<<<<<<< HEAD
-
-=======
-        $this->emit('SavePoids'); */
->>>>>>> cdc8ad1853d8e2e4d8e5f01ed1b0bc3ff9e53cd6
     }
 
         /*foreach($produit as $value){
@@ -476,8 +467,8 @@ class Stock extends Component
                         }
 
 
-                    //foreach ($this->code_poids[$key] as $code => $poids) {
-                        //foreach ($lot_tranche[$key] as $keyT => $valueT) {
+                    foreach ($this->code_poids[$key] as $code => $poids) {
+                        foreach ($lot_tranche[$key] as $keyT => $valueT) {
                            // if ($poids['poids'] >= $valueT['min_poids'] && $poids['poids'] < $valueT['max_poids']) {
                                 LotTranche::where('lot_num', $this->lot_num[$key])->where('tranche_id', $valueT['uid'])->update(['qte' => DB::raw('qte + 1')]);
 
@@ -503,12 +494,12 @@ class Stock extends Component
                                 $item->save();
 
                            // }
-                      //  }
-                   // }
+                        }
+                    }
 
                 }//end if mode vente poids par pièce
 
-                //else{
+                else{
                     LotTranche::create([
                         'lot_num' => $this->lot_num[$key],
                         'tranche_id' => $this->tranches[$key],
@@ -538,9 +529,10 @@ class Stock extends Component
             //$this->reset(['lot_num', 'fournisseur', 'date_entree', 'qualite', 'pas', 'fournisseur', 'qualite', 'produit', 'active', 'qte', 'prix_achat', 'tranches']);
 
            // $this->emit('saved');
-        });
+        }
+    });
 
-    }
+}
 
 
     /* public function updatedLotId($value){

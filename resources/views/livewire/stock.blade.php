@@ -316,7 +316,7 @@
                                                                 <td class="pl-0" >
                                                                     <div class="input-group input-group-prepend">
 
-                                                                            <input type="text" class="form-control" placeholder="Nombre de pièce"  wire:model.defer="nbr_pc.0"  />
+                                                                            <input type="text" class="form-control" placeholder="Nombre de pièce"  wire:model.defer="nbr_pc.0"  wire:change="setCodePoids(0)/>
                                                                         <div class="input-group-append" data-toggle="modal" data-target="#code-poids">
 
                                                                             <button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Code / poids" wire:click="setCodePoids(0)"><i class="far fa-eye"></i></button></div>
