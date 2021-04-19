@@ -173,7 +173,7 @@
                                                             <select class="form-control" wire:model="client">
                                                                 <option value="">{{ __('Choisir un client') }}</option>
                                                                 @foreach ($list_clients as $item)
-                                                                    <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                    <option value="{{$item->id }}">{{$item->name }}</option>
                                                                 @endforeach
 
                                                             </select>
@@ -300,6 +300,7 @@
                                                                         </thead>
                                                                         @foreach ($item as $tranche_uid => $produits)
                                                                             @foreach ( $produits as $key => $produit)
+
                                                                                 <tr class="collapse" id="{{$tranche_uid}}">
                                                                                     <td>{{$produit['categorie']['nom']}}</td>
                                                                                     {{-- <td>{{$produit['sous_categorie']['nom']}}</td> --}}
@@ -322,14 +323,9 @@
                                                                                             {{$produit['unite']['nom']}}
                                                                                         @endisset
                                                                                     </td>
-                                                                                    {{-- <td>
-                                                                                        @isset($produit['prix_achat'])
-                                                                                            {{$produit['prix_achat']}}
-                                                                                        @endisset
-                                                                                    </td> --}}
                                                                                     <td>
-                                                                                        @isset($prix[$key])
-                                                                                            {{$prix[$key]}}
+                                                                                        @isset($prix[$i][$tranche_uid][$key])
+                                                                                            {{$prix[$i][$tranche_uid][$key]}}
                                                                                         @endisset
                                                                                     </td>
                                                                                     <td>{{$produit['lot_num']}}</td>
@@ -341,7 +337,7 @@
                                                                                         @endisset
                                                                                     </td>
                                                                                     <td>
-                                                                                        <div x-data="{ 'isDialogOpen': false, qte: null,tranche:'{{$tranche_uid}}', prix:{{$prix[$key]}}, qmax:{{$produit['qte_restante']}},categorie:{{$produit['categorie']['id']}},pieceId:{{$produit['id']}} }" @keydown.escape="isDialogOpen = false">
+                                                                                        <div x-data="{ 'isDialogOpen': false, qte: null,tranche:'{{$tranche_uid}}', prix:{{$prix[$i][$tranche_uid][$key]}}, qmax:{{$produit['qte_restante']}},categorie:{{$produit['categorie']['id']}},pieceId:{{$produit['id']}} }" @keydown.escape="isDialogOpen = false">
                                                                                             @if (!isset($produit['code']))
                                                                                                 <button type="button" x-on:click="isDialogOpen = true" class="btn btn-outline-primary">Ajouter</button>
 
@@ -461,47 +457,51 @@
                                                                                     @endisset
                                                                                 </td>
                                                                                 <td>
+                                                                                    @if ($categorieId[$key] == 2)
+                                                                                        <div x-data="{ open{{$val}}: false }">
 
-                                                                                    <div x-data="{ open{{$val}}: false }">
+                                                                                            <div class="mt-4">
+                                                                                            <div class="mt-2">
+                                                                                                <label class="inline-flex items-center">
+                                                                                                    <input type="radio" class="form-radio" name="type" value="1" @click="open{{$val}} = 1">
+                                                                                                    <span class="ml-2">Cuisine</span>
+                                                                                                </label>
+                                                                                                <label class="inline-flex items-center ml-6">
+                                                                                                    <input type="radio" class="form-radio" name="type" value="2" @click="open{{$val}} = 2">
+                                                                                                    <span class="ml-2">Nettoyage</span>
+                                                                                                </label>
+                                                                                                </div>
+                                                                                            </div>
 
-                                                                                        <div class="mt-4">
-                                                                                           <div class="mt-2">
-                                                                                              <label class="inline-flex items-center">
-                                                                                                <input type="radio" class="form-radio" name="type" value="1" @click="open{{$val}} = 1">
-                                                                                                <span class="ml-2">Cuisine</span>
-                                                                                              </label>
-                                                                                              <label class="inline-flex items-center ml-6">
-                                                                                                <input type="radio" class="form-radio" name="type" value="2" @click="open{{$val}} = 2">
-                                                                                                <span class="ml-2">Nettoyage</span>
-                                                                                              </label>
+
+                                                                                            <div class="w-full pt-4">
+                                                                                                <div x-show="open{{$val}} === 1">
+                                                                                                    @isset($preparations_cuisine[$val])
+                                                                                                        <select class="form-control" wire:model.defer="commande_preparations.{{$val}}">
+                                                                                                            <option value="">{{ __('Choisir les préparations de la commande') }}</option>
+                                                                                                            @foreach ($preparations_cuisine[$val] as  $item)
+                                                                                                                <option value="{{$item['preparation']['nom'] }}">{{$item['preparation']['nom'] }}</option>
+                                                                                                            @endforeach
+                                                                                                        </select>
+                                                                                                    @endisset
+
+                                                                                                </div>
+                                                                                                <div x-show="open{{$val}} === 2">
+                                                                                                    @isset($preparations_nettoyage[$val])
+                                                                                                        <select class="form-control" wire:model.defer="commande_preparations.{{$val}}" multiple>
+                                                                                                            <option value="">{{ __('Choisir les préparations cuisine') }}</option>
+                                                                                                            @foreach ($preparations_nettoyage[$val] as  $item)
+                                                                                                                <option value="{{$item['preparation']['nom'] }}">{{$item['preparation']['nom'] }}</option>
+                                                                                                            @endforeach
+                                                                                                        </select>
+                                                                                                    @endisset
+                                                                                                </div>
                                                                                             </div>
                                                                                         </div>
+                                                                                        @else
+                                                                                        Sans préparation
+                                                                                    @endif
 
-
-                                                                                        <div class="w-full pt-4">
-                                                                                            <div x-show="open{{$val}} === 1">
-                                                                                                @isset($preparations_cuisine[$val])
-                                                                                                    <select class="form-control" wire:model.defer="commande_preparations.{{$val}}">
-                                                                                                        <option value="">{{ __('Choisir les préparations de la commande') }}</option>
-                                                                                                        @foreach ($preparations_cuisine[$val] as  $item)
-                                                                                                            <option value="{{$item['preparation']['nom'] }}">{{$item['preparation']['nom'] }}</option>
-                                                                                                        @endforeach
-                                                                                                    </select>
-                                                                                                @endisset
-
-                                                                                            </div>
-                                                                                            <div x-show="open{{$val}} === 2">
-                                                                                                @isset($preparations_nettoyage[$val])
-                                                                                                    <select class="form-control" wire:model.defer="commande_preparations.{{$val}}" multiple>
-                                                                                                        <option value="">{{ __('Choisir les préparations cuisine') }}</option>
-                                                                                                        @foreach ($preparations_nettoyage[$val] as  $item)
-                                                                                                            <option value="{{$item['preparation']['nom'] }}">{{$item['preparation']['nom'] }}</option>
-                                                                                                        @endforeach
-                                                                                                    </select>
-                                                                                                @endisset
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
                                                                                     {{-- @isset($preparations_nettoyage[$val])
                                                                                         <select class="form-control" wire:model.defer="commande_preparation_nettoyage.{{$val}}" multiple>
                                                                                             <option value="">{{ __('Choisir les préparations cuisine') }}</option>

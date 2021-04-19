@@ -59,17 +59,15 @@ class ModificationPrix extends Component
         ->where('qte_restante', '!=',0)
         ->orderBy('created_at')
         ->get()
-        ->groupBy(['tranche_id', 'categorie_id']);
-        //dd($this->liste_produits);
-        $stocks = [];
+        ->groupBy(['tranche_id', 'categorie_id'])->toArray();
 
         foreach ($this->liste_produits as $tranche => $categories) {
             $this->nom_tranche[$tranche] = Tranche::where('uid', $tranche)->first()->nom;
             foreach ($categories as $categorie => $stock) {
                 $this->nom_categorie[$categorie] = Categorie::where('id', $categorie)->first()->nom;
-                $this->prix_n[$tranche][$categorie] = $stock[0]->prix_n;
-                $this->prix_f[$tranche][$categorie] = $stock[0]->prix_f;
-                $this->prix_p[$tranche][$categorie] = $stock[0]->prix_p;
+                $this->prix_n[$tranche][$categorie] = $stock[0]['prix_n'];
+                $this->prix_f[$tranche][$categorie] = $stock[0]['prix_f'];
+                $this->prix_p[$tranche][$categorie] = $stock[0]['prix_p'];
                 $this->qte_stock[strval($tranche)][$categorie] = Stock::selectRaw("SUM(qte_restante) as stock")->where('tranche_id', $tranche)->where('categorie_id', $categorie)->first()->stock;
 
             }
