@@ -822,7 +822,7 @@ public $list_piece = [];
 
         foreach ($this->liste_poids_pc as $key => $value) {
 
-            ModelsStock::where('br_num',$this->bon_reception_ref)->update([
+            ModelsStock::where('br_num',$this->bon_reception_ref)->where('code',$this->code[$key])->update([
 
                 // 'produit_id'=> $this->article[$key],
                 // 'categorie_id' => $this->categorie[$key],
