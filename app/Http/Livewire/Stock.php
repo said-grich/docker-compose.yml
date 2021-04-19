@@ -26,6 +26,7 @@ use Livewire\Component;
 
 class Stock extends Component
 {
+    public $test;
     public $date_capture;
     public $date_entree;
     public $date_preemption;
@@ -172,8 +173,10 @@ class Stock extends Component
         $this->details[$index] = $value;
         //$this->poids = $index;
         //dump($this->details_index);
-     }
+        $this->setCodePoids($index);
+        $this->emit('SetPoids');
 
+     }
 
      public function setCodePoids($i){
         //$this->reset(['code','poids']);
@@ -691,7 +694,7 @@ class Stock extends Component
             $this->sous_categorie[$key]  =$value->sousCategorie->nom;
             $this->poids[$key] = $value->poids;
             $this->code[$key] = $value->code;
-            $this->qualite[$key]  =$value->qualite->nom;
+            //$this->qualite[$key]  =$value->qualite->nom;
             $this->qte[$key]  =$value->qte;
             $this->prix_achat[$key]  =$value->prix_achat;
             $this->pas[$key]  =$value->pas;
@@ -708,7 +711,7 @@ class Stock extends Component
             $this->prix_achat_kg_pc[$k] = $v->prix_achat;
             $this->categorie_kg_pc[$k] = $v->categorie->nom;
             $this->sous_categorie_kg_pc[$k] = $v->sousCategorie->nom;
-            $this->qualite_kg_pc[$k] = $v->lot->qualite->nom;
+            $this->qualite_kg_pc[$k] = $v->qualite->nom;
             $this->unite_kg_pc[$k]  = $v->unite->nom;
             $this->qte_kg_pc[$k] = $v->qte;
             $this->pas_kg_pc[$k] = $v->pas;
@@ -771,7 +774,7 @@ public $list_piece = [];
             $this->sous_categorie[$key]  =$value->sousCategorie->nom;
             $this->poids[$key] = $value->poids;
             $this->code[$key] = $value->code;
-            $this->qualite[$key]  =$value->qualite->id;
+            //$this->qualite[$key]  =$value->qualite->id;
             $this->qte[$key]  =$value->qte;
             $this->prix_achat[$key]  =$value->prix_achat;
             $this->pas[$key]  =$value->pas;
@@ -825,7 +828,7 @@ public $list_piece = [];
                 // 'categorie_id' => $this->categorie[$key],
                 // 'sous_categorie_id'=> $this->sous_categorie[$key],
                 'tranche_id'=> $this->uid_tranche[$key],
-                'qualite_id' => $this->qualite[$key] ,
+               //'qualite_id' => $this->qualite[$key] ,
                 //'unite_id' => $this->unite[$key],
                 'code'=>$this->code[$key],
                 'poids'=>$this->poids[$key],

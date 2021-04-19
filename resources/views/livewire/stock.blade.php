@@ -249,7 +249,7 @@
                                                         <th class="pl-0" >Prix Achat</th>
                                                         <th class="pl-0" >Lot</th>
                                                         <th class="pl-0" >CR</th>
-                                                        @if (isset($mode_vente_produit[0]) && $mode_vente_produit[0] == 2)
+                                                        @if (isset($mode_vente_produit[0]) && $mode_vente_produit[0] != 1)
                                                             <th class="pl-0" >Qualité produit</th>
                                                         @endif
                                                         <th class="pl-0" >Pas</th>
@@ -299,7 +299,7 @@
                                                             <td class="pl-0" >
                                                                 <input type="text" class="form-control" placeholder=" " wire:model="cr.0"/>
                                                             </td>
-                                                            @if (isset($mode_vente_produit[0]) && $mode_vente_produit[0] == 2)
+                                                            @if (isset($mode_vente_produit[0]) && $mode_vente_produit[0] != 1)
                                                             <td class="pl-0" style="width: 150px;">
                                                                 <select class="form-control" wire:model.defer="qualite.0">
                                                                     <option>{{ __('Choisir une qualite') }}</option>
@@ -324,14 +324,15 @@
 
                                                                 </select>
                                                             </td>
+
                                                             @if (isset($mode_vente_produit[0]) && $mode_vente_produit[0] == 1)
                                                                 <td class="pl-0" >
                                                                     <div class="input-group input-group-prepend">
 
-                                                                            <input type="text" class="form-control" placeholder="Nombre de pièce"  wire:model.defer="nbr_pc.0"  wire:change="setCodePoids(0)/>
+                                                                            <input type="text" class="form-control" placeholder="Nombre de pièce"  wire:model="nbr_pc.0"  />
                                                                         <div class="input-group-append" data-toggle="modal" data-target="#code-poids">
 
-                                                                            <button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Code / poids" wire:click="setCodePoids(0)"><i class="far fa-eye"></i></button></div>
+                                                                            {{--<button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Code / poids" wire:click="setCodePoids(0)"><i class="far fa-eye"></i></button></div>--}}
                                                                         </div>
                                                                         @error('nbr_pc')
                                                                         <span class="form-text text-danger">{{ $message }}</span>
@@ -388,7 +389,7 @@
                                                             <td class="pl-0">
                                                                 <input type="text" class="form-control" placeholder=" " wire:model="cr.{{$value}}"/>
                                                             </td>
-                                                            @if (isset($mode_vente_produit[$value]) && $mode_vente_produit[$value] == 2)
+                                                            @if (isset($mode_vente_produit[$value]) && $mode_vente_produit[$value] != 1)
                                                             <td class="pl-0">
                                                                 <select class="form-control" wire:model.defer="qualite.{{$value}}">
                                                                     <option>{{ __('Choisir une qualite') }}</option>
@@ -414,42 +415,19 @@
                                                             </td>
                                                             @if (isset($mode_vente_produit[$value]) && $mode_vente_produit[$value] == 1)
                                                                 <td class="pl-0">
-                                                                    <div class="input-group input-group-prepend">
+
                                                                         <input type="text" class="form-control" placeholder="Nombre de pièce" wire:model="nbr_pc.{{$value}}"/>
 
                                                                         <div class="input-group-append" data-toggle="modal" data-target="#code-poids">
-                                                                            <button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="code/poids" wire:click="setCodePoids({{$value}})"><i class="fa fa-plus-circle"></i></button></div>
+                                                                            {{--<button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="code/poids" wire:click="setCodePoids({{$value}})"><i class="fa fa-plus-circle"></i></button></div>--}}
                                                                         @error('nbr_pc')
                                                                         <span class="form-text text-danger">{{ $message }}</span>
                                                                     @enderror
                                                                     </div>
                                                                 </td>
                                                             @endif
-                                                            <td class="pl-0">
-                                                                <select class="form-control" wire:model="tranches.{{$value}}" {{isset($mode_vente_produit[$value]) && $mode_vente_produit[$value] == 1 ? 'multiple' :  '' }} >
-                                                                    <option>{{ __('Choisir une tranche') }}</option>
-                                                                    @if (!empty($list_tranches[$value]))
-                                                                        @foreach ($list_tranches[$value] as $key => $item)
-                                                                            <option value="{{$item[0]['uid']}}">{{$item[0]['nom']}}</option>
-                                                                        @endforeach
-                                                                    @endif
-
-                                                                </select>
-                                                            </td>
-                                                            @if (isset($mode_vente_produit[$value]) && $mode_vente_produit[$value] == 1)
-                                                            <td class="pl-0">
-                                                                <div class="input-group input-group-prepend">
-                                                                    <div class="input-group-append" data-toggle="modal" data-target="#code-poids">
-                                                                        <input type="text" class="form-control" placeholder="Nombre de pièce" wire:model="nbr_pc.{{$value}}"  wire:keydown="setCodePoids({{$value}})"/>
 
 
-                                                                        {{--<button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Code / poids" wire:click="setCodePoids({{$value}})"><i class="fa fa-plus-circle"></i></button></div>--}}
-                                                                    @error('nbr_pc')
-                                                                    <span class="form-text text-danger">{{ $message }}</span>
-                                                                    @enderror
-                                                                </div>
-                                                            </td>
-                                                            @endif
 
                                                             <td class="pl-0">
                                                                 <div class="col-md-1">
@@ -1031,9 +1009,9 @@
                                                                     <input type="text" class="form-control" placeholder="" wire:model.defer="prix_achat.{{$key}}" disabled/>
                                                                 </td>
 
-                                                                <td>
+                                                                {{--<td>
                                                                     <input type="text" class="form-control" placeholder="" wire:model.defer="qualite.{{$key}}" disabled/>
-                                                                </td>
+                                                                </td>--}}
                                                                 <td>
                                                                     <input type="text" class="form-control" placeholder="" wire:model.defer="pas.{{$key}}" disabled/>
                                                                 </td>
@@ -1632,7 +1610,11 @@
         $('#confirmationRemove').modal('hide')
     });
 </script>
-
+<script>
+    Livewire.on('SetPoids',stock=>{
+        $('#code-poids').modal('show')
+    });
+</script>
 {{--@push('scripts')
 <script>
     Livewire.on('SavePoids',stock=>{
