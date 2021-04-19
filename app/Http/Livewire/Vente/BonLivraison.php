@@ -24,6 +24,7 @@ use App\Models\StockPoidsPc;
 use App\Models\Tranche;
 use App\Models\TranchesKgPc;
 use App\Models\TranchesPoidsPc;
+use App\Models\User;
 use App\Models\Ville;
 use App\Models\VilleQuartier;
 use App\Models\VilleZone;
@@ -155,61 +156,14 @@ class BonLivraison extends Component
 
     public function renderData()
     {
-        $this->list_clients = Client::all()->sortBy('nom');
+        $this->list_clients = User::where('type','client')->get()->sortBy('nom');
         $this->list_categorie = Categorie::all()->sortBy('nom');
         $this->list_mode_paiement = ModePaiement::all()->sortBy('nom');
         $this->list_mode_livraison = ModeLivraison::all()->sortBy('nom');
         $this->list_region = Region::all()->sortBy('nom');
     }
 
-    /* function invoiceNumber()
-    {
-        $latest = ModelBonLivraison::latest()->first();
-
-        if (! $latest) {
-            return 'BL'.'0001';
-        }
-        $string = preg_replace("/[^0-9\.]/", '', $latest->ref);
-
-        return 'BL'. sprintf('%04d', $string+1);
-    } */
-
     public function mount(){
-
-        //$sdate = Carbon::parse('this friday')->toDateString();
-        // $jours = ['monday' =>'Lundi', 'tuesday' =>'Mardi', 'wednesday ' =>'Mercredi', 'thursday ' => 'Jeudi', 'friday ' =>'Vendredi', 'saturday ' =>'Samedi', 'sunday ' => 'Dimanche'];
-        // $edate = Carbon::parse('this thursday');
-        // $dates = [];
-
-        // foreach ($jours as $key => $value) {
-        //     $dates[$value] = Carbon::parse('this '. $key)->toDateString();
-        // }
-        // dd($edate->toDateString(),$jours, $dates);
-
-        //dd(Carbon::now()->locale('fr_FR')->dayName );
-
-        /* $count = 7;
-        $dates = [];
-        $dates_names = [];
-        $date = Carbon::now()->locale('fr_FR');
-        //$fr = CarbonImmutable::now()->locale('fr_FR');
-        for ($i = 0; $i < $count; $i++) {
-            $dates[] = $date->addDay()->format('d-m-Y');
-            $dates_names[] = $date->addDay()->format('l');
-        }
-
-        // Show me what you got
-        dd($date,$dates,$dates_names);
-
-
-        $now = Carbon::now();
-        $start = $now->startOfWeek(Carbon::MONDAY);
-        $end = $now->endOfWeek(Carbon::SUNDAY);
-
-        $fr = CarbonImmutable::now()->locale('fr_FR');
-
-        dd($fr->firstWeekDay,$fr->lastWeekDay,$fr->startOfWeek()->format('Y-m-d H:i'),$fr->endOfWeek()->format('Y-m-d H:i'));
-        dd($start,$end,$now); */
 
         $latest_bl = ModelBonLivraison::latest()->first();
         if (! $latest_bl) {
@@ -289,7 +243,7 @@ class BonLivraison extends Component
     }
 
     public function updatedClient($value){
-        $this->profile = Client::where('id', $value)->first()->profil->nom;
+        $this->profile = User::where('id', $value)->first()->profil->nom;
     }
 
     public function loadList()
@@ -346,17 +300,19 @@ class BonLivraison extends Component
                 foreach ($tranches as $tranche_uid => $produits) {
 
                     $this->nom_tranche[$produit_id][$tranche_uid] = Tranche::where('uid', $tranche_uid)->first()->nom;
+                    /* dump(count($produits));
+                    dump($produits); */
                     foreach ($produits as $key => $produit) {
 
                         switch ($this->profile) {
                             case "Normal":
-                                $this->prix[$key] = $produit['prix_n'];
+                                $this->prix[$produit_id][$tranche_uid][$key] = $produit['prix_n'];
                                 break;
                             case "Fidèle":
-                                $this->prix[$key] = $produit['prix_f'];
+                                $this->prix[$produit_id][$tranche_uid][$key] = $produit['prix_f'];
                                 break;
                             case "Business":
-                                $this->prix[$key] = $produit['prix_p'];
+                                $this->prix[$produit_id][$tranche_uid][$key] = $produit['prix_p'];
                                 break;
                         }
 
@@ -380,6 +336,8 @@ class BonLivraison extends Component
 
                 }
             }
+            //dd($this->prix);
+
             //dd($this->preparations_cuisine,$this->preparations_nettoyage);
 
        /*  } */

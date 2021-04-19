@@ -191,12 +191,12 @@ class Stock extends Component
         }
         $p_tranche = [];
         //dd()
-        foreach($this->tranches[$key] as $k=>$val){
+        /* foreach($this->tranches[$key] as $k=>$val){
             $p_tranche[$key][$k] = Tranche::where('uid', $val)->get()->toArray()[0];
 
-        }
+        } */
 //dd($p_tranche[$key][$k]);
-        foreach ($this->code_poids[$key] as $code => $poids) {
+        /* foreach ($this->code_poids[$key] as $code => $poids) {
             foreach($p_tranche[$key] as $keyT=>$valueT){
               //dd($valueT['min_poids']);
 
@@ -212,7 +212,7 @@ class Stock extends Component
                 }
                 //dd($valueT);
             }
-        }
+        } */
     }
 
         /*foreach($produit as $value){
