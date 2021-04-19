@@ -352,7 +352,7 @@ class Stock extends Component
                                     $item->poids = $poids['poids'];
                                    // $item->qualite_id = $poids['qualite'];
                                     $item->tranche_id = $valueT['uid'];
-                                    $item->cr = 0;
+                                    $item->cr = $this->cr[$key];
                                     $item->prix_n = 0;
                                     $item->prix_f = 0;
                                     $item->prix_p = 0;
@@ -384,7 +384,7 @@ class Stock extends Component
                     $item->qualite_id = $this->qualite[$key];
                     $item->prix_achat = $this->prix_achat[$key];
                     $item->tranche_id = $this->tranches[$key];
-                    $item->cr = 0;
+                    $item->cr = $this->cr[$key];
                     $item->prix_n = 0;
                     $item->prix_f = 0;
                     $item->prix_p = 0;
@@ -755,8 +755,8 @@ class Stock extends Component
         }
     }
 
-public $list =[];
-public $list_piece = [];
+    public $list =[];
+    public $list_piece = [];
     public function edit($id){
 
         $this->liste_poids_pc = ModelsStock::where('br_num',$id)->where('type',"Poids par pièce")->get();
