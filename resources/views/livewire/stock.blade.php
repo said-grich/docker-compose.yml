@@ -249,7 +249,7 @@
                                                         <th class="pl-0" >Prix Achat</th>
                                                         <th class="pl-0" >Lot</th>
                                                         <th class="pl-0" >CR</th>
-                                                        <th class="pl-0" >Qualité produit</th>
+                                                        {{--<th class="pl-0" >Qualité produit</th>--}}
                                                         <th class="pl-0" >Pas</th>
                                                         <th class="pl-0" >Tranches</th>
                                                     </tr>
@@ -297,14 +297,7 @@
                                                             <td class="pl-0" >
                                                                 <input type="text" class="form-control" placeholder=" " wire:model="cr.0"/>
                                                             </td>
-                                                            <td class="pl-0" style="width: 150px;">
-                                                                <select class="form-control" wire:model.defer="qualite.0">
-                                                                    <option>{{ __('Choisir une qualite') }}</option>
-                                                                    @foreach ($list_qualites as $item)
-                                                                        <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </td>
+
                                                             <td class="pl-0" style="width: 90px;" >
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="pas.0"/>
                                                             </td>
@@ -324,16 +317,26 @@
                                                                 <td class="pl-0" >
                                                                     <div class="input-group input-group-prepend">
 
-                                                                            <input type="text" class="form-control" placeholder="Nombre de pièce" data-toggle="tooltip" data-theme="dark" title="Code / poids" wire:model.defer="nbr_pc.0"  wire:change="setCodePoids(0)"/>
+                                                                            <input type="text" class="form-control" placeholder="Nombre de pièce"  wire:model.defer="nbr_pc.0"  />
                                                                         <div class="input-group-append" data-toggle="modal" data-target="#code-poids">
 
-                                                                            {{--<button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Code / poids" wire:click="setCodePoids(0)"><i class="far fa-eye"></i></button></div>--}}
+                                                                            <button class="btn btn-primary" type="button" data-toggle="tooltip" data-theme="dark" title="Code / poids" wire:click="setCodePoids(0)"><i class="far fa-eye"></i></button></div>
                                                                         </div>
                                                                         @error('nbr_pc')
                                                                         <span class="form-text text-danger">{{ $message }}</span>
                                                                     @enderror
                                                                     </div>
                                                                 </td>
+                                                            @endif
+                                                            @if (isset($mode_vente_produit[0]) && $mode_vente_produit[0] == 2)
+                                                            <td class="pl-0" style="width: 150px;">
+                                                                <select class="form-control" wire:model.defer="qualite.0">
+                                                                    <option>{{ __('Choisir une qualite') }}</option>
+                                                                    @foreach ($list_qualites as $item)
+                                                                        <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </td>
                                                             @endif
                                                             <td>
                                                                 <button data-repeater-create="" class="btn font-weight-bold btn-primary" wire:click.prevent="add()">
@@ -383,14 +386,7 @@
                                                             <td class="pl-0">
                                                                 <input type="text" class="form-control" placeholder=" " wire:model="cr.{{$value}}"/>
                                                             </td>
-                                                            <td class="pl-0">
-                                                                <select class="form-control" wire:model.defer="qualite.{{$value}}">
-                                                                    <option>{{ __('Choisir une qualite') }}</option>
-                                                                    @foreach ($list_qualites as $item)
-                                                                        <option value="{{$item->id }}">{{$item->nom }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </td>
+
                                                             <td class="pl-0" style="width: 90px;">
                                                                 <input type="text" class="form-control" placeholder=" " wire:model.defer="pas.{{$value}}"/>
                                                             </td>
@@ -442,6 +438,16 @@
                                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                                     @enderror
                                                                 </div>
+                                                            </td>
+                                                            @endif
+                                                            @if (isset($mode_vente_produit[$value]) && $mode_vente_produit[$value] == 2)
+                                                            <td class="pl-0">
+                                                                <select class="form-control" wire:model.defer="qualite.{{$value}}">
+                                                                    <option>{{ __('Choisir une qualite') }}</option>
+                                                                    @foreach ($list_qualites as $item)
+                                                                        <option value="{{$item->id }}">{{$item->nom }}</option>
+                                                                    @endforeach
+                                                                </select>
                                                             </td>
                                                             @endif
                                                             <td class="pl-0">
@@ -1614,14 +1620,12 @@
         @this.set(e.target.id, e.target.value);
     });
 </script>
-{{--@push('scripts')
-<script>
+
+{{--<script>
     $('#btnSave').click(function() {
     $('#code-poids').modal('hide');
     });
-    </script>
-
-@endpush--}}
+</script>--}}
 <script>
     Livewire.on('delete',stock=>{
         $('#confirmationRemove').modal('hide')

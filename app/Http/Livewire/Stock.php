@@ -190,6 +190,7 @@ class Stock extends Component
             $this->code_poids[$this->details_index] = $code_poids;
         }
         $p_tranche = [];
+        //dd()
         foreach($this->tranches[$key] as $k=>$val){
             $p_tranche[$key][$k] = Tranche::where('uid', $val)->get()->toArray()[0];
 
@@ -200,6 +201,7 @@ class Stock extends Component
               //dd($valueT['min_poids']);
 
                 if($poids['poids']>= $valueT['min_poids'] && $poids['poids']<$valueT['max_poids']){
+                    //$this->emit('SavePoids');
                    // dd($valueT);
                   //  break;
                 }
@@ -211,7 +213,7 @@ class Stock extends Component
                 //dd($valueT);
             }
         }
-        $this->emit('SavePoids');
+
     }
 
         /*foreach($produit as $value){
@@ -285,7 +287,7 @@ class Stock extends Component
                 $item->date_entree = $this->date_entree;
                 $item->pas = $this->pas[$key];
                 $item->fournisseur_id = $this->fournisseur;
-                $item->qualite_id = $this->qualite[$key];
+                //$item->qualite_id = $this->qualite[$key];
                 $item->active = true;
                 $item->save();
 
