@@ -6,16 +6,19 @@ use App\Models\Famille;
 use App\Models\ModePreparation;
 use App\Models\ModeVente;
 use App\Models\PreparationType;
-use App\Models\Produit;
-use App\Models\ProduitPhoto;
 use App\Models\ProduitTranche;
 use App\Models\Tranche;
 use App\Models\Unite;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Livewire\Component;
 use Livewire\WithPagination;
+use App\Http\Livewire\Parametrage\Produits;
 use Livewire\WithFileUploads;
+use App\Models\ProduitPhoto;
+use App\Models\Produit;
+use Livewire\Component;
+use Intervention\Image\ImageManagerStatic as Image;
+use Illuminate\Support\Facades\Storage;
+
 
 class ListeProduits extends Component
 {
@@ -45,16 +48,27 @@ class ListeProduits extends Component
     public $list_tranches = [];
     public $active ;
     public $photos =[] ;
-    public $photosa =[] ;
+    public $photosa =[];
+    public $_photos=[];
 
     public $sortBy = 'nom';
     public $sortDirection = 'asc';
     public $perPage = 5;
     public $search = '';
-    protected $listeners = ['saved'];
+    protected $listeners = ['saved', 'imagesUpload' => 'handleimgupload',
+    'produitname' => 'produitSetName', 'getproduitphoto' => 'getproduitphoto'];
     public $iteme = [];
     public $showPoids = false;
     public $showKgPiece = false;
+    /************************************************* */
+    public function handleimgupload($imagesuploaded)
+    {
+        $this->_photos = $imagesuploaded;
+    }
+    public function debug(){
+            dd($this->_photos);
+    }
+
 
     public function renderData()
     {
@@ -292,6 +306,149 @@ class ListeProduits extends Component
             'items' => $items
         ]);
     }
+        /****************************************************************************************************************** */
+        /*****************declaration***---------------------------------- */
+        public $photos_names = [];
+        public $produit_name;
+        public $names = [];
+        public $nameProduit;
+        public $photoslist = [];
+        public   $produit_tmp;
+        public $item;
+        public $produitId;
+        public $listProduitPhotos = array(
+            array()
+        );
+        public $photoOfOneProduit=[];
+
+        /***************************save methode----------------------------- */
+        public function remove($i)
+        {
+            unset($this->_photos[$i]);
+        }
+
+        public function deleteImgByurl($index1, $index2)
+    {
+       /* $url = $this->listProduitPhotos[$index2][$index1];
+        Storage::disk('public')->delete($url);
+        ProduitPhoto::select()
+            ->where('photo', $url)
+            ->delete();
+        unset($this->listProduitPhotos[$index2][$index1]);*/
+    }
+
+    public function deleteImgProduitByurl($index1)
+
+    {
+
+        $url = $this->photoOfOneProduit[$index1];
+        Storage::disk('public')->delete($url);
+        ProduitPhoto::select()
+            ->where('photo', $url)
+            ->delete();
+        unset($this->listProduitPhotos[$index1]);
+    }
+    public function saveImgsBd($produit, $img, $i)
+    {
+        Storage::disk('public')->put('image' . time() . $i . $produit['nom'] . '.png', $img);
+        ProduitPhoto::create([
+            'produit_id' => $produit['id'],
+            'photo' => 'image' . time() . $i . $produit['nom'] . '.png'
+        ]);
+        dump($i);
+    }
+   /* public function setIdProduit($id)
+    {
+        $this->produit_id = $id;
+        dd($this->item);
+    }*/
+
+    public function storegeImages($produitName)
+    {
+
+        foreach ($this->_photos as $i => $photo) {
+            // dd($this->names[$i]);
+        /*    $produit = Produit::select()
+                ->where('id', $this->produit_id)
+                ->get();*/
+            // if(!file_exists('/public/photos/'.$produit[0]->nom.'/')){
+            //     dd(mkdir('/public/photos/'.$produit[0]->nom.'/',0777,true));
+            //   }
+            dump($produitName['nom']);
+            $img = Image::make($photo['_result'])->encode('png');
+            $this->saveImgsBd($produitName, $img, $i);
+        }
+    }
+
+    public function saveImages($produitName)
+    {
+        $this->storegeImages($produitName);
+    }
+    public function listOfProduit()
+    {
+        return Produit::all();
+    }
+    public function listOfPhotosOfProduit($id)
+    {
+        $photos_list_fetch = [];
+        $photo_list =  ProduitPhoto::select()
+            ->where('produit_id', $id)
+            ->get('photo');
+        foreach ($photo_list as $tmphoto) {
+            // dump($tmphoto->photo);
+            //  $tmphoto=Storage::url($tmphoto->photo);
+            array_push($photos_list_fetch, $tmphoto->photo);
+        }
+        return $photos_list_fetch;
+    }
+    public function getfromStorege()
+    {
+        $listphoto = [];
+        foreach ($this->listProduitPhotos as $produitphoto) {
+            foreach ($produitphoto as $photo) {
+                //  $tmpphoto=  Storage::url($photo);
+                /* $tmpphoto= Storage::get($photo[0]);
+            $tmpphoto=Image::make($tmpphoto)->encode('png');
+            */
+                array_push($listphoto, $photo);
+                //  dd($tmpphoto);
+
+            }
+            array_push($this->listProduitPhoto_ph, $listphoto);
+            $listphoto = [];
+        }
+    }
+
+    public function getproduitphoto()
+    {
+        //emm array pour collecter la photo principale et lesautre photo
+        $listphoto = [];
+        //la list de tout les produit
+        $list_produits = $this->listOfProduit();
+        //list vide pour les autre photo
+        $list_photo_par_produit = [];
+        foreach ($list_produits as $produit) {
+            //dabord add la photo principale to the list photo
+            array_push($listphoto, $produit->photo_principale);
+            //get les autre photo de  produit
+            $list_photo_par_produit = $this->listOfPhotosOfProduit($produit->id);
+
+            $listphoto = array_merge($listphoto, $list_photo_par_produit);
+            //im just get photos of 1 prodduit;
+            //donc i need to push it in main list of produit_photo
+            array_push($this->listProduitPhotos, $listphoto);
+            //dd($this->listProduitPhotos);
+            $listphoto = [];
+        }
+        //  $this->getfromStorege();
+    }
+
+    public function getPhotoOfProduit($id){
+      //  $this->photoOfOneProduit = [];
+        $this->photoOfOneProduit = ProduitPhoto::select('photo')->where('produit_id',$id)->get();
+
+    }
+        /****************************************************************************************************************** */
 
     public function saved()
     {

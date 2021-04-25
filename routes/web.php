@@ -22,7 +22,6 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-
 Route::middleware(['role:admin'])->get('/create-roles', \App\Http\Livewire\ParametrageUtilisateurs\CreateRoles::class)->name('create-roles');
 
 Route::middleware(['role:admin'])->get('/create-permissions', \App\Http\Livewire\ParametrageUtilisateurs\CreatePermissions::class)->name('create-permissions');
@@ -34,6 +33,7 @@ Route::middleware(['role:admin'])->get('/edit-role', \App\Http\Livewire\Parametr
 Route::middleware(['role:admin'])->get('/create-users', \App\Http\Livewire\ParametrageUtilisateurs\CreateUsers::class)->name('create-users');
 Route::middleware(['auth:sanctum', 'verified'])->get('/edit-user', \App\Http\Livewire\ParametrageUtilisateurs\EditUser::class)->name('edit-user');
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/gallerie', \App\Http\Livewire\Gallerie::class)->name('gallery');
 
 
 // Routes Of Fluoka
@@ -49,6 +49,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/controle-qualite', \App\H
 // Paramétrage Produits | Routes Backend
 Route::middleware(['auth:sanctum', 'verified'])->get('/produits', \App\Http\Livewire\Parametrage\Produits::class)->name('produits');
 Route::middleware(['auth:sanctum', 'verified'])->get('/categories', \App\Http\Livewire\Parametrage\Categories::class)->name('categories');
+Route::middleware(['auth:sanctum', 'verified'])->get('/personne', \App\Http\Livewire\Personnes::class)->name('personne');
 Route::middleware(['auth:sanctum', 'verified'])->get('/familles', \App\Http\Livewire\Parametrage\Familles::class)->name('familles');
 Route::middleware(['auth:sanctum', 'verified'])->get('/unites', \App\Http\Livewire\Parametrage\Unites::class)->name('unites');
 Route::middleware(['auth:sanctum', 'verified'])->get('/preparations', \App\Http\Livewire\Parametrage\Preparations::class)->name('preparations');

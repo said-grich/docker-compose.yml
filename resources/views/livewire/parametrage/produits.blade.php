@@ -3,6 +3,7 @@
 
 @push('styles')
     <link rel="stylesheet" href="assets/plugins/custom/uppy/uppy.bundle.css"/>
+    <link rel="stylesheet" href="assets/plugins/custom/upload/fancy-file-uploader/fancy_fileupload.css"/>
 @endpush
 
 <div class="d-flex flex-column-fluid">
@@ -290,8 +291,11 @@
                                             <div class="form-group col-md-6">
                                                 <label><b>{{ __('Photo Principale') }}</b></label>
                                                 <div class="input-group input-group-prepend">
-                                                    <input type="file" wire:model.defer="photo_principale"/>
-                                                    {{-- <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-image icon-lg"></i></span></div>
+                                                    <div class="col-12">
+                                                        <input id="uploader-photo"type="file" name="photo" accept=".jpg, .png, image/jpeg, image/png" wire:model.defer="photo_principale">
+                                                    </div>
+
+                                               {{-- <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-image icon-lg"></i></span></div>
                                                     <div class="custom-file">
                                                         <input type="file" class="custom-file-input" id="customFile" wire:model.defer="photo_principale"/>
                                                         <label class="custom-file-label" for="customFile">Produit Photo Principal</label>
@@ -304,7 +308,9 @@
                                             <div class="form-group col-md-6">
                                                 <label><b>{{ __('Autres Photos') }}</b></label>
                                                 <div class="input-group input-group-prepend">
-                                                    <input type="file" wire:model.defer="photos" multiple/>
+                                                    <div class="col-12">
+                                                        <input id="uploader"type="file" name="photos" accept=".jpg, .png, image/jpeg, image/png">
+                                                    </div>
                                                 </div>
                                                 {{-- <div class="input-group input-group-prepend">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-images icon-lg"></i></span></div>
@@ -317,10 +323,7 @@
                                                     <span class="form-text text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
-												<div class="uppy" id="kt_uppy_2">
-													<div class="uppy-dashboard"></div>
-													<div class="uppy-progress"></div>
-												</div>
+
                                             <div class="form-group col-md-6 row">
                                                 <label class="col-8 col-form-label">{{ __('Activé / Désactivé le produit') }}</label>
                                                 <div class="col-4">
@@ -782,7 +785,30 @@
 
 @push('scripts')
     <script src="assets/plugins/custom/uppy/uppy.bundle.js"></script>
-    <script src="assets/js/pages/crud/file-upload/uppy.js"></script> 
+    <script src="assets/js/pages/crud/file-upload/uppy.js"></script>
+    <script src="assets\plugins\custom\upload\fancy-file-uploader\jquery.js"></script>
+    <script src="assets\plugins\custom\upload\fancy-file-uploader\jquery.ui.widget.js"></script>
+    <script src="assets\plugins\custom\upload\fancy-file-uploader\jquery.fileupload.js"></script>
+    <script src="assets\plugins\custom\upload\fancy-file-uploader\jquery.iframe-transport.js"></script>
+    <script src="assets\plugins\custom\upload\fancy-file-uploader\jquery.fancy-fileupload.js"></script>
+    <script>
+ $('#uploader').FancyFileUpload({
+  params : {
+    action : 'fileuploader'
+  },
+  maxfilesize : 1000000,
+  'url' :'',
+
+
+});
+
+$('#uploader-photo').FancyFileUpload({
+  params : {
+    action : 'fileuploader'
+  },
+  maxfilesize : 1000000
+});
+    </script>
     {{-- <script>
         var uppy = Uppy.Core()
         .use(Uppy.Dashboard, {

@@ -332,6 +332,12 @@
                                     <span class="menu-text">{{ __('Livreurs') }}</span>
                                 </a>
                             </li>
+                            <li class="menu-item" aria-haspopup="true">
+                                <a href="{{ route('personne') }}" class="menu-link">
+                                    <i class="fa fa-sitemap"></i>
+                                    <span class="menu-text">{{ __('personne') }}</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>

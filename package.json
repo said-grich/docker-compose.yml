@@ -25,6 +25,8 @@
     "dependencies": {
         "autoprefixer": "^10.2.3",
         "dotenv": "^8.2.0",
+        "fine-uploader": "^5.16.2",
+        "jquery": "^3.6.0",
         "postcss": "^8.2.4"
     }
 }

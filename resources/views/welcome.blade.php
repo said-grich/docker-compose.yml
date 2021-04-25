@@ -17,6 +17,7 @@
             body {
                 font-family: 'Nunito';
             }
+            
         </style>
         <livewire:styles />
     </head>

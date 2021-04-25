@@ -1,6 +1,5 @@
 @section('title', 'Catégories')
 @section('header_title', 'Catégories')
-
 <div class="d-flex flex-column-fluid">
     <!--begin::Container-->
     <div class="container-fluid">
@@ -153,7 +152,7 @@
                                     <a class="nav-link" data-toggle="tab" href="#sous-categorie-tab">
                                         <span class="nav-text">Sous Catégories</span>
                                     </a>
-                                </li>
+                                </li>             
                             </ul>
                             <div class="tab-content mt-5">
                                 <div class="tab-pane fade active show" id="categorie-tab" role="tabpanel">

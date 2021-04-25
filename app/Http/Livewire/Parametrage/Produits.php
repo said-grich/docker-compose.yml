@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Parametrage;
 
+use App\Http\Livewire\Gallerie;
 use App\Models\Categorie;
 use App\Models\Famille;
 use App\Models\ModePreparation;
@@ -19,8 +20,13 @@ use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
+
 class Produits extends Component
 {
+    protected $listeners = [
+        'imagesUpload' => 'handleimgupload'
+    ];
+
 
     use WithFileUploads;
 
@@ -44,7 +50,7 @@ class Produits extends Component
     public $famille;
     public $sous_categorie;
     public $unite;
-    public $tranches=[];
+    public $tranches = [];
     public $preparations = [];
     public $photo_principale;
     public $photos = [];
@@ -62,8 +68,9 @@ class Produits extends Component
     public $preparation_nom_c;
     public $preparation_nom_n;
     public $mode_vente_name;
+    /********************************************************************** */
+    
     //public $sousmodeprepa_isActive = false;
-
     protected $rules = [
         'nom' => 'required',
         'famille' => 'required',
@@ -76,20 +83,25 @@ class Produits extends Component
         // 'photos' => 'required',
     ];
 
-    public function updatedModeVente($value){
+    public function handleimgupload($imagesuploaded)
+    {
+        $this->photos = $imagesuploaded;
+    }
+    public function updatedModeVente($value)
+    {
         /* $mode_vente_nom = ModeVente::where('id',$value)->first()->nom;
         $this->list_tranches = Tranche::where('type',$mode_vente_nom)->get(); */
-        $value == 1 ? $this->list_tranches = Tranche::where('mode_vente_id',1)->get() :  $this->list_tranches = Tranche::where('mode_vente_id','!=',1)->get();
+        $value == 1 ? $this->list_tranches = Tranche::where('mode_vente_id', 1)->get() :  $this->list_tranches = Tranche::where('mode_vente_id', '!=', 1)->get();
 
-       if($value == 1) {
-           $this->showPoids = true;
-           $this->showKgPiece = false;
-           //dd($this->minPoids );
-       }else{
-           $this->showKgPiece = true;
-           $this->showPoids = false;
-           //dd($this->showKgPiece );
-       }
+        if ($value == 1) {
+            $this->showPoids = true;
+            $this->showKgPiece = false;
+            //dd($this->minPoids );
+        } else {
+            $this->showKgPiece = true;
+            $this->showPoids = false;
+            //dd($this->showKgPiece );
+        }
     }
 
     /* public function updatedUnite(){
@@ -110,7 +122,7 @@ class Produits extends Component
 
     public function mount()
     {
-       // $this->list_categories = Categorie::all()->sortBy('nom');
+        // $this->list_categories = Categorie::all()->sortBy('nom');
         $modea = ModePreparation::find(1);
         $this->list_cuisine = $modea->preparations;
         $modeb = ModePreparation::find(2);
@@ -118,68 +130,62 @@ class Produits extends Component
         $this->list_modes_vente = ModeVente::all()->sortBy('nom');
         $this->list_unite = Unite::all()->sortBy('nom');
         $this->list_familles = Famille::all()->sortBy('nom');
-       /*  $p = Produit::where('id',1)->first(); */
+        /*  $p = Produit::where('id',1)->first(); */
         // dd($p->preparations->first()->preparation->nom);
 
     }
     public function createModePreparation()
     {
         $souspreparation = Preparation::where('nom', $this->preparation_nom_c)
-        ->where('mode_preparation_id', 1)
-        ->first();
-            if ($souspreparation === null) {
-                //$this->validate();
+            ->where('mode_preparation_id', 1)
+            ->first();
+        if ($souspreparation === null) {
+            //$this->validate();
 
-                $item = new Preparation();
-                $item->nom = $this->preparation_nom_c;
-                //$item->mode_preparation_id = $this->mode_preparation_id;
-                $item->mode_preparation_id = 1;
-                //$item->active = $this->sousmodeprepa_isActive;
+            $item = new Preparation();
+            $item->nom = $this->preparation_nom_c;
+            //$item->mode_preparation_id = $this->mode_preparation_id;
+            $item->mode_preparation_id = 1;
+            //$item->active = $this->sousmodeprepa_isActive;
 
-                $item->save();
+            $item->save();
 
-                //$mode = ModePreparation::findOrFail($this->mode_cuisine);
-               // session()->flash('message', 'La préparation "'.$this->preparation_nom. '" a été créée dans le mode '.$mode->nom);
+            //$mode = ModePreparation::findOrFail($this->mode_cuisine);
+            // session()->flash('message', 'La préparation "'.$this->preparation_nom. '" a été créée dans le mode '.$mode->nom);
 
-                $this->reset(['preparation_nom_c']);
+            $this->reset(['preparation_nom_c']);
 
-                $this->emit('saved');
+            $this->emit('saved');
+        } else {
 
-            }else {
-
-            session()->flash('message',  'Sous mode prépartion "'.$this->preparation_nom_c.'" est déja existe');
-            }
-
+            session()->flash('message',  'Sous mode prépartion "' . $this->preparation_nom_c . '" est déja existe');
+        }
     }
     public function createModePreparationN()
     {
         //dd('tst');
         $souspreparation = Preparation::where('nom', $this->preparation_nom_n)
-        ->where('mode_preparation_id', 2)
-        ->first();
-            if ($souspreparation === null) {
-                //$this->validate();
+            ->where('mode_preparation_id', 2)
+            ->first();
+        if ($souspreparation === null) {
+            //$this->validate();
+            $item = new Preparation();
+            $item->nom = $this->preparation_nom_n;
+            //$item->mode_preparation_id = $this->mode_preparation_id;
+            $item->mode_preparation_id = 2;
+            //$item->active = $this->sousmodeprepa_isActive;
+            $item->save();
 
-                $item = new Preparation();
-                $item->nom = $this->preparation_nom_n;
-                //$item->mode_preparation_id = $this->mode_preparation_id;
-                $item->mode_preparation_id = 2;
-                //$item->active = $this->sousmodeprepa_isActive;
+            //$mode = ModePreparation::findOrFail($this->mode_cuisine);
+            // session()->flash('message', 'La préparation "'.$this->preparation_nom. '" a été créée dans le mode '.$mode->nom);
 
-                $item->save();
+            $this->reset(['preparation_nom_n']);
 
-                //$mode = ModePreparation::findOrFail($this->mode_cuisine);
-               // session()->flash('message', 'La préparation "'.$this->preparation_nom. '" a été créée dans le mode '.$mode->nom);
+            $this->emit('saved');
+        } else {
 
-                $this->reset(['preparation_nom_n']);
-
-                $this->emit('saved');
-
-            }else {
-
-            session()->flash('messagee',  'Sous mode prépartion "'.$this->preparation_nom_n.'" est déja existe');
-            }
-
+            session()->flash('messagee',  'Sous mode prépartion "' . $this->preparation_nom_n . '" est déja existe');
+        }
     }
     public function createModeVente()
     {
@@ -211,12 +217,11 @@ class Produits extends Component
         //$this->list_unite = Unite::get();
         $this->reset(['nomUnite']);
         $this->emit('saved');
-
     }
 
     public function createTranche()
     {
-        $uniqueId = str_replace(".","",microtime(true)).rand(000,999);
+        $uniqueId = str_replace(".", "", microtime(true)) . rand(000, 999);
         /* $this->type == 1 ?
             TranchesPoidsPc::create([
                 'nom' => $this->minPoids." - ".$this->maxPoids,
@@ -232,30 +237,31 @@ class Produits extends Component
         */
 
 
-        $this->mode_vente_id == 1 ? $this->nomTranche =  $this->minPoids." - ".$this->maxPoids : $this->nomTranche;
+        $this->mode_vente_id == 1 ? $this->nomTranche =  $this->minPoids . " - " . $this->maxPoids : $this->nomTranche;
         Tranche::create([
             'nom' => $this->nomTranche,
             //'mode_vente_id' => $this->type == 1 ? "Poids par pièce" : "Kg/Pièce",
-            'mode_vente_id'=> $this->mode_vente,
+            'mode_vente_id' => $this->mode_vente,
             'min_poids' => $this->minPoids,
             'max_poids' => $this->maxPoids,
             //'uid' => $this->type == 1 ? "PP".$uniqueId : "KP".$uniqueId,
-            'uid' => $this->mode_vente_id == 1 ? "PP".$uniqueId : "KP".$uniqueId,
+            'uid' => $this->mode_vente_id == 1 ? "PP" . $uniqueId : "KP" . $uniqueId,
         ]);
         // $this->type  == 1 ?  $this->list_tranches = Tranche::where('type',"Poids par pièce")->get() :  $this->list_tranches = Tranche::where('type',"Kg/Pièce")->get();
-        $this->mode_vente == 1 ? $this->list_tranches = Tranche::where('mode_vente_id',1)->get() :  $this->list_tranches = Tranche::where('mode_vente_id','!=',1)->get();
-        $this->reset(['nomTranche','minPoids','maxPoids']);
-
+        $this->mode_vente == 1 ? $this->list_tranches = Tranche::where('mode_vente_id', 1)->get() :  $this->list_tranches = Tranche::where('mode_vente_id', '!=', 1)->get();
+        $this->reset(['nomTranche', 'minPoids', 'maxPoids']);
     }
 
+    public function setPhotos($photo_tmp)
+    {
+        $this->photo_principale = $photo_tmp;
+    }
     public function createProduit()
     {
         $this->validate();
-
         DB::transaction(function () {
             // if ( $this->photo_principale != null) {
-                $photo_principale = $this->photo_principale->storeAs('public/produits/' . $this->nom . '/principale', date("Y-m-d") . "-" . $this->nom . "." . $this->photo_principale->guessExtension());
-
+            $photo_principale = $this->photo_principale->storeAs('public/produits/' . $this->nom . '/principale', date("Y-m-d") . "-" . $this->nom . "." . $this->photo_principale->guessExtension());
             $paths = [];
             foreach ($this->photos as $key => $photo) {
                 $extension = $photo->getClientOriginalExtension();
@@ -273,7 +279,7 @@ class Produits extends Component
             $item->unite_id = $this->unite;
             $item->code_comptable = $this->code_comptable;
             $item->code_analytique = $this->code_analytique;
-            $item->photo_principale = $photo_principale;
+            $item->photo_principale = $this->photo_principale;
             //$item->photos = json_encode($paths, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES| JSON_FORCE_OBJECT);
             $item->active = $this->active;
             $item->save();
@@ -307,12 +313,19 @@ class Produits extends Component
             }
         });
 
-        session()->flash('message', 'Produit "'. $this->nom. '" a été crée ');
+        session()->flash('message', 'Produit "' . $this->nom . '" a été crée ');
         $this->reset(['nom', 'sous_categorie', 'mode_vente', 'mode_preparation', 'famille', 'unite', 'code_comptable', 'code_analytique', 'photos', 'photo_principale', 'active', 'tranches', 'preparations']);
 
         $this->emit('saved');
         return redirect(route('produits'));
     }
+
+    public function setProduitId($id)
+    {
+    }
+
+
+
 
     public function render()
     {
